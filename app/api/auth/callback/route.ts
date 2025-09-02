@@ -4,27 +4,38 @@ import { NextResponse } from 'next/server'
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request) {
+  console.log('Callback hit!')
+  
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
   
-  if (code) {
-    try {
-      const supabase = createClient()
-      const { error } = await supabase.auth.exchangeCodeForSession(code)
-      
-      if (error) {
-        console.error('Auth exchange error:', error)
-        return NextResponse.redirect(new URL('/login?error=auth_failed', requestUrl.origin))
-      }
-      
-      // Successfully authenticated - redirect to dashboard
-      return NextResponse.redirect(new URL('/dashboard', requestUrl.origin))
-    } catch (error) {
-      console.error('Callback error:', error)
-      return NextResponse.redirect(new URL('/login?error=callback_failed', requestUrl.origin))
-    }
+  console.log('Code received:', code)
+  
+  if (!code) {
+    console.log('No code, redirecting to login')
+    return NextResponse.redirect(`${requestUrl.origin}/login`)
   }
   
-  // No code present - redirect to login
-  return NextResponse.redirect(new URL('/login', requestUrl.origin))
+  const supabase = createClient()
+  
+  try {
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+    
+    console.log('Exchange result:', { data, error })
+    
+    if (error) {
+      console.error('Exchange failed:', error)
+      return NextResponse.redirect(`${requestUrl.origin}/login?error=${error.message}`)
+    }
+    
+    // Force redirect to dashboard with full URL
+    const dashboardUrl = new URL('/dashboard', requestUrl.origin)
+    console.log('Redirecting to:', dashboardUrl.toString())
+    
+    return NextResponse.redirect(dashboardUrl)
+    
+  } catch (err) {
+    console.error('Callback error:', err)
+    return NextResponse.redirect(`${requestUrl.origin}/login?error=callback_error`)
+  }
 }
