@@ -14,6 +14,26 @@ export default function LandingPage() {
     setMounted(true)
   }, [])
 
+  // Company names for the carousel
+  const companies = [
+    'Indeed',
+    'Lennar',
+    'LIV Golf',
+    'OpenTable',
+    'PepsiCo',
+    'UChicago',
+    '1-800 Accountant',
+    'Big Brothers Big Sisters',
+    'Chase',
+    'CUNY',
+    'SUNY',
+    'Indeed',
+    'Lennar',
+    'LIV Golf',
+    'OpenTable',
+    'PepsiCo',
+  ]
+
   if (!mounted) {
     return null
   }
@@ -23,16 +43,19 @@ export default function LandingPage() {
       <nav className="fixed top-0 w-full bg-white/95 dark:bg-dark-bg/95 backdrop-blur-sm z-50 border-b border-gray-200 dark:border-dark-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2">
+            <Link href="/" className="flex items-center space-x-2">
               <Logo size={28} />
               <span className="text-lg font-semibold tracking-tight text-gray-900 dark:text-gray-100">OnlyWorks</span>
-            </div>
+            </Link>
             <div className="flex items-center space-x-8">
               <Link href="#features" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light font-medium transition">
                 Features
               </Link>
-              <Link href="#pricing" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light font-medium transition">
+              <Link href="/pricing" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light font-medium transition">
                 Pricing
+              </Link>
+              <Link href="/about" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light font-medium transition">
+                About
               </Link>
               <div className="w-px h-5 bg-gray-300 dark:bg-gray-700"></div>
               
@@ -83,13 +106,66 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="flex justify-center">
-              <div className="w-full max-w-md h-96 bg-gray-100 dark:bg-gray-900 rounded-sm"></div>
+              <div className="w-full max-w-md h-96 bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/20 rounded-sm flex items-center justify-center">
+                <div className="text-center">
+                  <div className="text-6xl mb-4">📊</div>
+                  <p className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+                    AI-Powered Analytics
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="features" className="py-20 px-4 bg-gray-50 dark:bg-gray-950">
+      {/* Company Carousel Section */}
+      <section className="py-16 bg-gray-50 dark:bg-gray-950 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-center text-lg font-semibold text-gray-600 dark:text-gray-400 mb-8">
+            Trusted by teams at leading companies
+          </h2>
+          
+          {/* Carousel Container */}
+          <div className="relative">
+            <div className="flex overflow-hidden">
+              <div className="flex animate-scroll">
+                {companies.map((company, index) => (
+                  <div
+                    key={`${company}-${index}`}
+                    className="flex-shrink-0 px-8"
+                  >
+                    <div className="h-16 flex items-center justify-center">
+                      <span className="text-2xl font-bold text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors whitespace-nowrap">
+                        {company}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+                {/* Duplicate for seamless loop */}
+                {companies.map((company, index) => (
+                  <div
+                    key={`${company}-duplicate-${index}`}
+                    className="flex-shrink-0 px-8"
+                  >
+                    <div className="h-16 flex items-center justify-center">
+                      <span className="text-2xl font-bold text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors whitespace-nowrap">
+                        {company}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Gradient Overlays */}
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-gray-50 dark:from-gray-950 to-transparent pointer-events-none"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-gray-50 dark:from-gray-950 to-transparent pointer-events-none"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" className="py-20 px-4 bg-white dark:bg-dark-bg">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold tracking-tighter mb-4 text-gray-900 dark:text-gray-100">Features</h2>
@@ -133,16 +209,73 @@ export default function LandingPage() {
       </section>
 
       <footer className="bg-gray-50 dark:bg-gray-950 border-t border-gray-200 dark:border-dark-border py-12 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <Logo size={24} />
-            <span className="font-semibold text-gray-900 dark:text-gray-100">OnlyWorks</span>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <Logo size={24} />
+                <span className="font-semibold text-gray-900 dark:text-gray-100">OnlyWorks</span>
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                AI-powered productivity tracking for modern professionals.
+              </p>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Product</h4>
+              <ul className="space-y-2">
+                <li><Link href="/#features" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary">Features</Link></li>
+                <li><Link href="/pricing" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary">Pricing</Link></li>
+                <li><Link href="/login" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary">Dashboard</Link></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Company</h4>
+              <ul className="space-y-2">
+                <li><Link href="/about" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary">About</Link></li>
+                <li><Link href="/careers" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary">Careers</Link></li>
+                <li><Link href="/teams" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary">Teams</Link></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-4">Connect</h4>
+              <ul className="space-y-2">
+                <li><a href="https://twitter.com/onlyworks" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary">Twitter</a></li>
+                <li><a href="https://linkedin.com/company/onlyworks" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary">LinkedIn</a></li>
+                <li><a href="https://github.com/onlyworks" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary">GitHub</a></li>
+                <li><a href="mailto:hello@only-works.com" className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary">Email</a></li>
+              </ul>
+            </div>
           </div>
-          <p className="text-gray-600 dark:text-gray-400 text-sm">
-            © 2024 OnlyWorks. All rights reserved.
-          </p>
+          
+          <div className="mt-8 pt-8 border-t border-gray-200 dark:border-dark-border text-center">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              © 2024 OnlyWorks. All rights reserved.
+            </p>
+          </div>
         </div>
       </footer>
+
+      <style jsx>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        
+        .animate-scroll {
+          animation: scroll 30s linear infinite;
+        }
+        
+        .animate-scroll:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </div>
   )
 }
