@@ -7,29 +7,24 @@ export async function GET(request: Request) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
   
-  // Determine the correct origin based on environment
-  let origin = requestUrl.origin
-  
-  // Force production URL if we detect localhost in production
-  if (process.env.NODE_ENV === 'production' || origin.includes('only-works.com')) {
-    origin = 'https://only-works.com'
-  }
-
   if (code) {
     try {
       const supabase = createClient()
       const { error } = await supabase.auth.exchangeCodeForSession(code)
       
       if (error) {
-        console.error('Auth error:', error)
-        return NextResponse.redirect(`${origin}/login?error=auth_failed`)
+        console.error('Auth exchange error:', error)
+        return NextResponse.redirect(new URL('/login?error=auth_failed', requestUrl.origin))
       }
+      
+      // Successfully authenticated - redirect to dashboard
+      return NextResponse.redirect(new URL('/dashboard', requestUrl.origin))
     } catch (error) {
       console.error('Callback error:', error)
-      return NextResponse.redirect(`${origin}/login?error=callback_failed`)
+      return NextResponse.redirect(new URL('/login?error=callback_failed', requestUrl.origin))
     }
   }
-
-  // Redirect to dashboard after successful auth
-  return NextResponse.redirect(`${origin}/dashboard`)
+  
+  // No code present - redirect to login
+  return NextResponse.redirect(new URL('/login', requestUrl.origin))
 }
