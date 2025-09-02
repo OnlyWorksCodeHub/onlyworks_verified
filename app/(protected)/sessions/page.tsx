@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Header } from '@/components/layout/Header'
 import { Sidebar } from '@/components/layout/Sidebar'
-import { Clock, Camera, TrendingUp, Calendar, Play, CheckCircle, Search } from 'lucide-react'
+import { Clock, Camera, TrendingUp, Calendar, Play, CheckCircle, Search, Edit2, MessageSquare } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
 
 interface Session {
   id: string
@@ -14,6 +15,7 @@ interface Session {
   created_at: string
   screenshots: any[]
   analyses: any[]
+  comments?: string
 }
 
 export default function SessionsPage() {
@@ -22,6 +24,9 @@ export default function SessionsPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<any>(null)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editName, setEditName] = useState('')
+  const [editComment, setEditComment] = useState('')
   const supabase = createClient()
   const router = useRouter()
 
@@ -32,7 +37,8 @@ export default function SessionsPage() {
   useEffect(() => {
     if (searchTerm) {
       const filtered = sessions.filter(session => 
-        session.name.toLowerCase().includes(searchTerm.toLowerCase())
+        session.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        session.comments?.toLowerCase().includes(searchTerm.toLowerCase())
       )
       setFilteredSessions(filtered)
     } else {
@@ -57,7 +63,7 @@ export default function SessionsPage() {
         .select(`
           *,
           screenshots!screenshots_session_id_fkey(id, created_at),
-          analyses!analyses_user_id_fkey(productivity_score)
+          analyses!analyses_session_id_fkey(productivity_score)
         `)
         .eq('user_id', userId)
         .order('created_at', { ascending: false })
@@ -80,6 +86,24 @@ export default function SessionsPage() {
       console.error('Error loading sessions:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const updateSession = async (sessionId: string) => {
+    const { error } = await supabase
+      .from('workflow_sessions')
+      .update({ 
+        name: editName,
+        comments: editComment 
+      })
+      .eq('id', sessionId)
+    
+    if (!error) {
+      toast.success('Session updated')
+      loadSessions(user.id)
+      setEditingId(null)
+    } else {
+      toast.error('Failed to update session')
     }
   }
 
@@ -127,7 +151,6 @@ export default function SessionsPage() {
                 Work Sessions
               </h1>
               
-              {/* Search Bar */}
               <div className="relative w-64">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
@@ -181,15 +204,53 @@ export default function SessionsPage() {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                         Status
                       </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                     {filteredSessions.map((session) => (
-                      <tr key={session.id} className="hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors">
+                      <tr 
+                        key={session.id} 
+                        className="hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors cursor-pointer"
+                        onClick={(e) => {
+                          if (!(e.target as HTMLElement).closest('.actions-cell')) {
+                            router.push(`/sessions/${session.id}`)
+                          }
+                        }}
+                      >
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                            {session.name}
-                          </div>
+                          {editingId === session.id ? (
+                            <div className="actions-cell" onClick={(e) => e.stopPropagation()}>
+                              <input
+                                type="text"
+                                value={editName}
+                                onChange={(e) => setEditName(e.target.value)}
+                                className="w-full px-2 py-1 border rounded-sm dark:bg-gray-800 dark:border-gray-600"
+                                onClick={(e) => e.stopPropagation()}
+                              />
+                              <textarea
+                                value={editComment}
+                                onChange={(e) => setEditComment(e.target.value)}
+                                placeholder="Add comments..."
+                                className="w-full px-2 py-1 border rounded-sm mt-1 text-sm dark:bg-gray-800 dark:border-gray-600"
+                                onClick={(e) => e.stopPropagation()}
+                              />
+                            </div>
+                          ) : (
+                            <div>
+                              <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                {session.name}
+                              </div>
+                              {session.comments && (
+                                <div className="text-xs text-gray-600 dark:text-gray-400 flex items-center mt-1">
+                                  <MessageSquare className="w-3 h-3 mr-1" />
+                                  {session.comments}
+                                </div>
+                              )}
+                            </div>
+                          )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-600 dark:text-gray-400 flex items-center">
@@ -228,6 +289,36 @@ export default function SessionsPage() {
                               <CheckCircle className="w-3 h-3 mr-1" />
                               Completed
                             </span>
+                          )}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap actions-cell">
+                          {editingId === session.id ? (
+                            <div className="flex space-x-2" onClick={(e) => e.stopPropagation()}>
+                              <button
+                                onClick={() => updateSession(session.id)}
+                                className="text-green-600 hover:text-green-700"
+                              >
+                                Save
+                              </button>
+                              <button
+                                onClick={() => setEditingId(null)}
+                                className="text-gray-600 hover:text-gray-700"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                setEditingId(session.id)
+                                setEditName(session.name)
+                                setEditComment(session.comments || '')
+                              }}
+                              className="text-primary hover:text-primary-dark"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                            </button>
                           )}
                         </td>
                       </tr>
