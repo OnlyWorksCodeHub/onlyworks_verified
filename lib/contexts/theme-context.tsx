@@ -16,6 +16,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     const savedTheme = localStorage.getItem('theme') as Theme
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
     
@@ -24,8 +25,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     } else if (prefersDark) {
       setTheme('dark')
     }
-    
-    setMounted(true)
   }, [])
 
   useEffect(() => {
@@ -43,8 +42,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setTheme(prev => prev === 'light' ? 'dark' : 'light')
   }
 
-  if (!mounted) return <>{children}</>
-
+  // Return children immediately for SSR
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
@@ -54,6 +52,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 export const useTheme = () => {
   const context = useContext(ThemeContext)
-  if (!context) throw new Error('useTheme must be used within ThemeProvider')
+  if (!context) {
+    // Return default values during SSR
+    return {
+      theme: 'light' as Theme,
+      toggleTheme: () => {}
+    }
+  }
   return context
 }

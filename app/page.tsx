@@ -4,13 +4,22 @@ import Link from 'next/link'
 import { Logo } from '@/components/ui/logo'
 import { useTheme } from '@/lib/contexts/theme-context'
 import { Sun, Moon } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 export default function LandingPage() {
   const { theme, toggleTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return null
+  }
 
   return (
     <div className="min-h-screen bg-white dark:bg-dark-bg transition-colors">
-      {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/95 dark:bg-dark-bg/95 backdrop-blur-sm z-50 border-b border-gray-200 dark:border-dark-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -27,7 +36,6 @@ export default function LandingPage() {
               </Link>
               <div className="w-px h-5 bg-gray-300 dark:bg-gray-700"></div>
               
-              {/* Dark Mode Toggle */}
               <button
                 onClick={toggleTheme}
                 className="p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -54,7 +62,6 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
       <section className="pt-32 pb-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -82,7 +89,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features Section */}
       <section id="features" className="py-20 px-4 bg-gray-50 dark:bg-gray-950">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -126,7 +132,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-gray-50 dark:bg-gray-950 border-t border-gray-200 dark:border-dark-border py-12 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
