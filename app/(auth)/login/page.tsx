@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Logo } from '@/components/ui/logo'
 import { ArrowLeft, Sun, Moon } from 'lucide-react'
@@ -10,16 +10,27 @@ import { useTheme } from '@/lib/contexts/theme-context'
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const { theme, toggleTheme } = useTheme()
   const supabase = createClient()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleGoogleLogin = async () => {
     try {
       setIsLoading(true)
+      
+      // Get the current domain
+      const redirectTo = typeof window !== 'undefined' 
+        ? `${window.location.origin}/api/auth/callback`
+        : `https://only-works.com/api/auth/callback`
+      
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/api/auth/callback`,
+          redirectTo,
         },
       })
       
@@ -32,9 +43,10 @@ export default function LoginPage() {
     }
   }
 
+  if (!mounted) return null
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-bg flex items-center justify-center px-4 transition-colors">
-      {/* Dark Mode Toggle */}
       <button
         onClick={toggleTheme}
         className="fixed top-4 right-4 p-2 rounded-sm bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
