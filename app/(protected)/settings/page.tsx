@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Header } from '@/components/layout/Header'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { createClient } from '@/lib/supabase/client'
-import { User, Bell, Shield, Moon, Sun } from 'lucide-react'
+import { User, Bell, Shield, Moon, Sun, Camera, Mail, Calendar } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useTheme } from '@/lib/contexts/theme-context'
 import toast from 'react-hot-toast'
@@ -12,9 +12,13 @@ import toast from 'react-hot-toast'
 export default function SettingsPage() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [uploading, setUploading] = useState(false)
   const [profile, setProfile] = useState({
     full_name: '',
     email: '',
+    avatar_url: '',
+    bio: '',
+    created_at: '',
   })
   const { theme, toggleTheme } = useTheme()
   const supabase = createClient()
@@ -42,6 +46,9 @@ export default function SettingsPage() {
       setProfile({
         full_name: profileData.full_name || '',
         email: profileData.email || user.email || '',
+        avatar_url: profileData.avatar_url || '',
+        bio: profileData.bio || '',
+        created_at: profileData.created_at || '',
       })
     }
     
@@ -54,6 +61,7 @@ export default function SettingsPage() {
         .from('profiles')
         .update({
           full_name: profile.full_name,
+          bio: profile.bio,
         })
         .eq('id', user.id)
       
@@ -61,6 +69,44 @@ export default function SettingsPage() {
       toast.success('Profile updated successfully')
     } catch (error) {
       toast.error('Failed to update profile')
+    }
+  }
+
+  const uploadAvatar = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      setUploading(true)
+      
+      if (!event.target.files || event.target.files.length === 0) {
+        throw new Error('You must select an image to upload.')
+      }
+
+      const file = event.target.files[0]
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${user.id}/avatar.${fileExt}`
+
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(fileName, file, { upsert: true })
+
+      if (uploadError) throw uploadError
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(fileName)
+
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ avatar_url: publicUrl })
+        .eq('id', user.id)
+
+      if (updateError) throw updateError
+
+      setProfile({ ...profile, avatar_url: publicUrl })
+      toast.success('Avatar updated successfully')
+    } catch (error: any) {
+      toast.error(error.message)
+    } finally {
+      setUploading(false)
     }
   }
 
@@ -93,6 +139,37 @@ export default function SettingsPage() {
               </div>
               
               <div className="space-y-4">
+                <div className="flex items-center space-x-4">
+                  <div className="relative">
+                    <div className="w-20 h-20 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                      {profile.avatar_url ? (
+                        <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <User className="w-8 h-8 text-gray-400" />
+                        </div>
+                      )}
+                    </div>
+                    <label className="absolute bottom-0 right-0 bg-primary rounded-full p-1 cursor-pointer hover:bg-primary-dark">
+                      <Camera className="w-4 h-4 text-white" />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={uploadAvatar}
+                        disabled={uploading}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                  
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Profile Picture</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500">
+                      Click the camera icon to upload a new photo
+                    </p>
+                  </div>
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                     Full Name
@@ -107,6 +184,7 @@ export default function SettingsPage() {
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <Mail className="w-4 h-4 inline mr-1" />
                     Email
                   </label>
                   <input
@@ -116,6 +194,26 @@ export default function SettingsPage() {
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400"
                   />
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Bio
+                  </label>
+                  <textarea
+                    value={profile.bio}
+                    onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary dark:focus:border-primary-light"
+                    placeholder="Tell us about yourself..."
+                  />
+                </div>
+
+                {profile.created_at && (
+                  <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                    <Calendar className="w-4 h-4 mr-2" />
+                    Member since {new Date(profile.created_at).toLocaleDateString('en', { month: 'long', year: 'numeric' })}
+                  </div>
+                )}
                 
                 <button
                   onClick={updateProfile}
