@@ -119,7 +119,7 @@ export default function DashboardPage() {
       let streak = 0
       if (sessions && sessions.length > 0) {
         const dates = sessions.map(s => new Date(s.created_at).toDateString())
-        const uniqueDates = [...new Set(dates)]
+        const uniqueDates = Array.from(new Set(dates))
         
         const today = new Date().toDateString()
         const yesterday = new Date(Date.now() - 24*60*60*1000).toDateString()
