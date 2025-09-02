@@ -22,15 +22,19 @@ export default function LoginPage() {
     try {
       setIsLoading(true)
       
-      // Get the current domain
-      const redirectTo = typeof window !== 'undefined' 
-        ? `${window.location.origin}/api/auth/callback`
-        : `https://only-works.com/api/auth/callback`
+      // Use environment variable for production, fallback to current origin
+      const redirectTo = process.env.NEXT_PUBLIC_APP_URL 
+        ? `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback`
+        : `${window.location.origin}/api/auth/callback`
       
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          }
         },
       })
       
