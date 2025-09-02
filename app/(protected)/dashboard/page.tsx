@@ -5,7 +5,6 @@ import { createClient } from '@/lib/supabase/client'
 import { ScreenRecorder } from '@/components/recorder/ScreenRecorder'
 import { StatsCard } from '@/components/dashboard/StatsCard'
 import { RecentActivity } from '@/components/dashboard/RecentActivity'
-import { RecentScreenshots } from '@/components/dashboard/RecentScreenshots'
 import { Header } from '@/components/layout/Header'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { Clock, TrendingUp, Brain, Award } from 'lucide-react'
@@ -283,8 +282,6 @@ export default function DashboardPage() {
                     <ScreenRecorder sessionId={currentSession} userId={user.id} />
                   </>
                 )}
-                
-                <RecentScreenshots userId={user.id} />
               </div>
               
               <div>
