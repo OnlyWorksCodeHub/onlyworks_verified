@@ -2,33 +2,35 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { ScreenRecorder } from '@/components/recorder/ScreenRecorder'
-import { StatsCard } from '@/components/dashboard/StatsCard'
-import { RecentActivity } from '@/components/dashboard/RecentActivity'
 import { Header } from '@/components/layout/Header'
 import { Sidebar } from '@/components/layout/Sidebar'
-import { Clock, TrendingUp, Brain, Award } from 'lucide-react'
-import toast from 'react-hot-toast'
+import { StatsCard } from '@/components/dashboard/StatsCard'
+import { RecentActivity } from '@/components/dashboard/RecentActivity'
+import { ScreenRecorder } from '@/components/recorder/ScreenRecorder'
+import { TrendingUp, Clock, Target, Activity, Play, Square, AlertCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
 
 export default function DashboardPage() {
   const [user, setUser] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState({
-    totalTime: '0h 0m',
-    avgProductivity: 0,
-    totalSessions: 0,
-    currentStreak: 0,
+    todayProductivity: 0,
+    weekProductivity: 0,
+    totalHours: 0,
+    activeSessions: 0
   })
   const [currentSession, setCurrentSession] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [isStarting, setIsStarting] = useState(false)
+  const [isStopping, setIsStopping] = useState(false)
   const supabase = createClient()
   const router = useRouter()
 
   useEffect(() => {
-    checkUser()
+    loadUser()
   }, [])
 
-  const checkUser = async () => {
+  const loadUser = async () => {
     try {
       const { data: { user }, error } = await supabase.auth.getUser()
       
@@ -38,26 +40,11 @@ export default function DashboardPage() {
       }
       
       setUser(user)
-      
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single()
-      
-      if (profileError && profileError.code === 'PGRST116') {
-        await supabase.from('profiles').insert({
-          id: user.id,
-          email: user.email,
-          full_name: user.user_metadata?.full_name || user.email?.split('@')[0],
-          avatar_url: user.user_metadata?.avatar_url || '',
-        })
-      }
-      
       await loadStats(user.id)
+      await checkActiveSession(user.id)
     } catch (error) {
-      console.error('Auth error:', error)
-      router.push('/login')
+      console.error('Error loading user:', error)
+      toast.error('Failed to load user data')
     } finally {
       setLoading(false)
     }
@@ -65,145 +52,150 @@ export default function DashboardPage() {
 
   const loadStats = async (userId: string) => {
     try {
-      const { data: screenshots } = await supabase
-        .from('screenshots')
-        .select('created_at, session_id')
-        .eq('user_id', userId)
-        .order('created_at', { ascending: true })
-
-      let totalMinutes = 0
-      if (screenshots && screenshots.length > 0) {
-        const sessionGroups: { [key: string]: any[] } = {}
-        screenshots.forEach(s => {
-          if (!sessionGroups[s.session_id]) {
-            sessionGroups[s.session_id] = []
-          }
-          sessionGroups[s.session_id].push(s)
-        })
-
-        Object.values(sessionGroups).forEach(sessionScreenshots => {
-          if (sessionScreenshots.length >= 2) {
-            const times = sessionScreenshots.map(s => new Date(s.created_at).getTime())
-            const duration = (Math.max(...times) - Math.min(...times)) / (1000 * 60)
-            totalMinutes += duration
-          } else {
-            totalMinutes += 1
-          }
-        })
-      }
-
-      const hours = Math.floor(totalMinutes / 60)
-      const minutes = Math.round(totalMinutes % 60)
-      const totalTime = `${hours}h ${minutes}m`
-
-      const { data: analyses } = await supabase
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      
+      const weekAgo = new Date()
+      weekAgo.setDate(weekAgo.getDate() - 7)
+      
+      const { data: todayData } = await supabase
         .from('analyses')
         .select('productivity_score')
         .eq('user_id', userId)
-
-      const avgProductivity = analyses && analyses.length > 0
-        ? Math.round(analyses.reduce((acc, a) => acc + (a.productivity_score || 0), 0) / analyses.length)
-        : 0
-
+        .gte('created_at', today.toISOString())
+      
+      const { data: weekData } = await supabase
+        .from('analyses')
+        .select('productivity_score')
+        .eq('user_id', userId)
+        .gte('created_at', weekAgo.toISOString())
+      
       const { count: sessionCount } = await supabase
         .from('workflow_sessions')
         .select('*', { count: 'exact', head: true })
         .eq('user_id', userId)
-
-      const { data: sessions } = await supabase
-        .from('workflow_sessions')
-        .select('created_at')
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false })
-
-      let streak = 0
-      if (sessions && sessions.length > 0) {
-        const dates = sessions.map(s => new Date(s.created_at).toDateString())
-        const uniqueDates = Array.from(new Set(dates))
+        .eq('status', 'active')
+      
+      const todayAvg = todayData && todayData.length > 0 
+        ? Math.round(todayData.reduce((acc, d) => acc + d.productivity_score, 0) / todayData.length)
+        : 0
         
-        const today = new Date().toDateString()
-        const yesterday = new Date(Date.now() - 24*60*60*1000).toDateString()
-        
-        if (uniqueDates.includes(today) || uniqueDates.includes(yesterday)) {
-          streak = 1
-          let checkDate = new Date()
-          if (!uniqueDates.includes(today)) {
-            checkDate.setDate(checkDate.getDate() - 1)
-          }
-          
-          while (true) {
-            checkDate.setDate(checkDate.getDate() - 1)
-            if (!uniqueDates.includes(checkDate.toDateString())) break
-            streak++
-          }
-        }
-      }
-
+      const weekAvg = weekData && weekData.length > 0
+        ? Math.round(weekData.reduce((acc, d) => acc + d.productivity_score, 0) / weekData.length)
+        : 0
+      
       setStats({
-        totalTime,
-        avgProductivity,
-        totalSessions: sessionCount || 0,
-        currentStreak: streak,
+        todayProductivity: todayAvg,
+        weekProductivity: weekAvg,
+        totalHours: Math.round((weekData?.length || 0) * 0.5 / 60 * 10) / 10,
+        activeSessions: sessionCount || 0
       })
     } catch (error) {
-      console.error('Stats error:', error)
+      console.error('Error loading stats:', error)
     }
   }
 
-  const startNewSession = async () => {
-    if (!user) {
-      toast.error('Please sign in first')
-      return
-    }
-
+  const checkActiveSession = async (userId: string) => {
     try {
+      const { data } = await supabase
+        .from('workflow_sessions')
+        .select('id')
+        .eq('user_id', userId)
+        .eq('status', 'active')
+        .maybeSingle()
+      
+      if (data) {
+        setCurrentSession(data.id)
+      }
+    } catch (error) {
+      console.error('Error checking active session:', error)
+    }
+  }
+
+  const startSession = async () => {
+    if (isStarting || !user) return
+    
+    setIsStarting(true)
+    
+    try {
+      await supabase
+        .from('workflow_sessions')
+        .update({ 
+          status: 'completed', 
+          ended_at: new Date().toISOString() 
+        })
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+      
       const { data, error } = await supabase
         .from('workflow_sessions')
         .insert({
           user_id: user.id,
-          name: `Session - ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
-          status: 'active'
+          name: `Session ${new Date().toLocaleString()}`,
+          status: 'active',
+          started_at: new Date().toISOString()
         })
         .select()
         .single()
       
       if (error) throw error
       
-      if (data) {
-        setCurrentSession(data.id)
-        toast.success('Session started! You can now begin recording.')
-        loadStats(user.id)
-      }
-    } catch (error: any) {
-      console.error('Session error:', error)
-      toast.error(`Error: ${error.message || 'Failed to start session'}`)
+      setCurrentSession(data.id)
+      toast.success('Session started! Now start recording to capture screenshots.')
+      await loadStats(user.id)
+    } catch (error) {
+      console.error('Error starting session:', error)
+      toast.error('Failed to start session. Please try again.')
+    } finally {
+      setIsStarting(false)
     }
   }
 
-  const endSession = async () => {
-    if (currentSession) {
-      await supabase
+  const stopSession = async () => {
+    if (!currentSession || isStopping) return
+    
+    setIsStopping(true)
+    
+    try {
+      const { error } = await supabase
         .from('workflow_sessions')
-        .update({ status: 'completed' })
+        .update({
+          status: 'completed',
+          ended_at: new Date().toISOString()
+        })
         .eq('id', currentSession)
+      
+      if (error) throw error
+      
+      setCurrentSession(null)
+      toast.success('Session ended successfully')
+      await loadStats(user.id)
+    } catch (error) {
+      console.error('Error stopping session:', error)
+      toast.error('Failed to stop session')
+    } finally {
+      setIsStopping(false)
     }
-    setCurrentSession(null)
-    toast.success('Session ended')
-    loadStats(user.id)
   }
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dark-bg">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading...</p>
-        </div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     )
   }
 
-  if (!user) return null
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dark-bg">
+        <div className="text-center">
+          <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+          <p className="text-gray-600 dark:text-gray-400">Not authenticated</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-bg flex">
@@ -214,77 +206,116 @@ export default function DashboardPage() {
         
         <main className="flex-1 p-6">
           <div className="max-w-7xl mx-auto">
-            <h1 className="text-3xl font-bold text-primary dark:text-primary-light tracking-tighter mb-2">
-              Welcome back, {user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'there'}!
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400 mb-8">Monitor your productivity patterns and improve your focus.</p>
+            <div className="flex items-center justify-between mb-8">
+              <h1 className="text-3xl font-bold text-primary dark:text-primary-light tracking-tighter">
+                Dashboard
+              </h1>
+              
+              {!currentSession ? (
+                <button
+                  onClick={startSession}
+                  disabled={isStarting}
+                  className="flex items-center px-4 py-2 bg-primary text-white rounded-sm hover:bg-primary-dark transition-colors disabled:opacity-50"
+                >
+                  {isStarting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                      Starting...
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-4 h-4 mr-2" />
+                      Start Session
+                    </>
+                  )}
+                </button>
+              ) : (
+                <button
+                  onClick={stopSession}
+                  disabled={isStopping}
+                  className="flex items-center px-4 py-2 bg-red-600 text-white rounded-sm hover:bg-red-700 transition-colors disabled:opacity-50"
+                >
+                  {isStopping ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                      Stopping...
+                    </>
+                  ) : (
+                    <>
+                      <Square className="w-4 h-4 mr-2" />
+                      Stop Session
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <StatsCard
-                title="Total Time"
-                value={stats.totalTime}
-                icon={Clock}
-                trend=""
-                color="bg-blue-500"
-              />
-              <StatsCard
-                title="Avg Productivity"
-                value={stats.avgProductivity > 0 ? `${stats.avgProductivity}%` : 'N/A'}
+                title="Today's Productivity"
+                value={`${stats.todayProductivity}%`}
                 icon={TrendingUp}
-                trend=""
-                color="bg-green-500"
+                color="primary"
               />
+              
               <StatsCard
-                title="Sessions"
-                value={stats.totalSessions.toString()}
-                icon={Brain}
-                trend=""
-                color="bg-purple-600"
+                title="Week Average"
+                value={`${stats.weekProductivity}%`}
+                icon={Activity}
+                color="blue"
               />
+              
               <StatsCard
-                title="Current Streak"
-                value={`${stats.currentStreak} day${stats.currentStreak !== 1 ? 's' : ''}`}
-                icon={Award}
-                trend=""
-                color="bg-yellow-500"
+                title="Hours Tracked"
+                value={`${stats.totalHours}h`}
+                icon={Clock}
+                color="green"
+              />
+              
+              <StatsCard
+                title="Active Sessions"
+                value={stats.activeSessions.toString()}
+                icon={Target}
+                color="purple"
               />
             </div>
             
-            <div className="grid lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 space-y-6">
-                {!currentSession ? (
-                  <div className="bg-white dark:bg-dark-card rounded-sm border border-gray-200 dark:border-dark-border p-6">
-                    <h2 className="text-lg font-semibold text-primary dark:text-primary-light mb-4 tracking-tight">
-                      Ready to track your productivity?
-                    </h2>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">
-                      Start a new session to begin analyzing your workflow patterns.
-                    </p>
-                    <button
-                      onClick={startNewSession}
-                      className="btn-clean btn-primary-clean"
-                    >
-                      Start New Session
-                    </button>
-                  </div>
-                ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2">
+                {currentSession ? (
                   <>
-                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-sm p-4 flex items-center justify-between">
-                      <p className="text-green-800 dark:text-green-400 font-medium">Session active</p>
-                      <button
-                        onClick={endSession}
-                        className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium transition-colors"
-                      >
-                        End Session
-                      </button>
+                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-sm p-4 mb-6">
+                      <div className="flex items-center">
+                        <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse mr-3"></div>
+                        <p className="text-green-800 dark:text-green-300 font-medium">
+                          Session Active - Ready to record
+                        </p>
+                      </div>
                     </div>
                     
-                    <ScreenRecorder sessionId={currentSession} userId={user.id} />
+                    <ScreenRecorder sessionId={currentSession} />
                   </>
+                ) : (
+                  <div className="bg-white dark:bg-dark-card rounded-sm border border-gray-200 dark:border-dark-border p-12 text-center">
+                    <Activity className="w-16 h-16 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
+                    <h2 className="text-xl font-semibold text-primary dark:text-primary-light mb-2">
+                      No Active Session
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">
+                      Start a new session to begin tracking your productivity
+                    </p>
+                    <button
+                      onClick={startSession}
+                      disabled={isStarting}
+                      className="btn-clean btn-primary-clean"
+                    >
+                      {isStarting ? 'Starting...' : 'Start Tracking'}
+                    </button>
+                  </div>
                 )}
               </div>
               
-              <div>
+              <div className="lg:col-span-1">
                 <RecentActivity userId={user.id} />
               </div>
             </div>
