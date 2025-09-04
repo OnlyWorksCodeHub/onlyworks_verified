@@ -1,228 +1,187 @@
 'use client'
 
 import { useState, useRef, useCallback, useEffect } from 'react'
-import { Play, Pause, Square, Monitor, Shield, Eye, EyeOff, MousePointer } from 'lucide-react'
+import { Camera, Square, Pause, Play, AlertCircle, CheckCircle, Monitor } from 'lucide-react'
 import toast from 'react-hot-toast'
 
-interface RecorderProps {
+interface ScreenRecorderProps {
   sessionId: string
-  userId: string
+  onCapture?: (screenshot: string) => void
 }
 
-export function ScreenRecorder({ sessionId, userId }: RecorderProps) {
+export function ScreenRecorder({ sessionId, onCapture }: ScreenRecorderProps) {
   const [isRecording, setIsRecording] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
-  const [screenshotCount, setScreenshotCount] = useState(0)
-  const [privacyMode, setPrivacyMode] = useState(false)
-  const streamRef = useRef<MediaStream | null>(null)
-  const videoRef = useRef<HTMLVideoElement | null>(null)
-  const lastCaptureTime = useRef<number>(0)
-  const scrollTimer = useRef<NodeJS.Timeout | null>(null)
+  const [captureCount, setCaptureCount] = useState(0)
+  const [lastCapture, setLastCapture] = useState<string>('')
+  const [backgroundApps, setBackgroundApps] = useState<string[]>([])
+  
+  const mediaStreamRef = useRef<MediaStream | null>(null)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
-  const captureScreenshot = useCallback(async (trigger: string = 'user_action') => {
-    if (!streamRef.current || !videoRef.current || isPaused || privacyMode) return
+  // Check for background apps (this is a simplified version)
+  const checkBackgroundApps = async () => {
+    try {
+      const response = await fetch('/api/system/apps')
+      const data = await response.json()
+      if (data.apps) {
+        setBackgroundApps(data.apps)
+      }
+    } catch (error) {
+      console.log('Could not fetch background apps')
+    }
+  }
 
-    // Rate limiting - minimum 200ms between captures
-    const now = Date.now()
-    if (now - lastCaptureTime.current < 200) return
-    lastCaptureTime.current = now
+  useEffect(() => {
+    checkBackgroundApps()
+    const interval = setInterval(checkBackgroundApps, 60000) // Check every minute
+    return () => clearInterval(interval)
+  }, [])
+
+  const captureScreenshot = useCallback(async () => {
+    if (!mediaStreamRef.current || isPaused) {
+      return
+    }
 
     try {
       const video = videoRef.current
+      const canvas = canvasRef.current
       
-      if (video.readyState < 2) {
-        await new Promise(resolve => {
-          video.addEventListener('loadeddata', resolve, { once: true })
-        })
+      if (!video || !canvas) {
+        // Create video element if it doesn't exist
+        if (!video) {
+          const newVideo = document.createElement('video')
+          newVideo.autoplay = true
+          newVideo.muted = true
+          newVideo.playsInline = true
+          videoRef.current = newVideo
+        }
+        
+        // Create canvas if it doesn't exist
+        if (!canvas) {
+          const newCanvas = document.createElement('canvas')
+          canvasRef.current = newCanvas
+        }
+        return
       }
 
-      const canvas = document.createElement('canvas')
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
+      // Set video source
+      if (video.srcObject !== mediaStreamRef.current) {
+        video.srcObject = mediaStreamRef.current
+        await video.play()
+        // Wait for video to be ready
+        await new Promise(resolve => setTimeout(resolve, 500))
+      }
+
+      // Set canvas dimensions
+      canvas.width = video.videoWidth || 1920
+      canvas.height = video.videoHeight || 1080
+
       const ctx = canvas.getContext('2d')
-      
-      if (ctx) {
-        ctx.drawImage(video, 0, 0)
-        
-        // Add timestamp
-        ctx.fillStyle = 'rgba(121, 22, 255, 0.8)'
-        ctx.fillRect(10, 10, 200, 30)
-        ctx.fillStyle = 'white'
-        ctx.font = '14px monospace'
-        ctx.fillText(new Date().toLocaleTimeString(), 20, 30)
-        
-        canvas.toBlob(async (blob) => {
-          if (blob) {
-            const reader = new FileReader()
-            reader.onloadend = async () => {
-              const base64 = reader.result?.toString().split(',')[1]
-              
-              if (base64) {
-                const formData = new FormData()
-                formData.append('screenshot', blob)
-                formData.append('sessionId', sessionId)
-                formData.append('userId', userId)
-                formData.append('base64', base64)
-                formData.append('trigger', trigger)
-                
-                try {
-                  const response = await fetch('/api/screenshots/capture', {
-                    method: 'POST',
-                    body: formData,
-                  })
-                  
-                  if (response.ok) {
-                    setScreenshotCount(prev => prev + 1)
-                  }
-                } catch (error) {
-                  console.error('Upload error:', error)
-                }
-              }
-            }
-            reader.readAsDataURL(blob)
-          }
-        }, 'image/jpeg', 0.6)
+      if (!ctx) {
+        throw new Error('Could not get canvas context')
       }
+
+      // Draw video frame to canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+
+      // Convert to base64
+      const screenshot = canvas.toDataURL('image/jpeg', 0.8)
+
+      // Send to API with background apps info
+      const response = await fetch('/api/screenshots/capture', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          screenshot,
+          sessionId,
+          trigger: 'auto',
+          backgroundApps
+        })
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to save screenshot')
+      }
+
+      const data = await response.json()
+      
+      setCaptureCount(prev => prev + 1)
+      setLastCapture(new Date().toLocaleTimeString())
+      onCapture?.(screenshot)
+      
+      console.log('Screenshot captured successfully:', data)
+      
     } catch (error) {
-      console.error('Screenshot error:', error)
+      console.error('Screenshot capture error:', error)
+      toast.error('Failed to capture screenshot')
     }
-  }, [sessionId, userId, isPaused, privacyMode])
-
-  // Aggressive event capturing
-  useEffect(() => {
-    if (!isRecording || isPaused || privacyMode) return
-
-    // Capture on click
-    const handleClick = () => {
-      captureScreenshot('click')
-    }
-
-    // Capture on spacebar
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.code === 'Space') {
-        e.preventDefault()
-        captureScreenshot('spacebar')
-      }
-      // Also capture on Enter and Tab
-      if (e.code === 'Enter' || e.code === 'Tab') {
-        captureScreenshot(`key_${e.code}`)
-      }
-    }
-
-    // Capture when scrolling stops (user is reading)
-    const handleScroll = () => {
-      captureScreenshot('scroll')
-      
-      // Clear existing timer
-      if (scrollTimer.current) {
-        clearTimeout(scrollTimer.current)
-      }
-      
-      // Set new timer - capture when user stops scrolling for 1 second
-      scrollTimer.current = setTimeout(() => {
-        captureScreenshot('scroll_stop_reading')
-      }, 1000)
-    }
-
-    // Capture on mouse movement stop (indicates focus)
-    let mouseTimer: NodeJS.Timeout
-    const handleMouseMove = () => {
-      clearTimeout(mouseTimer)
-      mouseTimer = setTimeout(() => {
-        captureScreenshot('mouse_stop')
-      }, 2000)
-    }
-
-    // Capture on focus changes
-    const handleFocus = () => captureScreenshot('focus')
-    const handleBlur = () => captureScreenshot('blur')
-
-    // Add all listeners
-    document.addEventListener('click', handleClick, true)
-    document.addEventListener('keydown', handleKeyPress, true)
-    window.addEventListener('scroll', handleScroll, true)
-    document.addEventListener('mousemove', handleMouseMove)
-    window.addEventListener('focus', handleFocus)
-    window.addEventListener('blur', handleBlur)
-
-    // Also capture every 30 seconds as baseline
-    const interval = setInterval(() => {
-      captureScreenshot('interval')
-    }, 30000)
-
-    return () => {
-      document.removeEventListener('click', handleClick, true)
-      document.removeEventListener('keydown', handleKeyPress, true)
-      window.removeEventListener('scroll', handleScroll, true)
-      document.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('focus', handleFocus)
-      window.removeEventListener('blur', handleBlur)
-      clearInterval(interval)
-      if (scrollTimer.current) clearTimeout(scrollTimer.current)
-      clearTimeout(mouseTimer)
-    }
-  }, [isRecording, isPaused, privacyMode, captureScreenshot])
+  }, [sessionId, isPaused, onCapture, backgroundApps])
 
   const startRecording = async () => {
     try {
-      const confirmed = window.confirm(
-        'Screen recording will capture your screen:\n\n' +
-        '• On every click\n' +
-        '• On every spacebar press\n' +
-        '• When you stop scrolling (reading)\n' +
-        '• When switching windows\n' +
-        '• Every 30 seconds\n\n' +
-        'You can pause anytime. Continue?'
-      )
-      
-      if (!confirmed) return
-
+      // Request screen capture permission
       const stream = await navigator.mediaDevices.getDisplayMedia({
-        video: { 
-          mediaSource: 'screen',
-          width: { ideal: 1920 },
-          height: { ideal: 1080 }
-        } as any,
+        video: {
+          displaySurface: 'monitor',
+          logicalSurface: true,
+          cursor: 'always'
+        },
         audio: false
       })
-      
-      streamRef.current = stream
-      
-      if (!videoRef.current) {
-        videoRef.current = document.createElement('video')
-      }
-      videoRef.current.srcObject = stream
-      videoRef.current.play()
-      
+
+      mediaStreamRef.current = stream
       setIsRecording(true)
-      setScreenshotCount(0)
-      setPrivacyMode(false)
+      toast.success('Recording started - screenshots every 30 seconds')
+
+      // Create hidden video and canvas elements
+      const video = document.createElement('video')
+      video.autoplay = true
+      video.muted = true
+      video.playsInline = true
+      video.style.display = 'none'
+      videoRef.current = video
       
-      setTimeout(() => captureScreenshot('start'), 1000)
-      
-      toast.success('Recording started! Capturing all interactions.')
-      
+      const canvas = document.createElement('canvas')
+      canvas.style.display = 'none'
+      canvasRef.current = canvas
+
+      // Capture first screenshot after 2 seconds
+      setTimeout(captureScreenshot, 2000)
+
+      // Set up interval for automatic captures
+      intervalRef.current = setInterval(captureScreenshot, 30000)
+
+      // Handle stream end
       stream.getVideoTracks()[0].addEventListener('ended', () => {
         stopRecording()
       })
+
     } catch (error) {
-      toast.error('Recording cancelled or failed.')
-      console.error(error)
+      console.error('Failed to start recording:', error)
+      toast.error('Failed to start screen recording. Please allow screen sharing.')
     }
   }
 
   const stopRecording = () => {
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach(track => track.stop())
-      streamRef.current = null
+    if (mediaStreamRef.current) {
+      mediaStreamRef.current.getTracks().forEach(track => track.stop())
+      mediaStreamRef.current = null
     }
     
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current)
+      intervalRef.current = null
+    }
+
     setIsRecording(false)
     setIsPaused(false)
-    setPrivacyMode(false)
     
-    if (screenshotCount > 0) {
-      toast.success(`Session complete! ${screenshotCount} screenshots captured.`)
+    if (captureCount > 0) {
+      toast.success(`Recording stopped. Captured ${captureCount} screenshots.`)
     }
   }
 
@@ -231,99 +190,114 @@ export function ScreenRecorder({ sessionId, userId }: RecorderProps) {
     toast.success(isPaused ? 'Recording resumed' : 'Recording paused')
   }
 
-  const togglePrivacyMode = () => {
-    setPrivacyMode(!privacyMode)
-    if (!privacyMode) {
-      toast.success('Privacy mode ON - screenshots disabled', { icon: '🔒', duration: 4000 })
-    } else {
-      toast.success('Privacy mode OFF - screenshots resumed')
+  const manualCapture = () => {
+    if (isRecording && !isPaused) {
+      captureScreenshot()
+      toast.success('Manual screenshot captured')
     }
   }
 
+  // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach(track => track.stop())
+      if (intervalRef.current) clearInterval(intervalRef.current)
+      if (mediaStreamRef.current) {
+        mediaStreamRef.current.getTracks().forEach(track => track.stop())
       }
     }
   }, [])
 
   return (
-    <div className="bg-white rounded-sm border border-gray-200 p-6">
+    <div className="bg-white dark:bg-dark-card rounded-sm border border-gray-200 dark:border-dark-border p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-primary tracking-tight flex items-center">
-          <Monitor className="w-5 h-5 mr-2" />
-          Productivity Tracker
-        </h3>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          Screen Recorder
+        </h2>
         {isRecording && (
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className={`w-3 h-3 ${isPaused || privacyMode ? 'bg-yellow-500' : 'bg-green-500'} rounded-full ${!isPaused && !privacyMode && 'animate-pulse'}`}></div>
-              <span className="text-sm text-gray-600">
-                {privacyMode ? 'Privacy Mode' : isPaused ? 'Paused' : 'Active'}
-              </span>
-            </div>
-            <span className="text-sm font-medium text-primary">
-              {screenshotCount} captured
+          <div className="flex items-center space-x-2">
+            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+            <span className="text-sm text-gray-600 dark:text-gray-400">
+              {isPaused ? 'Paused' : 'Recording'}
             </span>
           </div>
         )}
       </div>
+
+      {/* Status Display */}
+      {isRecording && (
+        <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-sm p-3 mb-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mr-2" />
+              <div className="text-sm">
+                <p className="font-medium text-green-800 dark:text-green-300">
+                  {captureCount} screenshots captured
+                </p>
+                {lastCapture && (
+                  <p className="text-green-700 dark:text-green-400">
+                    Last capture: {lastCapture}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Background Apps Display */}
+      {backgroundApps.length > 0 && (
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-sm p-3 mb-4">
+          <div className="flex items-start">
+            <Monitor className="w-5 h-5 text-blue-600 dark:text-blue-400 mr-2 mt-0.5" />
+            <div className="text-sm flex-1">
+              <p className="font-medium text-blue-800 dark:text-blue-300 mb-1">
+                Active Applications:
+              </p>
+              <p className="text-blue-700 dark:text-blue-400">
+                {backgroundApps.slice(0, 5).join(', ')}
+                {backgroundApps.length > 5 && ` +${backgroundApps.length - 5} more`}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
       
-      <div className="flex space-x-3 mb-4">
+      {/* Control Buttons */}
+      <div className="flex flex-wrap gap-3">
         {!isRecording ? (
           <button
             onClick={startRecording}
-            disabled={!sessionId}
-            className="flex-1 btn-clean btn-primary-clean"
+            className="flex items-center px-4 py-2 bg-primary text-white rounded-sm hover:bg-primary-dark transition-colors"
           >
-            <Play className="w-5 h-5 mr-2" />
-            Start Tracking
+            <Play className="w-4 h-4 mr-2" />
+            Start Recording
           </button>
         ) : (
           <>
             <button
-              onClick={togglePause}
-              className="flex-1 bg-yellow-500 text-white py-2 px-3 rounded-sm hover:bg-yellow-600 transition flex items-center justify-center"
+              onClick={stopRecording}
+              className="flex items-center px-4 py-2 bg-red-600 text-white rounded-sm hover:bg-red-700 transition-colors"
             >
-              {isPaused ? <Play className="w-4 h-4 mr-1" /> : <Pause className="w-4 h-4 mr-1" />}
+              <Square className="w-4 h-4 mr-2" />
+              Stop
+            </button>
+            <button
+              onClick={togglePause}
+              className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-sm hover:bg-gray-700 transition-colors"
+            >
+              {isPaused ? <Play className="w-4 h-4 mr-2" /> : <Pause className="w-4 h-4 mr-2" />}
               {isPaused ? 'Resume' : 'Pause'}
             </button>
-            
             <button
-              onClick={togglePrivacyMode}
-              className={`flex-1 ${privacyMode ? 'bg-gray-600' : 'bg-gray-500'} text-white py-2 px-3 rounded-sm hover:bg-gray-700 transition flex items-center justify-center`}
+              onClick={manualCapture}
+              disabled={isPaused}
+              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-sm hover:bg-blue-700 transition-colors disabled:opacity-50"
             >
-              {privacyMode ? <EyeOff className="w-4 h-4 mr-1" /> : <Eye className="w-4 h-4 mr-1" />}
-              Privacy
-            </button>
-            
-            <button
-              onClick={stopRecording}
-              className="flex-1 bg-red-500 text-white py-2 px-3 rounded-sm hover:bg-red-600 transition flex items-center justify-center"
-            >
-              <Square className="w-4 h-4 mr-1" />
-              Stop
+              <Camera className="w-4 h-4 mr-2" />
+              Capture Now
             </button>
           </>
         )}
-      </div>
-      
-      <div className="bg-purple-50 rounded-sm p-4 space-y-2">
-        <div className="flex items-start space-x-2">
-          <MousePointer className="w-5 h-5 text-primary mt-0.5" />
-          <div className="text-sm text-gray-700 space-y-1">
-            <p className="font-semibold">Capture Triggers:</p>
-            <ul className="ml-4 space-y-0.5 text-xs">
-              <li>• Every click anywhere on screen</li>
-              <li>• Every spacebar press</li>
-              <li>• When you stop scrolling (reading)</li>
-              <li>• Tab/Enter key presses</li>
-              <li>• Window focus changes</li>
-              <li>• Every 30 seconds baseline</li>
-            </ul>
-          </div>
-        </div>
       </div>
     </div>
   )

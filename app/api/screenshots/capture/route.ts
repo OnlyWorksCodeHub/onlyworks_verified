@@ -1,27 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { analyzeScreenshot } from '@/lib/ai/gemini'
+import OpenAI from 'openai'
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+})
 
 export async function POST(req: NextRequest) {
   try {
     const supabase = createClient()
     
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
+    // Check authentication
+    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    
+    if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { screenshot, sessionId, trigger } = await req.json()
+    const body = await req.json()
+    const { screenshot, sessionId, trigger, backgroundApps } = body
 
     if (!screenshot || !sessionId) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    // Convert base64 to blob
+    // Extract base64 data
     const base64Data = screenshot.replace(/^data:image\/\w+;base64,/, '')
     const buffer = Buffer.from(base64Data, 'base64')
     
-    // Create unique filename
+    // Generate filename
     const timestamp = Date.now()
     const filename = `${user.id}/${sessionId}/${timestamp}.jpg`
 
@@ -34,8 +41,23 @@ export async function POST(req: NextRequest) {
       })
 
     if (uploadError) {
-      console.error('Upload error:', uploadError)
-      return NextResponse.json({ error: 'Upload failed' }, { status: 500 })
+      console.error('Storage upload error:', uploadError)
+      // Create bucket if it doesn't exist
+      if (uploadError.message?.includes('not found')) {
+        await supabase.storage.createBucket('screenshots', { public: true })
+        // Retry upload
+        const { data: retryData, error: retryError } = await supabase.storage
+          .from('screenshots')
+          .upload(filename, buffer, {
+            contentType: 'image/jpeg',
+            cacheControl: '3600',
+          })
+        if (retryError) {
+          return NextResponse.json({ error: 'Failed to upload screenshot' }, { status: 500 })
+        }
+      } else {
+        return NextResponse.json({ error: 'Failed to upload screenshot' }, { status: 500 })
+      }
     }
 
     // Get public URL
@@ -54,6 +76,7 @@ export async function POST(req: NextRequest) {
         metadata: {
           timestamp: new Date().toISOString(),
           trigger,
+          backgroundApps: backgroundApps || []
         }
       })
       .select()
@@ -61,127 +84,113 @@ export async function POST(req: NextRequest) {
 
     if (dbError) {
       console.error('Database error:', dbError)
-      return NextResponse.json({ error: 'Failed to save screenshot' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to save screenshot record' }, { status: 500 })
     }
 
-    // Analyze with enhanced prompt for better summaries
-    const analysis = await analyzeScreenshot(base64Data)
+    // Analyze with GPT-4 Vision
+    let analysisResult = null
     
-    if (analysis) {
-      // Parse the analysis for more structured data
-      let productivity_score = 50
-      let focus_score = 50
-      let activity_type = 'Working'
-      let applications_detected: string[] = []
-      let distractions_detected: string[] = []
-      let suggestions: string[] = []
-      let estimated_task = ''
-      let work_category = 'general'
+    try {
+      const response = await openai.chat.completions.create({
+        model: "gpt-4-vision-preview",
+        messages: [
+          {
+            role: "user",
+            content: [
+              {
+                type: "text",
+                text: `Analyze this screenshot and provide:
+                1. Productivity score (0-100)
+                2. Main activity type (Coding, Meeting, Email, Research, Social Media, etc.)
+                3. Applications visible on screen
+                4. Estimated task being performed
+                5. Whether this appears to be productive work
 
-      // Extract productivity score
-      const scoreMatch = analysis.match(/productivity[:\s]+(\d+)/i)
-      if (scoreMatch) {
-        productivity_score = parseInt(scoreMatch[1])
-      }
+                Also note these background apps were running: ${backgroundApps?.join(', ') || 'Unknown'}
+                
+                Format your response as JSON with these fields:
+                - productivity_score: number
+                - activity_type: string
+                - applications_detected: array of strings
+                - estimated_task: string
+                - is_productive: boolean
+                - analysis_notes: string`
+              },
+              {
+                type: "image_url",
+                image_url: {
+                  url: screenshot,
+                  detail: "high"
+                }
+              }
+            ]
+          }
+        ],
+        max_tokens: 500
+      })
 
-      // Extract focus score
-      const focusMatch = analysis.match(/focus[:\s]+(\d+)/i)
-      if (focusMatch) {
-        focus_score = parseInt(focusMatch[1])
-      }
-
-      // Extract activity type
-      if (analysis.toLowerCase().includes('coding') || analysis.toLowerCase().includes('programming')) {
-        activity_type = 'Coding'
-        work_category = 'deep work'
-      } else if (analysis.toLowerCase().includes('meeting') || analysis.toLowerCase().includes('video call')) {
-        activity_type = 'Meeting'
-        work_category = 'collaboration'
-      } else if (analysis.toLowerCase().includes('email')) {
-        activity_type = 'Email'
-        work_category = 'shallow work'
-      } else if (analysis.toLowerCase().includes('research') || analysis.toLowerCase().includes('reading')) {
-        activity_type = 'Research'
-        work_category = 'deep work'
-      } else if (analysis.toLowerCase().includes('social media') || analysis.toLowerCase().includes('youtube')) {
-        activity_type = 'Distracted'
-        work_category = 'distraction'
-        productivity_score = Math.min(productivity_score, 30)
-      }
-
-      // Extract applications
-      const appPatterns = [
-        'Chrome', 'Firefox', 'Safari', 'VS Code', 'Visual Studio',
-        'Slack', 'Discord', 'Teams', 'Zoom', 'Gmail', 'Outlook',
-        'Figma', 'Photoshop', 'Terminal', 'YouTube', 'Twitter',
-        'Facebook', 'Instagram', 'LinkedIn', 'Notion', 'Obsidian'
-      ]
+      const analysisText = response.choices[0]?.message?.content || '{}'
+      let parsedAnalysis
       
-      appPatterns.forEach(app => {
-        if (analysis.toLowerCase().includes(app.toLowerCase())) {
-          applications_detected.push(app)
+      try {
+        // Try to extract JSON from the response
+        const jsonMatch = analysisText.match(/\{[\s\S]*\}/)
+        if (jsonMatch) {
+          parsedAnalysis = JSON.parse(jsonMatch[0])
+        } else {
+          throw new Error('No JSON found in response')
         }
-      })
-
-      // Extract task estimation
-      const taskMatch = analysis.match(/(?:working on|task:|doing:)\s*([^.]+)/i)
-      if (taskMatch) {
-        estimated_task = taskMatch[1].trim()
-      }
-
-      // Identify distractions
-      const distractionKeywords = ['social media', 'youtube', 'twitter', 'facebook', 'instagram', 'reddit', 'news', 'shopping']
-      distractionKeywords.forEach(keyword => {
-        if (analysis.toLowerCase().includes(keyword)) {
-          distractions_detected.push(keyword)
+      } catch {
+        // Fallback parsing
+        parsedAnalysis = {
+          productivity_score: 50,
+          activity_type: 'Unknown',
+          applications_detected: [],
+          estimated_task: 'Unable to determine',
+          is_productive: false,
+          analysis_notes: analysisText
         }
-      })
-
-      // Generate suggestions based on analysis
-      if (productivity_score < 50) {
-        suggestions.push('Consider closing non-work related tabs')
-        suggestions.push('Try using focus mode or website blockers')
-      }
-      if (distractions_detected.length > 0) {
-        suggestions.push('Minimize distractions by using dedicated work browser profile')
-      }
-      if (work_category === 'shallow work' && productivity_score < 70) {
-        suggestions.push('Batch similar tasks together for better efficiency')
       }
 
-      // Save analysis with enhanced data
-      const { error: analysisError } = await supabase
+      // Save analysis
+      const { data: analysisRecord, error: analysisError } = await supabase
         .from('analyses')
         .insert({
           screenshot_id: screenshotRecord.id,
           user_id: user.id,
           session_id: sessionId,
-          productivity_score,
-          focus_score,
-          activity_type,
-          work_category,
-          applications_detected,
-          is_productive: productivity_score >= 60,
-          distractions_detected,
-          suggestions,
-          estimated_task,
+          productivity_score: parsedAnalysis.productivity_score || 50,
+          activity_type: parsedAnalysis.activity_type || 'Unknown',
+          applications_detected: parsedAnalysis.applications_detected || [],
+          background_apps: backgroundApps || [],
+          estimated_task: parsedAnalysis.estimated_task || '',
+          is_productive: parsedAnalysis.is_productive || false,
           raw_analysis: {
-            text: analysis,
-            timestamp: new Date().toISOString(),
-            trigger
+            gpt4_response: analysisText,
+            parsed: parsedAnalysis,
+            timestamp: new Date().toISOString()
           }
         })
+        .select()
+        .single()
 
-      if (analysisError) {
-        console.error('Analysis save error:', analysisError)
+      if (!analysisError) {
+        analysisResult = analysisRecord
       }
+    } catch (aiError) {
+      console.error('GPT-4 Vision analysis error:', aiError)
     }
 
     return NextResponse.json({ 
       success: true, 
-      screenshot: screenshotRecord,
-      analysis: analysis || 'Analysis pending'
+      screenshot: {
+        id: screenshotRecord.id,
+        url: publicUrl,
+        created_at: screenshotRecord.created_at
+      },
+      analysis: analysisResult
     })
+    
   } catch (error) {
     console.error('Screenshot capture error:', error)
     return NextResponse.json({ 
