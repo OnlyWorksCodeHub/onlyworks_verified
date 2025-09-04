@@ -85,7 +85,7 @@ export function ScreenRecorder({ sessionId }: ScreenRecorderProps) {
         video: {
           displaySurface: 'monitor',
           cursor: 'always'
-        } as DisplayMediaStreamConstraints['video'],
+        } as any,
         audio: false
       })
 
