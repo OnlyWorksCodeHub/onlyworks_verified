@@ -84,9 +84,8 @@ export function ScreenRecorder({ sessionId }: ScreenRecorderProps) {
       const stream = await navigator.mediaDevices.getDisplayMedia({
         video: {
           displaySurface: 'monitor',
-          logicalSurface: true,
           cursor: 'always'
-        },
+        } as DisplayMediaStreamConstraints['video'],
         audio: false
       })
 
