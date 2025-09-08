@@ -1,16 +1,17 @@
 import type { Metadata } from 'next'
-import { Space_Grotesk } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import './globals.css'
-import { ThemeProvider } from '@/lib/contexts/theme-context'
+import { Toaster } from 'react-hot-toast'
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter'
+})
 
 export const metadata: Metadata = {
-  title: 'OnlyWorks - AI-Powered Productivity Tracking',
-  description: 'Track, analyze, and showcase your work productivity with AI insights',
-  icons: {
-    icon: '/favicon.ico',
-  },
+  title: 'OnlyWorks - Productivity Verification Platform',
+  description: 'Prove your work is real, efficient, and authentic with AI-powered verification',
 }
 
 export default function RootLayout({
@@ -19,11 +20,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={spaceGrotesk.className}>
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+    <html lang="en" className="dark">
+      <body className={`${inter.variable} font-sans bg-dark-bg text-white antialiased`}>
+        {children}
+        <Toaster 
+          position="bottom-right"
+          toastOptions={{
+            className: 'dark:bg-dark-card dark:text-white',
+            duration: 4000,
+          }}
+        />
       </body>
     </html>
   )

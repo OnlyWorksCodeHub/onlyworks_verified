@@ -1,85 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    @apply font-grotesk antialiased transition-colors duration-200;
-    letter-spacing: -0.01em;
-    -webkit-font-smoothing: antialiased;
-  }
-  
-  /* Light mode */
-  body {
-    @apply bg-gray-50 text-gray-900;
-  }
-  
-  /* Dark mode */
-  .dark body {
-    @apply bg-dark-bg text-gray-100;
+    @apply antialiased;
   }
 }
 
 @layer components {
-  /* Button styles */
   .btn-clean {
-    @apply px-6 py-3 font-medium transition-all duration-200 rounded-sm;
+    @apply px-6 py-2.5 font-medium rounded-lg transition-all duration-200;
   }
-  
-  .btn-primary-clean {
-    @apply bg-primary text-white border border-primary hover:bg-primary-light;
-  }
-  
-  .dark .btn-primary-clean {
-    @apply bg-primary/90 hover:bg-primary;
-  }
-  
-  .btn-secondary-clean {
-    @apply bg-white text-primary border border-gray-300 hover:bg-gray-50 hover:border-primary;
-  }
-  
-  .dark .btn-secondary-clean {
-    @apply bg-dark-card text-primary-light border-dark-border hover:bg-gray-900;
-  }
-  
-  /* Card styles */
-  .card-clean {
-    @apply bg-white p-6 border border-gray-200 rounded-sm transition-all duration-200;
-  }
-  
-  .dark .card-clean {
-    @apply bg-dark-card border-dark-border;
-  }
-  
-  /* Input styles */
-  .input-clean {
-    @apply w-full px-4 py-3 border border-gray-300 rounded-sm bg-white text-gray-900;
-  }
-  
-  .dark .input-clean {
-    @apply bg-dark-card border-dark-border text-gray-100;
-  }
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-gray-100;
-}
-
-.dark ::-webkit-scrollbar-track {
-  @apply bg-gray-900;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-primary rounded-sm;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  @apply bg-primary/70;
 }

@@ -1,142 +1,108 @@
-'use client'
-
-import Link from 'next/link'
-import { Logo } from '@/components/ui/logo'
-import { useTheme } from '@/lib/contexts/theme-context'
-import { Sun, Moon, Twitter, Linkedin, Github } from 'lucide-react'
+import { Navigation } from '@/components/layout/Navigation'
+import { Footer } from '@/components/layout/Footer'
+import { Target, Eye, Lock, Users } from 'lucide-react'
 
 export default function AboutPage() {
-  const { theme, toggleTheme } = useTheme()
-
-  const team = [
-    {
-      name: 'Namkha',
-      role: 'Founder & CEO',
-      bio: 'Building tools to help people work smarter, not harder.',
-      twitter: '@namkha',
-      linkedin: 'namkha',
-    },
-  ]
-
   return (
-    <div className="min-h-screen bg-white dark:bg-dark-bg">
-      <nav className="fixed top-0 w-full bg-white/95 dark:bg-dark-bg/95 backdrop-blur-sm z-50 border-b border-gray-200 dark:border-dark-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center space-x-2">
-              <Logo size={28} />
-              <span className="text-lg font-semibold tracking-tight text-gray-900 dark:text-gray-100">OnlyWorks</span>
-            </Link>
-            <div className="flex items-center space-x-8">
-              <Link href="/#features" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light font-medium transition">
-                Features
-              </Link>
-              <Link href="/pricing" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light font-medium transition">
-                Pricing
-              </Link>
-              <Link href="/teams" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light font-medium transition">
-                Teams
-              </Link>
-              <div className="w-px h-5 bg-gray-300 dark:bg-gray-700"></div>
-              
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                aria-label="Toggle dark mode"
-              >
-                {theme === 'dark' ? (
-                  <Sun className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                ) : (
-                  <Moon className="w-5 h-5 text-gray-600" />
-                )}
-              </button>
-              
-              <Link href="/login" className="btn-clean btn-primary-clean">
-                Get Started
-              </Link>
-            </div>
+    <div className="min-h-screen bg-[#0A0A0A]">
+      <Navigation />
+
+      {/* Hero */}
+      <section className="pt-32 pb-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+              Proving Work is
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5E5CE6] to-[#9F9FFF]">
+                {' '}Real
+              </span>
+            </h1>
+            <p className="text-xl text-gray-400 mb-8">
+              In a world of remote work and AI assistance, how do you prove your work is genuine? 
+              OnlyWorks was built to solve the trust problem in modern work.
+            </p>
           </div>
         </div>
-      </nav>
+      </section>
 
-      <section className="pt-32 pb-20 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h1 className="text-5xl font-bold tracking-tighter mb-8 text-gray-900 dark:text-gray-100">
-            About OnlyWorks
-          </h1>
-          
-          <div className="prose prose-lg dark:prose-invert max-w-none">
-            <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-              We're on a mission to help people understand and improve their productivity through AI-powered insights.
+      {/* Mission */}
+      <section className="py-20 px-4 border-t border-gray-800">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 className="text-3xl font-bold mb-6 text-white">Our Mission</h2>
+            <p className="text-gray-400 mb-4">
+              We believe that honest, hard-working professionals deserve a way to prove their value. 
+              Whether you're a freelancer showing clients your effort, a remote employee demonstrating 
+              productivity, or a team lead ensuring quality work, OnlyWorks provides the verification you need.
             </p>
-
-            <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-sm p-8 mb-12">
-              <h2 className="text-2xl font-bold text-purple-900 dark:text-purple-300 mb-4">Our Story</h2>
-              <p className="text-purple-800 dark:text-purple-300">
-                OnlyWorks was born from a simple observation: we spend countless hours at our computers, 
-                but rarely understand how that time is actually spent. We built OnlyWorks to provide 
-                clarity, insights, and actionable recommendations to help you work smarter.
-              </p>
+            <p className="text-gray-400">
+              Our AI-powered platform tracks real work patterns, detects automation, and creates 
+              tamper-proof reports that anyone can verify. No more doubts about outsourcing, 
+              no more questions about productivity—just clear, verifiable proof of genuine work.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <Target className="w-8 h-8 text-[#5E5CE6] mb-3" />
+              <h3 className="font-semibold text-white mb-2">Accuracy</h3>
+              <p className="text-sm text-gray-400">98% fraud detection rate</p>
             </div>
-
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8">Our Values</h2>
-            
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
-              <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-sm p-6">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">🔒 Privacy First</h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Your data is yours. We never sell it, share it, or use it for anything other than helping you.
-                </p>
-              </div>
-              
-              <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-sm p-6">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">🎯 User Focused</h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Every feature we build starts with user needs. No bloat, no unnecessary complexity.
-                </p>
-              </div>
-              
-              <div className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-sm p-6">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">🚀 Continuous Innovation</h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  We're constantly improving our AI models and features to provide better insights.
-                </p>
-              </div>
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <Eye className="w-8 h-8 text-[#5E5CE6] mb-3" />
+              <h3 className="font-semibold text-white mb-2">Transparency</h3>
+              <p className="text-sm text-gray-400">Public verification system</p>
             </div>
-
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8">The Team</h2>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-              {team.map((member) => (
-                <div key={member.name} className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-sm p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                    {member.name}
-                  </h3>
-                  <p className="text-primary font-medium mb-3">{member.role}</p>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">{member.bio}</p>
-                  <div className="flex items-center gap-3">
-                    <a href={`https://twitter.com/${member.twitter}`} className="text-gray-600 dark:text-gray-400 hover:text-primary">
-                      <Twitter className="w-5 h-5" />
-                    </a>
-                    <a href={`https://linkedin.com/in/${member.linkedin}`} className="text-gray-600 dark:text-gray-400 hover:text-primary">
-                      <Linkedin className="w-5 h-5" />
-                    </a>
-                  </div>
-                </div>
-              ))}
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <Lock className="w-8 h-8 text-[#5E5CE6] mb-3" />
+              <h3 className="font-semibold text-white mb-2">Privacy</h3>
+              <p className="text-sm text-gray-400">Your data stays yours</p>
             </div>
-
-            <div className="bg-gray-100 dark:bg-gray-900 rounded-sm p-8 mt-12 text-center">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-                Ready to improve your productivity?
-              </h3>
-              <Link href="/login" className="btn-clean btn-primary-clean inline-block">
-                Get Started Free
-              </Link>
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <Users className="w-8 h-8 text-[#5E5CE6] mb-3" />
+              <h3 className="font-semibold text-white mb-2">Trust</h3>
+              <p className="text-sm text-gray-400">Used by 10,000+ professionals</p>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Values */}
+      <section className="py-20 px-4 border-t border-gray-800">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12 text-white">Our Values</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#5E5CE6]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl">🎯</span>
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Truth First</h3>
+              <p className="text-gray-400">
+                We never compromise on accuracy. Every verification is thorough and honest.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#5E5CE6]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl">🔒</span>
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Privacy Matters</h3>
+              <p className="text-gray-400">
+                We track productivity, not personal data. Your privacy is non-negotiable.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#5E5CE6]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl">🚀</span>
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Empower Workers</h3>
+              <p className="text-gray-400">
+                We help professionals prove their worth and improve their productivity.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   )
 }

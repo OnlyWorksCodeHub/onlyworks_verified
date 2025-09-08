@@ -1,14 +1,14 @@
 import Image from 'next/image'
 
 interface LogoProps {
-  className?: string
   size?: number
+  className?: string
 }
 
-export function Logo({ className = "", size = 40 }: LogoProps) {
+export function Logo({ size = 40, className = '' }: LogoProps) {
   return (
     <Image
-      src="/logo.png"
+      src="/images/logo.png"
       alt="OnlyWorks"
       width={size}
       height={size}

@@ -1,23 +1,26 @@
-# OnlyWorks
+# OnlyWorks - Productivity Verification Platform
 
-AI-powered productivity tracking application built with Next.js and Supabase.
+OnlyWorks is a comprehensive productivity tracking and verification platform that creates undeniable proof of genuine, efficient work. Perfect for remote workers, freelancers, and teams who need to demonstrate their productivity.
+
+## Features
+
+- **Event-Based Screenshot Capture**: Captures on every click, spacebar, and enter key
+- **AI-Powered Analysis**: Uses GPT-4 Vision to analyze productivity and detect patterns
+- **Fraud Detection**: Identifies 20+ automation tools and suspicious behaviors
+- **Shareable Reports**: Generate public, verifiable work reports
+- **Multi-Profession Support**: Tailored for developers, designers, finance, marketing, and more
+- **Real-Time Feedback**: Get actionable insights on your work patterns
 
 ## Tech Stack
-- Next.js 14
-- Supabase (Auth, Database, Storage)
-- Google Gemini AI
-- Tailwind CSS
-- TypeScript
 
-## Setup
+- **Frontend**: Next.js 14, TypeScript, Tailwind CSS
+- **Backend**: Supabase (PostgreSQL + Storage + Auth)
+- **AI**: OpenAI GPT-4 Vision API
+- **Hosting**: Vercel
+
+## Getting Started
+
 1. Clone the repository
-2. Install dependencies: `npm install`
-3. Set up environment variables (see .env.example)
-4. Run development server: `npm run dev`
-
-## Environment Variables
-Create a `.env.local` file with:
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `GEMINI_API_KEY`
+2. Install dependencies:
+   ```bash
+   npm install
