@@ -1,81 +1,122 @@
-import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
+import { createSessionSchema } from '@/lib/validations/api'
+import { rateLimit } from '@/lib/middleware/rateLimiter'
+import { authenticateRequest } from '@/lib/auth/server'
+import { log } from '@/lib/logger'
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createClient()
+    // Rate limiting - limit session creation
+    const rateLimitResult = await rateLimit(request, {
+      key: 'session-create',
+      points: 5, // 5 sessions per
+      duration: 300, // 5 minutes
+    })
+    if (rateLimitResult) return rateLimitResult
+
+    // Authentication
+    const { user, error: authError } = await authenticateRequest(request)
+    if (authError) return authError
+
+    // Validate request
+    const body = await request.json()
+    const validationResult = createSessionSchema.safeParse(body)
     
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { 
+          error: 'Invalid request data',
+          details: validationResult.error.flatten()
+        },
+        { status: 400 }
+      )
     }
 
-    const { name, projectName, clientName } = await request.json()
+    const { name, projectName, clientName } = validationResult.data
+    const supabase = createClient()
+
+    // Check for active sessions
+    const { data: activeSessions } = await supabase
+      .from('workflow_sessions')
+      .select('id')
+      .eq('user_id', user!.id)
+      .eq('status', 'active')
+
+    if (activeSessions && activeSessions.length > 0) {
+      return NextResponse.json(
+        { error: 'You already have an active session. Please end it before starting a new one.' },
+        { status: 400 }
+      )
+    }
 
     // Get user's profession for customized tracking
     const { data: profile } = await supabase
       .from('profiles')
       .select('profession')
-      .eq('id', user.id)
+      .eq('id', user!.id)
       .single()
 
     const { data: session, error } = await supabase
       .from('workflow_sessions')
       .insert({
-        user_id: user.id,
+        user_id: user!.id,
         name: name || `Session - ${new Date().toLocaleString()}`,
         project_name: projectName,
-        client_name: clientName,
-        profession_type: profile?.profession || 'other',
         status: 'active',
-        metadata: {
-          start_time: new Date().toISOString(),
-          browser: request.headers.get('user-agent') || 'unknown'
-        }
+        start_time: new Date().toISOString()
       })
       .select()
       .single()
 
     if (error) {
-      console.error('Session creation error:', error)
-      return NextResponse.json({ error: 'Failed to create session' }, { status: 500 })
+      log.error('Session creation error', {
+        error: error.message,
+        userId: user!.id
+      })
+      return NextResponse.json(
+        { error: 'Failed to create session' },
+        { status: 500 }
+      )
     }
 
-    // Initialize daily stats if needed
-    const today = new Date().toISOString().split('T')[0]
-    const { data: existingStats } = await supabase
-      .from('daily_stats')
-      .select('id')
-      .eq('user_id', user.id)
-      .eq('date', today)
-      .single()
-
-    if (!existingStats) {
-      await supabase
+    // Initialize or update daily stats (if table exists)
+    try {
+      const today = new Date().toISOString().split('T')[0]
+      
+      // Try to increment daily sessions directly since functions don't exist
+      const { error: statsError } = await supabase
         .from('daily_stats')
-        .insert({
-          user_id: user.id,
+        .upsert({
+          user_id: user!.id,
           date: today,
           total_sessions: 1
+        }, {
+          onConflict: 'user_id,date'
         })
-    } else {
-      await supabase
-        .from('daily_stats')
-        .update({
-          total_sessions: supabase.raw('total_sessions + 1')
-        })
-        .eq('user_id', user.id)
-        .eq('date', today)
+
+      if (statsError) {
+        log.warn('Daily stats table not available', { error: statsError.message })
+      }
+    } catch (error) {
+      log.warn('Daily stats update skipped', { error: 'Table not found' })
     }
+
+    log.info('Session created successfully', {
+      sessionId: session.id,
+      userId: user!.id,
+      name: session.name
+    })
 
     return NextResponse.json({ 
       success: true,
       session
     })
   } catch (error) {
-    console.error('Session creation error:', error)
-    return NextResponse.json({ 
-      error: 'Failed to create session' 
-    }, { status: 500 })
+    log.error('Session creation error', error)
+    return NextResponse.json(
+      { error: 'Failed to create session' },
+      { status: 500 }
+    )
   }
 }

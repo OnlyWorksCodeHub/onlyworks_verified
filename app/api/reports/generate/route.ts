@@ -12,28 +12,49 @@ export async function POST(request: NextRequest) {
     }
 
     const { sessionId } = await request.json()
+    console.log('Generating report for session:', sessionId)
 
     // Get session details
-    const { data: session } = await supabase
+    const { data: session, error: sessionError } = await supabase
       .from('workflow_sessions')
       .select('*')
       .eq('id', sessionId)
       .eq('user_id', user.id)
       .single()
 
-    if (!session) {
+    if (sessionError || !session) {
+      console.error('Session not found:', sessionError)
       return NextResponse.json({ error: 'Session not found' }, { status: 404 })
     }
 
-    // Get session summary
-    const { data: summary } = await supabase
+    // Get or create session summary
+    let { data: summary } = await supabase
       .from('session_summaries')
       .select('*')
       .eq('session_id', sessionId)
       .single()
 
+    // If no summary exists, create one first
     if (!summary) {
-      return NextResponse.json({ error: 'Summary not found' }, { status: 404 })
+      console.log('No summary found, generating one...')
+      
+      // Generate summary first
+      const summaryResponse = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/session/summary`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Cookie': request.headers.get('cookie') || ''
+        },
+        body: JSON.stringify({ sessionId })
+      })
+
+      if (!summaryResponse.ok) {
+        console.error('Failed to generate summary')
+        return NextResponse.json({ error: 'Failed to generate summary' }, { status: 500 })
+      }
+
+      const summaryResult = await summaryResponse.json()
+      summary = summaryResult.summary
     }
 
     // Get user profile for company name
@@ -43,28 +64,34 @@ export async function POST(request: NextRequest) {
       .eq('id', user.id)
       .single()
 
+    // Get analyses for metadata
+    const { data: analyses } = await supabase
+      .from('analyses')
+      .select('*')
+      .eq('session_id', sessionId)
+
     // Generate verification code
     const verificationCode = `OW-${new Date().getFullYear()}-${uuidv4().substring(0, 8).toUpperCase()}`
 
     // Create public report
-    const { data: report, error } = await supabase
+    const { data: report, error: reportError } = await supabase
       .from('public_reports')
       .insert({
         session_id: sessionId,
         user_id: user.id,
         verification_code: verificationCode,
-        company_name: profile?.company,
-        project_name: session.project_name,
+        company_name: profile?.company || 'Independent Professional',
+        project_name: session.project_name || session.name,
         work_duration: session.total_duration ? Math.round(session.total_duration / 60) : 0,
-        productivity_score: summary.avg_productivity_score,
-        authenticity_verified: summary.avg_authenticity_score >= 80,
-        work_summary: summary.work_narrative,
+        productivity_score: summary?.avg_productivity_score || 0,
+        authenticity_verified: (summary?.avg_authenticity_score || 0) >= 80,
+        work_summary: summary?.work_narrative || 'Work session completed.',
         key_metrics: {
-          totalActions: summary.total_screenshots,
-          focusedWorkPercentage: summary.avg_focus_score,
-          toolsUsed: extractToolsUsed(summary),
-          tasksCompleted: summary.accomplishments,
-          efficiencyRating: getEfficiencyRating(summary.avg_productivity_score)
+          totalActions: summary?.total_screenshots || 0,
+          focusedWorkPercentage: summary?.avg_focus_score || 0,
+          toolsUsed: summary?.ai_tools_used || [],
+          tasksCompleted: summary?.accomplishments || [],
+          efficiencyRating: getEfficiencyRating(summary?.avg_productivity_score || 0)
         },
         is_public: true,
         expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 days
@@ -72,18 +99,64 @@ export async function POST(request: NextRequest) {
       .select()
       .single()
 
-    if (error) {
-      console.error('Report generation error:', error)
+    if (reportError) {
+      console.error('Report generation error:', reportError)
       return NextResponse.json({ error: 'Failed to generate report' }, { status: 500 })
     }
 
+    // Save report to storage bucket
+    const reportData = {
+      reportId: report.id,
+      verificationCode,
+      sessionId,
+      generatedAt: new Date().toISOString(),
+      summary: {
+        productivity_score: summary?.avg_productivity_score || 0,
+        authenticity_verified: (summary?.avg_authenticity_score || 0) >= 80,
+        work_summary: summary?.work_narrative || 'Work session completed.',
+        key_metrics: {
+          totalActions: summary?.total_screenshots || 0,
+          focusedWorkPercentage: summary?.avg_focus_score || 0,
+          toolsUsed: summary?.ai_tools_used || [],
+          tasksCompleted: summary?.accomplishments || [],
+          efficiencyRating: getEfficiencyRating(summary?.avg_productivity_score || 0)
+        }
+      },
+      metadata: {
+        duration: session?.total_duration || 0,
+        screenshotCount: summary?.total_screenshots || 0,
+        analysesCount: analyses?.length || 0
+      }
+    }
+
+    // Save to reports bucket
+    const reportFileName = `${user.id}/${sessionId}/report_${verificationCode}.json`
+    try {
+      const { error: uploadError } = await supabase.storage
+        .from('reports')
+        .upload(reportFileName, JSON.stringify(reportData, null, 2), {
+          contentType: 'application/json',
+          upsert: true
+        })
+
+      if (uploadError) {
+        console.warn('Failed to save report to storage:', uploadError.message)
+      }
+    } catch (storageError) {
+      console.warn('Report storage error:', storageError)
+    }
+
     // Update session summary with public URL
-    await supabase
-      .from('session_summaries')
-      .update({
-        public_report_url: `${process.env.NEXT_PUBLIC_APP_URL}/verify/${verificationCode}`
-      })
-      .eq('id', summary.id)
+    if (summary) {
+      await supabase
+        .from('session_summaries')
+        .update({
+          public_report_url: `${process.env.NEXT_PUBLIC_APP_URL}/verify/${verificationCode}`
+        })
+        .eq('id', summary.id)
+    }
+
+    console.log('Report generated successfully:', report)
 
     return NextResponse.json({
       success: true,
@@ -92,30 +165,13 @@ export async function POST(request: NextRequest) {
         publicUrl: `${process.env.NEXT_PUBLIC_APP_URL}/verify/${verificationCode}`
       }
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Report generation error:', error)
     return NextResponse.json({ 
-      error: 'Failed to generate report' 
+      error: 'Failed to generate report',
+      details: error.message
     }, { status: 500 })
   }
-}
-
-function extractToolsUsed(summary: any): string[] {
-  // This would be enhanced to extract from the actual analyses
-  const tools = new Set<string>()
-  
-  // Add default tools based on profession
-  tools.add('Browser')
-  
-  // Extract from narrative if available
-  if (summary.work_narrative) {
-    if (summary.work_narrative.includes('VS Code')) tools.add('VS Code')
-    if (summary.work_narrative.includes('Figma')) tools.add('Figma')
-    if (summary.work_narrative.includes('Excel')) tools.add('Excel')
-    if (summary.work_narrative.includes('Slack')) tools.add('Slack')
-  }
-  
-  return Array.from(tools)
 }
 
 function getEfficiencyRating(productivityScore: number): 'A' | 'B' | 'C' | 'D' | 'F' {

@@ -1,0 +1,15 @@
+{
+  "crons": [
+    {
+      "path": "/api/reports/generate-daily",
+      "schedule": "0 1 * * *"
+    },
+    {
+      "path": "/api/reports/generate-weekly", 
+      "schedule": "0 2 * * 1"
+    }
+  ],
+  "env": {
+    "CRON_SECRET": "@cron_secret"
+  }
+}

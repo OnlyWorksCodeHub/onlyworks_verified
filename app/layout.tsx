@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { GlobalRecordingIndicator } from '@/components/recorder/GlobalRecordingIndicator'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -22,7 +24,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${inter.variable} font-sans bg-dark-bg text-white antialiased`}>
-        {children}
+        <ErrorBoundary>
+          <GlobalRecordingIndicator />
+          {children}
+        </ErrorBoundary>
         <Toaster 
           position="bottom-right"
           toastOptions={{
