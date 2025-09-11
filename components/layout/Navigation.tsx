@@ -20,9 +20,8 @@ export function Navigation() {
           </div>
           
           <div className="flex items-center space-x-4">
-            <Link href="/auth/login" className="text-gray-400 hover:text-white transition">Sign In</Link>
-            <Link href="/auth/register" className="px-5 py-2.5 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition">
-              Get Started
+            <Link href="/contact" className="px-5 py-2.5 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition">
+              Book a Demo
             </Link>
           </div>
         </div>

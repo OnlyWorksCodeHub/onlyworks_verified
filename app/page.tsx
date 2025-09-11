@@ -24,13 +24,13 @@ export default function HomePage() {
               work patterns. Simple, private, effective.
             </p>
             <div className="flex items-center space-x-4">
-              <Link href="/auth/register" className="px-6 py-3 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition font-medium">
-                Start Free Trial
+              <Link href="/contact" className="px-6 py-3 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition font-medium">
+                Book a Demo
               </Link>
-              <button className="flex items-center space-x-2 text-gray-400 hover:text-white transition">
+              <Link href="/contact" className="flex items-center space-x-2 text-gray-400 hover:text-white transition">
                 <Play className="w-5 h-5" />
                 <span>Watch Demo</span>
-              </button>
+              </Link>
             </div>
           </div>
           
@@ -174,8 +174,8 @@ export default function HomePage() {
             Join thousands of professionals who prove their work is real
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/auth/register" className="px-8 py-3 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition font-medium">
-              Get Started Free
+            <Link href="/contact" className="px-8 py-3 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition font-medium">
+              Book a Demo
               <ArrowRight className="inline-block ml-2 w-5 h-5" />
             </Link>
             <Link href="/pricing" className="px-8 py-3 border border-gray-700 text-white rounded-lg hover:bg-gray-900 transition">

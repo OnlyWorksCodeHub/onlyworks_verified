@@ -11,10 +11,10 @@ export default function ContactPage() {
       <section className="pt-32 pb-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-            Get in Touch
+            Book a Demo
           </h1>
           <p className="text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
-            Have questions about OnlyWorks? We're here to help.
+            See OnlyWorks in action. Schedule a personalized demo with our team.
           </p>
         </div>
       </section>
@@ -25,27 +25,29 @@ export default function ContactPage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-8 text-center">
               <Mail className="w-12 h-12 text-[#5E5CE6] mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">Email Us</h3>
-              <p className="text-gray-400 mb-4">Get in touch for general inquiries</p>
-              <a href="mailto:hello@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
-                hello@onlyworks.com
+              <h3 className="text-xl font-semibold text-white mb-2">Sales Inquiries</h3>
+              <p className="text-gray-400 mb-4">Questions about pricing or features?</p>
+              <a href="mailto:sales@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
+                sales@onlyworks.com
               </a>
             </div>
             
             <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-8 text-center">
               <MessageSquare className="w-12 h-12 text-[#5E5CE6] mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">Support</h3>
-              <p className="text-gray-400 mb-4">Need help with OnlyWorks?</p>
-              <a href="mailto:support@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
-                support@onlyworks.com
+              <h3 className="text-xl font-semibold text-white mb-2">Enterprise</h3>
+              <p className="text-gray-400 mb-4">Custom solutions for large teams</p>
+              <a href="mailto:enterprise@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
+                enterprise@onlyworks.com
               </a>
             </div>
             
             <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-8 text-center">
               <MapPin className="w-12 h-12 text-[#5E5CE6] mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">Office</h3>
-              <p className="text-gray-400 mb-4">We're fully remote</p>
-              <p className="text-[#5E5CE6]">Worldwide</p>
+              <h3 className="text-xl font-semibold text-white mb-2">Partnership</h3>
+              <p className="text-gray-400 mb-4">Interested in partnering with us?</p>
+              <a href="mailto:partners@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
+                partners@onlyworks.com
+              </a>
             </div>
           </div>
         </div>
@@ -54,7 +56,7 @@ export default function ContactPage() {
       {/* Contact Form */}
       <section className="py-20 px-4 border-t border-gray-800">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white">Send Us a Message</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-white">Schedule Your Demo</h2>
           <form className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               <div>
@@ -85,22 +87,31 @@ export default function ContactPage() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Subject</label>
+              <label className="block text-sm font-medium text-gray-400 mb-2">Company</label>
+              <input
+                type="text"
+                className="w-full px-4 py-3 bg-[#1A1A1A] border border-gray-800 rounded-lg text-white focus:border-[#5E5CE6] focus:outline-none"
+                placeholder="Your company name"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-2">Team Size</label>
               <select className="w-full px-4 py-3 bg-[#1A1A1A] border border-gray-800 rounded-lg text-white focus:border-[#5E5CE6] focus:outline-none">
-                <option>General Inquiry</option>
-                <option>Technical Support</option>
-                <option>Sales</option>
-                <option>Partnerships</option>
-                <option>Other</option>
+                <option>1-10 employees</option>
+                <option>11-50 employees</option>
+                <option>51-200 employees</option>
+                <option>201-1000 employees</option>
+                <option>1000+ employees</option>
               </select>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Message</label>
+              <label className="block text-sm font-medium text-gray-400 mb-2">What would you like to see in the demo?</label>
               <textarea
-                rows={6}
+                rows={4}
                 className="w-full px-4 py-3 bg-[#1A1A1A] border border-gray-800 rounded-lg text-white focus:border-[#5E5CE6] focus:outline-none"
-                placeholder="How can we help you?"
+                placeholder="Tell us about your specific use case or what features you're most interested in..."
               />
             </div>
             
@@ -108,7 +119,7 @@ export default function ContactPage() {
               type="submit"
               className="w-full px-8 py-3 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition font-medium"
             >
-              Send Message
+              Book Demo
             </button>
           </form>
         </div>
