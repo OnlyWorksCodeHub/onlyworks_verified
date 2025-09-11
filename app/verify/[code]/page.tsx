@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { Logo } from '@/components/ui/Logo'
+import { Logo } from '@/components/ui/logo'
 import { CheckCircle, Shield, TrendingUp, Clock, Award, AlertTriangle } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 

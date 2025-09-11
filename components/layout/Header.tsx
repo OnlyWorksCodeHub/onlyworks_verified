@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Logo } from '@/components/ui/Logo'
+import { Logo } from '@/components/ui/logo'
 import { User, Bell, Settings, LogOut, Moon, Sun, Menu, X } from 'lucide-react'
 
 interface HeaderProps {
