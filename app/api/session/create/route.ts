@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     const today = new Date().toISOString().split('T')[0]
     const { data: existingStats } = await supabase
       .from('daily_stats')
-      .select('id')
+      .select('total_sessions')
       .eq('user_id', user.id)
       .eq('date', today)
       .single()
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
       await supabase
         .from('daily_stats')
         .update({
-          total_sessions: supabase.raw('total_sessions + 1')
+          total_sessions: (existingStats.total_sessions || 0) + 1
         })
         .eq('user_id', user.id)
         .eq('date', today)
