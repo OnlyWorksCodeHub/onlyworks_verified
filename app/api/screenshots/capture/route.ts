@@ -77,6 +77,13 @@ export async function POST(request: NextRequest) {
       console.error('Database error:', dbError)
       return NextResponse.json({ error: 'Failed to save screenshot' }, { status: 500 })
     }
+    
+    console.log('Screenshot saved successfully:', {
+      sessionId,
+      screenshotId: screenshotRecord.id,
+      sequenceNumber: metadata.sequenceNumber,
+      trigger
+    })
 
     // Analyze screenshot with GPT-4 Vision
     try {

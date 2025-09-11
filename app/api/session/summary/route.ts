@@ -31,8 +31,14 @@ export async function POST(request: NextRequest) {
       .eq('session_id', sessionId)
       .order('created_at', { ascending: true })
 
+    console.log('Screenshots found:', screenshots?.length || 0)
+    console.log('Analyses found:', analyses?.length || 0)
+    
     if (!screenshots || screenshots.length === 0) {
-      return NextResponse.json({ error: 'No data to analyze' }, { status: 400 })
+      return NextResponse.json({ 
+        error: 'No screenshots found for this session. Make sure you captured some screenshots during the session.',
+        debug: { sessionId, screenshotCount: screenshots?.length || 0 }
+      }, { status: 400 })
     }
 
     // Build session narrative
@@ -43,6 +49,8 @@ export async function POST(request: NextRequest) {
 
     // Generate AI summary
     const aiSummary = await generateAISummary(narrative, metrics)
+    
+    console.log('Generated AI summary:', aiSummary)
 
     // Generate verification hash
     const verificationHash = generateVerificationHash(screenshots)
@@ -182,19 +190,45 @@ async function generateAISummary(narrative: string, metrics: any) {
   } catch (error) {
     console.error('AI summary error:', error)
     
-    // Fallback summary
+    // Enhanced fallback summary
+    const sessionDuration = Math.max(Math.floor(metrics.totalEvents * 0.8), 1)
+    const accomplishments = []
+    
+    if (metrics.clickCount > 10) accomplishments.push('Active engagement with applications')
+    if (metrics.keyCount > 5) accomplishments.push('Text input and data entry')
+    if (metrics.avgProductivity > 60) accomplishments.push('Maintained focus throughout session')
+    if (accomplishments.length === 0) accomplishments.push('Work session completed')
+    
+    const strengths = []
+    if (metrics.avgProductivity > 70) strengths.push('High productivity score maintained')
+    if (metrics.avgFocus > 70) strengths.push('Good focus and concentration')
+    if (metrics.avgAuthenticity > 90) strengths.push('Authentic work patterns detected')
+    if (metrics.suspiciousCount === 0) strengths.push('No automation tools detected')
+    
+    const improvements = []
+    if (metrics.avgProductivity < 50) improvements.push('Consider minimizing distractions')
+    if (metrics.avgFocus < 50) improvements.push('Work on maintaining focus')
+    if (metrics.aiUsageCount > metrics.totalEvents * 0.3) improvements.push('Balance AI tool usage with original work')
+    
     return {
-      narrative: `Completed a ${Math.floor(metrics.totalEvents * 0.5)} minute work session with ${metrics.totalEvents} tracked actions.`,
-      accomplishments: ['Work session completed'],
-      strengths: metrics.avgProductivity > 70 ? ['Good productivity maintained'] : [],
-      improvements: metrics.avgProductivity < 50 ? ['Focus on reducing distractions'] : [],
-      wins: [],
+      narrative: `Completed a ${sessionDuration} minute productive work session with ${metrics.totalEvents} tracked interactions. ${metrics.avgProductivity > 60 ? 'Demonstrated consistent productivity' : 'Opportunities for improved focus identified'}.`,
+      accomplishments,
+      strengths,
+      improvements: improvements.length > 0 ? improvements : ['Continue current work patterns'],
+      wins: metrics.avgProductivity > 80 ? [{
+        time: 'Overall session',
+        description: 'Excellent productivity maintained throughout'
+      }] : [],
       issues: metrics.suspiciousCount > 0 ? [{
         time: 'Session',
         description: 'Automation tools detected',
         suggestion: 'Avoid using automation tools for genuine work verification'
       }] : [],
-      recommendations: ['Take regular breaks', 'Minimize context switching']
+      recommendations: [
+        'Take regular breaks to maintain focus',
+        'Continue current productivity patterns',
+        metrics.avgProductivity < 60 ? 'Consider time-blocking for better focus' : 'Maintain current work rhythm'
+      ]
     }
   }
 }
