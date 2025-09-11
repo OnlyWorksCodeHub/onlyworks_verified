@@ -19,6 +19,7 @@ export function ScreenRecorder({ sessionId, userId, onSessionEnd }: ScreenRecord
   const [lastCapture, setLastCapture] = useState<Date | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
   const sequenceRef = useRef(0)
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
 
   const captureScreenshot = useCallback(async (
     trigger: string, 
@@ -107,6 +108,25 @@ export function ScreenRecorder({ sessionId, userId, onSessionEnd }: ScreenRecord
     return detected
   }
 
+  const startTimerCapture = () => {
+    timerRef.current = setInterval(async () => {
+      if (isRecording && !isPaused) {
+        const timeSinceLastCapture = lastCapture ? Date.now() - lastCapture.getTime() : Infinity
+        // Only capture if no recent event-based capture (avoid duplicates)
+        if (timeSinceLastCapture > 8000) {
+          await captureScreenshot('timer_periodic')
+        }
+      }
+    }, 10000) // Every 10 seconds
+  }
+
+  const stopTimerCapture = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current)
+      timerRef.current = null
+    }
+  }
+
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getDisplayMedia({ 
@@ -124,13 +144,18 @@ export function ScreenRecorder({ sessionId, userId, onSessionEnd }: ScreenRecord
       // Initial capture
       await captureScreenshot('session_start')
       
-      toast.success('Recording started - tracking all actions')
+      // Start timer-based capture for when working outside browser
+      startTimerCapture()
+      
+      toast.success('Recording started - tracking browser events + periodic captures')
     } catch (error) {
       toast.error('Failed to start recording. Please allow screen sharing.')
     }
   }
 
   const stopRecording = async () => {
+    stopTimerCapture()
+    
     if (streamRef.current) {
       streamRef.current.getTracks().forEach(track => track.stop())
       streamRef.current = null
@@ -154,6 +179,26 @@ export function ScreenRecorder({ sessionId, userId, onSessionEnd }: ScreenRecord
       onSessionEnd?.()
     }
   }
+
+  const manualCapture = async () => {
+    await captureScreenshot('manual_trigger')
+    toast.success('Screenshot captured!')
+  }
+
+  // Cleanup timer on unmount or when recording stops
+  useEffect(() => {
+    return () => {
+      stopTimerCapture()
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isPaused) {
+      stopTimerCapture()
+    } else if (isRecording) {
+      startTimerCapture()
+    }
+  }, [isPaused, isRecording])
 
   const togglePause = () => {
     setIsPaused(!isPaused)
@@ -192,11 +237,7 @@ export function ScreenRecorder({ sessionId, userId, onSessionEnd }: ScreenRecord
       ) : (
         <div className="space-y-4">
           {/* Recording stats */}
-          <div className="grid grid-cols-3 gap-4">
-            <div>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{captureCount}</p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Screenshots</p>
-            </div>
+          <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-2xl font-bold text-gray-900 dark:text-white">
                 {lastCapture ? new Date().getTime() - lastCapture.getTime() < 5000 ? 'Active' : 'Idle' : '-'}
@@ -232,26 +273,36 @@ export function ScreenRecorder({ sessionId, userId, onSessionEnd }: ScreenRecord
           <EventTracker onCapture={captureScreenshot} isActive={isRecording && !isPaused} />
 
           {/* Controls */}
-          <div className="flex space-x-3">
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={manualCapture}
+              disabled={isPaused}
+              className="btn-clean btn-primary-clean flex items-center"
+            >
+              <Camera className="w-4 h-4 mr-2" />
+              Capture Now
+            </button>
             <button
               onClick={togglePause}
               className="btn-clean bg-yellow-500 hover:bg-yellow-600 text-white flex items-center"
             >
-              {isPaused ? <Play className="w-5 h-5 mr-2" /> : <Pause className="w-5 h-5 mr-2" />}
+              {isPaused ? <Play className="w-4 h-4 mr-2" /> : <Pause className="w-4 h-4 mr-2" />}
               {isPaused ? 'Resume' : 'Pause'}
             </button>
             <button
               onClick={stopRecording}
               className="btn-clean bg-red-600 hover:bg-red-700 text-white flex items-center"
             >
-              <Square className="w-5 h-5 mr-2" />
+              <Square className="w-4 h-4 mr-2" />
               Stop & Generate Report
             </button>
           </div>
 
           {/* Info */}
-          <div className="text-xs text-gray-500 dark:text-gray-400">
-            <p>• Screenshots captured on: clicks, spacebar, enter key</p>
+          <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
+            <p>• Screenshots captured on: browser clicks, spacebar, enter key</p>
+            <p>• Automatic captures every 10 seconds (when working outside browser)</p>
+            <p>• Use "Capture Now" for manual screenshots anytime</p>
             <p>• Mouse position tracked for all clicks</p>
             <p>• Background apps monitored for automation</p>
           </div>
