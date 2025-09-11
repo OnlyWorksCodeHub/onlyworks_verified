@@ -13,14 +13,13 @@ export const metadata: Metadata = {
   title: 'OnlyWorks - Productivity Verification Platform',
   description: 'Prove your work is real, efficient, and authentic with AI-powered verification',
   icons: {
-    icon: '/favicon.png',
-    shortcut: '/favicon.png',
-    apple: '/favicon.png',
-  },
-  openGraph: {
-    title: 'OnlyWorks - Productivity Verification Platform',
-    description: 'Prove your work is real, efficient, and authentic with AI-powered verification',
-    images: ['/favicon.png'], // You should create a proper og-image.png (1200x630px) for better social sharing
+    icon: [
+      { url: '/favicon.png', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
   },
 }
 export default function RootLayout({
