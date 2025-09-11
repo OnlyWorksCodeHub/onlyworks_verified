@@ -82,7 +82,7 @@ export default function DashboardPage() {
   const calculateStreak = (sessions: any[]) => {
     if (!sessions.length) return 0
     const dates = sessions.map(s => new Date(s.created_at).toDateString())
-    const uniqueDates = [...new Set(dates)]
+    const uniqueDates = Array.from(new Set(dates))
     return uniqueDates.length
   }
 

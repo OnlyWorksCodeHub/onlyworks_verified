@@ -27,8 +27,8 @@ export default function ContactPage() {
               <Mail className="w-12 h-12 text-[#5E5CE6] mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-white mb-2">Sales Inquiries</h3>
               <p className="text-gray-400 mb-4">Questions about pricing or features?</p>
-              <a href="mailto:sales@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
-                sales@onlyworks.com
+              <a href="mailto:admin@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
+                admin@onlyworks.com
               </a>
             </div>
             
@@ -36,8 +36,8 @@ export default function ContactPage() {
               <MessageSquare className="w-12 h-12 text-[#5E5CE6] mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-white mb-2">Enterprise</h3>
               <p className="text-gray-400 mb-4">Custom solutions for large teams</p>
-              <a href="mailto:enterprise@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
-                enterprise@onlyworks.com
+              <a href="mailto:admin@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
+                admin@onlyworks.com
               </a>
             </div>
             
@@ -45,8 +45,8 @@ export default function ContactPage() {
               <MapPin className="w-12 h-12 text-[#5E5CE6] mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-white mb-2">Partnership</h3>
               <p className="text-gray-400 mb-4">Interested in partnering with us?</p>
-              <a href="mailto:partners@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
-                partners@onlyworks.com
+              <a href="mailto:admin@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
+                admin@onlyworks.com
               </a>
             </div>
           </div>
