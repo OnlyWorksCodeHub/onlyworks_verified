@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
 
     // Generate summary if there are analyses
     if (analyses && analyses.length > 0) {
-      await generateSessionSummary(sessionId, analyses, screenshots, user.id)
+      await generateSessionSummary(sessionId, analyses, screenshots || [], user.id)
     }
 
     return NextResponse.json({ 
