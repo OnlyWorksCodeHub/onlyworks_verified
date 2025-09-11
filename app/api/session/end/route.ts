@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       Math.floor((new Date(endTime).getTime() - new Date(startTime).getTime()) / 1000) : 0
 
     // Generate smart session name based on work done
-    const sessionName = generateSessionName(analyses)
+    const sessionName = generateSessionName(analyses || [])
 
     // Update session with proper name and status
     const { error: updateError } = await supabase
