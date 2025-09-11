@@ -1,145 +1,131 @@
-'use client'
-
 import Link from 'next/link'
-import { Logo } from '@/components/ui/logo'
-import { useTheme } from '@/lib/contexts/theme-context'
-import { Sun, Moon, Users, BarChart3, Shield, Zap } from 'lucide-react'
+import { Navigation } from '@/components/layout/Navigation'
+import { Footer } from '@/components/layout/Footer'
+import { ArrowRight, Users, Shield, BarChart3, Zap } from 'lucide-react'
 
 export default function TeamsPage() {
-  const { theme, toggleTheme } = useTheme()
-
   return (
-    <div className="min-h-screen bg-white dark:bg-dark-bg">
-      <nav className="fixed top-0 w-full bg-white/95 dark:bg-dark-bg/95 backdrop-blur-sm z-50 border-b border-gray-200 dark:border-dark-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center space-x-2">
-              <Logo size={28} />
-              <span className="text-lg font-semibold tracking-tight text-gray-900 dark:text-gray-100">OnlyWorks</span>
+    <div className="min-h-screen bg-[#0A0A0A]">
+      <Navigation />
+
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            Built for Teams That
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5E5CE6] to-[#9F9FFF]">
+              {' '}Ship Real Work
+            </span>
+          </h1>
+          <p className="text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
+            Ensure every team member's work is genuine and efficient. Get team-wide insights, 
+            detect automation, and create verifiable reports for clients.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/auth/register" className="px-8 py-3 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition">
+              Start Team Trial
+              <ArrowRight className="inline-block ml-2 w-5 h-5" />
             </Link>
-            <div className="flex items-center space-x-8">
-              <Link href="/#features" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light font-medium transition">
-                Features
-              </Link>
-              <Link href="/pricing" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light font-medium transition">
-                Pricing
-              </Link>
-              <Link href="/about" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light font-medium transition">
-                About
-              </Link>
-              <div className="w-px h-5 bg-gray-300 dark:bg-gray-700"></div>
-              
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                aria-label="Toggle dark mode"
-              >
-                {theme === 'dark' ? (
-                  <Sun className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                ) : (
-                  <Moon className="w-5 h-5 text-gray-600" />
-                )}
-              </button>
-              
-              <Link href="/login" className="btn-clean btn-primary-clean">
-                Get Started
-              </Link>
-            </div>
+            <Link href="/contact" className="px-8 py-3 border border-gray-700 text-white rounded-lg hover:bg-gray-900 transition">
+              Contact Sales
+            </Link>
           </div>
         </div>
-      </nav>
+      </section>
 
-      <section className="pt-32 pb-20 px-4">
+      {/* Features Grid */}
+      <section className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold tracking-tighter mb-4 text-gray-900 dark:text-gray-100">
-              OnlyWorks for Teams
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Empower your entire team with productivity insights and collaborative tools
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 mb-16">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">
-                Built for Modern Teams
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Whether you're a startup or enterprise, OnlyWorks Teams provides the insights 
-                and tools you need to optimize team productivity and collaboration.
+          <h2 className="text-3xl font-bold text-center mb-12 text-white">Team Features</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <Users className="w-12 h-12 text-[#5E5CE6] mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">Team Dashboard</h3>
+              <p className="text-gray-400">
+                See all team members' productivity in one place. Track who's working on what.
               </p>
-              <ul className="space-y-4">
-                <li className="flex items-start">
-                  <Users className="w-6 h-6 text-primary mr-3 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">Team Dashboard</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      See aggregated insights while respecting individual privacy
-                    </p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <BarChart3 className="w-6 h-6 text-primary mr-3 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">Department Analytics</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Compare productivity across teams and departments
-                    </p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <Shield className="w-6 h-6 text-primary mr-3 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">Privacy Controls</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Granular controls over what data is shared with managers
-                    </p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <Zap className="w-6 h-6 text-primary mr-3 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-gray-100">Integrations</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Connect with Slack, Teams, Jira, and more
-                    </p>
-                  </div>
-                </li>
-              </ul>
             </div>
-            
-            <div className="bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/20 rounded-sm p-8 flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-6xl mb-4">👥</div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                  Team Collaboration
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Share insights and improve together
-                </p>
-              </div>
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <Shield className="w-12 h-12 text-[#5E5CE6] mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">Fraud Prevention</h3>
+              <p className="text-gray-400">
+                Detect outsourcing, automation tools, and suspicious patterns across your team.
+              </p>
             </div>
-          </div>
-
-          <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-sm p-8 text-center">
-            <h2 className="text-3xl font-bold text-purple-900 dark:text-purple-300 mb-4">
-              Ready to transform your team's productivity?
-            </h2>
-            <p className="text-purple-800 dark:text-purple-300 mb-6">
-              Join hundreds of teams already using OnlyWorks
-            </p>
-            <div className="flex items-center justify-center gap-4">
-              <Link href="/pricing" className="btn-clean btn-primary-clean">
-                View Team Pricing
-              </Link>
-              <a href="mailto:sales@only-works.com" className="btn-clean btn-secondary-clean">
-                Contact Sales
-              </a>
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <BarChart3 className="w-12 h-12 text-[#5E5CE6] mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">Team Analytics</h3>
+              <p className="text-gray-400">
+                Compare productivity, identify top performers, and optimize team workflows.
+              </p>
+            </div>
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <Zap className="w-12 h-12 text-[#5E5CE6] mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">Client Reports</h3>
+              <p className="text-gray-400">
+                Generate verified team reports to prove deliverables and billable hours.
+              </p>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Use Cases */}
+      <section className="py-20 px-4 border-t border-gray-800">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12 text-white">Perfect For</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-white mb-3">Agencies</h3>
+              <p className="text-gray-400 mb-4">
+                Prove to clients that their projects are being worked on by real professionals, not outsourced or automated.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-500">
+                <li>• Client transparency</li>
+                <li>• Billable hour verification</li>
+                <li>• Project accountability</li>
+              </ul>
+            </div>
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-white mb-3">Remote Teams</h3>
+              <p className="text-gray-400 mb-4">
+                Build trust in distributed teams. Know everyone is contributing their fair share.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-500">
+                <li>• Remote work verification</li>
+                <li>• Team productivity insights</li>
+                <li>• Performance tracking</li>
+              </ul>
+            </div>
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <h3 className="text-xl font-semibold text-white mb-3">Startups</h3>
+              <p className="text-gray-400 mb-4">
+                Ensure your limited resources are being used efficiently. Identify and fix productivity issues fast.
+              </p>
+              <ul className="space-y-2 text-sm text-gray-500">
+                <li>• Resource optimization</li>
+                <li>• Early issue detection</li>
+                <li>• Growth insights</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Preview */}
+      <section className="py-20 px-4 border-t border-gray-800">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4 text-white">Simple Team Pricing</h2>
+          <p className="text-xl text-gray-400 mb-8">
+            $29 per user per month. Volume discounts available.
+          </p>
+          <Link href="/pricing" className="px-8 py-3 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition">
+            View Full Pricing
+          </Link>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   )
 }

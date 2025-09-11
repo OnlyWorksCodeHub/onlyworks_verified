@@ -1,119 +1,125 @@
-'use client'
-
+import { Navigation } from '@/components/layout/Navigation'
+import { Footer } from '@/components/layout/Footer'
 import Link from 'next/link'
-import { Logo } from '@/components/ui/logo'
-import { useTheme } from '@/lib/contexts/theme-context'
-import { Sun, Moon, MapPin, Clock, DollarSign } from 'lucide-react'
+import { ArrowRight, MapPin, Clock, Briefcase } from 'lucide-react'
 
 export default function CareersPage() {
-  const { theme, toggleTheme } = useTheme()
-
   const openings = [
     {
       title: 'Senior Full Stack Engineer',
       department: 'Engineering',
       location: 'Remote',
       type: 'Full-time',
-      salary: '$120k - $180k',
-      description: 'Build and scale our AI-powered productivity platform using Next.js, TypeScript, and Supabase.',
+      description: 'Build the future of productivity verification technology with our core engineering team.'
     },
     {
       title: 'Machine Learning Engineer',
       department: 'AI/ML',
-      location: 'Remote / SF',
+      location: 'Remote',
       type: 'Full-time',
-      salary: '$140k - $200k',
-      description: 'Improve our computer vision models and productivity analysis algorithms.',
+      description: 'Develop AI models to detect patterns and analyze productivity metrics.'
     },
     {
       title: 'Product Designer',
       department: 'Design',
       location: 'Remote',
       type: 'Full-time',
-      salary: '$100k - $150k',
-      description: 'Design intuitive interfaces that help users understand and improve their productivity.',
+      description: 'Create intuitive experiences for productivity tracking and reporting.'
     },
+    {
+      title: 'Customer Success Manager',
+      department: 'Support',
+      location: 'Remote',
+      type: 'Full-time',
+      description: 'Help customers maximize their productivity with OnlyWorks.'
+    },
+    {
+      title: 'DevOps Engineer',
+      department: 'Engineering',
+      location: 'Remote',
+      type: 'Full-time',
+      description: 'Maintain and scale our infrastructure to support millions of work sessions.'
+    },
+    {
+      title: 'Content Marketing Manager',
+      department: 'Marketing',
+      location: 'Remote',
+      type: 'Full-time',
+      description: 'Tell the OnlyWorks story and educate the market about productivity verification.'
+    }
   ]
 
   return (
-    <div className="min-h-screen bg-white dark:bg-dark-bg">
-      <nav className="fixed top-0 w-full bg-white/95 dark:bg-dark-bg/95 backdrop-blur-sm z-50 border-b border-gray-200 dark:border-dark-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center space-x-2">
-              <Logo size={28} />
-              <span className="text-lg font-semibold tracking-tight text-gray-900 dark:text-gray-100">OnlyWorks</span>
-            </Link>
-            <div className="flex items-center space-x-8">
-              <Link href="/#features" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light font-medium transition">
-                Features
-              </Link>
-              <Link href="/pricing" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light font-medium transition">
-                Pricing
-              </Link>
-              <Link href="/about" className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-light font-medium transition">
-                About
-              </Link>
-              <div className="w-px h-5 bg-gray-300 dark:bg-gray-700"></div>
-              
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                aria-label="Toggle dark mode"
-              >
-                {theme === 'dark' ? (
-                  <Sun className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                ) : (
-                  <Moon className="w-5 h-5 text-gray-600" />
-                )}
-              </button>
-              
-              <Link href="/login" className="btn-clean btn-primary-clean">
-                Get Started
-              </Link>
+    <div className="min-h-screen bg-[#0A0A0A]">
+      <Navigation />
+
+      {/* Hero */}
+      <section className="pt-32 pb-20 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            Join Our Mission to
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5E5CE6] to-[#9F9FFF]">
+              {' '}Redefine Work
+            </span>
+          </h1>
+          <p className="text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
+            We're building the future of productivity verification. Join us in creating tools that help millions prove their work is real.
+          </p>
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="py-20 px-4 border-t border-gray-800">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12 text-white">Why Work Here</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#5E5CE6]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl">🚀</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-white">Growth</h3>
+              <p className="text-gray-400">
+                Fast-paced environment where you'll learn and grow every day.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#5E5CE6]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl">🌍</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-white">Remote First</h3>
+              <p className="text-gray-400">
+                Work from anywhere. We trust you to manage your own productivity.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#5E5CE6]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl">💎</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-white">Impact</h3>
+              <p className="text-gray-400">
+                Your work directly impacts how millions prove their productivity.
+              </p>
             </div>
           </div>
         </div>
-      </nav>
+      </section>
 
-      <section className="pt-32 pb-20 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h1 className="text-5xl font-bold tracking-tighter mb-4 text-gray-900 dark:text-gray-100">
-            Join Our Team
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 mb-12">
-            Help us build the future of productivity tracking
-          </p>
-
-          <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-sm p-6 mb-12">
-            <h2 className="text-2xl font-bold text-purple-900 dark:text-purple-300 mb-4">Why OnlyWorks?</h2>
-            <div className="grid md:grid-cols-3 gap-6 text-purple-800 dark:text-purple-300">
-              <div>
-                <h3 className="font-semibold mb-2">🚀 Impact</h3>
-                <p className="text-sm">Help millions improve their productivity and work-life balance</p>
-              </div>
-              <div>
-                <h3 className="font-semibold mb-2">🌍 Remote First</h3>
-                <p className="text-sm">Work from anywhere with flexible hours</p>
-              </div>
-              <div>
-                <h3 className="font-semibold mb-2">💰 Competitive</h3>
-                <p className="text-sm">Top-tier compensation and equity packages</p>
-              </div>
-            </div>
-          </div>
-
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Open Positions</h2>
-          
+      {/* Open Positions */}
+      <section className="py-20 px-4 border-t border-gray-800">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12 text-white">Open Positions</h2>
           <div className="space-y-6">
-            {openings.map((job) => (
-              <div key={job.title} className="bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-border rounded-sm p-6 hover:border-primary transition-colors">
-                <div className="flex items-start justify-between mb-4">
+            {openings.map((job, index) => (
+              <div key={index} className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6 hover:border-[#5E5CE6] transition">
+                <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                      {job.title}
-                    </h3>
-                    <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+                    <h3 className="text-xl font-semibold text-white mb-2">{job.title}</h3>
+                    <p className="text-gray-400 mb-4">{job.description}</p>
+                    <div className="flex items-center space-x-4 text-sm text-gray-500">
+                      <span className="flex items-center">
+                        <Briefcase className="w-4 h-4 mr-1" />
+                        {job.department}
+                      </span>
                       <span className="flex items-center">
                         <MapPin className="w-4 h-4 mr-1" />
                         {job.location}
@@ -122,30 +128,72 @@ export default function CareersPage() {
                         <Clock className="w-4 h-4 mr-1" />
                         {job.type}
                       </span>
-                      <span className="flex items-center">
-                        <DollarSign className="w-4 h-4 mr-1" />
-                        {job.salary}
-                      </span>
                     </div>
                   </div>
-                  <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 text-sm rounded-sm">
-                    {job.department}
-                  </span>
+                  <Link href={`mailto:careers@onlyworks.com?subject=Application for ${job.title}`} className="px-4 py-2 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition">
+                    Apply
+                  </Link>
                 </div>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  {job.description}
-                </p>
-                
-                <a href={`mailto:admin@only-works.com?subject=Application: ${job.title}`}
-                  className="inline-block px-4 py-2 bg-primary text-white rounded-sm hover:bg-primary-dark transition"
-                >
-                  Apply Now
-                </a>
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Benefits */}
+      <section className="py-20 px-4 border-t border-gray-800">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-12 text-white">Benefits & Perks</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <span className="text-2xl mb-3 block">💰</span>
+              <h3 className="text-lg font-semibold text-white mb-2">Competitive Salary</h3>
+              <p className="text-gray-400 text-sm">Top of market compensation with equity</p>
+            </div>
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <span className="text-2xl mb-3 block">🏥</span>
+              <h3 className="text-lg font-semibold text-white mb-2">Health Coverage</h3>
+              <p className="text-gray-400 text-sm">100% covered health, dental, and vision</p>
+            </div>
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <span className="text-2xl mb-3 block">🌴</span>
+              <h3 className="text-lg font-semibold text-white mb-2">Unlimited PTO</h3>
+              <p className="text-gray-400 text-sm">Take time when you need it</p>
+            </div>
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <span className="text-2xl mb-3 block">💻</span>
+              <h3 className="text-lg font-semibold text-white mb-2">Equipment Budget</h3>
+              <p className="text-gray-400 text-sm">$3,000 for your home office setup</p>
+            </div>
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <span className="text-2xl mb-3 block">📚</span>
+              <h3 className="text-lg font-semibold text-white mb-2">Learning Budget</h3>
+              <p className="text-gray-400 text-sm">$1,500/year for courses and conferences</p>
+            </div>
+            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
+              <span className="text-2xl mb-3 block">✈️</span>
+              <h3 className="text-lg font-semibold text-white mb-2">Team Retreats</h3>
+              <p className="text-gray-400 text-sm">Quarterly in-person meetups</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 px-4 border-t border-gray-800">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4 text-white">Don't See Your Role?</h2>
+          <p className="text-xl text-gray-400 mb-8">
+            We're always looking for talented people. Send us your resume.
+          </p>
+          <Link href="mailto:careers@onlyworks.com" className="px-8 py-3 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition font-medium">
+            Get in Touch
+            <ArrowRight className="inline-block ml-2 w-5 h-5" />
+          </Link>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   )
 }
