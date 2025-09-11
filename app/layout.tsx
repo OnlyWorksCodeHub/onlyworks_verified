@@ -12,8 +12,17 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'OnlyWorks - Productivity Verification Platform',
   description: 'Prove your work is real, efficient, and authentic with AI-powered verification',
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
+  openGraph: {
+    title: 'OnlyWorks - Productivity Verification Platform',
+    description: 'Prove your work is real, efficient, and authentic with AI-powered verification',
+    images: ['/favicon.png'], // You should create a proper og-image.png (1200x630px) for better social sharing
+  },
 }
-
 export default function RootLayout({
   children,
 }: {
