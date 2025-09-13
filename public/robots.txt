@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://onlyworks.com/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Block specific paths (add if needed)
+# Disallow: /admin/
+# Disallow: /private/
