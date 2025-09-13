@@ -9,21 +9,21 @@ export default function ContactPage() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-10">
               <Link href="/" className="flex items-center space-x-2">
                 <Logo size={32} />
-                <span className="text-xl font-semibold text-gray-900">OnlyWorks</span>
+                <span className="text-2xl font-semibold text-gray-900">OnlyWorks</span>
               </Link>
               <div className="hidden md:flex items-center space-x-6">
-                <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-sm">Pricing</Link>
-                <Link href="/careers" className="text-gray-600 hover:text-gray-900 text-sm">Careers</Link>
-                <Link href="/updates" className="text-gray-600 hover:text-gray-900 text-sm">Updates</Link>
-                <Link href="/contact" className="text-primary hover:text-primary-dark text-sm font-medium">Contact</Link>
+                <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-base">Pricing</Link>
+                <Link href="/careers" className="text-gray-600 hover:text-gray-900 text-base">Careers</Link>
+                <Link href="/updates" className="text-gray-600 hover:text-gray-900 text-base">Updates</Link>
+                <Link href="/contact" className="text-primary hover:text-primary-dark text-base font-medium">Contact</Link>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm">
+              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-base">
                 Get started
               </Link>
             </div>
@@ -34,7 +34,7 @@ export default function ContactPage() {
       {/* Hero */}
       <section className="pt-32 pb-16 px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-semibold text-gray-900 mb-6">
+          <h1 className="text-7xl md:text-8xl font-semibold text-gray-900 mb-6">
             Book a Demo
           </h1>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
@@ -49,7 +49,7 @@ export default function ContactPage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
               <Mail className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Sales Inquiries</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Sales Inquiries</h3>
               <p className="text-gray-600 mb-4">Questions about pricing or features?</p>
               <a href="mailto:admin@only-works.com" className="text-primary hover:text-primary-dark">
                 admin@only-works.com
@@ -58,7 +58,7 @@ export default function ContactPage() {
 
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
               <MessageSquare className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Enterprise</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Enterprise</h3>
               <p className="text-gray-600 mb-4">Custom solutions for large teams</p>
               <a href="mailto:admin@only-works.com" className="text-primary hover:text-primary-dark">
                 admin@only-works.com
@@ -67,7 +67,7 @@ export default function ContactPage() {
 
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
               <MapPin className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Partnership</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Partnership</h3>
               <p className="text-gray-600 mb-4">Interested in partnering with us?</p>
               <a href="mailto:admin@only-works.com" className="text-primary hover:text-primary-dark">
                 admin@only-works.com
@@ -129,6 +129,7 @@ export default function ContactPage() {
                 <option>1000+ employees</option>
               </select>
             </div>
+
 
             <div>
               <label className="block text-sm font-medium text-gray-900 mb-2">What would you like to see in the demo?</label>

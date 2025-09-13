@@ -1,8 +1,43 @@
+'use client'
+
 import Link from 'next/link'
 import { Logo } from '@/components/ui/logo'
 import { Footer } from '@/components/layout/Footer'
+import { useState } from 'react'
 
 export default function UpdatesPage() {
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+
+  const handleNewsletterSignup = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setMessage('')
+
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setMessage('Thanks for joining! We\'ll keep you updated.')
+        setEmail('')
+      } else {
+        setMessage(data.error || 'Something went wrong. Please try again.')
+      }
+    } catch (error) {
+      setMessage('Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
   const updates = [
     {
       date: "January 15, 2025",
@@ -80,22 +115,22 @@ export default function UpdatesPage() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-10">
               <Link href="/" className="flex items-center space-x-2">
                 <Logo size={32} />
-                <span className="text-xl font-semibold text-gray-900">OnlyWorks</span>
+                <span className="text-2xl font-semibold text-gray-900">OnlyWorks</span>
               </Link>
               <div className="hidden md:flex items-center space-x-6">
-                <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-sm">Pricing</Link>
-                <Link href="/careers" className="text-gray-600 hover:text-gray-900 text-sm">Careers</Link>
-                <Link href="/updates" className="text-primary hover:text-primary-dark text-sm font-medium">Updates</Link>
-                <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-sm">Contact</Link>
+                <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-base">Pricing</Link>
+                <Link href="/careers" className="text-gray-600 hover:text-gray-900 text-base">Careers</Link>
+                <Link href="/updates" className="text-primary hover:text-primary-dark text-base font-medium">Updates</Link>
+                <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-base">Contact</Link>
               </div>
             </div>
             <div className="flex items-center space-x-4">
 
-              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm">
+              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-base">
                 Get started
               </Link>
             </div>
@@ -106,7 +141,7 @@ export default function UpdatesPage() {
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-semibold text-gray-900 mb-6">
+          <h1 className="text-7xl md:text-8xl font-semibold text-gray-900 mb-6">
             Product Updates & <span className="text-primary">Insights</span>
           </h1>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
@@ -131,7 +166,7 @@ export default function UpdatesPage() {
 
                 <div className="bg-gray-100 rounded-xl aspect-video mb-6 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="w-16 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
                       <svg className="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                       </svg>
@@ -182,16 +217,31 @@ export default function UpdatesPage() {
           <p className="text-lg text-gray-600 mb-8">
             Get notified about new features, improvements, and insights delivered to your inbox.
           </p>
-          <div className="flex items-center justify-center max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            />
-            <button className="px-6 py-2.5 bg-primary text-white rounded-r-md hover:bg-primary-dark transition-colors">
-              Subscribe
-            </button>
-          </div>
+          <form onSubmit={handleNewsletterSignup} className="max-w-md mx-auto">
+            <div className="flex items-center justify-center">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                required
+                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                disabled={loading}
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-6 py-2.5 bg-primary text-white rounded-r-md hover:bg-primary-dark transition-colors disabled:opacity-50"
+              >
+                {loading ? 'Subscribing...' : 'Subscribe'}
+              </button>
+            </div>
+            {message && (
+              <p className="mt-3 text-sm text-center text-gray-600">
+                {message}
+              </p>
+            )}
+          </form>
         </div>
       </section>
 

@@ -79,21 +79,21 @@ export default function CareersPage() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-10">
               <Link href="/" className="flex items-center space-x-2">
                 <Logo size={32} />
-                <span className="text-xl font-semibold text-gray-900">OnlyWorks</span>
+                <span className="text-2xl font-semibold text-gray-900">OnlyWorks</span>
               </Link>
               <div className="hidden md:flex items-center space-x-6">
-                <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-sm">Pricing</Link>
-                <Link href="/careers" className="text-primary hover:text-primary-dark text-sm font-medium">Careers</Link>
-                <Link href="/updates" className="text-gray-600 hover:text-gray-900 text-sm">Updates</Link>
-                <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-sm">Contact</Link>
+                <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-base">Pricing</Link>
+                <Link href="/careers" className="text-primary hover:text-primary-dark text-base font-medium">Careers</Link>
+                <Link href="/updates" className="text-gray-600 hover:text-gray-900 text-base">Updates</Link>
+                <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-base">Contact</Link>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm">
+              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-base">
                 Get started
               </Link>
             </div>
@@ -104,7 +104,7 @@ export default function CareersPage() {
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-semibold text-gray-900 mb-6">
+          <h1 className="text-7xl md:text-8xl font-semibold text-gray-900 mb-6">
             Join us in making work <span className="text-primary">undeniable</span>
           </h1>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
@@ -126,7 +126,7 @@ export default function CareersPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, index) => (
               <div key={index} className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{value.title}</h3>
+                <h3 className="text-2xl font-semibold text-gray-900 mb-3">{value.title}</h3>
                 <p className="text-gray-600">{value.description}</p>
               </div>
             ))}
@@ -169,7 +169,7 @@ export default function CareersPage() {
               <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-1">{job.title}</h3>
+                    <h3 className="text-2xl font-semibold text-gray-900 mb-1">{job.title}</h3>
                     <div className="flex items-center space-x-4 text-sm text-gray-600">
                       <span>{job.department}</span>
                       <span>•</span>
@@ -189,7 +189,7 @@ export default function CareersPage() {
             ))}
           </div>
           <div className="bg-primary/10 border border-primary/20 rounded-lg p-8 mt-8 text-center">
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">Don't see a role that fits?</h3>
+            <h3 className="text-2xl font-semibold text-gray-900 mb-3">Don't see a role that fits?</h3>
             <p className="text-gray-700 mb-6">We're always looking for exceptional talent to join our mission of making work undeniable.</p>
             <Link href="/contact" className="px-8 py-3 bg-primary text-white rounded-md hover:bg-primary-dark transition font-medium">
               Get in Touch
@@ -209,19 +209,19 @@ export default function CareersPage() {
           </p>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Collaborative</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Collaborative</h3>
               <p className="text-gray-600">
                 We believe the best ideas come from diverse perspectives working together toward a common goal.
               </p>
             </div>
             <div className="text-center">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Purpose-Driven</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Purpose-Driven</h3>
               <p className="text-gray-600">
                 Every line of code, every design decision, and every strategy serves our mission of authentic work verification.
               </p>
             </div>
             <div className="text-center">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Growth-Minded</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Growth-Minded</h3>
               <p className="text-gray-600">
                 We invest in continuous learning and celebrate both individual growth and team achievements.
               </p>

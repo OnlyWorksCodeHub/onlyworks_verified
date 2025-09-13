@@ -53,21 +53,21 @@ export default function HomePage() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-10">
               <Link href="/" className="flex items-center space-x-2">
                 <Logo size={32} />
-                <span className="text-xl font-semibold text-gray-900">OnlyWorks</span>
+                <span className="text-2xl font-semibold text-gray-900">OnlyWorks</span>
               </Link>
               <div className="hidden md:flex items-center space-x-6">
-                <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-sm">Pricing</Link>
-                <Link href="/careers" className="text-gray-600 hover:text-gray-900 text-sm">Careers</Link>
-                <Link href="/updates" className="text-gray-600 hover:text-gray-900 text-sm">Updates</Link>
-                <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-sm">Contact</Link>
+                <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-base">Pricing</Link>
+                <Link href="/careers" className="text-gray-600 hover:text-gray-900 text-base">Careers</Link>
+                <Link href="/updates" className="text-gray-600 hover:text-gray-900 text-base">Updates</Link>
+                <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-base">Contact</Link>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm">
+              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-base">
                 Get started
               </Link>
             </div>
@@ -78,8 +78,8 @@ export default function HomePage() {
       {/* Hero */}
       <section className="pt-32 pb-16 px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-semibold text-gray-900 mb-6">
-          AI Platform built for professionals and specialists. 
+          <h1 className="text-7xl md:text-8xl font-semibold text-gray-900 mb-6 leading-loose">
+          An AI platform built for<br />professionals and specialists.
           </h1>
           <br></br>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
@@ -139,53 +139,53 @@ export default function HomePage() {
       <section className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-semibold text-gray-900 mb-3">
+            <h2 className="text-4xl font-semibold text-gray-900 mb-4">
               Everything you need
             </h2>
-            <p className="text-gray-600">
+            <p className="text-lg text-gray-600">
               Complete work verification in one platform.
             </p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-x-8 gap-y-10">
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Real-time tracking</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <h3 className="text-xl font-medium text-gray-900 mb-3">Real-time tracking</h3>
+              <p className="text-gray-600 text-base leading-relaxed">
                 Capture screenshots on every click and keystroke. Monitor productivity patterns in real-time.
               </p>
             </div>
             
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">AI analysis</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <h3 className="text-xl font-medium text-gray-900 mb-3">AI analysis</h3>
+              <p className="text-gray-600 text-base leading-relaxed">
                 Advanced AI detects automation tools and analyzes work quality and efficiency.
               </p>
             </div>
             
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Verified reports</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <h3 className="text-xl font-medium text-gray-900 mb-3">Verified reports</h3>
+              <p className="text-gray-600 text-base leading-relaxed">
                 Generate tamper-proof reports with public verification codes anyone can authenticate.
               </p>
             </div>
             
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Team insights</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <h3 className="text-xl font-medium text-gray-900 mb-3">Team insights</h3>
+              <p className="text-gray-600 text-base leading-relaxed">
                 Monitor team productivity and ensure quality across all projects and clients.
               </p>
             </div>
             
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Privacy focused</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <h3 className="text-xl font-medium text-gray-900 mb-3">Privacy focused</h3>
+              <p className="text-gray-600 text-base leading-relaxed">
                 Your data is encrypted and never shared. You control what gets reported.
               </p>
             </div>
             
             <div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Integrations</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <h3 className="text-xl font-medium text-gray-900 mb-3">Integrations</h3>
+              <p className="text-gray-600 text-base leading-relaxed">
                 Connect with your existing tools. Export data to any platform via API.
               </p>
             </div>
@@ -197,10 +197,10 @@ export default function HomePage() {
       <section className="py-16 px-6 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-semibold text-gray-900 mb-3">
+            <h2 className="text-4xl font-semibold text-gray-900 mb-4">
               Built for every industry
             </h2>
-            <p className="text-gray-600">
+            <p className="text-lg text-gray-600">
               See how OnlyWorks transforms work verification across different sectors
             </p>
           </div>
@@ -323,7 +323,7 @@ export default function HomePage() {
             <div className="bg-white rounded-xl p-8 shadow-sm">
               <div className="bg-gray-100 rounded-lg aspect-video flex items-center justify-center">
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg className="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
@@ -349,7 +349,7 @@ export default function HomePage() {
           
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white border border-gray-200 rounded-lg p-8 text-center hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">1. Start Recording</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">1. Start Recording</h3>
               <p className="text-gray-600 leading-relaxed">
                 Launch OnlyWorks and begin your work session. Our intelligent system automatically captures your productivity patterns while respecting your privacy.
               </p>
@@ -361,14 +361,14 @@ export default function HomePage() {
                   AI Powered
                 </span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">2. AI Analysis</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">2. AI Analysis</h3>
               <p className="text-gray-600 leading-relaxed">
                 Advanced AI analyzes your work patterns, detects genuine productivity, and identifies any automation or outsourcing attempts with 98% accuracy.
               </p>
             </div>
 
             <div className="bg-white border border-gray-200 rounded-lg p-8 text-center hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">3. Verified Reports</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">3. Verified Reports</h3>
               <p className="text-gray-600 leading-relaxed">
                 Generate tamper-proof reports with verified proof of work. Perfect for clients, managers, or personal tracking with customizable privacy settings.
               </p>
