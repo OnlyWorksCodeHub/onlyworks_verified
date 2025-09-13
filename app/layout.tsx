@@ -4,28 +4,68 @@ import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://onlyworks.com'),
-  title: 'OnlyWorks - Productivity Verification Platform',
-  description: 'Prove your work is real, efficient, and authentic with AI-powered verification',
-  keywords: ['productivity', 'verification', 'AI', 'work tracking', 'authentication', 'efficiency'],
-  authors: [{ name: 'OnlyWorks' }],
+  title: 'OnlyWorks - AI Platform for Professionals and Specialists | Work Verification',
+  description: 'Making your work undeniable with AI-powered verification. Detect automation, generate verified reports, and prove your productivity - minus the headache. Trusted by professionals worldwide.',
+  keywords: [
+    'AI platform',
+    'work verification',
+    'productivity tracking',
+    'automation detection',
+    'verified reports',
+    'professional specialists',
+    'AI analysis',
+    'work authentication',
+    'productivity verification',
+    'tamper-proof reports',
+    'real-time tracking',
+    'OnlyWorks',
+    'undeniable work'
+  ],
+  authors: [{ name: 'OnlyWorks Team' }],
   creator: 'OnlyWorks',
   publisher: 'OnlyWorks',
+  category: 'productivity',
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://onlyworks.com',
     siteName: 'OnlyWorks',
-    title: 'OnlyWorks - Productivity Verification Platform',
-    description: 'Prove your work is real, efficient, and authentic with AI-powered verification',
+    title: 'OnlyWorks - AI Platform Built for Professionals and Specialists',
+    description: 'Making your work undeniable with AI-powered verification. Detect automation, generate verified reports, and prove your productivity - minus the headache.',
+    images: [
+      {
+        url: '/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'OnlyWorks - AI Platform for Work Verification',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'OnlyWorks - Productivity Verification Platform',
-    description: 'Prove your work is real, efficient, and authentic with AI-powered verification',
+    site: '@onlyworks',
+    creator: '@onlyworks',
+    title: 'OnlyWorks - AI Platform Built for Professionals and Specialists',
+    description: 'Making your work undeniable with AI-powered verification. Detect automation and generate verified reports.',
+    images: ['/images/twitter-image.png'],
+  },
+  alternates: {
+    canonical: 'https://onlyworks.com',
+  },
+  other: {
+    'msapplication-TileColor': '#ffffff',
+    'theme-color': '#ffffff',
   },
   icons: {
     icon: '/favicon.ico',
@@ -40,6 +80,33 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "OnlyWorks",
+              "description": "AI platform built for professionals and specialists. Making your work undeniable with verified reports and automation detection.",
+              "url": "https://onlyworks.com",
+              "applicationCategory": "BusinessApplication",
+              "operatingSystem": "Cross-platform",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+              },
+              "creator": {
+                "@type": "Organization",
+                "name": "OnlyWorks",
+                "url": "https://onlyworks.com"
+              },
+              "keywords": "AI platform, work verification, productivity tracking, automation detection, verified reports"
+            })
+          }}
+        />
+      </head>
       <body className="bg-white text-gray-900 antialiased font-sans">
         {children}
         <Toaster
