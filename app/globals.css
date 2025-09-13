@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,11 +7,38 @@
 @layer base {
   body {
     @apply antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  
+  /* Playfair Display for ALL headings */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif !important;
+  }
+  
+  /* Inter for everything else */
+  p, span, div, a, button,
+  input, textarea, select,
+  label, li, td, th,
+  nav, footer, small {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  
+  /* Clean selection colors */
+  ::selection {
+    background-color: #5b70f8;
+    color: white;
   }
 }
 
 @layer components {
-  .btn-clean {
-    @apply px-6 py-2.5 font-medium rounded-lg transition-all duration-200;
+  /* Clean buttons */
+  .btn-primary {
+    @apply px-6 py-3 bg-[#5b70f8] text-white rounded-lg hover:bg-[#4a5fd6] transition-colors;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-3 border border-gray-300 text-gray-900 rounded-lg hover:bg-gray-50 transition-colors;
+    font-family: 'Inter', sans-serif;
   }
 }

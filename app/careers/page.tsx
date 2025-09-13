@@ -1,139 +1,133 @@
-import { Navigation } from '@/components/layout/Navigation'
-import { Footer } from '@/components/layout/Footer'
 import Link from 'next/link'
-import { ArrowRight, MapPin, Clock, Briefcase } from 'lucide-react'
+import { Logo } from '@/components/ui/logo'
+import { Footer } from '@/components/layout/Footer'
 
 export default function CareersPage() {
-  const openings = [
+  const jobs = [
     {
-      title: 'Senior Full Stack Engineer',
-      department: 'Engineering',
-      location: 'Remote',
-      type: 'Full-time',
-      description: 'Build the future of productivity verification technology with our core engineering team.'
+      title: "Senior AI Engineer",
+      department: "Engineering",
+      location: "Remote",
+      type: "Full-time"
     },
     {
-      title: 'Machine Learning Engineer',
-      department: 'AI/ML',
-      location: 'Remote',
-      type: 'Full-time',
-      description: 'Develop AI models to detect patterns and analyze productivity metrics.'
+      title: "Frontend Developer",
+      department: "Engineering",
+      location: "Remote",
+      type: "Full-time"
     },
     {
-      title: 'Product Designer',
-      department: 'Design',
-      location: 'Remote',
-      type: 'Full-time',
-      description: 'Create intuitive experiences for productivity tracking and reporting.'
+      title: "Product Designer",
+      department: "Design",
+      location: "Remote",
+      type: "Full-time"
     },
     {
-      title: 'Customer Success Manager',
-      department: 'Support',
-      location: 'Remote',
-      type: 'Full-time',
-      description: 'Help customers maximize their productivity with OnlyWorks.'
+      title: "Marketing Manager",
+      department: "Marketing",
+      location: "Remote",
+      type: "Full-time"
     },
     {
-      title: 'DevOps Engineer',
-      department: 'Engineering',
-      location: 'Remote',
-      type: 'Full-time',
-      description: 'Maintain and scale our infrastructure to support millions of work sessions.'
-    },
-    {
-      title: 'Content Marketing Manager',
-      department: 'Marketing',
-      location: 'Remote',
-      type: 'Full-time',
-      description: 'Tell the OnlyWorks story and educate the market about productivity verification.'
+      title: "Customer Success Manager",
+      department: "Customer Success",
+      location: "Remote",
+      type: "Full-time"
     }
   ]
 
+  const values = [
+    {
+      title: "Transparency",
+      description: "We believe in open communication and honest feedback. No hidden agendas, just clear expectations and genuine collaboration."
+    },
+    {
+      title: "Excellence",
+      description: "We set high standards for ourselves and our work. Quality isn't just a goal—it's our baseline for everything we deliver."
+    },
+    {
+      title: "Innovation",
+      description: "We're building the future of work verification. Every day, we push boundaries and explore new possibilities in AI and productivity."
+    },
+    {
+      title: "Trust",
+      description: "Trust is at the core of everything we do. We trust our team, our process, and our mission to make work undeniable."
+    },
+    {
+      title: "Impact",
+      description: "We're not just building software—we're solving real problems for real people and creating genuine value in the world."
+    },
+    {
+      title: "Growth",
+      description: "We invest in our people's growth and celebrate learning from both successes and failures. Your development is our priority."
+    }
+  ]
+
+  const benefits = [
+    "Comprehensive health, dental, and vision insurance",
+    "Competitive salary and equity package",
+    "Unlimited PTO and flexible working hours",
+    "Latest tech and home office setup allowance",
+    "Learning and development budget",
+    "Fully remote-first company culture",
+    "Generous parental leave policy",
+    "Mental health and wellness support"
+  ]
+
   return (
-    <div className="min-h-screen bg-[#0A0A0A]">
-      <Navigation />
-
-      {/* Hero */}
-      <section className="pt-32 pb-20 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-            Join Our Mission to
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5E5CE6] to-[#9F9FFF]">
-              {' '}Redefine Work
-            </span>
-          </h1>
-          <p className="text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
-            We're building the future of productivity verification. Join us in creating tools that help millions prove their work is real.
-          </p>
+    <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-10">
+              <Link href="/" className="flex items-center space-x-2">
+                <Logo size={32} />
+                <span className="text-xl font-semibold text-gray-900">OnlyWorks</span>
+              </Link>
+              <div className="hidden md:flex items-center space-x-6">
+                <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-sm">Pricing</Link>
+                <Link href="/careers" className="text-primary hover:text-primary-dark text-sm font-medium">Careers</Link>
+                <Link href="/updates" className="text-gray-600 hover:text-gray-900 text-sm">Updates</Link>
+                <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-sm">Contact</Link>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm">
+                Get started
+              </Link>
+            </div>
+          </div>
         </div>
-      </section>
+      </nav>
 
-      {/* Values */}
-      <section className="py-20 px-4 border-t border-gray-800">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white">Why Work Here</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-[#5E5CE6]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🚀</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-white">Growth</h3>
-              <p className="text-gray-400">
-                Fast-paced environment where you'll learn and grow every day.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-[#5E5CE6]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🌍</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-white">Remote First</h3>
-              <p className="text-gray-400">
-                Work from anywhere. We trust you to manage your own productivity.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-[#5E5CE6]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">💎</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-white">Impact</h3>
-              <p className="text-gray-400">
-                Your work directly impacts how millions prove their productivity.
-              </p>
-            </div>
+      {/* Hero Section */}
+      <section className="pt-32 pb-16 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <h1 className="text-5xl md:text-6xl font-semibold text-gray-900 mb-6">
+            Join us in making work <span className="text-primary">undeniable</span>
+          </h1>
+          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+            We're building the future of work verification with AI. Join a team that values transparency,
+            innovation, and genuine impact on how the world views productivity.
+          </p>
+          <div className="flex items-center justify-center space-x-8 text-sm text-gray-500">
+            <span>100% Remote</span>
+            <span>Pre-Seed Startup</span>
+            <span>2-10 Team Members</span>
           </div>
         </div>
       </section>
 
-      {/* Open Positions */}
-      <section className="py-20 px-4 border-t border-gray-800">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white">Open Positions</h2>
-          <div className="space-y-6">
-            {openings.map((job, index) => (
-              <div key={index} className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6 hover:border-[#5E5CE6] transition">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="text-xl font-semibold text-white mb-2">{job.title}</h3>
-                    <p className="text-gray-400 mb-4">{job.description}</p>
-                    <div className="flex items-center space-x-4 text-sm text-gray-500">
-                      <span className="flex items-center">
-                        <Briefcase className="w-4 h-4 mr-1" />
-                        {job.department}
-                      </span>
-                      <span className="flex items-center">
-                        <MapPin className="w-4 h-4 mr-1" />
-                        {job.location}
-                      </span>
-                      <span className="flex items-center">
-                        <Clock className="w-4 h-4 mr-1" />
-                        {job.type}
-                      </span>
-                    </div>
-                  </div>
-                  <Link href={`mailto:careers@onlyworks.com?subject=Application for ${job.title}`} className="px-4 py-2 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition">
-                    Apply
-                  </Link>
-                </div>
+      {/* Company Values */}
+      <section className="py-16 px-6 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-semibold text-center mb-12 text-gray-900">Our Values</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {values.map((value, index) => (
+              <div key={index} className="bg-white border border-gray-200 rounded-lg p-6">
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">{value.title}</h3>
+                <p className="text-gray-600">{value.description}</p>
               </div>
             ))}
           </div>
@@ -141,55 +135,98 @@ export default function CareersPage() {
       </section>
 
       {/* Benefits */}
-      <section className="py-20 px-4 border-t border-gray-800">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white">Benefits & Perks</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <span className="text-2xl mb-3 block">💰</span>
-              <h3 className="text-lg font-semibold text-white mb-2">Competitive Salary</h3>
-              <p className="text-gray-400 text-sm">Top of market compensation with equity</p>
+      <section className="py-16 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-semibold text-gray-900 mb-6">Why you'll love working here</h2>
+              <p className="text-gray-600 mb-8">
+                We believe that great work happens when people are supported, trusted, and empowered.
+                Our benefits and culture are designed to help you do your best work while maintaining
+                a healthy work-life balance.
+              </p>
+              <div className="space-y-3">
+                {benefits.map((benefit, index) => (
+                  <div key={index} className="flex items-start">
+                    <span className="text-gray-700">{benefit}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <span className="text-2xl mb-3 block">🏥</span>
-              <h3 className="text-lg font-semibold text-white mb-2">Health Coverage</h3>
-              <p className="text-gray-400 text-sm">100% covered health, dental, and vision</p>
-            </div>
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <span className="text-2xl mb-3 block">🌴</span>
-              <h3 className="text-lg font-semibold text-white mb-2">Unlimited PTO</h3>
-              <p className="text-gray-400 text-sm">Take time when you need it</p>
-            </div>
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <span className="text-2xl mb-3 block">💻</span>
-              <h3 className="text-lg font-semibold text-white mb-2">Equipment Budget</h3>
-              <p className="text-gray-400 text-sm">$3,000 for your home office setup</p>
-            </div>
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <span className="text-2xl mb-3 block">📚</span>
-              <h3 className="text-lg font-semibold text-white mb-2">Learning Budget</h3>
-              <p className="text-gray-400 text-sm">$1,500/year for courses and conferences</p>
-            </div>
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <span className="text-2xl mb-3 block">✈️</span>
-              <h3 className="text-lg font-semibold text-white mb-2">Team Retreats</h3>
-              <p className="text-gray-400 text-sm">Quarterly in-person meetups</p>
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-8">
+              <img src="/images/founders.png" alt="Founders" className="w-full h-auto rounded-lg" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 px-4 border-t border-gray-800">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4 text-white">Don't See Your Role?</h2>
-          <p className="text-xl text-gray-400 mb-8">
-            We're always looking for talented people. Send us your resume.
+      {/* Open Positions */}
+      <section className="py-16 px-6 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-semibold text-center mb-12 text-gray-900">Open Positions</h2>
+          <div className="space-y-4">
+            {jobs.map((job, index) => (
+              <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-1">{job.title}</h3>
+                    <div className="flex items-center space-x-4 text-sm text-gray-600">
+                      <span>{job.department}</span>
+                      <span>•</span>
+                      <span>{job.location}</span>
+                      <span>•</span>
+                      <span>{job.type}</span>
+                    </div>
+                  </div>
+                  <Link
+                    href="/coming-soon"
+                    className="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition"
+                  >
+                    Apply
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="bg-primary/10 border border-primary/20 rounded-lg p-8 mt-8 text-center">
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">Don't see a role that fits?</h3>
+            <p className="text-gray-700 mb-6">We're always looking for exceptional talent to join our mission of making work undeniable.</p>
+            <Link href="/contact" className="px-8 py-3 bg-primary text-white rounded-md hover:bg-primary-dark transition font-medium">
+              Get in Touch
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Culture */}
+      <section className="py-16 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl font-semibold text-gray-900 mb-6">Our Culture</h2>
+          <p className="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
+            We're building more than just software—we're building a team of passionate individuals
+            who believe in the power of authentic work. Our culture is built on trust, transparency,
+            and the shared mission of making work verification accessible to everyone.
           </p>
-          <Link href="mailto:careers@onlyworks.com" className="px-8 py-3 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition font-medium">
-            Get in Touch
-            <ArrowRight className="inline-block ml-2 w-5 h-5" />
-          </Link>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Collaborative</h3>
+              <p className="text-gray-600">
+                We believe the best ideas come from diverse perspectives working together toward a common goal.
+              </p>
+            </div>
+            <div className="text-center">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Purpose-Driven</h3>
+              <p className="text-gray-600">
+                Every line of code, every design decision, and every strategy serves our mission of authentic work verification.
+              </p>
+            </div>
+            <div className="text-center">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Growth-Minded</h3>
+              <p className="text-gray-600">
+                We invest in continuous learning and celebrate both individual growth and team achievements.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -1,8 +1,126 @@
 ONLYWORKS PROJECT - COMPLETE CODEBASE DUMP
 =============================================
 
-Generated on: Thu Sep 11 14:35:52 EDT 2025
+Generated on: Sat Sep 13 01:45:35 EDT 2025
 Excludes: node_modules, .claude, .next, .git directories
+
+
+================================================================================
+FILE: ./package.json
+================================================================================
+
+{
+    "name": "onlyworks",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start",
+      "lint": "next lint"
+    },
+    "dependencies": {
+      "@supabase/auth-helpers-nextjs": "^0.8.7",
+      "@supabase/supabase-js": "^2.39.3",
+      "@supabase/ssr": "^0.0.10",
+      "date-fns": "^3.0.6",
+      "lucide-react": "^0.294.0",
+      "next": "14.0.4",
+      "openai": "^4.24.1",
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "react-hot-toast": "^2.4.1",
+      "recharts": "^2.10.3",
+      "uuid": "^9.0.1",
+      "crypto-js": "^4.2.0"
+    },
+    "devDependencies": {
+      "@types/crypto-js": "^4.2.1",
+      "@types/node": "^20.10.5",
+      "@types/react": "^18.2.45",
+      "@types/react-dom": "^18.2.18",
+      "@types/uuid": "^9.0.7",
+      "autoprefixer": "^10.4.16",
+      "eslint": "^8.56.0",
+      "eslint-config-next": "14.0.4",
+      "postcss": "^8.4.32",
+      "tailwindcss": "^3.4.0",
+      "typescript": "^5.3.3"
+    }
+  }
+
+================================================================================
+FILE: ./next.config.js
+================================================================================
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    domains: [
+      'localhost',
+      // Add your Supabase domain here when you have it
+    ],
+  },
+}
+
+module.exports = nextConfig
+
+
+================================================================================
+FILE: ./tailwind.config.ts
+================================================================================
+
+import type { Config } from 'tailwindcss'
+
+const config: Config = {
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: {
+        'playfair': ['Playfair Display', 'serif'],
+        'inter': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+      },
+      colors: {
+        primary: {
+          DEFAULT: '#5b70f8',
+          light: '#7d8ffa',
+          dark: '#4a5fd6',
+        },
+        dark: {
+          bg: '#0F0F0F',
+          card: '#1A1A1A',
+          border: '#2A2A2A',
+        }
+      },
+      borderRadius: {
+        'sm': '0.125rem',
+      },
+      letterSpacing: {
+        'tight': '-0.025em',
+      }
+    },
+  },
+  plugins: [],
+}
+export default config
+
+================================================================================
+FILE: ./postcss.config.js
+================================================================================
+
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
 
 
 ================================================================================
@@ -1097,7 +1215,7 @@ export async function POST(request: NextRequest) {
       Math.floor((new Date(endTime).getTime() - new Date(startTime).getTime()) / 1000) : 0
 
     // Generate smart session name based on work done
-    const sessionName = generateSessionName(analyses)
+    const sessionName = generateSessionName(analyses || [])
 
     // Update session with proper name and status
     const { error: updateError } = await supabase
@@ -1115,7 +1233,7 @@ export async function POST(request: NextRequest) {
 
     // Generate summary if there are analyses
     if (analyses && analyses.length > 0) {
-      await generateSessionSummary(sessionId, analyses, screenshots, user.id)
+      await generateSessionSummary(sessionId, analyses, screenshots || [], user.id)
     }
 
     return NextResponse.json({ 
@@ -1535,7 +1653,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Logo } from '@/components/ui/logo'
+import { Logo } from '@/components/ui/logo' 
 import { Mail, Lock, ArrowRight, Github, Chrome } from 'lucide-react'
 import toast from 'react-hot-toast'
 
@@ -2159,8 +2277,8 @@ export default function ContactPage() {
               <Mail className="w-12 h-12 text-[#5E5CE6] mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-white mb-2">Sales Inquiries</h3>
               <p className="text-gray-400 mb-4">Questions about pricing or features?</p>
-              <a href="mailto:sales@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
-                sales@onlyworks.com
+              <a href="mailto:admin@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
+                admin@onlyworks.com
               </a>
             </div>
             
@@ -2168,8 +2286,8 @@ export default function ContactPage() {
               <MessageSquare className="w-12 h-12 text-[#5E5CE6] mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-white mb-2">Enterprise</h3>
               <p className="text-gray-400 mb-4">Custom solutions for large teams</p>
-              <a href="mailto:enterprise@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
-                enterprise@onlyworks.com
+              <a href="mailto:admin@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
+                admin@onlyworks.com
               </a>
             </div>
             
@@ -2177,8 +2295,8 @@ export default function ContactPage() {
               <MapPin className="w-12 h-12 text-[#5E5CE6] mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-white mb-2">Partnership</h3>
               <p className="text-gray-400 mb-4">Interested in partnering with us?</p>
-              <a href="mailto:partners@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
-                partners@onlyworks.com
+              <a href="mailto:admin@onlyworks.com" className="text-[#5E5CE6] hover:text-[#4E4CD6]">
+                admin@onlyworks.com
               </a>
             </div>
           </div>
@@ -2351,7 +2469,7 @@ export default function DashboardPage() {
   const calculateStreak = (sessions: any[]) => {
     if (!sessions.length) return 0
     const dates = sessions.map(s => new Date(s.created_at).toDateString())
-    const uniqueDates = [...new Set(dates)]
+    const uniqueDates = Array.from(new Set(dates))
     return uniqueDates.length
   }
 
@@ -2501,6 +2619,8 @@ export default function DashboardPage() {
 FILE: ./app/globals.css
 ================================================================================
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -2508,34 +2628,79 @@ FILE: ./app/globals.css
 @layer base {
   body {
     @apply antialiased;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  
+  /* Playfair Display for ALL headings */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif !important;
+  }
+  
+  /* Inter for everything else */
+  p, span, div, a, button,
+  input, textarea, select,
+  label, li, td, th,
+  nav, footer, small {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  
+  /* Clean selection colors */
+  ::selection {
+    background-color: #5b70f8;
+    color: white;
   }
 }
 
 @layer components {
-  .btn-clean {
-    @apply px-6 py-2.5 font-medium rounded-lg transition-all duration-200;
+  /* Clean buttons */
+  .btn-primary {
+    @apply px-6 py-3 bg-[#5b70f8] text-white rounded-lg hover:bg-[#4a5fd6] transition-colors;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-3 border border-gray-300 text-gray-900 rounded-lg hover:bg-gray-50 transition-colors;
+    font-family: 'Inter', sans-serif;
   }
 }
 
+================================================================================
+FILE: ./app/head.tsx
+================================================================================
+
+export default function Head() {
+    return (
+      <>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Perfect+Ninety-Three:wght@400;700&display=swap" rel="stylesheet" />
+      </>
+    )
+  }
 
 ================================================================================
 FILE: ./app/layout.tsx
 ================================================================================
 
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
-
-const inter = Inter({ 
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter'
-})
 
 export const metadata: Metadata = {
   title: 'OnlyWorks - Productivity Verification Platform',
   description: 'Prove your work is real, efficient, and authentic with AI-powered verification',
+  icons: {
+    icon: [
+      { url: '/favicon.png', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
 }
 
 export default function RootLayout({
@@ -2544,14 +2709,31 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.variable} font-sans bg-dark-bg text-white antialiased`}>
+    <html lang="en">
+      <body className="bg-white text-gray-900 antialiased font-sans">
         {children}
-        <Toaster 
+        <Toaster
           position="bottom-right"
           toastOptions={{
-            className: 'dark:bg-dark-card dark:text-white',
+            style: {
+              fontFamily: "'Inter', sans-serif",
+              background: 'white',
+              color: '#111827',
+              border: '1px solid #e5e7eb'
+            },
             duration: 4000,
+            success: {
+              style: {
+                background: '#10b981',
+                color: 'white',
+              },
+            },
+            error: {
+              style: {
+                background: '#ef4444',
+                color: 'white',
+              },
+            },
           }}
         />
       </body>
@@ -2559,55 +2741,61 @@ export default function RootLayout({
   )
 }
 
-
 ================================================================================
 FILE: ./app/page.tsx
 ================================================================================
 
 import Link from 'next/link'
-import { Navigation } from '@/components/layout/Navigation'
-import { Footer } from '@/components/layout/Footer'
+import { ArrowRight, Check } from 'lucide-react'
 import { LogoCarousel } from '@/components/ui/logo-carousel'
-import { ArrowRight, Shield, Brain, TrendingUp, Award, Users, CheckCircle, Play, BarChart3, Clock, Zap } from 'lucide-react'
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#0A0A0A]">
-      <Navigation />
-
-      {/* Hero Section */}
-      <section className="px-8 pt-32 pb-24">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h1 className="text-6xl font-bold text-white mb-2">Track Your</h1>
-            <h1 className="text-6xl font-bold mb-6">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5E5CE6] to-[#9F9FFF]">
-                Productivity
-              </span>
-            </h1>
-            <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-              AI-powered workflow analytics that help you understand and improve your 
-              work patterns. Simple, private, effective.
-            </p>
-            <div className="flex items-center space-x-4">
-              <Link href="/contact" className="px-6 py-3 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition font-medium">
-                Book a Demo
+    <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-10">
+              <Link href="/" className="text-xl font-semibold text-gray-900">
+                OnlyWorks
               </Link>
-              <Link href="/contact" className="flex items-center space-x-2 text-gray-400 hover:text-white transition">
-                <Play className="w-5 h-5" />
-                <span>Watch Demo</span>
+              <div className="hidden md:flex items-center space-x-6">
+                <Link href="/product" className="text-gray-600 hover:text-gray-900 text-sm">Product</Link>
+                <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-sm">Pricing</Link>
+                <Link href="/docs" className="text-gray-600 hover:text-gray-900 text-sm">Docs</Link>
+                <Link href="/company" className="text-gray-600 hover:text-gray-900 text-sm">Company</Link>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Link href="/auth/login" className="text-gray-600 hover:text-gray-900 text-sm">
+                Sign in
+              </Link>
+              <Link href="/auth/register" className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 text-sm">
+                Get started
               </Link>
             </div>
           </div>
-          
-          <div className="relative">
-            <div className="bg-[#1A1A1A] rounded-2xl p-2">
-              <div className="bg-black rounded-xl aspect-video flex items-center justify-center">
-                <button className="w-16 h-16 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition">
-                  <Play className="w-6 h-6 text-white ml-1" />
-                </button>
-              </div>
-            </div>
+        </div>
+      </nav>
+
+      {/* Hero */}
+      <section className="pt-32 pb-16 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <h1 className="text-5xl md:text-6xl font-semibold text-gray-900 mb-6">
+            Work verification for modern teams
+          </h1>
+          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+            Build trust through AI-powered productivity tracking. Prove your work is real, 
+            detect automation, and generate verified reports.
+          </p>
+          <div className="flex items-center justify-center space-x-4">
+            <Link href="/auth/register" className="px-5 py-2.5 bg-gray-900 text-white rounded-md hover:bg-gray-800">
+              Start free trial
+            </Link>
+            <Link href="/contact" className="px-5 py-2.5 text-gray-700 hover:text-gray-900">
+              Book a demo →
+            </Link>
           </div>
         </div>
       </section>
@@ -2615,147 +2803,182 @@ export default function HomePage() {
       {/* Logo Carousel */}
       <LogoCarousel />
 
-      {/* Trust Indicators */}
-      <section className="py-12 border-y border-gray-800">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-3xl font-bold text-[#5E5CE6]">98%</div>
-              <div className="text-sm text-gray-500">Accuracy Rate</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-[#5E5CE6]">24/7</div>
-              <div className="text-sm text-gray-500">Monitoring</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-[#5E5CE6]">50+</div>
-              <div className="text-sm text-gray-500">Metrics Tracked</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-[#5E5CE6]">Bank-Level</div>
-              <div className="text-sm text-gray-500">Security</div>
-            </div>
+      {/* Features */}
+      <section className="py-16 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-semibold text-gray-900 mb-3">
+              Everything you need
+            </h2>
+            <p className="text-gray-600">
+              Complete work verification in one platform.
+            </p>
           </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-4 text-white">Complete Work Verification</h2>
-          <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
-            Prove your work is real, efficient, and authentic with our comprehensive tracking system
-          </p>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <Shield className="w-12 h-12 text-[#5E5CE6] mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-white">Fraud Detection</h3>
-              <p className="text-gray-400">
-                Detects 20+ automation tools and suspicious patterns. Proves your work is genuinely human.
+          <div className="grid md:grid-cols-3 gap-x-8 gap-y-10">
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Real-time tracking</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Capture screenshots on every click and keystroke. Monitor productivity patterns in real-time.
               </p>
             </div>
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <Brain className="w-12 h-12 text-[#5E5CE6] mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-white">AI Usage Analysis</h3>
-              <p className="text-gray-400">
-                Shows how effectively you use AI tools. Proves understanding, not just copy-paste.
+            
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">AI analysis</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Advanced AI detects automation tools and analyzes work quality and efficiency.
               </p>
             </div>
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <TrendingUp className="w-12 h-12 text-[#5E5CE6] mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-white">Efficiency Metrics</h3>
-              <p className="text-gray-400">
-                Tracks focus time, task completion, and workflow patterns. Get actionable improvement tips.
+            
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Verified reports</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Generate tamper-proof reports with public verification codes anyone can authenticate.
               </p>
             </div>
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <Award className="w-12 h-12 text-[#5E5CE6] mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-white">Shareable Reports</h3>
-              <p className="text-gray-400">
-                Generate professional reports with verification codes. Anyone can verify authenticity.
+            
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Team insights</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Monitor team productivity and ensure quality across all projects and clients.
               </p>
             </div>
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <Users className="w-12 h-12 text-[#5E5CE6] mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-white">All Professions</h3>
-              <p className="text-gray-400">
-                Works for developers, designers, finance, marketing, and any knowledge worker.
+            
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Privacy focused</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Your data is encrypted and never shared. You control what gets reported.
               </p>
             </div>
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <CheckCircle className="w-12 h-12 text-[#5E5CE6] mb-4" />
-              <h3 className="text-xl font-semibold mb-2 text-white">Instant Feedback</h3>
-              <p className="text-gray-400">
-                Real-time coaching on what you're doing well and what could improve.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-20 px-4 border-t border-gray-800">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white">How It Works</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-[#5E5CE6]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-[#5E5CE6]">1</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-white">Start Recording</h3>
-              <p className="text-gray-400">
-                Begin a work session and share your screen. We track clicks, keystrokes, and activity.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-[#5E5CE6]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-[#5E5CE6]">2</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-white">AI Analysis</h3>
-              <p className="text-gray-400">
-                Our AI analyzes your work patterns, detects automation, and measures productivity.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-[#5E5CE6]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-[#5E5CE6]">3</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2 text-white">Get Report</h3>
-              <p className="text-gray-400">
-                Receive detailed feedback and a shareable verification report with proof of work.
+            
+            <div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Integrations</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Connect with your existing tools. Export data to any platform via API.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 border-t border-gray-800">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4 text-white">
-            Start Building Trust Today
+      {/* Pricing */}
+      <section className="py-16 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-semibold text-gray-900 mb-3">Simple pricing</h2>
+            <p className="text-gray-600">Start free. Upgrade when you need more.</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="border border-gray-200 rounded-lg p-6 text-center">
+              <h3 className="font-medium text-gray-900 mb-2">Free</h3>
+              <div className="text-3xl font-semibold text-gray-900 mb-4">$0</div>
+              <ul className="space-y-2 mb-6 text-sm text-gray-600">
+                <li>3 sessions per month</li>
+                <li>Basic tracking</li>
+                <li>7-day history</li>
+              </ul>
+              <Link href="/auth/register" className="block py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm">
+                Get started
+              </Link>
+            </div>
+            
+            <div className="border-2 border-gray-900 rounded-lg p-6 text-center">
+              <h3 className="font-medium text-gray-900 mb-2">Pro</h3>
+              <div className="text-3xl font-semibold text-gray-900 mb-4">$19<span className="text-base text-gray-500">/mo</span></div>
+              <ul className="space-y-2 mb-6 text-sm text-gray-600">
+                <li>Unlimited sessions</li>
+                <li>AI analysis</li>
+                <li>Public reports</li>
+                <li>90-day history</li>
+              </ul>
+              <Link href="/auth/register" className="block py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 text-sm">
+                Start free trial
+              </Link>
+            </div>
+            
+            <div className="border border-gray-200 rounded-lg p-6 text-center">
+              <h3 className="font-medium text-gray-900 mb-2">Team</h3>
+              <div className="text-3xl font-semibold text-gray-900 mb-4">$29<span className="text-base text-gray-500">/user</span></div>
+              <ul className="space-y-2 mb-6 text-sm text-gray-600">
+                <li>Everything in Pro</li>
+                <li>Team dashboard</li>
+                <li>API access</li>
+                <li>Unlimited history</li>
+              </ul>
+              <Link href="/contact" className="block py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm">
+                Contact sales
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-16 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl font-semibold text-gray-900 mb-3">
+            Ready to get started?
           </h2>
-          <p className="text-xl text-gray-400 mb-8">
-            Join thousands of professionals who prove their work is real
+          <p className="text-gray-600 mb-6">
+            Join thousands of teams using OnlyWorks to verify their work.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="px-8 py-3 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition font-medium">
-              Book a Demo
-              <ArrowRight className="inline-block ml-2 w-5 h-5" />
+          <div className="flex items-center justify-center space-x-4">
+            <Link href="/auth/register" className="px-5 py-2.5 bg-gray-900 text-white rounded-md hover:bg-gray-800">
+              Start free trial
             </Link>
-            <Link href="/pricing" className="px-8 py-3 border border-gray-700 text-white rounded-lg hover:bg-gray-900 transition">
-              View Pricing
+            <Link href="/contact" className="px-5 py-2.5 text-gray-700 hover:text-gray-900">
+              Contact sales
             </Link>
           </div>
         </div>
       </section>
 
-      <Footer />
+      {/* Footer */}
+      <footer className="py-12 px-6 border-t border-gray-200">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h4 className="font-medium text-gray-900 mb-3">Product</h4>
+              <ul className="space-y-2">
+                <li><Link href="/features" className="text-gray-600 hover:text-gray-900 text-sm">Features</Link></li>
+                <li><Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-sm">Pricing</Link></li>
+                <li><Link href="/docs" className="text-gray-600 hover:text-gray-900 text-sm">Documentation</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium text-gray-900 mb-3">Company</h4>
+              <ul className="space-y-2">
+                <li><Link href="/about" className="text-gray-600 hover:text-gray-900 text-sm">About</Link></li>
+                <li><Link href="/careers" className="text-gray-600 hover:text-gray-900 text-sm">Careers</Link></li>
+                <li><Link href="/contact" className="text-gray-600 hover:text-gray-900 text-sm">Contact</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium text-gray-900 mb-3">Resources</h4>
+              <ul className="space-y-2">
+                <li><Link href="/blog" className="text-gray-600 hover:text-gray-900 text-sm">Blog</Link></li>
+                <li><Link href="/support" className="text-gray-600 hover:text-gray-900 text-sm">Support</Link></li>
+                <li><Link href="/status" className="text-gray-600 hover:text-gray-900 text-sm">Status</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium text-gray-900 mb-3">Legal</h4>
+              <ul className="space-y-2">
+                <li><Link href="/privacy" className="text-gray-600 hover:text-gray-900 text-sm">Privacy</Link></li>
+                <li><Link href="/terms" className="text-gray-600 hover:text-gray-900 text-sm">Terms</Link></li>
+                <li><Link href="/security" className="text-gray-600 hover:text-gray-900 text-sm">Security</Link></li>
+              </ul>
+            </div>
+          </div>
+          <div className="pt-8 border-t border-gray-200 text-center text-sm text-gray-600">
+            © 2025 OnlyWorks. All rights reserved.
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
-
 
 ================================================================================
 FILE: ./app/pricing/page.tsx
@@ -5148,42 +5371,42 @@ import { Logo } from '@/components/ui/logo'
 
 export function Footer() {
   return (
-    <footer className="py-12 px-4 border-t border-gray-800">
+    <footer className="py-12 px-4 border-t border-gray-300">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <Logo size={32} />
-              <span className="text-white font-semibold">OnlyWorks</span>
+              <span className="text-[#5c5ce6] font-semibold">OnlyWorks</span>
             </div>
-            <p className="text-gray-400">
+            <p className="text-[#5c5ce6]">
               Proving work is real.
             </p>
           </div>
           <div>
-            <h4 className="text-white font-semibold mb-4">Product</h4>
+            <h4 className="text-[#5c5ce6] font-semibold mb-4">Product</h4>
             <ul className="space-y-2">
-              <li><Link href="/pricing" className="text-gray-400 hover:text-white">Pricing</Link></li>
-              <li><Link href="/teams" className="text-gray-400 hover:text-white">Teams</Link></li>
+              <li><Link href="/pricing" className="text-[#5c5ce6] hover:text-[#4c4cd6]">Pricing</Link></li>
+              <li><Link href="/teams" className="text-[#5c5ce6] hover:text-[#4c4cd6]">Teams</Link></li>
             </ul>
           </div>
           <div>
-            <h4 className="text-white font-semibold mb-4">Company</h4>
+            <h4 className="text-[#5c5ce6] font-semibold mb-4">Company</h4>
             <ul className="space-y-2">
-              <li><Link href="/about" className="text-gray-400 hover:text-white">About</Link></li>
-              <li><Link href="/careers" className="text-gray-400 hover:text-white">Careers</Link></li>
-              <li><Link href="/contact" className="text-gray-400 hover:text-white">Contact</Link></li>
+              <li><Link href="/about" className="text-[#5c5ce6] hover:text-[#4c4cd6]">About</Link></li>
+              <li><Link href="/careers" className="text-[#5c5ce6] hover:text-[#4c4cd6]">Careers</Link></li>
+              <li><Link href="/contact" className="text-[#5c5ce6] hover:text-[#4c4cd6]">Contact</Link></li>
             </ul>
           </div>
           <div>
-            <h4 className="text-white font-semibold mb-4">Legal</h4>
+            <h4 className="text-[#5c5ce6] font-semibold mb-4">Legal</h4>
             <ul className="space-y-2">
-              <li><Link href="/privacy" className="text-gray-400 hover:text-white">Privacy</Link></li>
-              <li><Link href="/terms" className="text-gray-400 hover:text-white">Terms</Link></li>
+              <li><Link href="/privacy" className="text-[#5c5ce6] hover:text-[#4c4cd6]">Privacy</Link></li>
+              <li><Link href="/terms" className="text-[#5c5ce6] hover:text-[#4c4cd6]">Terms</Link></li>
             </ul>
           </div>
         </div>
-        <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
+        <div className="mt-8 pt-8 border-t border-gray-300 text-center text-[#5c5ce6]">
           © 2025 OnlyWorks. All rights reserved.
         </div>
       </div>
@@ -5327,24 +5550,24 @@ import { Logo } from '@/components/ui/logo'
 
 export function Navigation() {
   return (
-    <nav className="fixed top-0 w-full bg-[#0A0A0A]/90 backdrop-blur-md z-50 border-b border-gray-800">
+    <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
             <Link href="/" className="flex items-center space-x-2">
               <Logo size={40} />
-              <span className="text-xl font-semibold text-white">OnlyWorks</span>
+              <span className="text-xl font-semibold text-[#5c5ce6]">OnlyWorks</span>
             </Link>
-            
+
             <div className="hidden md:flex items-center space-x-6">
-              <Link href="/pricing" className="text-gray-400 hover:text-white transition">Pricing</Link>
-              <Link href="/about" className="text-gray-400 hover:text-white transition">About</Link>
-              <Link href="/teams" className="text-gray-400 hover:text-white transition">Teams</Link>
+              <Link href="/pricing" className="text-[#5c5ce6] hover:text-[#4c4cd6] transition">Pricing</Link>
+              <Link href="/about" className="text-[#5c5ce6] hover:text-[#4c4cd6] transition">About</Link>
+              <Link href="/teams" className="text-[#5c5ce6] hover:text-[#4c4cd6] transition">Teams</Link>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-4">
-            <Link href="/contact" className="px-5 py-2.5 bg-[#5E5CE6] text-white rounded-lg hover:bg-[#4E4CD6] transition">
+            <Link href="/contact" className="px-5 py-2.5 bg-[#5c5ce6] text-white rounded-lg hover:bg-[#4c4cd6] transition">
               Book a Demo
             </Link>
           </div>
@@ -5825,9 +6048,7 @@ const logos = [
   { name: 'Monte Carlo', src: 'https://framerusercontent.com/images/p1HJ3s3sG81YrDBopNCzCulPwk.png?scale-down-to=512', width: 98, height: 32 },
   { name: 'JuiceBox', src: 'https://framerusercontent.com/images/9XDPJRrhKtLTjS9HKCRFtXeDs1E.svg', width: 113, height: 26 },
   { name: 'KPMG', src: 'https://www.datocms-assets.com/157377/1743003306-kpmg.png', width: 158, height: 61 },
-  { name: 'Deloitte', src: 'https://www.datocms-assets.com/157377/1745202956-deloitte-edited.png', width: 158, height: 61 },
-  { name: 'IBM', src: 'https://www.datocms-assets.com/157377/1743003306-ibm.png', width: 158, height: 61 },
-  { name: 'Accenture', src: 'https://www.datocms-assets.com/157377/1745203114-accenture-edited.png', width: 158, height: 61 },
+
 ]
 
 export function LogoCarousel() {
@@ -5867,24 +6088,22 @@ export function LogoCarousel() {
   const duplicatedLogos = [...logos, ...logos]
   
   return (
-    <div className="w-full py-12 bg-dark-bg overflow-hidden">
+    <div className="w-full py-12 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4">
-        <p className="text-center text-sm font-medium text-gray-500 dark:text-gray-400 mb-8 uppercase tracking-wider">
-          Powering productivity for industry leaders
-        </p>
-        
+
+
         <div className="relative">
           {/* Gradient overlays for fade effect */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-dark-bg to-transparent z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-dark-bg to-transparent z-10" />
-          
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10" />
+
           {/* Scrolling container */}
-          <div 
+          <div
             ref={scrollRef}
             className="flex items-center gap-16 overflow-x-hidden"
-            style={{ 
+            style={{
               scrollBehavior: 'auto',
-              WebkitOverflowScrolling: 'touch' 
+              WebkitOverflowScrolling: 'touch'
             }}
           >
             {duplicatedLogos.map((logo, index) => (
@@ -5896,8 +6115,8 @@ export function LogoCarousel() {
                 <img
                   src={logo.src}
                   alt={`${logo.name} logo`}
-                  className="h-10 w-auto object-contain filter grayscale opacity-60 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
-                  style={{ maxWidth: `${logo.width}px` }}
+                  className="h-10 w-auto object-contain opacity-60 hover:opacity-100 transition-all duration-300"
+                  style={{ filter: 'grayscale(100%) contrast(100%)' }}
                 />
               </div>
             ))}
@@ -6541,194 +6760,5 @@ export function calculateAuthenticityScore(patterns: SuspiciousPattern[]): numbe
   })
 
   return Math.max(0, Math.round(score))
-}
-
-
-================================================================================
-FILE: ./next-env.d.ts
-================================================================================
-
-/// <reference types="next" />
-/// <reference types="next/image-types/global" />
-
-// NOTE: This file should not be edited
-// see https://nextjs.org/docs/app/building-your-application/configuring/typescript for more information.
-
-
-================================================================================
-FILE: ./next.config.js
-================================================================================
-
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-  images: {
-    domains: [
-      'localhost',
-      // Add your Supabase domain here when you have it
-    ],
-  },
-}
-
-module.exports = nextConfig
-
-
-================================================================================
-FILE: ./package.json
-================================================================================
-
-{
-    "name": "onlyworks",
-    "version": "1.0.0",
-    "private": true,
-    "scripts": {
-      "dev": "next dev",
-      "build": "next build",
-      "start": "next start",
-      "lint": "next lint"
-    },
-    "dependencies": {
-      "@supabase/auth-helpers-nextjs": "^0.8.7",
-      "@supabase/supabase-js": "^2.39.3",
-      "@supabase/ssr": "^0.0.10",
-      "date-fns": "^3.0.6",
-      "lucide-react": "^0.294.0",
-      "next": "14.0.4",
-      "openai": "^4.24.1",
-      "react": "^18.2.0",
-      "react-dom": "^18.2.0",
-      "react-hot-toast": "^2.4.1",
-      "recharts": "^2.10.3",
-      "uuid": "^9.0.1",
-      "crypto-js": "^4.2.0"
-    },
-    "devDependencies": {
-      "@types/crypto-js": "^4.2.1",
-      "@types/node": "^20.10.5",
-      "@types/react": "^18.2.45",
-      "@types/react-dom": "^18.2.18",
-      "@types/uuid": "^9.0.7",
-      "autoprefixer": "^10.4.16",
-      "eslint": "^8.56.0",
-      "eslint-config-next": "14.0.4",
-      "postcss": "^8.4.32",
-      "tailwindcss": "^3.4.0",
-      "typescript": "^5.3.3"
-    }
-  }
-
-================================================================================
-FILE: ./postcss.config.js
-================================================================================
-
-module.exports = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-}
-
-
-================================================================================
-FILE: ./README.md
-================================================================================
-
-# OnlyWorks - Productivity Verification Platform
-
-OnlyWorks is a comprehensive productivity tracking and verification platform that creates undeniable proof of genuine, efficient work. Perfect for remote workers, freelancers, and teams who need to demonstrate their productivity.
-
-## Features
-
-- **Event-Based Screenshot Capture**: Captures on every click, spacebar, and enter key
-- **AI-Powered Analysis**: Uses GPT-4 Vision to analyze productivity and detect patterns
-- **Fraud Detection**: Identifies 20+ automation tools and suspicious behaviors
-- **Shareable Reports**: Generate public, verifiable work reports
-- **Multi-Profession Support**: Tailored for developers, designers, finance, marketing, and more
-- **Real-Time Feedback**: Get actionable insights on your work patterns
-
-## Tech Stack
-
-- **Frontend**: Next.js 14, TypeScript, Tailwind CSS
-- **Backend**: Supabase (PostgreSQL + Storage + Auth)
-- **AI**: OpenAI GPT-4 Vision API
-- **Hosting**: Vercel
-
-## Getting Started
-
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-
-
-================================================================================
-FILE: ./tailwind.config.ts
-================================================================================
-
-import type { Config } from 'tailwindcss'
-
-const config: Config = {
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
-  darkMode: 'class',
-  theme: {
-    extend: {
-      colors: {
-        primary: {
-          DEFAULT: '#8B5CF6',
-          light: '#A78BFA', 
-          dark: '#7C3AED',
-        },
-        dark: {
-          bg: '#0F0F0F',
-          card: '#1A1A1A',
-          border: '#2A2A2A',
-        }
-      },
-      borderRadius: {
-        'sm': '0.125rem',
-      },
-      letterSpacing: {
-        'tight': '-0.025em',
-      }
-    },
-  },
-  plugins: [],
-}
-export default config
-
-================================================================================
-FILE: ./tsconfig.json
-================================================================================
-
-{
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": ["./*"]
-    }
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
 }
 

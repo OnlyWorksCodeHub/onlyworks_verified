@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { Navigation } from '@/components/layout/Navigation'
+import { Check, X, ArrowRight } from 'lucide-react'
+import { Logo } from '@/components/ui/logo'
 import { Footer } from '@/components/layout/Footer'
-import { Check, X } from 'lucide-react'
 
 export default function PricingPage() {
   const plans = [
@@ -67,76 +67,119 @@ export default function PricingPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A]">
-      <Navigation />
+    <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center space-x-10">
+              <Link href="/" className="flex items-center space-x-2">
+                <Logo size={32} />
+                <span className="text-xl font-semibold text-gray-900">OnlyWorks</span>
+              </Link>
+              <div className="hidden md:flex items-center space-x-6">
+                <Link href="/pricing" className="text-primary hover:text-primary-dark text-sm font-medium">Pricing</Link>
+                <Link href="/careers" className="text-gray-600 hover:text-gray-900 text-sm">Careers</Link>
+                <Link href="/updates" className="text-gray-600 hover:text-gray-900 text-sm">Updates</Link>
+                <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-sm">Contact</Link>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm">
+                Get started
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-20 px-4">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-            Simple, Transparent Pricing
+      <section className="pt-32 pb-16 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <h1 className="text-5xl md:text-6xl font-semibold text-gray-900 mb-6">
+            Simple, Transparent <span className="text-primary">Pricing</span>
           </h1>
-          <p className="text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
+          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             Start free, upgrade when you need more. No hidden fees, no surprises.
           </p>
         </div>
       </section>
 
       {/* Pricing Cards */}
-      <section className="px-4 pb-20">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-16 px-6">
+        <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
             {plans.map((plan) => (
               <div
                 key={plan.name}
                 className={`relative ${
                   plan.highlighted
-                    ? 'bg-[#1A1A1A] border-2 border-[#5E5CE6] shadow-xl shadow-[#5E5CE6]/20'
-                    : 'bg-[#1A1A1A] border border-gray-800'
+                    ? 'bg-white border-2 border-primary shadow-xl shadow-primary/20'
+                    : 'bg-gray-50 border border-gray-200'
                 } rounded-lg p-8`}
               >
                 {plan.highlighted && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-[#5E5CE6] text-white px-3 py-1 rounded-full text-sm font-medium">
+                    <span className="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
                       Most Popular
                     </span>
                   </div>
                 )}
-                
+
                 <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+                  <h3 className="text-2xl font-semibold text-gray-900 mb-2">{plan.name}</h3>
                   <div className="flex items-baseline mb-2">
-                    <span className="text-4xl font-bold text-white">{plan.price}</span>
-                    <span className="text-gray-400 ml-2">{plan.period}</span>
+                    <span className="text-4xl font-semibold text-gray-900">{plan.price}</span>
+                    <span className="text-gray-600 ml-2">{plan.period}</span>
                   </div>
-                  <p className="text-gray-400">{plan.description}</p>
+                  <p className="text-gray-600">{plan.description}</p>
                 </div>
 
                 <ul className="space-y-3 mb-6">
                   {plan.features.map((feature, index) => (
                     <li key={index} className="flex items-start">
                       <Check className="w-5 h-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-300">{feature}</span>
+                      <span className="text-gray-700">{feature}</span>
                     </li>
                   ))}
                   {plan.limitations.map((limitation, index) => (
                     <li key={index} className="flex items-start">
-                      <X className="w-5 h-5 text-gray-500 mr-2 flex-shrink-0 mt-0.5" />
+                      <X className="w-5 h-5 text-gray-400 mr-2 flex-shrink-0 mt-0.5" />
                       <span className="text-gray-500">{limitation}</span>
                     </li>
                   ))}
                 </ul>
 
-                <Link
-                  href="/auth/register"
-                  className={`w-full block text-center py-3 rounded-lg font-medium transition ${
-                    plan.highlighted
-                      ? 'bg-[#5E5CE6] hover:bg-[#4E4CD6] text-white'
-                      : 'bg-gray-900 hover:bg-gray-800 text-gray-300 border border-gray-800'
-                  }`}
-                >
-                  {plan.cta}
-                </Link>
+                <div>
+                  {plan.name === 'Team' ? (
+                    <div className="grid grid-cols-2 gap-2">
+                      <Link
+                        href="/contact"
+                        className="flex items-center justify-center py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 rounded-lg font-medium transition text-sm"
+                      >
+                        Contact Sales
+                      </Link>
+                      <Link
+                        href="/teams"
+                        className="flex items-center justify-center py-3 bg-primary hover:bg-primary-dark text-white rounded-lg font-medium transition text-sm"
+                      >
+                        More Info
+                        <ArrowRight className="ml-1 w-3 h-3" />
+                      </Link>
+                    </div>
+                  ) : (
+                    <Link
+                      href="/coming-soon"
+                      className={`w-full block text-center py-3 rounded-lg font-medium transition ${
+                        plan.highlighted
+                          ? 'bg-primary hover:bg-primary-dark text-white'
+                          : 'bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300'
+                      }`}
+                    >
+                      {plan.cta}
+                    </Link>
+                  )}
+                </div>
               </div>
             ))}
           </div>
@@ -144,36 +187,36 @@ export default function PricingPage() {
       </section>
 
       {/* FAQ */}
-      <section className="py-20 px-4 border-t border-gray-800">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white">
+      <section id="faq" className="py-16 px-6 bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-semibold text-center mb-12 text-gray-900">
             Frequently Asked Questions
           </h2>
           <div className="space-y-6">
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-white mb-2">How does the free trial work?</h3>
-              <p className="text-gray-400">
-                You get 14 days of full Professional features, no credit card required. 
+            <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">How does the free trial work?</h3>
+              <p className="text-gray-600">
+                You get 14 days of full Professional features, no credit card required.
                 After the trial, you can continue with the free plan or upgrade.
               </p>
             </div>
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-white mb-2">Can I change plans anytime?</h3>
-              <p className="text-gray-400">
-                Yes! You can upgrade, downgrade, or cancel your plan at any time. 
+            <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Can I change plans anytime?</h3>
+              <p className="text-gray-600">
+                Yes! You can upgrade, downgrade, or cancel your plan at any time.
                 Changes take effect at the next billing cycle.
               </p>
             </div>
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-white mb-2">Is my data private?</h3>
-              <p className="text-gray-400">
-                Absolutely. Your screenshots and data are encrypted and never shared. 
+            <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Is my data private?</h3>
+              <p className="text-gray-600">
+                Absolutely. Your screenshots and data are encrypted and never shared.
                 Only you can generate public reports, and they only contain sanitized summaries.
               </p>
             </div>
-            <div className="bg-[#1A1A1A] border border-gray-800 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-white mb-2">Do you offer discounts?</h3>
-              <p className="text-gray-400">
+            <div className="bg-white border border-gray-200 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Do you offer discounts?</h3>
+              <p className="text-gray-600">
                 Yes! We offer 20% off for annual billing and volume discounts for teams over 10 users.
               </p>
             </div>
