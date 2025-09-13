@@ -149,43 +149,43 @@ export default function HomePage() {
           
           <div className="grid md:grid-cols-3 gap-x-8 gap-y-10">
             <div>
-              <h3 className="text-xl font-medium text-gray-900 mb-3">Real-time tracking</h3>
-              <p className="text-gray-600 text-base leading-relaxed">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Real-time tracking</h3>
+              <p className="text-gray-700 text-base leading-relaxed">
                 Capture screenshots on every click and keystroke. Monitor productivity patterns in real-time.
               </p>
             </div>
-            
+
             <div>
-              <h3 className="text-xl font-medium text-gray-900 mb-3">AI analysis</h3>
-              <p className="text-gray-600 text-base leading-relaxed">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">AI analysis</h3>
+              <p className="text-gray-700 text-base leading-relaxed">
                 Advanced AI detects automation tools and analyzes work quality and efficiency.
               </p>
             </div>
-            
+
             <div>
-              <h3 className="text-xl font-medium text-gray-900 mb-3">Verified reports</h3>
-              <p className="text-gray-600 text-base leading-relaxed">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Verified reports</h3>
+              <p className="text-gray-700 text-base leading-relaxed">
                 Generate tamper-proof reports with public verification codes anyone can authenticate.
               </p>
             </div>
-            
+
             <div>
-              <h3 className="text-xl font-medium text-gray-900 mb-3">Team insights</h3>
-              <p className="text-gray-600 text-base leading-relaxed">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Team insights</h3>
+              <p className="text-gray-700 text-base leading-relaxed">
                 Monitor team productivity and ensure quality across all projects and clients.
               </p>
             </div>
-            
+
             <div>
-              <h3 className="text-xl font-medium text-gray-900 mb-3">Privacy focused</h3>
-              <p className="text-gray-600 text-base leading-relaxed">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Privacy focused</h3>
+              <p className="text-gray-700 text-base leading-relaxed">
                 Your data is encrypted and never shared. You control what gets reported.
               </p>
             </div>
-            
+
             <div>
-              <h3 className="text-xl font-medium text-gray-900 mb-3">Integrations</h3>
-              <p className="text-gray-600 text-base leading-relaxed">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Integrations</h3>
+              <p className="text-gray-700 text-base leading-relaxed">
                 Connect with your existing tools. Export data to any platform via API.
               </p>
             </div>

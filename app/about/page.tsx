@@ -76,8 +76,91 @@ export default function AboutPage() {
             In a world of remote work and AI assistance, how do you prove your work is genuine?
             OnlyWorks was built to solve the trust problem in modern work.
           </p>
+        </div>
+      </section>
 
-          <div className="w-full">
+      {/* Our Vision */}
+      <section className="py-16 px-6">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+          <div className="bg-gray-100 rounded-xl aspect-video flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+              <p className="text-gray-500 text-sm">Vision illustration</p>
+            </div>
+          </div>
+          <div>
+            <h2 className="text-3xl font-semibold mb-6 text-gray-900">Our Vision</h2>
+            <p className="text-gray-600 mb-4">
+              OnlyWorks is an AI Platform built for professionals and specialists. Undeniable work with analytics and reports, minus the hassle.
+            </p>
+            <p className="text-gray-600">
+              We work directly with you to understand your needs, then match you with reliable talent who are ready to contribute. Our goal is to streamline the hiring process, no more ghosting, no more unqualified matches just the right fit but, faster. We believe every professional deserves the chance to earn and grow. And every business deserves talent that they can count on.
+            </p>
+          </div>
+        </div>
+      </section>
+      
+      {/* Mission */}
+      <section className="py-16 px-6">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 className="text-3xl font-semibold mb-6 text-gray-900">Our Mission</h2>
+            <p className="text-gray-600 mb-4">
+              We believe that honest, hard-working professionals deserve a way to prove their value.
+              Whether you're a freelancer showing clients your effort, a remote employee demonstrating
+              productivity, or a team lead ensuring quality work, OnlyWorks provides the verification you need.
+            </p>
+            <p className="text-gray-600">
+              Our AI-powered platform tracks real work patterns, detects automation, and creates
+              tamper-proof reports that anyone can verify. No more doubts about outsourcing,
+              no more questions about productivity—just clear, verifiable proof of genuine work.
+            </p>
+          </div>
+          <div className="bg-gray-100 rounded-xl aspect-video flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+              </div>
+              <p className="text-gray-500 text-sm">Image placeholder</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="py-16 px-6 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-semibold text-center mb-12 text-gray-900">Our Values</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Truth First</h3>
+              <p className="text-gray-600">
+                We never compromise on accuracy. Every verification is thorough and honest.
+              </p>
+            </div>
+            <div className="text-center">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Privacy Matters</h3>
+              <p className="text-gray-600">
+                We track productivity, not personal data. Your privacy is non-negotiable.
+              </p>
+            </div>
+            <div className="text-center">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Empower Workers</h3>
+              <p className="text-gray-600">
+                We help professionals prove their worth and improve their productivity.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="w-full">
             <div className="space-y-16 py-12">
 
               {/* Stage 1 */}
@@ -188,80 +271,6 @@ export default function AboutPage() {
 
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Mission */}
-      <section className="py-16 px-6">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-3xl font-semibold mb-6 text-gray-900">Our Mission</h2>
-            <p className="text-gray-600 mb-4">
-              We believe that honest, hard-working professionals deserve a way to prove their value.
-              Whether you're a freelancer showing clients your effort, a remote employee demonstrating
-              productivity, or a team lead ensuring quality work, OnlyWorks provides the verification you need.
-            </p>
-            <p className="text-gray-600">
-              Our AI-powered platform tracks real work patterns, detects automation, and creates
-              tamper-proof reports that anyone can verify. No more doubts about outsourcing,
-              no more questions about productivity—just clear, verifiable proof of genuine work.
-            </p>
-          </div>
-          <div className="bg-gray-100 rounded-xl aspect-video flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                </svg>
-              </div>
-              <p className="text-gray-500 text-sm">Image placeholder</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Values */}
-      <section className="py-16 px-6 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-semibold text-center mb-12 text-gray-900">Our Values</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Truth First</h3>
-              <p className="text-gray-600">
-                We never compromise on accuracy. Every verification is thorough and honest.
-              </p>
-            </div>
-            <div className="text-center">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Privacy Matters</h3>
-              <p className="text-gray-600">
-                We track productivity, not personal data. Your privacy is non-negotiable.
-              </p>
-            </div>
-            <div className="text-center">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Empower Workers</h3>
-              <p className="text-gray-600">
-                We help professionals prove their worth and improve their productivity.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Our Vision */}
-      <section className="py-16 px-6">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <div></div>
-          <div>
-            <h2 className="text-3xl font-semibold mb-6 text-gray-900">Our Vision</h2>
-            <p className="text-gray-600 mb-4">
-              OnlyWorks is an AI Platform built for professionals and specialists. Undeniable work with analytics and reports, minus the hassle.
-            </p>
-            <p className="text-gray-600">
-              We work directly with you to understand your needs, then match you with reliable talent who are ready to contribute. Our goal is to streamline the hiring process, no more ghosting, no more unqualified matches just the right fit but, faster. We believe every professional deserves the chance to earn and grow. And every business deserves talent that they can count on.
-            </p>
-          </div>
-        </div>
-      </section>
 
       <Footer />
     </div>
