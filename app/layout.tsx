@@ -3,15 +3,32 @@ import './globals.css'
 import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://onlyworks.com'),
   title: 'OnlyWorks - Productivity Verification Platform',
   description: 'Prove your work is real, efficient, and authentic with AI-powered verification',
+  keywords: ['productivity', 'verification', 'AI', 'work tracking', 'authentication', 'efficiency'],
+  authors: [{ name: 'OnlyWorks' }],
+  creator: 'OnlyWorks',
+  publisher: 'OnlyWorks',
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://onlyworks.com',
+    siteName: 'OnlyWorks',
+    title: 'OnlyWorks - Productivity Verification Platform',
+    description: 'Prove your work is real, efficient, and authentic with AI-powered verification',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'OnlyWorks - Productivity Verification Platform',
+    description: 'Prove your work is real, efficient, and authentic with AI-powered verification',
+  },
   icons: {
-    icon: [
-      { url: '/favicon.png', type: 'image/png' },
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-    ],
+    icon: '/favicon.ico',
     apple: '/apple-touch-icon.png',
   },
 }

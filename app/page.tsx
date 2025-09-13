@@ -356,11 +356,6 @@ export default function HomePage() {
             </div>
 
             <div className="bg-white border border-gray-200 rounded-lg p-8 text-center hover:shadow-lg transition-shadow">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
-                  AI Powered
-                </span>
-              </div>
               <h3 className="text-2xl font-semibold text-gray-900 mb-4">2. AI Analysis</h3>
               <p className="text-gray-600 leading-relaxed">
                 Advanced AI analyzes your work patterns, detects genuine productivity, and identifies any automation or outsourcing attempts with 98% accuracy.
