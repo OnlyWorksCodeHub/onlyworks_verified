@@ -9,11 +9,16 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        'playfair': ['Playfair Display', 'serif'],
+        'inter': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+      },
       colors: {
         primary: {
-          DEFAULT: '#8B5CF6',
-          light: '#A78BFA', 
-          dark: '#7C3AED',
+          DEFAULT: '#5b70f8',
+          light: '#7d8ffa',
+          dark: '#4a5fd6',
         },
         dark: {
           bg: '#0F0F0F',

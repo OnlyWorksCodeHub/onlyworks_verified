@@ -1,13 +1,6 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
-
-const inter = Inter({ 
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter'
-})
 
 export const metadata: Metadata = {
   title: 'OnlyWorks - Productivity Verification Platform',
@@ -22,20 +15,38 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
 }
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.variable} font-sans bg-dark-bg text-white antialiased`}>
+    <html lang="en">
+      <body className="bg-white text-gray-900 antialiased font-sans">
         {children}
-        <Toaster 
+        <Toaster
           position="bottom-right"
           toastOptions={{
-            className: 'dark:bg-dark-card dark:text-white',
+            style: {
+              fontFamily: "'Inter', sans-serif",
+              background: 'white',
+              color: '#111827',
+              border: '1px solid #e5e7eb'
+            },
             duration: 4000,
+            success: {
+              style: {
+                background: '#10b981',
+                color: 'white',
+              },
+            },
+            error: {
+              style: {
+                background: '#ef4444',
+                color: 'white',
+              },
+            },
           }}
         />
       </body>

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Logo } from '@/components/ui/logo'
+import { Logo } from '@/components/ui/logo' 
 import { Mail, Lock, ArrowRight, Github, Chrome } from 'lucide-react'
 import toast from 'react-hot-toast'
 
