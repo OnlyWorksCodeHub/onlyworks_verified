@@ -14,7 +14,7 @@ export function Navigation() {
 
             <div className="hidden md:flex items-center space-x-6">
               <Link href="/pricing" className="text-[#5c5ce6] hover:text-[#4c4cd6] transition">Pricing</Link>
-              <Link href="/about" className="text-[#5c5ce6] hover:text-[#4c4cd6] transition">About</Link>
+              <Link href="/about" className="text-[#5c5ce6] hover:text-[#4c4cd6] transition">About Us</Link>
               <Link href="/teams" className="text-[#5c5ce6] hover:text-[#4c4cd6] transition">Teams</Link>
             </div>
           </div>

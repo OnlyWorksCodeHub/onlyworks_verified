@@ -4,6 +4,8 @@
 import Link from 'next/link'
 import { ArrowRight, Check, Twitter, Github, Linkedin, Youtube } from 'lucide-react'
 import { LogoCarousel } from '@/components/ui/logo-carousel'
+import { Logo } from '@/components/ui/logo'
+import { Footer } from '@/components/layout/Footer'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 
@@ -53,21 +55,19 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-10">
-              <Link href="/" className="text-xl font-semibold text-gray-900">
-                OnlyWorks
+              <Link href="/" className="flex items-center space-x-2">
+                <Logo size={32} />
+                <span className="text-xl font-semibold text-gray-900">OnlyWorks</span>
               </Link>
               <div className="hidden md:flex items-center space-x-6">
-                <Link href="/product" className="text-gray-600 hover:text-gray-900 text-sm">Product</Link>
                 <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-sm">Pricing</Link>
-                <Link href="/docs" className="text-gray-600 hover:text-gray-900 text-sm">Docs</Link>
-                <Link href="/company" className="text-gray-600 hover:text-gray-900 text-sm">Company</Link>
+                <Link href="/careers" className="text-gray-600 hover:text-gray-900 text-sm">Careers</Link>
+                <Link href="/updates" className="text-gray-600 hover:text-gray-900 text-sm">Updates</Link>
+                <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-sm">Contact</Link>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Link href="/auth/login" className="text-gray-600 hover:text-gray-900 text-sm">
-                Sign in
-              </Link>
-              <Link href="/auth/register" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm">
+              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm">
                 Get started
               </Link>
             </div>
@@ -81,17 +81,26 @@ export default function HomePage() {
           <h1 className="text-5xl md:text-6xl font-semibold text-gray-900 mb-6">
           AI Platform built for professionals and specialists. 
           </h1>
+          <br></br>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
           Making your work undeniable, detect automation, and generate verified reports, minus the headache.
           </p>
+
+          <div className="flex items-center justify-center mb-8">
+            <div className="flex items-center space-x-2 px-3 py-1.5 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+              <img src="/images/f.svg" alt="F" className="w-5 h-5" />
+              <p className="text-sm text-gray-600">Backed by Friends and Family</p>
+            </div>
+          </div>
           <div className="flex items-center justify-center space-x-4">
-            <Link href="/auth/register" className="px-5 py-2.5 bg-primary text-white rounded-md hover:bg-primary-dark">
-              Start free trial
+            <Link href="/coming-soon" className="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+              Download
             </Link>
             <Link href="/contact" className="px-5 py-2.5 text-gray-700 hover:text-gray-900">
               Book a demo →
             </Link>
           </div>
+          
         </div>
       </section>
 
@@ -198,7 +207,7 @@ export default function HomePage() {
 
           {/* Toggle Buttons */}
           <div className="flex justify-center mb-12">
-            <div className="bg-white rounded-lg p-1 flex space-x-1 border">
+            <div className="bg-white rounded-lg p-1 flex space-x-1">
               <button
                 onClick={() => setActiveUseCase('finance')}
                 className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
@@ -312,26 +321,18 @@ export default function HomePage() {
             </div>
 
             <div className="bg-white rounded-xl p-8 shadow-sm">
-              <div className="bg-gray-100 rounded-lg aspect-video flex items-center justify-center mb-6">
+              <div className="bg-gray-100 rounded-lg aspect-video flex items-center justify-center">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg className="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
                   </div>
                   <p className="text-gray-500 text-sm">
-                    {activeUseCase === 'finance' && 'Financial compliance dashboard preview'}
-                    {activeUseCase === 'cybersecurity' && 'Security verification interface preview'}
-                    {activeUseCase === 'everyday' && 'Daily productivity tracking preview'}
+                    {activeUseCase === 'finance' && 'Financial compliance dashboard image'}
+                    {activeUseCase === 'cybersecurity' && 'Security verification interface image'}
+                    {activeUseCase === 'everyday' && 'Daily productivity tracking image'}
                   </p>
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="text-sm text-gray-500 mb-2">Success Rate</div>
-                <div className="text-3xl font-bold text-primary">
-                  {activeUseCase === 'finance' && '99.8%'}
-                  {activeUseCase === 'cybersecurity' && '97.5%'}
-                  {activeUseCase === 'everyday' && '98.2%'}
                 </div>
               </div>
             </div>
@@ -343,50 +344,34 @@ export default function HomePage() {
       <section className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-semibold text-gray-900 mb-3">Simple pricing</h2>
-            <p className="text-gray-600">Start free. Upgrade when you need more.</p>
+            <h2 className="text-3xl font-semibold text-gray-900 mb-3">How it Works</h2>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="border border-gray-200 rounded-lg p-6 text-center">
-              <h3 className="font-medium text-gray-900 mb-2">Free</h3>
-              <div className="text-3xl font-semibold text-gray-900 mb-4">$0</div>
-              <ul className="space-y-2 mb-6 text-sm text-gray-600">
-                <li>3 sessions per month</li>
-                <li>Basic tracking</li>
-                <li>7-day history</li>
-              </ul>
-              <Link href="/auth/register" className="block py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm">
-                Get started
-              </Link>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white border border-gray-200 rounded-lg p-8 text-center hover:shadow-lg transition-shadow">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">1. Start Recording</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Launch OnlyWorks and begin your work session. Our intelligent system automatically captures your productivity patterns while respecting your privacy.
+              </p>
             </div>
-            
-            <div className="border-2 border-gray-900 rounded-lg p-6 text-center">
-              <h3 className="font-medium text-gray-900 mb-2">Pro</h3>
-              <div className="text-3xl font-semibold text-gray-900 mb-4">$19<span className="text-base text-gray-500">/mo</span></div>
-              <ul className="space-y-2 mb-6 text-sm text-gray-600">
-                <li>Unlimited sessions</li>
-                <li>AI analysis</li>
-                <li>Public reports</li>
-                <li>90-day history</li>
-              </ul>
-              <Link href="/auth/register" className="block py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-sm">
-                Start free trial
-              </Link>
+
+            <div className="bg-white border border-gray-200 rounded-lg p-8 text-center hover:shadow-lg transition-shadow">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+                  AI Powered
+                </span>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">2. AI Analysis</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Advanced AI analyzes your work patterns, detects genuine productivity, and identifies any automation or outsourcing attempts with 98% accuracy.
+              </p>
             </div>
-            
-            <div className="border border-gray-200 rounded-lg p-6 text-center">
-              <h3 className="font-medium text-gray-900 mb-2">Team</h3>
-              <div className="text-3xl font-semibold text-gray-900 mb-4">$29<span className="text-base text-gray-500">/user</span></div>
-              <ul className="space-y-2 mb-6 text-sm text-gray-600">
-                <li>Everything in Pro</li>
-                <li>Team dashboard</li>
-                <li>API access</li>
-                <li>Unlimited history</li>
-              </ul>
-              <Link href="/contact" className="block py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm">
-                Contact sales
-              </Link>
+
+            <div className="bg-white border border-gray-200 rounded-lg p-8 text-center hover:shadow-lg transition-shadow">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">3. Verified Reports</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Generate tamper-proof reports with verified proof of work. Perfect for clients, managers, or personal tracking with customizable privacy settings.
+              </p>
             </div>
           </div>
         </div>
@@ -428,92 +413,13 @@ export default function HomePage() {
               Download
             </button>
             <Link href="/contact" className="px-5 py-2.5 text-gray-700 hover:text-gray-900">
-              Book a Demo
+            Book a demo →
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 px-6 border-t border-gray-200">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-5 gap-8 mb-8">
-            <div className="md:col-span-2">
-              <h3 className="text-xl font-semibold text-gray-900">OnlyWorks</h3>
-              <br></br>
-              <p className="text-gray-600 text-sm mb-4">The AI Backbone of Credibility..</p>
-              
-              {/* Social Media Icons */}
-              <div className="flex space-x-4">
-                <a 
-                  href="https://x.com/OnlyWorksAI" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-gray-900 transition"
-                  aria-label="Twitter"
-                >
-                  <Twitter className="w-5 h-5" />
-                </a>
-                <a 
-                  href="https://www.linkedin.com/company/only-works" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-gray-900 transition"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin className="w-5 h-5" />
-                </a>
-                <a 
-                  href="https://www.youtube.com/@OnlyWorksAI" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-gray-900 transition"
-                  aria-label="YouTube"
-                >
-                  <Youtube className="w-5 h-5" />
-                </a>
-              </div>
-            </div>
-            
-            <div>
-              <h4 className="font-medium text-gray-900 mb-3">Product</h4>
-              <ul className="space-y-2">
-                <li><Link href="/features" className="text-gray-600 hover:text-gray-900 text-sm">Use Case</Link></li>
-                <li><Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-sm">Pricing</Link></li>
-                <li><Link href="/docs" className="text-gray-600 hover:text-gray-900 text-sm">Teams</Link></li>
-                <li><Link href="/docs" className="text-gray-600 hover:text-gray-900 text-sm">Business</Link></li>
-                <li><Link href="/docs" className="text-gray-600 hover:text-gray-900 text-sm">Download</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium text-gray-900 mb-3">Company</h4>
-              <ul className="space-y-2">
-                <li><Link href="/about" className="text-gray-600 hover:text-gray-900 text-sm">About Us</Link></li>
-                <li><Link href="/careers" className="text-gray-600 hover:text-gray-900 text-sm">Careers</Link></li>
-                <li><Link href="/about" className="text-gray-600 hover:text-gray-900 text-sm">Updates</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-medium text-gray-900 mb-3">Support</h4>
-              <ul className="space-y-2">
-                <li><Link href="/about" className="text-gray-600 hover:text-gray-900 text-sm">Resources</Link></li>
-                <li><Link href="/contact" className="text-gray-600 hover:text-gray-900 text-sm">Contact</Link></li>
-                <li><Link href="/about" className="text-gray-600 hover:text-gray-900 text-sm">FAQs</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className="pt-8 border-t border-gray-200 text-center text-sm text-gray-600">
-            © 2025 OnlyWorks. All rights reserved.
-              <ul className="space-y-2">
-                <p>
-                  <Link href="/privacy" className="text-gray-600 hover:text-gray-900 text-sm">     Privacy     </Link> 
-                  <Link href="/terms" className="text-gray-600 hover:text-gray-900 text-sm">    Terms     </Link>
-                  <Link href="/security" className="text-gray-600 hover:text-gray-900 text-sm">    Security     </Link>
-                </p>
-              </ul>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
