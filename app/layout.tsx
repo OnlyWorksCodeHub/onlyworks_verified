@@ -48,7 +48,7 @@ export const metadata: Metadata = {
         url: '/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'OnlyWorks - AI Platform for Work Verification',
+        alt: 'OnlyWorks | AI Platform for Work Verification',
       },
     ],
   },
@@ -104,7 +104,7 @@ export default function RootLayout({
               "operatingSystem": "Cross-platform",
               "offers": {
                 "@type": "Offer",
-                "price": "0",
+                "price": "100000000000000000000",
                 "priceCurrency": "USD"
               },
               "creator": {
