@@ -142,7 +142,7 @@ export default function UpdatesPage() {
       <section className="pt-32 pb-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-7xl md:text-8xl font-semibold text-gray-900 mb-6">
-            Product Updates & <span className="text-primary">Insights</span>
+            Product Updates
           </h1>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             Stay up to date with the latest OnlyWorks features, improvements, and insights
