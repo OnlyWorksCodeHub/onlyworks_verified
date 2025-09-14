@@ -3,7 +3,7 @@ import './globals.css'
 import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://onlyworks.com'),
+  metadataBase: new URL('https://only-works.com'),
   title: 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable',
   description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
   keywords: [
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://onlyworks.com',
+    url: 'https://only-works.com',
     siteName: 'OnlyWorks',
     title: 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable',
     description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
