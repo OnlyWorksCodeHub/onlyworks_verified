@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     images: ['/images/twitter-image.png'],
   },
   alternates: {
-    canonical: 'https://onlyworks.com',
+    canonical: 'https://only-works.com',
   },
   other: {
     'msapplication-TileColor': '#ffffff',
@@ -70,12 +70,12 @@ export const metadata: Metadata = {
     'linkedin:title': 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable',
     'linkedin:description': 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
     'linkedin:image': '/images/linkedin-image.png',
-    'linkedin:url': 'https://onlyworks.com',
+    'linkedin:url': 'https://only-works.com',
     // YouTube meta tags
     'youtube:title': 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
     'youtube:description': 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
     'youtube:image': '/images/youtube-image.png',
-    'youtube:url': 'https://onlyworks.com',
+    'youtube:url': 'https://only-works.com',
   },
   icons: {
     icon: '/favicon.ico',
@@ -99,7 +99,7 @@ export default function RootLayout({
               "@type": "SoftwareApplication",
               "name": "OnlyWorks",
               "description": "Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.",
-              "url": "https://onlyworks.com",
+              "url": "https://only-works.com",
               "applicationCategory": "BusinessApplication",
               "operatingSystem": "Cross-platform",
               "offers": {
@@ -110,7 +110,7 @@ export default function RootLayout({
               "creator": {
                 "@type": "Organization",
                 "name": "OnlyWorks",
-                "url": "https://onlyworks.com"
+                "url": "https://only-works.com"
               },
               "keywords": "AI platform, work verification, productivity tracking, automation detection, verified reports"
             })
