@@ -4,8 +4,8 @@ import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://onlyworks.com'),
-  title: 'OnlyWorks - AI Platform for Professionals and Specialists | Work Verification',
-  description: 'Making your work undeniable with AI-powered verification. Detect automation, generate verified reports, and prove your productivity - minus the headache. Trusted by professionals worldwide.',
+  title: 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
+  description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
   keywords: [
     'AI platform',
     'work verification',
@@ -41,8 +41,8 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://onlyworks.com',
     siteName: 'OnlyWorks',
-    title: 'OnlyWorks - AI Platform Built for Professionals and Specialists',
-    description: 'Making your work undeniable with AI-powered verification. Detect automation, generate verified reports, and prove your productivity - minus the headache.',
+    title: 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
+    description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
     images: [
       {
         url: '/images/og-image.png',
@@ -54,10 +54,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@onlyworks',
-    creator: '@onlyworks',
-    title: 'OnlyWorks - AI Platform Built for Professionals and Specialists',
-    description: 'Making your work undeniable with AI-powered verification. Detect automation and generate verified reports.',
+    site: '@OnlyWorksAI',
+    creator: '@OnlyWorksAI',
+    title: 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
+    description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
     images: ['/images/twitter-image.png'],
   },
   alternates: {
@@ -66,6 +66,16 @@ export const metadata: Metadata = {
   other: {
     'msapplication-TileColor': '#ffffff',
     'theme-color': '#ffffff',
+    // LinkedIn meta tags
+    'linkedin:title': 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
+    'linkedin:description': 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
+    'linkedin:image': '/images/linkedin-image.png',
+    'linkedin:url': 'https://onlyworks.com',
+    // YouTube meta tags
+    'youtube:title': 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
+    'youtube:description': 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
+    'youtube:image': '/images/youtube-image.png',
+    'youtube:url': 'https://onlyworks.com',
   },
   icons: {
     icon: '/favicon.ico',
@@ -88,7 +98,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "SoftwareApplication",
               "name": "OnlyWorks",
-              "description": "AI platform built for professionals and specialists. Making your work undeniable with verified reports and automation detection.",
+              "description": "Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.",
               "url": "https://onlyworks.com",
               "applicationCategory": "BusinessApplication",
               "operatingSystem": "Cross-platform",
