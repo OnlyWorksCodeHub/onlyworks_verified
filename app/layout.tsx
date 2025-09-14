@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://onlyworks.com'),
-  title: 'OnlyWorks - AI Platform for Professionals and Specialists | Work Verification',
+  title: 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable, minus the headache.',
   description: 'Making your work undeniable with AI-powered verification. Detect automation, generate verified reports, and prove your productivity - minus the headache. Trusted by professionals worldwide.',
   keywords: [
     'AI platform',
@@ -41,14 +41,14 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://onlyworks.com',
     siteName: 'OnlyWorks',
-    title: 'OnlyWorks - AI Platform Built for Professionals and Specialists',
+    title: 'OnlyWorks | AI Platform Built for Professionals and Specialists',
     description: 'Making your work undeniable with AI-powered verification. Detect automation, generate verified reports, and prove your productivity - minus the headache.',
     images: [
       {
         url: '/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'OnlyWorks - AI Platform for Work Verification',
+        alt: 'OnlyWorks | AI Platform for Work Verification',
       },
     ],
   },
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@onlyworks',
     creator: '@onlyworks',
-    title: 'OnlyWorks - AI Platform Built for Professionals and Specialists',
+    title: 'OnlyWorks | AI Platform Built for Professionals and Specialists',
     description: 'Making your work undeniable with AI-powered verification. Detect automation and generate verified reports.',
     images: ['/images/twitter-image.png'],
   },
@@ -94,7 +94,7 @@ export default function RootLayout({
               "operatingSystem": "Cross-platform",
               "offers": {
                 "@type": "Offer",
-                "price": "0",
+                "price": "100000000000000000000",
                 "priceCurrency": "USD"
               },
               "creator": {
