@@ -5,7 +5,7 @@ import { Toaster } from 'react-hot-toast'
 export const metadata: Metadata = {
   metadataBase: new URL('https://onlyworks.com'),
   title: 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable, minus the headache.',
-  description: 'Making your work undeniable with AI-powered verification. Detect automation, generate verified reports, and prove your productivity - minus the headache. Trusted by professionals worldwide.',
+  description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
   keywords: [
     'AI platform',
     'work verification',
