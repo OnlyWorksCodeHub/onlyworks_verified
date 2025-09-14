@@ -76,15 +76,15 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="pt-8 border-t border-gray-200 text-center text-sm text-gray-600">
-          © 2025 OnlyWorks. All rights reserved.
-            <ul className="space-y-2">
-              <p>
-                <Link href="/privacy" className="text-gray-600 hover:text-gray-900 text-sm">     Privacy     </Link>
-                <Link href="/terms" className="text-gray-600 hover:text-gray-900 text-sm">    Terms     </Link>
-                <Link href="/security" className="text-gray-600 hover:text-gray-900 text-sm">    Security     </Link>
-              </p>
-            </ul>
+        <div className="pt-8 border-t border-gray-200">
+          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
+            <p>© 2025 OnlyWorks. All rights reserved.</p>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <Link href="/privacy" className="hover:text-gray-900 transition">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-gray-900 transition">Terms of Service</Link>
+              <Link href="/security" className="hover:text-gray-900 transition">Security</Link>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
