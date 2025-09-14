@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://onlyworks.com'),
-  title: 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
+  title: 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable',
   description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
   keywords: [
     'AI platform',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://onlyworks.com',
     siteName: 'OnlyWorks',
-    title: 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
+    title: 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable',
     description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
     images: [
       {
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@OnlyWorksAI',
     creator: '@OnlyWorksAI',
-    title: 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
+    title: 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable',
     description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
     images: ['/images/twitter-image.png'],
   },
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     'msapplication-TileColor': '#ffffff',
     'theme-color': '#ffffff',
     // LinkedIn meta tags
-    'linkedin:title': 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
+    'linkedin:title': 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable',
     'linkedin:description': 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
     'linkedin:image': '/images/linkedin-image.png',
     'linkedin:url': 'https://onlyworks.com',
