@@ -1,20 +1,46 @@
-import { Navigation } from '@/components/layout/Navigation'
+import Link from 'next/link'
+import { Logo } from '@/components/ui/logo'
 import { Footer } from '@/components/layout/Footer'
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-[#0A0A0A]">
-      <Navigation />
+    <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex justify-between items-center h-20">
+            <div className="flex items-center space-x-10">
+              <Link href="/" className="flex items-center space-x-2">
+                <Logo size={32} />
+                <span className="text-2xl font-semibold text-gray-900">OnlyWorks</span>
+              </Link>
+              <div className="hidden md:flex items-center space-x-6">
+                <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-base">Pricing</Link>
+                <Link href="/careers" className="text-gray-600 hover:text-gray-900 text-base">Careers</Link>
+                <Link href="/updates" className="text-gray-600 hover:text-gray-900 text-base">Updates</Link>
+                <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-base">Contact</Link>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-base">
+                Get started
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
 
       {/* Content */}
       <section className="pt-32 pb-20 px-4">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold text-white mb-8">Privacy Policy</h1>
-          <p className="text-gray-400 mb-8">Last updated: January 1, 2025</p>
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Privacy Policy</h1>
+            <p className="text-gray-600 mt-1">Last updated: January 1, 2025</p>
+          </div>
 
-          <div className="space-y-8 text-gray-300">
+          <div className="space-y-8 text-gray-600">
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">1. Information We Collect</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Information We Collect</h2>
               <p className="mb-4">
                 OnlyWorks collects information to provide and improve our productivity verification services. We collect:
               </p>
@@ -27,7 +53,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">2. How We Use Your Information</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">2. How We Use Your Information</h2>
               <p className="mb-4">We use collected information to:</p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Provide productivity tracking and verification services</li>
@@ -39,7 +65,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">3. Data Security</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">3. Data Security</h2>
               <p>
                 We implement industry-standard security measures to protect your data. All screenshots and session data 
                 are encrypted in transit and at rest. We use secure cloud infrastructure with regular security audits.
@@ -47,7 +73,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">4. Data Retention</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">4. Data Retention</h2>
               <p>
                 We retain your work session data according to your subscription plan. Free users: 7 days, 
                 Professional: 90 days, Team: Unlimited. You can delete your data at any time from your account settings.
@@ -55,7 +81,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">5. Data Sharing</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">5. Data Sharing</h2>
               <p className="mb-4">
                 We do not sell your personal information. We may share data with:
               </p>
@@ -67,7 +93,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">6. Your Rights</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">6. Your Rights</h2>
               <p className="mb-4">You have the right to:</p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Access your personal data</li>
@@ -79,7 +105,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">7. Cookies</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">7. Cookies</h2>
               <p>
                 We use essential cookies to maintain your session and preferences. We also use analytics cookies 
                 to understand how you use our service. You can control cookie preferences in your browser settings.
@@ -87,7 +113,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">8. Children's Privacy</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">8. Children's Privacy</h2>
               <p>
                 OnlyWorks is not intended for users under 18 years of age. We do not knowingly collect information 
                 from children under 18.
@@ -95,7 +121,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">9. Changes to This Policy</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">9. Changes to This Policy</h2>
               <p>
                 We may update this privacy policy from time to time. We will notify you of any changes by posting 
                 the new policy on this page and updating the "Last updated" date.
@@ -103,7 +129,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold text-white mb-4">10. Contact Us</h2>
+              <h2 className="text-2xl font-semibold text-gray-900 mb-4">10. Contact Us</h2>
               <p>
                 If you have questions about this privacy policy, please contact us at:
               </p>
