@@ -93,7 +93,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="flex items-center justify-center space-x-4">
-            <Link href="/coming-soon" className="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+            <Link href="/downloads" className="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
               Download
             </Link>
             <Link href="/contact" className="px-5 py-2.5 text-gray-700 hover:text-gray-900">
@@ -399,14 +399,12 @@ export default function HomePage() {
             </button>
           </form>
           <div className="flex items-center justify-center space-x-4">
-            <button
-              onClick={() => {
-                toast.error('Download coming soon! We\'re preparing the latest version for you.')
-              }}
+            <Link
+              href="/downloads"
               className="px-5 py-2.5 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors"
             >
               Download
-            </button>
+            </Link>
             <Link href="/contact" className="px-5 py-2.5 text-gray-700 hover:text-gray-900">
             Book a demo →
             </Link>
