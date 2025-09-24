@@ -94,9 +94,9 @@ export default function UpdatesPage() {
     },
     {
       date: "October 15, 2024",
-      title: "Public API Launch",
-      image: "/images/api-launch.jpg",
-      description: "Introducing our comprehensive REST API, allowing seamless integration with your existing tools and workflows.",
+      title: "Public BETA launch",
+      image : <video src="/images/Outro.mp4"></video>,
+      description: "Introducing our BETA model, allowing seamless report generation with your existing tools and workflows.",
       improvements: [
         "Full REST API with comprehensive documentation",
         "SDK support for popular programming languages",
