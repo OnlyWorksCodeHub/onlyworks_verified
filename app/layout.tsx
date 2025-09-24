@@ -104,7 +104,7 @@ export default function RootLayout({
               "operatingSystem": "Cross-platform",
               "offers": {
                 "@type": "Offer",
-                "price": "0",
+                "price": "10000 0",
                 "priceCurrency": "USD"
               },
               "creator": {
