@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
+import ClientLayout from '@/components/ClientLayout'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://onlyworks.com'),
@@ -118,31 +119,33 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-white text-gray-900 antialiased font-sans">
-        {children}
-        <Toaster
-          position="bottom-right"
-          toastOptions={{
-            style: {
-              fontFamily: "'Inter', sans-serif",
-              background: 'white',
-              color: '#111827',
-              border: '1px solid #e5e7eb'
-            },
-            duration: 4000,
-            success: {
+        <ClientLayout>
+          {children}
+          <Toaster
+            position="bottom-right"
+            toastOptions={{
               style: {
-                background: '#10b981',
-                color: 'white',
+                fontFamily: "'Inter', sans-serif",
+                background: 'white',
+                color: '#111827',
+                border: '1px solid #e5e7eb'
               },
-            },
-            error: {
-              style: {
-                background: '#ef4444',
-                color: 'white',
+              duration: 4000,
+              success: {
+                style: {
+                  background: '#10b981',
+                  color: 'white',
+                },
               },
-            },
-          }}
-        />
+              error: {
+                style: {
+                  background: '#ef4444',
+                  color: 'white',
+                },
+              },
+            }}
+          />
+        </ClientLayout>
       </body>
     </html>
   )

@@ -1,228 +1,329 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
-import { Header } from '@/components/layout/Header'
-import { Sidebar } from '@/components/layout/Sidebar'
-import { ScreenRecorder } from '@/components/recorder/ScreenRecorder'
-import { StatsOverview } from '@/components/dashboard/StatsOverview'
-import { RecentSessions } from '@/components/dashboard/RecentSessions'
-import { ProductivityChart } from '@/components/dashboard/ProductivityChart'
-import { Play, TrendingUp, Clock, Award, AlertTriangle } from 'lucide-react'
+import {
+  Calendar,
+  FileText,
+  TrendingUp,
+  Code,
+  AlertTriangle,
+  BarChart3,
+  Plus,
+  Download,
+  Share2,
+  Eye,
+  Clock,
+  Users,
+  Search,
+  Filter,
+  ChevronRight,
+  Activity
+} from 'lucide-react'
+import { getUserReports, getProductivityTrends } from '@/lib/supabase'
+import { useAuth } from '@/contexts/AuthContext'
+import { exportReport } from '@/utils/exportService'
+import AuthenticatedNavigation from '@/components/AuthenticatedNavigation'
 import toast from 'react-hot-toast'
 
-export default function DashboardPage() {
-  const [user, setUser] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [currentSession, setCurrentSession] = useState<string | null>(null)
-  const [stats, setStats] = useState({
-    todayHours: 0,
-    weekProductivity: 0,
-    totalSessions: 0,
-    authenticityScore: 100,
-    currentStreak: 0
-  })
-  
+const Dashboard = () => {
+  const { user, loading } = useAuth()
   const router = useRouter()
-  const supabase = createClient()
+  const [reports, setReports] = useState([])
+  const [trends, setTrends] = useState([])
+  const [loadingReports, setLoadingReports] = useState(true)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [sortBy, setSortBy] = useState('date')
 
   useEffect(() => {
-    checkUser()
-    fetchStats()
-  }, [])
+    if (loading) return
 
-  const checkUser = async () => {
-    const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
       router.push('/auth/login')
-    } else {
-      setUser(user)
-      setLoading(false)
+      return
+    }
+
+    loadReports()
+    loadTrends()
+  }, [user, loading, router])
+
+  const loadReports = async () => {
+    try {
+      setLoadingReports(true)
+      const { reports, error } = await getUserReports(user.id, 50)
+      if (error) {
+        console.error('Failed to load reports:', error)
+        // Don't show error toast for empty results
+        if (error.code !== 'PGRST116') {
+          toast.error('Failed to load reports: ' + error.message)
+        }
+      }
+      setReports(reports || [])
+    } catch (error) {
+      console.error('Failed to load reports:', error)
+      toast.error('Unable to connect to the database. Please check your connection.')
+    } finally {
+      setLoadingReports(false)
     }
   }
 
-  const fetchStats = async () => {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
+  const loadTrends = async () => {
+    try {
+      const { trends, error } = await getProductivityTrends(user.id, 30)
+      if (error) throw error
+      setTrends(trends || [])
+    } catch (error) {
+      console.error('Failed to load trends:', error)
+    }
+  }
 
-    // Fetch today's stats
-    const today = new Date().toISOString().split('T')[0]
-    const { data: todayStats } = await supabase
-      .from('daily_stats')
-      .select('*')
-      .eq('user_id', user.id)
-      .eq('date', today)
-      .single()
+  const handleExportReport = async (report, format = 'json') => {
+    try {
+      await exportReport(report, format)
+      toast.success(`Report exported as ${format.toUpperCase()}`)
+    } catch (error) {
+      console.error('Export error:', error)
+      toast.error('Failed to export report')
+    }
+  }
 
-    // Fetch week stats
-    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
-    const { data: weekSessions } = await supabase
-      .from('workflow_sessions')
-      .select('*')
-      .eq('user_id', user.id)
-      .gte('created_at', weekAgo)
-
-    // Fetch total sessions
-    const { count } = await supabase
-      .from('workflow_sessions')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id)
-
-    setStats({
-      todayHours: todayStats?.total_duration ? Math.round(todayStats.total_duration / 3600) : 0,
-      weekProductivity: todayStats?.avg_productivity || 0,
-      totalSessions: count || 0,
-      authenticityScore: 100,
-      currentStreak: calculateStreak(weekSessions || [])
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
     })
   }
 
-  const calculateStreak = (sessions: any[]) => {
-    if (!sessions.length) return 0
-    const dates = sessions.map(s => new Date(s.created_at).toDateString())
-    const uniqueDates = Array.from(new Set(dates))
-    return uniqueDates.length
+  const formatTime = (dateString) => {
+    return new Date(dateString).toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit'
+    })
   }
 
-  const startNewSession = async () => {
-    const { data, error } = await supabase
-      .from('workflow_sessions')
-      .insert({
-        user_id: user.id,
-        name: `Work Session - ${new Date().toLocaleString()}`,
-        status: 'active'
-      })
-      .select()
-      .single()
-
-    if (error) {
-      toast.error('Failed to start session')
-    } else {
-      setCurrentSession(data.id)
-      toast.success('Session started! Your actions are being tracked.')
+  const filteredReports = reports.filter(report =>
+    report.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    report.developer?.toLowerCase().includes(searchTerm.toLowerCase())
+  ).sort((a, b) => {
+    switch (sortBy) {
+      case 'date':
+        return new Date(b.report_date) - new Date(a.report_date)
+      case 'title':
+        return (a.title || '').localeCompare(b.title || '')
+      case 'lines':
+        return (b.lines_written || 0) - (a.lines_written || 0)
+      default:
+        return 0
     }
-  }
+  })
 
-  if (loading) {
+  // Calculate stats
+  const totalReports = reports.length
+  const totalLines = reports.reduce((sum, report) => sum + (report.lines_written || 0), 0)
+  const totalFiles = reports.reduce((sum, report) => sum + (report.files_modified_count || 0), 0)
+  const avgProductivity = totalReports > 0 ? Math.round(totalLines / totalReports) : 0
+
+  if (loading || loadingReports) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading your dashboard...</p>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-bg flex">
-      <Sidebar open={sidebarOpen} />
-      
-      <div className="flex-1 flex flex-col">
-        <Header user={user} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        
-        <main className="flex-1 p-6">
-          <div className="max-w-7xl mx-auto">
-            {/* Welcome section */}
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Welcome back{user?.user_metadata?.full_name ? `, ${user.user_metadata.full_name}` : ''}!
-              </h1>
-              <p className="text-gray-600 dark:text-gray-400 mt-1">
-                Track your productivity and prove your work is real
-              </p>
+    <div className="min-h-screen bg-gray-50">
+      <AuthenticatedNavigation />
+
+      {/* Header */}
+      <div className="pt-16 bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+              <p className="text-gray-600 mt-1">Welcome back, {user?.email}</p>
             </div>
-
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-              <div className="card-clean p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <Clock className="w-8 h-8 text-blue-500" />
-                  <span className="text-xs text-gray-500">Today</span>
-                </div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.todayHours}h</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Hours Tracked</p>
-              </div>
-
-              <div className="card-clean p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <TrendingUp className="w-8 h-8 text-green-500" />
-                  <span className="text-xs text-gray-500">This Week</span>
-                </div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.weekProductivity}%</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Avg Productivity</p>
-              </div>
-
-              <div className="card-clean p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <Award className="w-8 h-8 text-purple-500" />
-                  <span className="text-xs text-gray-500">Total</span>
-                </div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.totalSessions}</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Sessions</p>
-              </div>
-
-              <div className="card-clean p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <AlertTriangle className="w-8 h-8 text-yellow-500" />
-                  <span className="text-xs text-gray-500">Trust</span>
-                </div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.authenticityScore}%</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Authenticity</p>
-              </div>
-
-              <div className="card-clean p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="w-8 h-8 bg-orange-500 rounded-full"></div>
-                  <span className="text-xs text-gray-500">Streak</span>
-                </div>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.currentStreak}</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Days Active</p>
-              </div>
-            </div>
-
-            {/* Main content area */}
-            <div className="grid lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 space-y-6">
-                {/* Session control */}
-                {!currentSession ? (
-                  <div className="card-clean p-6">
-                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                      Ready to start tracking?
-                    </h2>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">
-                      Begin a new session to track your clicks, keystrokes, and productivity.
-                    </p>
-                    <button
-                      onClick={startNewSession}
-                      className="btn-clean btn-primary-clean flex items-center"
-                    >
-                      <Play className="w-5 h-5 mr-2" />
-                      Start New Session
-                    </button>
-                  </div>
-                ) : (
-                  <ScreenRecorder 
-                    sessionId={currentSession} 
-                    userId={user.id}
-                    onSessionEnd={() => {
-                      setCurrentSession(null)
-                      fetchStats()
-                    }}
-                  />
-                )}
-
-                {/* Productivity Chart */}
-                <ProductivityChart userId={user.id} />
-              </div>
-
-              {/* Recent Sessions */}
-              <div>
-                <RecentSessions userId={user.id} />
-              </div>
+            <div className="flex items-center gap-4">
+              <Link
+                href="/reports/new"
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <Plus className="w-4 h-4" />
+                New Report
+              </Link>
             </div>
           </div>
-        </main>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white rounded-lg p-6 shadow-sm border">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total Reports</p>
+                <p className="text-2xl font-bold text-gray-900">{totalReports}</p>
+              </div>
+              <FileText className="w-8 h-8 text-blue-500" />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg p-6 shadow-sm border">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Lines Written</p>
+                <p className="text-2xl font-bold text-gray-900">{totalLines.toLocaleString()}</p>
+              </div>
+              <Code className="w-8 h-8 text-green-500" />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg p-6 shadow-sm border">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Files Modified</p>
+                <p className="text-2xl font-bold text-gray-900">{totalFiles}</p>
+              </div>
+              <Activity className="w-8 h-8 text-purple-500" />
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg p-6 shadow-sm border">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Avg Lines/Report</p>
+                <p className="text-2xl font-bold text-gray-900">{avgProductivity}</p>
+              </div>
+              <TrendingUp className="w-8 h-8 text-orange-500" />
+            </div>
+          </div>
+        </div>
+
+        {/* Reports Section */}
+        <div className="bg-white rounded-lg shadow-sm border">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-900">Recent Reports</h2>
+              <Link
+                href="/reports"
+                className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-1"
+              >
+                View all
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* Search and Filter */}
+            <div className="flex items-center gap-4 mt-4">
+              <div className="relative flex-1 max-w-md">
+                <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search reports..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="date">Sort by Date</option>
+                <option value="title">Sort by Title</option>
+                <option value="lines">Sort by Lines</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="divide-y divide-gray-200">
+            {filteredReports.length === 0 ? (
+              <div className="px-6 py-12 text-center">
+                <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  {loadingReports ? 'Loading reports...' : 'No reports yet'}
+                </h3>
+                <p className="text-gray-500 mb-6">
+                  {searchTerm
+                    ? 'Try adjusting your search terms.'
+                    : 'Reports from the OnlyWorks desktop app will appear here automatically. Make sure the desktop app is running and connected to your account.'
+                  }
+                </p>
+                {!searchTerm && !loadingReports && (
+                  <div className="space-y-3">
+                    <p className="text-sm text-gray-400">
+                      Don't have the desktop app yet?
+                    </p>
+                    <Link
+                      href="/downloads"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      <Download className="w-4 h-4" />
+                      Download Desktop App
+                    </Link>
+                  </div>
+                )}
+              </div>
+            ) : (
+              filteredReports.slice(0, 10).map((report) => (
+                <div key={report.id} className="px-6 py-4 hover:bg-gray-50">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3">
+                        <h3 className="font-medium text-gray-900">
+                          {report.title || 'Daily Work Report'}
+                        </h3>
+                      </div>
+                      <div className="flex items-center gap-4 mt-1 text-sm text-gray-500">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {formatDate(report.report_date)}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {report.session_duration || 'N/A'}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Code className="w-3 h-3" />
+                          {report.lines_written || 0} lines
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <FileText className="w-3 h-3" />
+                          {report.files_modified_count || 0} files
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleExportReport(report, 'json')}
+                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                        title="Export report"
+                      >
+                        <Download className="w-4 h-4" />
+                      </button>
+                      <Link
+                        href={`/reports/${report.id}`}
+                        className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
+                      >
+                        View
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )
 }
+
+export default Dashboard

@@ -1,49 +1,70 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
-import { Logo } from '@/components/ui/logo' 
-import { Mail, Lock, ArrowRight, Github, Chrome } from 'lucide-react'
+import { signInWithEmail, signInWithGoogle } from '@/lib/supabase'
+import { useAuth } from '@/contexts/AuthContext'
+import { Logo } from '@/components/ui/logo'
+import { Mail, Lock, ArrowRight, Chrome } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 export default function LoginPage() {
+  const { user, loading: authLoading } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
-  const supabase = createClient()
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.push('/dashboard')
+    }
+  }, [user, authLoading, router])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    try {
+      const { data, error } = await signInWithEmail(email, password)
 
-    if (error) {
-      toast.error(error.message)
-      setLoading(false)
-    } else {
+      if (error) throw error
+
       toast.success('Welcome back!')
-      router.push('/dashboard')
+      // Redirect will be handled by AuthContext
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to sign in')
+    } finally {
+      setLoading(false)
     }
   }
 
-  const handleOAuthLogin = async (provider: 'google' | 'github') => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${window.location.origin}/api/auth/callback`
-      }
-    })
+  const handleGoogleLogin = async () => {
+    try {
+      const { data, error } = await signInWithGoogle()
 
-    if (error) {
-      toast.error(error.message)
+      if (error) throw error
+
+      // OAuth redirect will happen automatically
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to sign in with Google')
     }
+  }
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (user) {
+    return null // Will redirect via useEffect
   }
 
   return (
@@ -136,20 +157,13 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <div className="mt-6 grid grid-cols-2 gap-3">
+            <div className="mt-6">
               <button
-                onClick={() => handleOAuthLogin('google')}
+                onClick={handleGoogleLogin}
                 className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-dark-border rounded-sm hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors"
               >
                 <Chrome className="w-5 h-5" />
-                <span className="ml-2">Google</span>
-              </button>
-              <button
-                onClick={() => handleOAuthLogin('github')}
-                className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-dark-border rounded-sm hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors"
-              >
-                <Github className="w-5 h-5" />
-                <span className="ml-2">GitHub</span>
+                <span className="ml-2">Continue with Google</span>
               </button>
             </div>
           </div>

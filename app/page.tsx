@@ -6,10 +6,12 @@ import { ArrowRight, Check, Twitter, Github, Linkedin, Youtube } from 'lucide-re
 import { LogoCarousel } from '@/components/ui/logo-carousel'
 import { Logo } from '@/components/ui/logo'
 import { Footer } from '@/components/layout/Footer'
+import { useAuth } from '@/contexts/AuthContext'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 
 export default function HomePage() {
+  const { user } = useAuth()
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [activeUseCase, setActiveUseCase] = useState('finance')
@@ -67,9 +69,20 @@ export default function HomePage() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-base">
-                Get started
-              </Link>
+              {user ? (
+                <Link href="/dashboard" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-base">
+                  Dashboard
+                </Link>
+              ) : (
+                <>
+                  <Link href="/auth/login" className="px-4 py-2 text-gray-600 hover:text-gray-900 text-base">
+                    Sign In
+                  </Link>
+                  <Link href="/auth/register" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-base">
+                    Get started
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
