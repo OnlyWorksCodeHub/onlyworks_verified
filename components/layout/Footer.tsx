@@ -57,7 +57,7 @@ export function Footer() {
               <li><Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-sm">Pricing</Link></li>
               <li><Link href="/teams" className="text-gray-600 hover:text-gray-900 text-sm">Teams</Link></li>
               <li><Link href="/coming-soon" className="text-gray-600 hover:text-gray-900 text-sm">Business</Link></li>
-              <li><Link href="/coming-soon" className="text-gray-600 hover:text-gray-900 text-sm">Download</Link></li>
+              <li><Link href="/downloads" className="text-gray-600 hover:text-gray-900 text-sm">Download</Link></li>
             </ul>
           </div>
           <div>
@@ -66,6 +66,7 @@ export function Footer() {
               <li><Link href="/about" className="text-gray-600 hover:text-gray-900 text-sm">About Us</Link></li>
               <li><Link href="/careers" className="text-gray-600 hover:text-gray-900 text-sm">Careers</Link></li>
               <li><Link href="/updates" className="text-gray-600 hover:text-gray-900 text-sm">Updates</Link></li>
+              <li><Link href="/coming-soon" className="text-gray-600 hover:text-gray-900 text-sm">Collaborate with us</Link></li>
             </ul>
           </div>
           <div>
@@ -73,6 +74,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li><Link href="/contact" className="text-gray-600 hover:text-gray-900 text-sm">Contact</Link></li>
               <li><Link href="/pricing#faq" className="text-gray-600 hover:text-gray-900 text-sm">FAQs</Link></li>
+              <li><Link href="/coming-soon" className="text-gray-600 hover:text-gray-900 text-sm">Tutorial</Link></li>
             </ul>
           </div>
         </div>
