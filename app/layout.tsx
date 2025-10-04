@@ -4,8 +4,8 @@ import { Toaster } from 'react-hot-toast'
 import ClientLayout from '@/components/ClientLayout'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://onlyworks.com'),
-  title: 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
+  metadataBase: new URL('https://www.only-works.com'),
+  title: 'OnlyWorks | AI Platform to Make your Work Undeniable',
   description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
   keywords: [
     'AI platform',
@@ -40,16 +40,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://onlyworks.com',
+    url: 'https://www.only-works.com',
     siteName: 'OnlyWorks',
-    title: 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
+    title: 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable',
     description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
     images: [
       {
         url: '/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'OnlyWorks - AI Platform for Work Verification',
+        alt: 'OnlyWorks | AI Platform for Work Verification',
       },
     ],
   },
@@ -57,26 +57,26 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@OnlyWorksAI',
     creator: '@OnlyWorksAI',
-    title: 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
+    title: 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable',
     description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
     images: ['/images/twitter-image.png'],
   },
   alternates: {
-    canonical: 'https://onlyworks.com',
+    canonical: 'https://www.only-works.com',
   },
   other: {
     'msapplication-TileColor': '#ffffff',
     'theme-color': '#ffffff',
     // LinkedIn meta tags
-    'linkedin:title': 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
+    'linkedin:title': 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable',
     'linkedin:description': 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
     'linkedin:image': '/images/linkedin-image.png',
-    'linkedin:url': 'https://onlyworks.com',
+    'linkedin:url': 'https://www.only-works.com',
     // YouTube meta tags
     'youtube:title': 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
     'youtube:description': 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
     'youtube:image': '/images/youtube-image.png',
-    'youtube:url': 'https://onlyworks.com',
+    'youtube:url': 'https://www.only-works.com',
   },
   icons: {
     icon: '/favicon.ico',
@@ -100,18 +100,18 @@ export default function RootLayout({
               "@type": "SoftwareApplication",
               "name": "OnlyWorks",
               "description": "Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.",
-              "url": "https://onlyworks.com",
+              "url": "https://www.only-works.com",
               "applicationCategory": "BusinessApplication",
               "operatingSystem": "Cross-platform",
               "offers": {
                 "@type": "Offer",
-                "price": "10000 0",
+                "price": "100000000000000000000",
                 "priceCurrency": "USD"
               },
               "creator": {
                 "@type": "Organization",
                 "name": "OnlyWorks",
-                "url": "https://onlyworks.com"
+                "url": "https://www.only-works.com"
               },
               "keywords": "AI platform, work verification, productivity tracking, automation detection, verified reports"
             })
