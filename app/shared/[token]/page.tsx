@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
-import { AlertTriangle, Home, ExternalLink, Eye, Clock, Share2, Users } from 'lucide-react'
+import { AlertTriangle, Home, ExternalLink, Eye, Clock, Share2, Users, Calendar, Code, TrendingUp } from 'lucide-react'
 import { getSharedReport } from '@/lib/supabase'
 import ReportViewer from '@/components/ReportViewer'
 
