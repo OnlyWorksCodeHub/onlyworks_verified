@@ -10,7 +10,7 @@ import { Mail, Lock, User, Building, ArrowRight } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 export default function RegisterPage() {
-  const { user, loading: authLoading } = useAuth()
+  const { user, loading: authLoading } = useAuth() as any
   const [formData, setFormData] = useState({
     email: '',
     password: '',

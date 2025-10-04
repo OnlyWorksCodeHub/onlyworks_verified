@@ -63,8 +63,8 @@ const generateReportCSV = (report) => {
     ['Files Modified', report.files_modified_count || 0],
     ['Errors Encountered', report.errors_encountered_count || 0],
     ['Executive Summary', `"${(report.executive_summary || '').replace(/"/g, '""')}"`],
-    ['Created At', report.created_at || ''],
-    ['View Count', report.view_count || 0]
+    ['Created At', report.created_at || '']
+    // ['View Count', report.view_count || 0] // Disabled - column doesn't exist in database
   ]
 
   // Add completed work items

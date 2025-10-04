@@ -13,14 +13,14 @@ import AuthenticatedNavigation from '@/components/AuthenticatedNavigation'
 import toast from 'react-hot-toast'
 
 const ReportDetailPage = () => {
-  const { user, loading } = useAuth()
+  const { user, loading } = useAuth() as any
   const router = useRouter()
   const params = useParams()
   const reportId = params?.id
 
-  const [report, setReport] = useState(null)
+  const [report, setReport] = useState<any>(null)
   const [loadingReport, setLoadingReport] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (loading) return
@@ -55,9 +55,9 @@ const ReportDetailPage = () => {
       }
 
       setReport(report)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to load report:', error)
-      setError('Failed to load report: ' + error.message)
+      setError('Failed to load report: ' + (error?.message || 'Unknown error'))
     } finally {
       setLoadingReport(false)
     }

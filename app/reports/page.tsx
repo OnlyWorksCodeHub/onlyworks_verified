@@ -26,14 +26,14 @@ import AuthenticatedNavigation from '@/components/AuthenticatedNavigation'
 import toast from 'react-hot-toast'
 
 const ReportsPage = () => {
-  const { user, loading } = useAuth()
+  const { user, loading } = useAuth() as any
   const router = useRouter()
-  const [reports, setReports] = useState([])
+  const [reports, setReports] = useState<any[]>([])
   const [loadingReports, setLoadingReports] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState('date')
   const [filterBy, setFilterBy] = useState('all')
-  const [selectedReports, setSelectedReports] = useState([])
+  const [selectedReports, setSelectedReports] = useState<any[]>([])
 
   useEffect(() => {
     if (loading) return
@@ -49,7 +49,9 @@ const ReportsPage = () => {
   const loadReports = async () => {
     try {
       setLoadingReports(true)
+      console.log('Reports page - Loading reports for user:', user.id, user.email)
       const { reports, error } = await getUserReports(user.id, 100)
+      console.log('Reports page - Response:', { reports, error })
       if (error) {
         console.error('Failed to load reports:', error)
         // Don't show error toast for empty results
@@ -66,7 +68,7 @@ const ReportsPage = () => {
     }
   }
 
-  const handleDeleteReport = async (reportId) => {
+  const handleDeleteReport = async (reportId: string) => {
     if (!confirm('Are you sure you want to delete this report? This action cannot be undone.')) {
       return
     }
@@ -84,11 +86,11 @@ const ReportsPage = () => {
   }
 
   // Sharing functionality disabled - database missing required columns
-  const handleShareReport = async (reportId) => {
+  const handleShareReport = async (reportId: string) => {
     toast.error('Sharing is currently disabled. Contact admin to enable this feature.')
   }
 
-  const handleUnshareReport = async (reportId) => {
+  const handleUnshareReport = async (reportId: string) => {
     toast.error('Sharing is currently disabled. Contact admin to enable this feature.')
   }
 
@@ -134,7 +136,7 @@ const ReportsPage = () => {
   //   }
   // }
 
-  const handleExportReport = async (report, format = 'json') => {
+  const handleExportReport = async (report: any, format = 'json') => {
     try {
       await exportReport(report, format)
       toast.success(`Report exported as ${format.toUpperCase()}`)
@@ -144,7 +146,7 @@ const ReportsPage = () => {
     }
   }
 
-  const toggleReportSelection = (reportId) => {
+  const toggleReportSelection = (reportId: string) => {
     setSelectedReports(prev =>
       prev.includes(reportId)
         ? prev.filter(id => id !== reportId)
@@ -160,7 +162,7 @@ const ReportsPage = () => {
     setSelectedReports([])
   }
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
@@ -168,7 +170,7 @@ const ReportsPage = () => {
     })
   }
 
-  const formatTime = (dateString) => {
+  const formatTime = (dateString: string) => {
     return new Date(dateString).toLocaleTimeString('en-US', {
       hour: '2-digit',
       minute: '2-digit'
@@ -187,7 +189,7 @@ const ReportsPage = () => {
   }).sort((a, b) => {
     switch (sortBy) {
       case 'date':
-        return new Date(b.report_date) - new Date(a.report_date)
+        return new Date(b.report_date).getTime() - new Date(a.report_date).getTime()
       case 'title':
         return (a.title || '').localeCompare(b.title || '')
       case 'lines':

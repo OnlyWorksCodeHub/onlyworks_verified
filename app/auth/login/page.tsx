@@ -10,7 +10,7 @@ import { Mail, Lock, ArrowRight, Chrome } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 export default function LoginPage() {
-  const { user, loading: authLoading } = useAuth()
+  const { user, loading: authLoading } = useAuth() as any
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)

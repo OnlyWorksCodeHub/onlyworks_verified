@@ -28,10 +28,10 @@ import AuthenticatedNavigation from '@/components/AuthenticatedNavigation'
 import toast from 'react-hot-toast'
 
 const Dashboard = () => {
-  const { user, loading } = useAuth()
+  const { user, loading } = useAuth() as any
   const router = useRouter()
-  const [reports, setReports] = useState([])
-  const [trends, setTrends] = useState([])
+  const [reports, setReports] = useState<any[]>([])
+  const [trends, setTrends] = useState<any[]>([])
   const [loadingReports, setLoadingReports] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState('date')
@@ -51,7 +51,9 @@ const Dashboard = () => {
   const loadReports = async () => {
     try {
       setLoadingReports(true)
+      console.log('Loading reports for user:', user.id, user.email)
       const { reports, error } = await getUserReports(user.id, 50)
+      console.log('Reports response:', { reports, error })
       if (error) {
         console.error('Failed to load reports:', error)
         // Don't show error toast for empty results
@@ -59,6 +61,8 @@ const Dashboard = () => {
           toast.error('Failed to load reports: ' + error.message)
         }
       }
+      console.log('Setting reports:', reports || [])
+      console.log('Full report details:', JSON.stringify(reports, null, 2))
       setReports(reports || [])
     } catch (error) {
       console.error('Failed to load reports:', error)
@@ -78,7 +82,7 @@ const Dashboard = () => {
     }
   }
 
-  const handleExportReport = async (report, format = 'json') => {
+  const handleExportReport = async (report: any, format = 'json') => {
     try {
       await exportReport(report, format)
       toast.success(`Report exported as ${format.toUpperCase()}`)
@@ -88,7 +92,7 @@ const Dashboard = () => {
     }
   }
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: any) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
@@ -96,20 +100,20 @@ const Dashboard = () => {
     })
   }
 
-  const formatTime = (dateString) => {
+  const formatTime = (dateString: any) => {
     return new Date(dateString).toLocaleTimeString('en-US', {
       hour: '2-digit',
       minute: '2-digit'
     })
   }
 
-  const filteredReports = reports.filter(report =>
+  const filteredReports = reports.filter((report: any) =>
     report.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     report.developer?.toLowerCase().includes(searchTerm.toLowerCase())
-  ).sort((a, b) => {
+  ).sort((a: any, b: any) => {
     switch (sortBy) {
       case 'date':
-        return new Date(b.report_date) - new Date(a.report_date)
+        return new Date(b.report_date).getTime() - new Date(a.report_date).getTime()
       case 'title':
         return (a.title || '').localeCompare(b.title || '')
       case 'lines':

@@ -11,7 +11,7 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 
 export default function HomePage() {
-  const { user } = useAuth()
+  const { user } = useAuth() as any
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [activeUseCase, setActiveUseCase] = useState('finance')

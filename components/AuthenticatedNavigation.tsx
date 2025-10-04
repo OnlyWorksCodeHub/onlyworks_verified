@@ -9,7 +9,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import toast from 'react-hot-toast'
 
 const AuthenticatedNavigation = () => {
-  const { user, signOut } = useAuth()
+  const { user, signOut } = useAuth() as any
   const router = useRouter()
 
   const handleSignOut = async () => {
