@@ -11,7 +11,7 @@ export default function CareersPage() {
       type: "Full-time"
     },
     {
-      title: "Frontend Developer",
+      title: "Data Engineer/Analyst",
       department: "Engineering",
       location: "Remote",
       type: "Full-time"
