@@ -159,6 +159,38 @@ export default function CareersPage() {
           </div>
         </div>
       </section>
+      
+{/* Culture */}
+      <section className="py-16 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl font-semibold text-gray-900 mb-6">Our Culture</h2>
+          <p className="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
+            We're building more than just software—we're building a team of passionate individuals
+            who believe in the power of authentic work. Our culture is built on trust, transparency,
+            and the shared mission of making work verification accessible to everyone.
+          </p>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Collaborative</h3>
+              <p className="text-gray-600">
+                We believe the best ideas come from diverse perspectives working together toward a common goal.
+              </p>
+            </div>
+            <div className="text-center">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Purpose-Driven</h3>
+              <p className="text-gray-600">
+                Every line of code, every design decision, and every strategy serves our mission of authentic work verification.
+              </p>
+            </div>
+            <div className="text-center">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Growth-Minded</h3>
+              <p className="text-gray-600">
+                We invest in continuous learning and celebrate both individual growth and team achievements.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Open Positions */}
       <section className="py-16 px-6 bg-gray-50">
@@ -197,39 +229,6 @@ export default function CareersPage() {
           </div>
         </div>
       </section>
-
-      {/* Culture */}
-      <section className="py-16 px-6">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-semibold text-gray-900 mb-6">Our Culture</h2>
-          <p className="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
-            We're building more than just software—we're building a team of passionate individuals
-            who believe in the power of authentic work. Our culture is built on trust, transparency,
-            and the shared mission of making work verification accessible to everyone.
-          </p>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Collaborative</h3>
-              <p className="text-gray-600">
-                We believe the best ideas come from diverse perspectives working together toward a common goal.
-              </p>
-            </div>
-            <div className="text-center">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Purpose-Driven</h3>
-              <p className="text-gray-600">
-                Every line of code, every design decision, and every strategy serves our mission of authentic work verification.
-              </p>
-            </div>
-            <div className="text-center">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Growth-Minded</h3>
-              <p className="text-gray-600">
-                We invest in continuous learning and celebrate both individual growth and team achievements.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <Footer />
     </div>
   )
