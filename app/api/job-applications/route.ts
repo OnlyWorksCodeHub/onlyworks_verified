@@ -56,8 +56,9 @@ export async function POST(request: NextRequest) {
 
     if (uploadError) {
       console.error('File upload error:', uploadError)
+      console.error('Upload error details:', JSON.stringify(uploadError, null, 2))
       return NextResponse.json(
-        { error: 'Failed to upload resume' },
+        { error: `Failed to upload resume: ${uploadError.message}` },
         { status: 500 }
       )
     }
