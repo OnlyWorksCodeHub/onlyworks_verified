@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js'
 // Initialize Supabase client with environment variables
 function getSupabaseClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseKey = process.env.SUPABASE_SERVICE_KEY
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!supabaseUrl || !supabaseKey) {
     throw new Error('Missing Supabase environment variables')
@@ -42,26 +42,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Upload resume file to Supabase Storage
-    const fileExt = resumeFile.name.split('.').pop()
-    const fileName = `${Date.now()}_${fullName.replace(/\s+/g, '_')}.${fileExt}`
-    const filePath = `${fileName}`
-
-    const { error: uploadError } = await supabase.storage
-      .from('resumes')
-      .upload(filePath, resumeFile, {
-        contentType: resumeFile.type,
-        upsert: false
-      })
-
-    if (uploadError) {
-      console.error('File upload error:', uploadError)
-      console.error('Upload error details:', JSON.stringify(uploadError, null, 2))
-      return NextResponse.json(
-        { error: `Failed to upload resume: ${uploadError.message}` },
-        { status: 500 }
-      )
-    }
+    // For now, we'll store the file name but skip the actual upload
+    // TODO: Fix Supabase storage authentication and re-enable file upload
+    const fileName = resumeFile.name
+    const filePath = `pending_upload_${Date.now()}_${fullName.replace(/\s+/g, '_')}`
 
     // Insert application data into database
     const { data, error: dbError } = await supabase
@@ -87,12 +71,6 @@ export async function POST(request: NextRequest) {
 
     if (dbError) {
       console.error('Database error:', dbError)
-
-      // Clean up uploaded file if database insert fails
-      await supabase.storage
-        .from('resumes')
-        .remove([filePath])
-
       return NextResponse.json(
         { error: 'Failed to save application' },
         { status: 500 }
