@@ -40,75 +40,90 @@ export default function UpdatesPage() {
   }
   const updates = [
     {
-      date: "January 15, 2025",
-      title: "Enhanced AI Detection Accuracy",
-      image: "/images/ai-update.jpg",
-      description: "We've significantly improved our AI algorithms for detecting automation and work patterns, achieving 98.5% accuracy in distinguishing genuine work from automated processes.",
-      improvements: [
-        "Advanced machine learning models for better pattern recognition",
-        "Reduced false positive rates by 35%",
-        "Enhanced detection of sophisticated automation tools",
-        "Improved real-time analysis performance"
-      ],
-      fixes: [
-        "Fixed occasional lag in live tracking dashboard",
-        "Resolved screenshot quality issues on high-DPI displays",
-        "Corrected timezone handling in report generation"
-      ]
-    },
-    {
-      date: "December 20, 2024",
-      title: "Team Dashboard Redesign",
-      image: "/images/dashboard-redesign.jpg",
-      description: "Complete overhaul of the team dashboard with improved user experience, better data visualization, and faster load times.",
-      improvements: [
-        "New intuitive interface with modern design patterns",
-        "Interactive charts and real-time productivity metrics",
-        "Customizable widgets for different team roles",
-        "Mobile-responsive design for on-the-go management",
-        "Advanced filtering and search capabilities"
-      ],
-      fixes: [
-        "Fixed data export functionality for large datasets",
-        "Resolved memory leak issues in long-running sessions",
-        "Corrected permission handling for team managers"
-      ]
-    },
-    {
-      date: "November 30, 2024",
-      title: "Privacy & Security Enhancements",
-      image: "/images/security-update.jpg",
-      description: "Major security improvements and enhanced privacy controls to ensure your work data remains completely secure and under your control.",
-      improvements: [
-        "End-to-end encryption for all data transmission",
-        "Enhanced user consent management system",
-        "Granular privacy controls for individual users",
-        "SOC 2 Type II compliance certification",
-        "Advanced audit logging and monitoring"
-      ],
-      fixes: [
-        "Strengthened password requirements and 2FA implementation",
-        "Fixed potential data exposure in API responses",
-        "Resolved session timeout issues"
-      ]
-    },
-    {
-      date: "October 15, 2024",
-      title: "Public BETA launch",
-      image: "/images/Outro.mp4",
-      description: "Introducing our BETA model, allowing seamless report generation with your existing tools and workflows.",
-      improvements: [
-        "Full REST API with comprehensive documentation",
-        "SDK support for popular programming languages",
-        "Webhook notifications for real-time updates",
-        "Rate limiting and authentication best practices",
-        "Interactive API documentation and testing tools"
-      ],
-      fixes: [
-        "Initial release - no fixes in this version"
-      ]
-    }
-  ]
+    date: "October 6, 2025",
+    title: "MVP Completed — A New Beginning",
+    image: "/images/mvp-complete.jpg",
+    description: "Today marks a huge moment for OnlyWorks we’ve completed the MVP. From idea to execution, we now have a working product that brings our vision to life: helping professionals make their work undeniable.",
+    improvements: [
+      "Completed core features for AI-driven work validation",
+      "Refined dashboard experience for clarity and performance",
+      "Integrated backend with real-time data sync and analytics",
+      "Added secure authentication and profile management",
+      "Prepared internal demo for first round of user testing"
+    ],
+    fixes: [
+      "Polished UI across key app sections",
+      "Resolved minor API inconsistencies between modules",
+      "Optimized backend tasks for faster data processing"
+    ]
+  },
+  {
+    date: "September 14, 2025",
+    title: "Building the Application — The Next Chapter",
+    image: "/images/app-development.jpg",
+    description: "We’ve officially begun development on the OnlyWorks application creating a focused, intelligent platform that turns professional output into undeniable proof of effort and skill.",
+    improvements: [
+      "Designed core app flow for tracking and validating work effortlessly",
+      "Built early backend systems for scalability and performance",
+      "Integrated first AI models for work detection and automation patterning",
+      "Developed prototype dashboard for internal testing",
+      "Aligned design with website for a seamless brand experience"
+    ],
+    fixes: [
+      "Removed outdated webapp to focus on new architecture",
+      "Updated all public materials and social media to reflect current progress",
+      "Cleaned up internal tools for faster iteration and testing"
+    ]
+  },
+  {
+    date: "August 24, 2025",
+    title: "The Website Launch — Our First Public Step",
+    image: "/images/website-launch.jpg",
+    description: "We launched the new OnlyWorks website — simple, fast, and designed to feel like the product we’re building: professional and effortless. It’s our first look outward.",
+    improvements: [
+      "Completed full website redesign with modern, responsive UI",
+      "Integrated newsletter signup for early supporters",
+      "Added product overview, team section, and roadmap preview",
+      "Optimized content to reflect OnlyWorks’ tone and direction"
+    ],
+    fixes: [
+      "Refined copy and visuals for brand consistency",
+      "Fixed social link and SEO metadata errors",
+      "Adjusted color palette and typography for accessibility"
+    ]
+  },
+  {
+    date: "August 05, 2025",
+    title: "Building the Foundation",
+    image: "/images/founder-team.jpg",
+    description: "Once the vision felt right, it was time to make it real. We formed the founding team, documented our first roadmap, and established OnlyWorks as a real company not just a concept.",
+    improvements: [
+      "Created business documentation and structure for growth",
+      "Formed the core founder team and defined early roles",
+      "Set up collaboration tools and internal communication systems",
+      "Launched official social media channels to start building in public"
+    ],
+    fixes: [
+      "Aligned brand visuals and messaging across platforms",
+      "Streamlined internal processes for faster coordination"
+    ]
+  },
+  {
+    date: "July 29, 2025",
+    title: "The Spark — Where OnlyWorks Begins",
+    image: "/images/Outro.mp4",
+    description: "OnlyWorks started as a simple idea: professionals deserve a better way to prove their work — clear, undeniable, and free from noise. That idea became the blueprint for everything we’re building.",
+    improvements: [
+      "Defined the mission and long-term vision for the platform",
+      "Outlined product goals centered around credibility and transparency",
+      "Sketched early workflows for how AI could validate real work",
+      "Built the first internal mockups and flow diagrams"
+    ],
+    fixes: [
+      "Early exploration phase — no major fixes yet"
+    ]
+  }
+]
 
   return (
     <div className="min-h-screen bg-white">
