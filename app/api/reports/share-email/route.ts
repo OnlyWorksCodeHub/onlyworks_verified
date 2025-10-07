@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { shareReportViaEmail, getReport } from '@/lib/supabase'
-import { emailService } from '@/lib/emailService'
+// Choose your email service:
+// import { emailService } from '@/lib/emailService' // Resend (works if sending to admin@only-works.com)
+import { nodemailerEmailService as emailService } from '@/lib/emailService-nodemailer' // Nodemailer (works with any email)
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -154,7 +156,7 @@ export async function POST(request: NextRequest) {
     )
 
     if (!emailResult.success) {
-      console.error('Email sending failed:', emailResult.error)
+      console.error('Email sending failed:', 'error' in emailResult ? emailResult.error : 'Unknown error')
       // Still return success since the share was created
       return NextResponse.json({
         success: true,

@@ -23,6 +23,7 @@ const ShareReportControls = ({ reportId, currentlyShared }) => {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) return
 
+
       const response = await fetch('/api/reports/share-email', {
         headers: {
           'Authorization': `Bearer ${session.access_token}`,
@@ -72,6 +73,7 @@ const ShareReportControls = ({ reportId, currentlyShared }) => {
         toast.error('Please log in to share reports')
         return
       }
+
 
       const response = await fetch('/api/reports/share-email', {
         method: 'POST',
