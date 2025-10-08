@@ -164,7 +164,7 @@ export default function HomePage() {
             <div>
               <h3 className="text-2xl font-semibold text-gray-900 mb-4">Real-time tracking</h3>
               <p className="text-gray-700 text-base leading-relaxed">
-                Capture screenshots on every click and keystroke. Monitor productivity patterns in real-time.
+                Works while you work, capturing workflow data to monitor productivity patterns in real time.
               </p>
             </div>
 
