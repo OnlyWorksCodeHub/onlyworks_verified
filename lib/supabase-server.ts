@@ -1,10 +1,13 @@
-import { createClient } from '@supabase/supabase-js'
+ import { createClient } from '@supabase/supabase-js'
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  // TEMPORARY FIX: Use placeholders during build to avoid build-time errors
+  // TODO: Replace with proper lazy initialization (Option 1) in future
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
+  const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key'
 
-  if (!supabaseUrl || !supabaseServiceRoleKey) {
-    throw new Error(`Missing environment variables`)
+  // Warn if env vars are missing (won't fail build, will fail at runtime if used)
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    console.warn('WARNING: Supabase environment variables not set - using placeholders for build')
   }
 
   export const supabaseServer = createClient(supabaseUrl, supabaseServiceRoleKey, {
@@ -14,6 +17,9 @@ import { createClient } from '@supabase/supabase-js'
     },
   })
 
+  /**
+   * Database types for shared_reports table
+   */
   export interface SharedReport {
     id: string
     user_id: string
