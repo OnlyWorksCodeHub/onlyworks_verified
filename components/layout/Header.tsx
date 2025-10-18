@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Logo } from '@/components/ui/logo'
 import { User, Bell, Settings, LogOut, Moon, Sun, Menu, X } from 'lucide-react'
 
 interface HeaderProps {
@@ -57,11 +57,14 @@ export function Header({ user, sidebarOpen, setSidebarOpen }: HeaderProps) {
                 {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             )}
-            <Link href="/dashboard" className="flex items-center space-x-2 ml-2 lg:ml-0">
-              <Logo size={32} />
-              <span className="text-xl font-semibold tracking-tight text-primary dark:text-primary-light hidden sm:block">
-                OnlyWorks
-              </span>
+            <Link href="/dashboard" className="flex items-center ml-2 lg:ml-0">
+              <Image
+                src="/images/onlyworks-logo.png"
+                alt="OnlyWorks"
+                width={128}
+                height={32}
+                className="h-8 w-auto"
+              />
             </Link>
           </div>
 

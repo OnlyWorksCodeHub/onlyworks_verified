@@ -1,14 +1,19 @@
 import Link from 'next/link'
-import { Logo } from '@/components/ui/logo'
+import Image from 'next/image'
 
 export default function ComingSoonPage() {
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6">
       <div className="text-center">
         <div className="mb-8">
-          <Link href="/" className="flex items-center space-x-2 justify-center">
-            <Logo size={48} />
-            <span className="text-2xl font-semibold text-gray-900">OnlyWorks</span>
+          <Link href="/" className="flex items-center justify-center">
+            <Image
+              src="/images/onlyworks-logo.png"
+              alt="OnlyWorks"
+              width={192}
+              height={48}
+              className="h-12 w-auto"
+            />
           </Link>
         </div>
 

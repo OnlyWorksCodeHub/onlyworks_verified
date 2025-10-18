@@ -1,15 +1,20 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Download, Monitor, Laptop } from 'lucide-react'
-import { Logo } from '@/components/ui/logo'
 
 export default function DownloadsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-6 py-12">
+        <div className="max-w-4xl mx-auto px-6 py-12">
         <div className="text-center mb-12">
-          <Link href="/" className="flex items-center space-x-2 justify-center mb-8">
-            <Logo size={48} />
-            <span className="text-2xl font-semibold text-gray-900">OnlyWorks</span>
+          <Link href="/" className="flex items-center justify-center mb-8">
+            <Image
+              src="/images/onlyworks-logo.png"
+              alt="OnlyWorks"
+              width={200}
+              height={80}
+              className="h-20 w-auto"
+            />
           </Link>
 
           <h1 className="text-4xl font-bold text-gray-900 mb-4">

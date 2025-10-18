@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { signInWithEmail, signInWithGoogle } from '@/lib/supabase'
 import { useAuth } from '@/contexts/AuthContext'
-import { Logo } from '@/components/ui/logo'
+import Image from 'next/image'
 import { Mail, Lock, ArrowRight, Chrome } from 'lucide-react'
 import toast from 'react-hot-toast'
 
@@ -71,11 +71,14 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dark-bg px-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center space-x-2 mb-6">
-            <Logo size={40} />
-            <span className="text-2xl font-semibold tracking-tight text-primary dark:text-primary-light">
-              OnlyWorks
-            </span>
+          <Link href="/" className="inline-flex items-center mb-6">
+            <Image
+              src="/images/onlyworks-logo.png"
+              alt="OnlyWorks"
+              width={160}
+              height={40}
+              className="h-10 w-auto"
+            />
           </Link>
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
             Welcome back

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Logo } from '@/components/ui/logo'
+import Image from 'next/image'
 
 export function Footer() {
   return (
@@ -7,9 +7,14 @@ export function Footer() {
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-5 gap-8 mb-8">
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center space-x-2 mb-4">
-              <Logo size={32} />
-              <span className="text-xl font-semibold text-gray-900">OnlyWorks</span>
+            <Link href="/" className="flex items-center mb-4">
+              <Image
+                src="/images/onlyworks-logo.png"
+                alt="OnlyWorks"
+                width={128}
+                height={32}
+                className="h-8 w-auto"
+              />
             </Link>
             <p className="text-gray-600 text-sm mb-4">The AI Backbone of Credibility...</p>
 

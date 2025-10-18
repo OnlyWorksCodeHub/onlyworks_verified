@@ -4,7 +4,7 @@
 import Link from 'next/link'
 import { ArrowRight, Check, Twitter, Github, Linkedin, Youtube } from 'lucide-react'
 import { LogoCarousel } from '@/components/ui/logo-carousel'
-import { Logo } from '@/components/ui/logo'
+import Image from 'next/image'
 import { Footer } from '@/components/layout/Footer'
 import { useAuth } from '@/contexts/AuthContext'
 import { useState } from 'react'
@@ -57,9 +57,14 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-10">
-              <Link href="/" className="flex items-center space-x-2">
-                <Logo size={32} />
-                <span className="text-2xl font-semibold text-gray-900">OnlyWorks</span>
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/images/onlyworks-logo.png"
+                  alt="OnlyWorks"
+                  width={128}
+                  height={32}
+                  className="h-8 w-auto"
+                />
               </Link>
               <div className="hidden md:flex items-center space-x-6">
                 <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-base">Pricing</Link>
@@ -334,19 +339,35 @@ export default function HomePage() {
             </div>
 
             <div className="bg-white rounded-xl p-8 shadow-sm">
-              <div className="bg-gray-100 rounded-lg aspect-video flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-16 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                    </svg>
-                  </div>
-                  <p className="text-gray-500 text-sm">
-                    {activeUseCase === 'finance' && 'Financial compliance dashboard image'}
-                    {activeUseCase === 'cybersecurity' && 'Security verification interface image'}
-                    {activeUseCase === 'everyday' && 'Daily productivity tracking image'}
-                  </p>
-                </div>
+              <div className="rounded-lg aspect-video overflow-hidden">
+                {activeUseCase === 'finance' && (
+                  <Image
+                    src="/images/industry-finance.png"
+                    alt="Financial work with iPad and mouse"
+                    width={600}
+                    height={400}
+                    className="w-full h-full object-cover"
+                    priority
+                  />
+                )}
+                {activeUseCase === 'cybersecurity' && (
+                  <Image
+                    src="/images/industry-cybersecurity.png"
+                    alt="Focused remote cybersecurity work"
+                    width={600}
+                    height={400}
+                    className="w-full h-full object-cover"
+                  />
+                )}
+                {activeUseCase === 'everyday' && (
+                  <Image
+                    src="/images/industry-everyday.png"
+                    alt="Clear computer screens for everyday projects"
+                    width={600}
+                    height={400}
+                    className="w-full h-full object-cover"
+                  />
+                )}
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Logo } from '@/components/ui/logo'
+import Image from 'next/image'
 import { Footer } from '@/components/layout/Footer'
 import { JobApplicationModal } from '@/components/JobApplicationModal'
 
@@ -97,9 +97,14 @@ export default function CareersPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-10">
-              <Link href="/" className="flex items-center space-x-2">
-                <Logo size={32} />
-                <span className="text-2xl font-semibold text-gray-900">OnlyWorks</span>
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/images/onlyworks-logo.png"
+                  alt="OnlyWorks"
+                  width={128}
+                  height={32}
+                  className="h-8 w-auto"
+                />
               </Link>
               <div className="hidden md:flex items-center space-x-6">
                 <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-base">Pricing</Link>

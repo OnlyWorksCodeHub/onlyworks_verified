@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
 import { Calendar, Clock, Code, FileText, Camera, AlertTriangle, LogIn, Eye, Lock, Zap } from 'lucide-react'
-import { Logo } from '@/components/ui/logo'
+import Image from 'next/image'
 
 export default function TestSharedReportPage() {
   const { user } = useAuth() as any
@@ -53,9 +53,14 @@ export default function TestSharedReportPage() {
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
-            <Link href="/" className="flex items-center space-x-2">
-              <Logo size={32} />
-              <span className="text-xl font-semibold text-gray-900">OnlyWorks</span>
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/images/onlyworks-logo.png"
+                alt="OnlyWorks"
+                width={128}
+                height={32}
+                className="h-8 w-auto"
+              />
             </Link>
 
             {!isAuthenticated && (

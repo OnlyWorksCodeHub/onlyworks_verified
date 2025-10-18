@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Logo } from '@/components/ui/logo'
+import Image from 'next/image'
 
 export function Navigation() {
   return (
@@ -7,9 +7,14 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-8">
-            <Link href="/" className="flex items-center space-x-2">
-              <Logo size={40} />
-              <span className="text-xl font-semibold text-[#5c5ce6]">OnlyWorks</span>
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/images/onlyworks-logo.png"
+                alt="OnlyWorks"
+                width={160}
+                height={40}
+                className="h-10 w-auto"
+              />
             </Link>
 
             <div className="hidden md:flex items-center space-x-6">

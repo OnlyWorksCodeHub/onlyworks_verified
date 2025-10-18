@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { signUp, signInWithGoogle } from '@/lib/supabase'
 import { useAuth } from '@/contexts/AuthContext'
-import { Logo } from '@/components/ui/logo'
+import Image from 'next/image'
 import { Mail, Lock, User, Building, ArrowRight } from 'lucide-react'
 import toast from 'react-hot-toast'
 
@@ -77,7 +77,13 @@ export default function RegisterPage() {
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center space-x-2 mb-6">
-            <Logo size={40} />
+            <Image
+              src="/images/onlyworks-logo.png"
+              alt="OnlyWorks"
+              width={160}
+              height={40}
+              className="h-10 w-auto"
+            />
             <span className="text-2xl font-semibold tracking-tight text-primary dark:text-primary-light">
               OnlyWorks
             </span>
