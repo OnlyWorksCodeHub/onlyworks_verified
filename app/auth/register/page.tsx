@@ -76,7 +76,7 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dark-bg px-4 py-12">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center space-x-2 mb-6">
+          <Link href="/" className="inline-flex items-center mb-6">
             <Image
               src="/images/onlyworks-logo.png"
               alt="OnlyWorks"
@@ -84,9 +84,6 @@ export default function RegisterPage() {
               height={40}
               className="h-10 w-auto"
             />
-            <span className="text-2xl font-semibold tracking-tight text-primary dark:text-primary-light">
-              OnlyWorks
-            </span>
           </Link>
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
             Create your account

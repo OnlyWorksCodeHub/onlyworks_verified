@@ -126,7 +126,7 @@ export default function HomePage() {
       <LogoCarousel />
 
       {/* Demo Video */}
-      <section className="py-16 px-6">
+      {/* <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-semibold text-gray-900 mb-3">
             See OnlyWorks in action
@@ -151,7 +151,7 @@ export default function HomePage() {
             </button>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Features */}
       <section className="py-16 px-6">

@@ -1,8 +1,95 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
-import { Download, Monitor, Laptop } from 'lucide-react'
+import { Download, Monitor, Laptop, Lock, Key } from 'lucide-react'
+import { useState } from 'react'
 
 export default function DownloadsPage() {
+  const [accessCode, setAccessCode] = useState('')
+  const [hasAccess, setHasAccess] = useState(false)
+  const [error, setError] = useState('')
+
+  const correctAccessCode = 'ONLYWORKS2024' // You can change this to any code you want
+
+  const handleAccessSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (accessCode.toUpperCase() === correctAccessCode) {
+      setHasAccess(true)
+      setError('')
+    } else {
+      setError('Invalid access code. Please try again.')
+    }
+  }
+
+  if (!hasAccess) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="max-w-md w-full mx-4">
+          <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
+            <div className="flex justify-center mb-6">
+              <div className="bg-[#5b70f8]/10 p-3 rounded-full">
+                <Lock className="h-8 w-8 text-[#5b70f8]" />
+              </div>
+            </div>
+
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Access Required
+            </h2>
+
+            <p className="text-gray-600 mb-6">
+              Please enter your access code to download OnlyWorks Desktop.
+            </p>
+
+            <form onSubmit={handleAccessSubmit} className="space-y-4">
+              <div className="relative">
+                <Key className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Enter access code"
+                  value={accessCode}
+                  onChange={(e) => setAccessCode(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#5b70f8] focus:border-transparent"
+                  required
+                />
+              </div>
+
+              {error && (
+                <p className="text-red-600 text-sm">{error}</p>
+              )}
+
+              <button
+                type="submit"
+                className="w-full px-6 py-3 bg-[#5b70f8] text-white rounded-lg hover:bg-[#5b70f8]/90 transition-colors font-semibold"
+              >
+                Access Downloads
+              </button>
+            </form>
+
+            <div className="mt-6 pt-6 border-t border-gray-200 space-y-3">
+              <p className="text-sm text-gray-600">
+                Interested to try it out? Reach out to us at{' '}
+                <a
+                  href="mailto:admin@only-works.com"
+                  className="text-[#5b70f8] hover:text-[#5b70f8]/80 transition-colors"
+                >
+                  admin@only-works.com
+                </a>
+              </p>
+
+              <Link
+                href="/"
+                className="inline-flex items-center px-4 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors"
+              >
+                ← Back to Homepage
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
         <div className="max-w-4xl mx-auto px-6 py-12">
@@ -41,7 +128,7 @@ export default function DownloadsPage() {
             <div className="space-y-4">
               <a
                 href="/downloads/OnlyWorks Desktop-1.0.0-arm64.dmg"
-                className="flex items-center justify-center w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex items-center justify-center w-full px-6 py-3 bg-[#5b70f8] text-white rounded-lg hover:bg-[#5b70f8]/90 transition-colors"
                 download
               >
                 <Download className="h-5 w-5 mr-2" />
@@ -78,7 +165,7 @@ export default function DownloadsPage() {
             <div className="space-y-4">
               <a
                 href="/downloads/OnlyWorks Desktop Setup 1.0.0.exe"
-                className="flex items-center justify-center w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex items-center justify-center w-full px-6 py-3 bg-[#5b70f8] text-white rounded-lg hover:bg-[#5b70f8]/90 transition-colors"
                 download
               >
                 <Download className="h-5 w-5 mr-2" />
