@@ -1,4 +1,4 @@
-'use clients'
+'use client'
 
 import Link from 'next/link'
 import { Target, Eye, Lock, Users } from 'lucide-react'
