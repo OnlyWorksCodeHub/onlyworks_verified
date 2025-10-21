@@ -43,11 +43,11 @@ const ReportViewer = ({ report, isShared = false }) => {
   return (
     <div className="max-w-6xl mx-auto p-6 bg-white">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-8 text-white mb-8">
+      <div className="bg-gradient-to-r from-[#5c5ce6] to-[#7c5ce6] rounded-lg p-8 text-white mb-8">
         <div className="flex justify-between items-start">
           <div>
             <h1 className="text-3xl font-bold mb-2">{report.title || 'Daily Work Report'}</h1>
-            <div className="flex items-center gap-6 text-blue-100">
+            <div className="flex items-center gap-6 text-white/80">
               <div className="flex items-center gap-2">
                 <Users className="w-4 h-4" />
                 <span>{report.developer}</span>
@@ -88,7 +88,7 @@ const ReportViewer = ({ report, isShared = false }) => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 py-4 px-2 border-b-2 font-medium text-sm transition-colors ${
                   activeTab === tab.id
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-[#5c5ce6] text-[#5c5ce6]'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -125,13 +125,13 @@ const ReportViewer = ({ report, isShared = false }) => {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg">
+              <div className="bg-gradient-to-br from-[#5c5ce6]/10 to-[#5c5ce6]/20 p-6 rounded-lg">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-blue-600 uppercase tracking-wide">Files Modified</p>
-                    <p className="text-2xl font-bold text-blue-700">{report.files_modified_count || 0}</p>
+                    <p className="text-sm font-medium text-[#5c5ce6] uppercase tracking-wide">Files Modified</p>
+                    <p className="text-2xl font-bold text-[#4c4cd6]">{report.files_modified_count || 0}</p>
                   </div>
-                  <FileText className="w-8 h-8 text-blue-500" />
+                  <FileText className="w-8 h-8 text-[#5c5ce6]" />
                 </div>
               </div>
 
@@ -295,7 +295,7 @@ const ReportViewer = ({ report, isShared = false }) => {
                   <h3 className="font-semibold text-gray-800 mb-4">Tools Used</h3>
                   <ul className="space-y-2">
                     {report.technical_details.toolsUsed.map((tool, index) => (
-                      <li key={index} className="text-sm text-gray-600 bg-blue-50 px-3 py-2 rounded">
+                      <li key={index} className="text-sm text-gray-600 bg-[#5c5ce6]/10 px-3 py-2 rounded">
                         {tool}
                       </li>
                     ))}

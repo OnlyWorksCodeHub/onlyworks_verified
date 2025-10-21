@@ -205,7 +205,7 @@ const ReportsPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-[#5c5ce6] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading your reports...</p>
         </div>
       </div>
@@ -258,14 +258,14 @@ const ReportsPage = () => {
                     placeholder="Search reports..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5c5ce6] focus:border-transparent"
                   />
                 </div>
 
                 <select
                   value={filterBy}
                   onChange={(e) => setFilterBy(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5c5ce6]"
                 >
                   <option value="all">All Reports</option>
                   <option value="shared">Shared Only</option>
@@ -275,7 +275,7 @@ const ReportsPage = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5c5ce6]"
                 >
                   <option value="date">Sort by Date</option>
                   <option value="title">Sort by Title</option>
@@ -333,7 +333,7 @@ const ReportsPage = () => {
                   </p>
                   <Link
                     href="/downloads"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-[#5c5ce6] text-white rounded-lg hover:bg-[#4c4cd6] transition-colors"
                   >
                     <Download className="w-4 h-4" />
                     Download Desktop App
@@ -350,7 +350,7 @@ const ReportsPage = () => {
                     type="checkbox"
                     checked={selectedReports.length === filteredReports.length}
                     onChange={selectedReports.length === filteredReports.length ? clearSelection : selectAllReports}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-gray-300 text-[#5c5ce6] focus:ring-[#5c5ce6]"
                   />
                   <div className="flex-1 grid grid-cols-12 gap-4 items-center text-sm font-medium text-gray-700">
                     <div className="col-span-4">Report</div>
@@ -373,7 +373,7 @@ const ReportsPage = () => {
                         type="checkbox"
                         checked={selectedReports.includes(report.id)}
                         onChange={() => toggleReportSelection(report.id)}
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        className="rounded border-gray-300 text-[#5c5ce6] focus:ring-[#5c5ce6]"
                       />
                       <div className="flex-1 grid grid-cols-12 gap-4 items-center">
                         {/* Report Info */}
@@ -409,7 +409,7 @@ const ReportsPage = () => {
                         {/* Status */}
                         <div className="col-span-1">
                           {report.shared_at ? (
-                            <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
+                            <span className="inline-flex items-center gap-1 px-2 py-1 bg-[#5c5ce6]/10 text-[#5c5ce6] text-xs rounded-full">
                               <Eye className="w-3 h-3" />
                               Shared
                             </span>
@@ -433,7 +433,7 @@ const ReportsPage = () => {
                           <div className="flex items-center gap-1">
                             <Link
                               href={`/reports/${report.id}`}
-                              className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                              className="px-2 py-1 text-xs bg-[#5c5ce6] text-white rounded hover:bg-[#4c4cd6] transition-colors"
                             >
                               View
                             </Link>
@@ -449,7 +449,7 @@ const ReportsPage = () => {
                             {report.shared_at ? (
                               <button
                                 onClick={() => handleUnshareReport(report.id)}
-                                className="p-1.5 text-blue-500 hover:text-blue-700 hover:bg-blue-50 rounded transition-colors"
+                                className="p-1.5 text-[#5c5ce6] hover:text-[#4c4cd6] hover:bg-[#5c5ce6]/10 rounded transition-colors"
                                 title="Stop sharing"
                               >
                                 <EyeOff className="w-3 h-3" />

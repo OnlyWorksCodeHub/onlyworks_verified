@@ -79,7 +79,7 @@ const ReportDetailPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-[#5c5ce6] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading report...</p>
         </div>
       </div>
@@ -118,7 +118,7 @@ const ReportDetailPage = () => {
               </Link>
               <button
                 onClick={loadReport}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-4 py-2 bg-[#5c5ce6] text-white rounded-lg hover:bg-[#4c4cd6] transition-colors"
               >
                 Try Again
               </button>
@@ -187,7 +187,7 @@ const ReportDetailPage = () => {
 
               <Link
                 href={`/reports/${reportId}/edit`}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-4 py-2 bg-[#5c5ce6] text-white rounded-lg hover:bg-[#4c4cd6] transition-colors"
               >
                 Edit
               </Link>
