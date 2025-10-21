@@ -27,6 +27,12 @@ export const metadata: Metadata = {
   creator: 'OnlyWorks',
   publisher: 'OnlyWorks',
   category: 'productivity',
+  referrer: 'origin-when-cross-origin',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   robots: {
     index: true,
     follow: true,
@@ -37,6 +43,11 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
+  },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
   },
   openGraph: {
     type: 'website',
@@ -66,8 +77,15 @@ export const metadata: Metadata = {
     canonical: 'https://www.only-works.com',
   },
   other: {
-    'msapplication-TileColor': '#ffffff',
-    'theme-color': '#ffffff',
+    'msapplication-TileColor': '#5c5ce6',
+    'theme-color': '#5c5ce6',
+    'color-scheme': 'light dark',
+    'rating': 'general',
+    'revisit-after': '7 days',
+    'google-site-verification': 'pending', // Add your verification code from Google Search Console
+    // Performance hints
+    'dns-prefetch': 'https://fonts.googleapis.com',
+    'preconnect': 'https://fonts.gstatic.com',
     // LinkedIn meta tags
     'linkedin:title': 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable',
     'linkedin:description': 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
@@ -94,6 +112,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Perfect+Ninety-Three:wght@400;700&display=swap" rel="stylesheet" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -101,6 +122,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "SoftwareApplication",
               "name": "OnlyWorks",
+              "alternateName": "OnlyWorks AI Platform",
               "description": "Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.",
               "url": "https://www.only-works.com",
               "applicationCategory": "BusinessApplication",
@@ -116,9 +138,27 @@ export default function RootLayout({
                 "@type": "Organization",
                 "name": "OnlyWorks",
                 "url": "https://www.only-works.com",
-                "logo": "https://www.only-works.com/images/onlyworks-logo.png"
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://www.only-works.com/images/onlyworks-logo.png",
+                  "width": 160,
+                  "height": 40
+                },
+                "sameAs": [
+                  "https://twitter.com/OnlyWorksAI",
+                  "https://www.linkedin.com/company/onlyworks",
+                  "https://github.com/onlyworks"
+                ]
               },
-              "keywords": "AI platform, work verification, productivity tracking, automation detection, verified reports"
+              "keywords": "AI platform, work verification, productivity tracking, automation detection, verified reports",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": {
+                  "@type": "EntryPoint",
+                  "urlTemplate": "https://www.only-works.com/search?q={search_term_string}"
+                },
+                "query-input": "required name=search_term_string"
+              }
             })
           }}
         />
