@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
   import { supabaseServer, type SharedReport } from '@/lib/supabase-server'
+  import SharedReportClient from './SharedReportClient'
 
   export const runtime = 'nodejs'
   export const dynamic = 'force-dynamic'
@@ -77,8 +78,8 @@ import { notFound } from 'next/navigation'
 
     return (
       <div className="min-h-screen bg-gray-50">
-        {/* Header */}
-        <div className="bg-white border-b border-gray-200">
+        {/* Header with Purple Accent */}
+        <div className="bg-white border-b border-gray-200 border-l-4 border-l-[#5c5ce6]">
           <div className="max-w-7xl mx-auto px-6 py-8">
             <div className="flex items-start justify-between">
               <div>
@@ -95,12 +96,12 @@ import { notFound } from 'next/navigation'
                 </p>
               </div>
               <div className="text-right">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg mb-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-50 border-l-2 border-l-[#5c5ce6] rounded-lg mb-2">
                   <span className="text-sm text-gray-600">
                     Expires: {new Date(report.expires_at!).toLocaleDateString()}
                   </span>
                 </div>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-[#5c5ce6] font-medium">
                   {report.view_count || 0} {report.view_count === 1 ? 'view' : 'views'}
                 </p>
               </div>
@@ -113,11 +114,11 @@ import { notFound } from 'next/navigation'
           <ReportContent token={token} />
         </div>
 
-        {/* Footer */}
+        {/* Footer with Purple Accent */}
         <div className="bg-white border-t border-gray-200 py-8 px-6 mt-12">
           <div className="max-w-7xl mx-auto text-center">
             <p className="text-gray-600 mb-2">
-              Powered by <span className="font-semibold text-gray-900">OnlyWorks</span>
+              Powered by <span className="font-semibold text-[#5c5ce6]">OnlyWorks</span>
             </p>
             <p className="text-sm text-gray-500">
               This report will expire on{' '}
@@ -130,6 +131,9 @@ import { notFound } from 'next/navigation'
             </p>
           </div>
         </div>
+
+        {/* Client-side Modal & Floating Button */}
+        <SharedReportClient token={token} />
       </div>
     )
   }
