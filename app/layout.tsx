@@ -1,3 +1,4 @@
+// Vercel deployment sync - 2025-10-20
 import type { Metadata } from 'next'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
