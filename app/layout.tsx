@@ -83,6 +83,7 @@ export const metadata: Metadata = {
     icon: '/favicon.ico',
     apple: '/apple-touch-icon.png',
   },
+  manifest: '/manifest.json',
 }
 
 export default function RootLayout({
@@ -104,6 +105,8 @@ export default function RootLayout({
               "url": "https://www.only-works.com",
               "applicationCategory": "BusinessApplication",
               "operatingSystem": "Cross-platform",
+              "logo": "https://www.only-works.com/images/onlyworks-logo.png",
+              "image": "https://www.only-works.com/images/og-image.png",
               "offers": {
                 "@type": "Offer",
                 "price": "100000000000000000000",
@@ -112,7 +115,8 @@ export default function RootLayout({
               "creator": {
                 "@type": "Organization",
                 "name": "OnlyWorks",
-                "url": "https://www.only-works.com"
+                "url": "https://www.only-works.com",
+                "logo": "https://www.only-works.com/images/onlyworks-logo.png"
               },
               "keywords": "AI platform, work verification, productivity tracking, automation detection, verified reports"
             })
