@@ -35,13 +35,13 @@ import { notFound } from 'next/navigation'
     const isExpired = report.expires_at && new Date(report.expires_at) < new Date()
     if (isExpired) {
       return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-          <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
-            <div className="text-6xl mb-4">⏰</div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Link Expired</h1>
-            <p className="text-gray-600 mb-4">
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+          <div className="max-w-md w-full bg-white rounded-xl border border-gray-200 p-10 text-center">
+            <div className="text-6xl mb-6">⏰</div>
+            <h1 className="text-2xl font-semibold text-gray-900 mb-3">Link Expired</h1>
+            <p className="text-gray-600 mb-2">
               This report link expired on{' '}
-              <strong>
+              <strong className="text-gray-900">
                 {new Date(report.expires_at!).toLocaleDateString('en-US', {
                   weekday: 'long',
                   year: 'numeric',
@@ -60,11 +60,11 @@ import { notFound } from 'next/navigation'
 
     if (report.is_revoked) {
       return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-          <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
-            <div className="text-6xl mb-4">🚫</div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Access Revoked</h1>
-            <p className="text-gray-600 mb-4">
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+          <div className="max-w-md w-full bg-white rounded-xl border border-gray-200 p-10 text-center">
+            <div className="text-6xl mb-6">🚫</div>
+            <h1 className="text-2xl font-semibold text-gray-900 mb-3">Access Revoked</h1>
+            <p className="text-gray-600 mb-2">
               This report link has been disabled by the owner.
             </p>
             <p className="text-sm text-gray-500">
@@ -76,17 +76,17 @@ import { notFound } from 'next/navigation'
     }
 
     return (
-      <div className="min-h-screen bg-white">
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-6 px-4 
-  shadow-lg">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between">
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <div className="bg-white border-b border-gray-200">
+          <div className="max-w-7xl mx-auto px-6 py-8">
+            <div className="flex items-start justify-between">
               <div>
-                <h1 className="text-2xl font-bold mb-1">
+                <h1 className="text-3xl font-semibold text-gray-900 mb-2">
                   {report.title || 'Development Report'}
                 </h1>
-                <p className="text-purple-100 text-sm">
-                  {report.metadata?.developer && `From ${report.metadata.developer} • `}
+                <p className="text-gray-600">
+                  {report.metadata?.developer && `${report.metadata.developer} • `}
                   {new Date(report.created_at).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
@@ -94,28 +94,32 @@ import { notFound } from 'next/navigation'
                   })}
                 </p>
               </div>
-              <div className="text-right text-sm">
-                <p className="text-purple-100">
-                  Expires: {new Date(report.expires_at!).toLocaleDateString()}
-                </p>
-                <p className="text-purple-200 text-xs mt-1">
-                  Views: {report.view_count || 0}
+              <div className="text-right">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg mb-2">
+                  <span className="text-sm text-gray-600">
+                    Expires: {new Date(report.expires_at!).toLocaleDateString()}
+                  </span>
+                </div>
+                <p className="text-xs text-gray-500">
+                  {report.view_count || 0} {report.view_count === 1 ? 'view' : 'views'}
                 </p>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Report Content */}
         <div className="max-w-7xl mx-auto">
           <ReportContent token={token} />
         </div>
 
-        <div className="bg-gray-50 border-t border-gray-200 py-6 px-4 mt-8">
-          <div className="max-w-7xl mx-auto text-center text-gray-600 text-sm">
-            <p>
-              Powered by <strong className="text-purple-600">OnlyWorks</strong>
+        {/* Footer */}
+        <div className="bg-white border-t border-gray-200 py-8 px-6 mt-12">
+          <div className="max-w-7xl mx-auto text-center">
+            <p className="text-gray-600 mb-2">
+              Powered by <span className="font-semibold text-gray-900">OnlyWorks</span>
             </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-sm text-gray-500">
               This report will expire on{' '}
               {new Date(report.expires_at!).toLocaleDateString('en-US', {
                 weekday: 'long',
