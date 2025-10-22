@@ -130,7 +130,7 @@ export default function RootLayout({
         {/* Performance - Font preconnect */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Perfect+Ninety-Three:wght@400;700&display=swap" rel="stylesheet" />
+        {/* Invalid font removed - "Perfect Ninety-Three" is not available on Google Fonts */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

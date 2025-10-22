@@ -37,6 +37,8 @@
       date?: string
       developer?: string
       duration?: string
+      lines_written?: number
+      files_modified?: number
       originalSize?: number
       compressedSize?: number
       compressionRatio?: number
