@@ -4,7 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { LogOut, User, FileText, BarChart3 } from 'lucide-react'
+import { LogOut, User, FileText, BarChart3, Brain } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 import toast from 'react-hot-toast'
 
@@ -51,6 +51,13 @@ const AuthenticatedNavigation = () => {
               >
                 <FileText className="w-4 h-4" />
                 Reports
+              </Link>
+              <Link
+                href="/insights"
+                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 text-sm font-medium"
+              >
+                <Brain className="w-4 h-4" />
+                AI Insights
               </Link>
             </div>
           </div>

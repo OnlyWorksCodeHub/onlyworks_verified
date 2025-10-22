@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { BarChart3, FileText } from 'lucide-react'
+import { BarChart3, FileText, Brain } from 'lucide-react'
 
 interface SharedReportNavigationProps {
   token: string
@@ -40,6 +40,13 @@ const SharedReportNavigation = ({ token }: SharedReportNavigationProps) => {
               >
                 <FileText className="w-4 h-4" />
                 Reports
+              </Link>
+              <Link
+                href={redirectUrl}
+                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 text-sm font-medium"
+              >
+                <Brain className="w-4 h-4" />
+                AI Insights
               </Link>
             </div>
           </div>
