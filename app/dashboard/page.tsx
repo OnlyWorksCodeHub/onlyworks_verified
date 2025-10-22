@@ -146,20 +146,9 @@ const Dashboard = () => {
       {/* Header */}
       <div className="pt-16 bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-              <p className="text-gray-600 mt-1">Welcome back, {user?.email}</p>
-            </div>
-            <div className="flex items-center gap-4">
-              <Link
-                href="/reports/new"
-                className="flex items-center gap-2 px-4 py-2 bg-[#5c5ce6] text-white rounded-lg hover:bg-[#4c4cd6] transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-                New Report
-              </Link>
-            </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+            <p className="text-gray-600 mt-1">Welcome back, {user?.email}</p>
           </div>
         </div>
       </div>
