@@ -58,8 +58,8 @@ export default function SharedReportClient({ token }: SharedReportClientProps) {
 
           {/* Modal Content */}
           <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-slideUp">
-            {/* Blue accent border */}
-            <div className="h-1 bg-gradient-to-r from-blue-600 to-blue-700" />
+            {/* Purple accent border */}
+            <div className="h-1 bg-gradient-to-r from-[#5c5ce6] to-[#7c5ce6]" />
 
             <div className="p-8">
               {/* Close button */}
@@ -72,37 +72,37 @@ export default function SharedReportClient({ token }: SharedReportClientProps) {
 
               {/* Icon */}
               <div className="flex justify-center mb-4">
-                <div className="p-3 bg-blue-600/10 rounded-full">
-                  <Sparkles className="w-8 h-8 text-blue-600" />
+                <div className="p-3 bg-[#5c5ce6]/10 rounded-full">
+                  <Sparkles className="w-8 h-8 text-[#5c5ce6]" />
                 </div>
               </div>
 
               {/* Heading */}
               <h2 className="text-2xl font-semibold text-gray-900 text-center mb-2">
-                Want to create your own verified reports?
+                Want to see more insights & analytics?
               </h2>
 
               <p className="text-gray-600 text-center mb-6">
-                Track YOUR productivity automatically with OnlyWorks
+                Sign in to unlock advanced analytics, trends, and detailed insights
               </p>
 
               {/* Benefits */}
               <div className="space-y-3 mb-6">
                 <div className="flex items-center gap-3 text-sm text-gray-700">
-                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-600/10 flex items-center justify-center">
-                    <Clock className="w-3 h-3 text-blue-600" />
+                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-[#5c5ce6]/10 flex items-center justify-center">
+                    <Clock className="w-3 h-3 text-[#5c5ce6]" />
                   </div>
-                  <span>Automatically track your productivity in real-time</span>
+                  <span>View detailed productivity tracking and metrics</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-gray-700">
-                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-600/10 flex items-center justify-center">
-                    <TrendingUp className="w-3 h-3 text-blue-600" />
+                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-[#5c5ce6]/10 flex items-center justify-center">
+                    <TrendingUp className="w-3 h-3 text-[#5c5ce6]" />
                   </div>
-                  <span>Get AI-powered insights on your work patterns</span>
+                  <span>Access AI-powered insights and analytics</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-gray-700">
-                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-600/10 flex items-center justify-center">
-                    <Shield className="w-3 h-3 text-blue-600" />
+                  <div className="flex-shrink-0 w-5 h-5 rounded-full bg-[#5c5ce6]/10 flex items-center justify-center">
+                    <Shield className="w-3 h-3 text-[#5c5ce6]" />
                   </div>
                   <span>Share tamper-proof verified reports with anyone</span>
                 </div>
@@ -112,7 +112,7 @@ export default function SharedReportClient({ token }: SharedReportClientProps) {
               <div className="space-y-3">
                 <Link
                   href="/auth/register"
-                  className="block w-full px-6 py-3 bg-blue-600 text-white text-center rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  className="block w-full px-6 py-3 bg-[#5c5ce6] text-white text-center rounded-lg hover:bg-[#4c4cd6] transition-colors font-medium"
                 >
                   Create Free Account
                 </Link>
@@ -140,10 +140,10 @@ export default function SharedReportClient({ token }: SharedReportClientProps) {
       {showFloatingButton && (
         <button
           onClick={openModal}
-          className="fixed bottom-6 right-6 z-40 flex items-center gap-2 px-5 py-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all duration-300 animate-slideInRight group"
+          className="fixed bottom-6 right-6 z-40 flex items-center gap-2 px-5 py-3 bg-[#5c5ce6] text-white rounded-full shadow-lg hover:bg-[#4c4cd6] hover:shadow-xl transition-all duration-300 animate-slideInRight group"
         >
           <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-          <span className="font-medium">Create Your Own Reports</span>
+          <span className="font-medium">See More Insights & Analytics</span>
         </button>
       )}
     </>
