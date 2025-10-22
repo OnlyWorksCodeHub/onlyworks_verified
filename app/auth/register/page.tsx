@@ -23,7 +23,10 @@ export default function RegisterPage() {
 
   useEffect(() => {
     if (!authLoading && user) {
-      router.push('/dashboard')
+      // Check for redirect parameter in URL
+      const params = new URLSearchParams(window.location.search)
+      const redirect = params.get('redirect') || '/dashboard'
+      router.push(redirect)
     }
   }, [user, authLoading, router])
 
@@ -47,7 +50,11 @@ export default function RegisterPage() {
 
   const handleGoogleSignUp = async () => {
     try {
-      const { data, error } = await signInWithGoogle()
+      // Get redirect parameter from URL
+      const params = new URLSearchParams(window.location.search)
+      const redirect = params.get('redirect') || '/dashboard'
+
+      const { data, error } = await signInWithGoogle(redirect)
 
       if (error) throw error
 
