@@ -195,7 +195,13 @@ export default function InsightsPage() {
   )
 }
 
-function MetricCard({ title, value, change, trend, icon }: any) {
+function MetricCard({ title, value, change, trend, icon }: {
+  title: string
+  value: string
+  change: string
+  trend: 'up' | 'down' | 'neutral'
+  icon: React.ReactNode
+}) {
   const trendColor = trend === 'up' ? 'text-green-600' : trend === 'down' ? 'text-red-600' : 'text-gray-600'
 
   return (
@@ -210,7 +216,11 @@ function MetricCard({ title, value, change, trend, icon }: any) {
   )
 }
 
-function RecommendationCard({ title, description, priority }: any) {
+function RecommendationCard({ title, description, priority }: {
+  title: string
+  description: string
+  priority: 'high' | 'medium' | 'low'
+}) {
   const priorityColors = {
     high: 'border-l-red-500 bg-red-50',
     medium: 'border-l-yellow-500 bg-yellow-50',
@@ -230,7 +240,11 @@ function RecommendationCard({ title, description, priority }: any) {
   )
 }
 
-function BlockerCard({ title, description, severity }: any) {
+function BlockerCard({ title, description, severity }: {
+  title: string
+  description: string
+  severity: 'high' | 'medium' | 'low'
+}) {
   const severityColors = {
     high: 'bg-red-100 border-red-200 text-red-700',
     medium: 'bg-yellow-100 border-yellow-200 text-yellow-700',
