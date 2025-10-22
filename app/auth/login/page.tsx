@@ -18,7 +18,10 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!authLoading && user) {
-      router.push('/dashboard')
+      // Check for redirect parameter in URL
+      const params = new URLSearchParams(window.location.search)
+      const redirect = params.get('redirect') || '/dashboard'
+      router.push(redirect)
     }
   }, [user, authLoading, router])
 
@@ -32,7 +35,7 @@ export default function LoginPage() {
       if (error) throw error
 
       toast.success('Welcome back!')
-      // Redirect will be handled by AuthContext
+      // Redirect will be handled by useEffect above
     } catch (error: any) {
       toast.error(error.message || 'Failed to sign in')
     } finally {
@@ -42,7 +45,11 @@ export default function LoginPage() {
 
   const handleGoogleLogin = async () => {
     try {
-      const { data, error } = await signInWithGoogle()
+      // Get redirect parameter from URL
+      const params = new URLSearchParams(window.location.search)
+      const redirect = params.get('redirect') || '/dashboard'
+
+      const { data, error } = await signInWithGoogle(redirect)
 
       if (error) throw error
 
