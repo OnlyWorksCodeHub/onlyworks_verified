@@ -111,13 +111,13 @@ export default function SharedReportClient({ token }: SharedReportClientProps) {
               {/* CTA Buttons */}
               <div className="space-y-3">
                 <Link
-                  href="/auth/register"
+                  href={`/auth/register?redirect=/r/${token}`}
                   className="block w-full px-6 py-3 bg-[#5c5ce6] text-white text-center rounded-lg hover:bg-[#4c4cd6] transition-colors font-medium"
                 >
                   Create Free Account
                 </Link>
                 <Link
-                  href="/auth/login"
+                  href={`/auth/login?redirect=/r/${token}`}
                   className="block w-full px-6 py-3 text-gray-700 text-center hover:bg-gray-50 transition-colors font-medium rounded-lg"
                 >
                   Sign In

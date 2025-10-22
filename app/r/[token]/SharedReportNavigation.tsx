@@ -53,13 +53,13 @@ const SharedReportNavigation = ({ token }: SharedReportNavigationProps) => {
 
           <div className="flex items-center space-x-4">
             <Link
-              href="/auth/login"
+              href={`/auth/login?redirect=/r/${token}`}
               className="px-4 py-2 text-gray-600 hover:text-gray-900 text-sm font-medium"
             >
               Sign In
             </Link>
             <Link
-              href="/auth/register"
+              href={`/auth/register?redirect=/r/${token}`}
               className="px-4 py-2 bg-[#5c5ce6] text-white rounded-lg hover:bg-[#4c4cd6] transition-colors text-sm font-medium"
             >
               Create Account
