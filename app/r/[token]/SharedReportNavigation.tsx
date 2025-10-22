@@ -28,21 +28,21 @@ const SharedReportNavigation = ({ token }: SharedReportNavigationProps) => {
             </Link>
             <div className="hidden md:flex items-center space-x-6">
               <Link
-                href={redirectUrl}
+                href="/auth/login?redirect=/dashboard"
                 className="flex items-center gap-2 text-gray-600 hover:text-gray-900 text-sm font-medium"
               >
                 <BarChart3 className="w-4 h-4" />
                 Dashboard
               </Link>
               <Link
-                href={redirectUrl}
+                href="/auth/login?redirect=/reports"
                 className="flex items-center gap-2 text-gray-600 hover:text-gray-900 text-sm font-medium"
               >
                 <FileText className="w-4 h-4" />
                 Reports
               </Link>
               <Link
-                href={redirectUrl}
+                href="/auth/login?redirect=/insights"
                 className="flex items-center gap-2 text-gray-600 hover:text-gray-900 text-sm font-medium"
               >
                 <Brain className="w-4 h-4" />
