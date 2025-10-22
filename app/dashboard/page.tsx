@@ -108,8 +108,7 @@ const Dashboard = () => {
   }
 
   const filteredReports = reports.filter((report: any) =>
-    report.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    report.developer?.toLowerCase().includes(searchTerm.toLowerCase())
+    report.title?.toLowerCase().includes(searchTerm.toLowerCase())
   ).sort((a: any, b: any) => {
     switch (sortBy) {
       case 'date':

@@ -178,8 +178,7 @@ const ReportsPage = () => {
   }
 
   const filteredReports = reports.filter(report => {
-    const matchesSearch = report.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         report.developer?.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesSearch = report.title?.toLowerCase().includes(searchTerm.toLowerCase())
 
     const matchesFilter = filterBy === 'all' ||
                          (filterBy === 'shared' && report.shared_at) ||
@@ -381,9 +380,6 @@ const ReportsPage = () => {
                           <h3 className="font-medium text-gray-900 truncate">
                             {report.title || 'Daily Work Report'}
                           </h3>
-                          <p className="text-sm text-gray-500 truncate">
-                            {report.developer || 'Unknown Developer'}
-                          </p>
                         </div>
 
                         {/* Date */}
