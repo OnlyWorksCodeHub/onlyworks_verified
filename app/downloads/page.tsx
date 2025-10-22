@@ -3,14 +3,77 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Download, Monitor, Laptop, Lock, Key } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import toast from 'react-hot-toast'
+
+interface VersionInfo {
+  version: string
+  releaseDate: string
+  platforms: any
+  releaseNotes: string[]
+  minOS: any
+}
 
 export default function DownloadsPage() {
   const [accessCode, setAccessCode] = useState('')
   const [hasAccess, setHasAccess] = useState(false)
   const [error, setError] = useState('')
+  const [versionInfo, setVersionInfo] = useState<VersionInfo | null>(null)
+  const [downloading, setDownloading] = useState<string | null>(null)
 
   const correctAccessCode = 'ONLYWORKS2024' // You can change this to any code you want
+
+  // Fetch version info on mount
+  useEffect(() => {
+    if (hasAccess) {
+      fetchVersionInfo()
+    }
+  }, [hasAccess])
+
+  const fetchVersionInfo = async () => {
+    try {
+      const response = await fetch('/api/desktop/version')
+      const data = await response.json()
+      setVersionInfo(data)
+    } catch (err) {
+      console.error('Failed to fetch version info:', err)
+    }
+  }
+
+  const handleDownload = async (platform: string, arch: string) => {
+    const downloadKey = `${platform}-${arch}`
+    setDownloading(downloadKey)
+
+    try {
+      // Track download via API
+      const response = await fetch('/api/desktop/download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ platform, arch }),
+      })
+
+      const data = await response.json()
+
+      if (data.success && data.downloadUrl) {
+        // Start download
+        const link = document.createElement('a')
+        link.href = data.downloadUrl
+        link.download = data.downloadUrl.split('/').pop() || 'OnlyWorks-Desktop'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+
+        toast.success(`Downloading OnlyWorks Desktop v${data.version}`)
+      } else {
+        throw new Error('Failed to get download URL')
+      }
+    } catch (err) {
+      console.error('Download error:', err)
+      toast.error('Failed to start download. Please try again.')
+    } finally {
+      setDownloading(null)
+    }
+  }
 
   const handleAccessSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -126,27 +189,27 @@ export default function DownloadsPage() {
             </p>
 
             <div className="space-y-4">
-              <a
-                href="/downloads/OnlyWorks Desktop-1.0.0-arm64.dmg"
-                className="flex items-center justify-center w-full px-6 py-3 bg-[#5b70f8] text-white rounded-lg hover:bg-[#5b70f8]/90 transition-colors"
-                download
+              <button
+                onClick={() => handleDownload('mac', 'arm64')}
+                disabled={downloading === 'mac-arm64'}
+                className="flex items-center justify-center w-full px-6 py-3 bg-[#5b70f8] text-white rounded-lg hover:bg-[#5b70f8]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Download className="h-5 w-5 mr-2" />
-                Download for Apple Silicon (M1/M2)
-              </a>
+                {downloading === 'mac-arm64' ? 'Downloading...' : 'Download for Apple Silicon (M1/M2)'}
+              </button>
 
-              <a
-                href="/downloads/OnlyWorks Desktop-1.0.0.dmg"
-                className="flex items-center justify-center w-full px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-                download
+              <button
+                onClick={() => handleDownload('mac', 'intel')}
+                disabled={downloading === 'mac-intel'}
+                className="flex items-center justify-center w-full px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Download className="h-5 w-5 mr-2" />
-                Download for Intel Mac
-              </a>
+                {downloading === 'mac-intel' ? 'Downloading...' : 'Download for Intel Mac'}
+              </button>
             </div>
 
             <p className="text-sm text-gray-500 mt-4 text-center">
-              Version 1.0.0 • ~97MB
+              Version {versionInfo?.version || '1.0.0'} • ~{versionInfo?.platforms?.mac?.arm64?.size || '97MB'}
             </p>
           </div>
 
@@ -163,18 +226,18 @@ export default function DownloadsPage() {
             </p>
 
             <div className="space-y-4">
-              <a
-                href="/downloads/OnlyWorks Desktop Setup 1.0.0.exe"
-                className="flex items-center justify-center w-full px-6 py-3 bg-[#5b70f8] text-white rounded-lg hover:bg-[#5b70f8]/90 transition-colors"
-                download
+              <button
+                onClick={() => handleDownload('windows', 'x64')}
+                disabled={downloading === 'windows-x64'}
+                className="flex items-center justify-center w-full px-6 py-3 bg-[#5b70f8] text-white rounded-lg hover:bg-[#5b70f8]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Download className="h-5 w-5 mr-2" />
-                Download for Windows
-              </a>
+                {downloading === 'windows-x64' ? 'Downloading...' : 'Download for Windows'}
+              </button>
             </div>
 
             <p className="text-sm text-gray-500 mt-4 text-center">
-              Version 1.0.0 • ~74MB
+              Version {versionInfo?.version || '1.0.0'} • ~{versionInfo?.platforms?.windows?.x64?.size || '74MB'}
             </p>
           </div>
         </div>
