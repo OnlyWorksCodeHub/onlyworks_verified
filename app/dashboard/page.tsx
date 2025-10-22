@@ -133,7 +133,7 @@ const Dashboard = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-[#5c5ce6] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading your dashboard...</p>
         </div>
       </div>
@@ -155,7 +155,7 @@ const Dashboard = () => {
             <div className="flex items-center gap-4">
               <Link
                 href="/reports/new"
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-[#5c5ce6] text-white rounded-lg hover:bg-[#4c4cd6] transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 New Report
@@ -174,7 +174,7 @@ const Dashboard = () => {
                 <p className="text-sm font-medium text-gray-600">Total Reports</p>
                 <p className="text-2xl font-bold text-gray-900">{totalReports}</p>
               </div>
-              <FileText className="w-8 h-8 text-blue-500" />
+              <FileText className="w-8 h-8 text-[#5c5ce6]" />
             </div>
           </div>
 
@@ -216,7 +216,7 @@ const Dashboard = () => {
               <h2 className="text-lg font-semibold text-gray-900">Recent Reports</h2>
               <Link
                 href="/reports"
-                className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-1"
+                className="text-[#5c5ce6] hover:text-[#4c4cd6] text-sm font-medium flex items-center gap-1"
               >
                 View all
                 <ChevronRight className="w-4 h-4" />
@@ -232,13 +232,13 @@ const Dashboard = () => {
                   placeholder="Search reports..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5c5ce6] focus:border-transparent"
                 />
               </div>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5c5ce6]"
               >
                 <option value="date">Sort by Date</option>
                 <option value="title">Sort by Title</option>
@@ -267,7 +267,7 @@ const Dashboard = () => {
                     </p>
                     <Link
                       href="/downloads"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-[#5c5ce6] text-white rounded-lg hover:bg-[#4c4cd6] transition-colors"
                     >
                       <Download className="w-4 h-4" />
                       Download Desktop App
@@ -314,7 +314,7 @@ const Dashboard = () => {
                       </button>
                       <Link
                         href={`/reports/${report.id}`}
-                        className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
+                        className="px-3 py-1.5 bg-[#5c5ce6] text-white text-sm rounded-lg hover:bg-[#4c4cd6] transition-colors"
                       >
                         View
                       </Link>
