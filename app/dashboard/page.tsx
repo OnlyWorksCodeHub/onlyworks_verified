@@ -21,10 +21,11 @@ import {
   ChevronRight,
   Activity
 } from 'lucide-react'
-import { getUserReports, getProductivityTrends } from '@/lib/supabase'
+import { getUserReports, getProductivityTrends, supabase } from '@/lib/supabase'
 import { useAuth } from '@/contexts/AuthContext'
 import { exportReport } from '@/utils/exportService'
 import AuthenticatedNavigation from '@/components/AuthenticatedNavigation'
+import ManagerDashboard from '@/components/dashboard/ManagerDashboard'
 import toast from 'react-hot-toast'
 
 const Dashboard = () => {
@@ -35,6 +36,7 @@ const Dashboard = () => {
   const [loadingReports, setLoadingReports] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState('date')
+  const [userRole, setUserRole] = useState<string | null>(null)
 
   useEffect(() => {
     if (loading) return
@@ -44,9 +46,26 @@ const Dashboard = () => {
       return
     }
 
+    loadUserRole()
     loadReports()
     loadTrends()
   }, [user, loading, router])
+
+  const loadUserRole = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('user_role')
+        .eq('id', user.id)
+        .single()
+
+      if (!error && data) {
+        setUserRole(data.user_role)
+      }
+    } catch (error) {
+      console.error('Failed to load user role:', error)
+    }
+  }
 
   const loadReports = async () => {
     try {
@@ -154,6 +173,13 @@ const Dashboard = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* Manager Dashboard */}
+        {userRole === 'manager' && (
+          <div className="mb-8">
+            <ManagerDashboard />
+          </div>
+        )}
+
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-lg p-6 shadow-sm border">
