@@ -142,7 +142,7 @@ const ShareReportControls = ({ reportId, currentlyShared }) => {
   }
 
   const copyShareLink = async (shareToken) => {
-    const shareUrl = `${window.location.origin}/shared/${shareToken}`
+    const shareUrl = `${window.location.origin}/r/${shareToken}`
     try {
       await navigator.clipboard.writeText(shareUrl)
       setCopiedToken(shareToken)

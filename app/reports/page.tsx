@@ -17,9 +17,11 @@ import {
   ChevronLeft,
   Clock,
   BarChart3,
-  AlertTriangle
+  AlertTriangle,
+  Users,
+  Mail
 } from 'lucide-react'
-import { getUserReports, deleteReport } from '@/lib/supabase'
+import { getUserReports, deleteReport, supabase } from '@/lib/supabase'
 import { useAuth } from '@/contexts/AuthContext'
 import { exportReport } from '@/utils/exportService'
 import AuthenticatedNavigation from '@/components/AuthenticatedNavigation'
@@ -29,7 +31,9 @@ const ReportsPage = () => {
   const { user, loading } = useAuth() as any
   const router = useRouter()
   const [reports, setReports] = useState<any[]>([])
+  const [receivedReports, setReceivedReports] = useState<any[]>([])
   const [loadingReports, setLoadingReports] = useState(true)
+  const [loadingReceived, setLoadingReceived] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState('date')
   const [filterBy, setFilterBy] = useState('all')
@@ -44,6 +48,7 @@ const ReportsPage = () => {
     }
 
     loadReports()
+    loadReceivedReports()
   }, [user, loading, router])
 
   const loadReports = async () => {
@@ -65,6 +70,29 @@ const ReportsPage = () => {
       toast.error('Unable to connect to the database. Please check your connection.')
     } finally {
       setLoadingReports(false)
+    }
+  }
+
+  const loadReceivedReports = async () => {
+    try {
+      setLoadingReceived(true)
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) return
+
+      const response = await fetch('/api/reports/shared-with-me', {
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+        }
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setReceivedReports(data.receivedReports || [])
+      }
+    } catch (error) {
+      console.error('Failed to load received reports:', error)
+    } finally {
+      setLoadingReceived(false)
     }
   }
 
@@ -311,7 +339,68 @@ const ReportsPage = () => {
           </div>
         </div>
 
-        {/* Reports List */}
+        {/* Shared with Me Section */}
+        {receivedReports.length > 0 && (
+          <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border border-purple-200 p-6 mb-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Users className="w-5 h-5 text-[#5c5ce6]" />
+              <h2 className="text-lg font-semibold text-gray-900">Shared with Me</h2>
+              <span className="px-2 py-1 bg-[#5c5ce6] text-white text-xs rounded-full">
+                {receivedReports.length}
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              {receivedReports.map((share: any) => (
+                <Link
+                  key={share.id}
+                  href={`/r/${share.share_token}`}
+                  className="block bg-white rounded-lg border border-gray-200 p-4 hover:border-[#5c5ce6] hover:shadow-md transition-all"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <h3 className="font-medium text-gray-900 mb-2">
+                        {share.reports.title || 'Daily Work Report'}
+                      </h3>
+                      <div className="flex items-center gap-4 text-sm text-gray-500">
+                        <span className="flex items-center gap-1">
+                          <Mail className="w-3 h-3" />
+                          Shared by {share.shared_by?.[0]?.email || 'Unknown'}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {new Date(share.reports.report_date).toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
+                          })}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Eye className="w-3 h-3" />
+                          {share.view_count || 0} views
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          Expires {new Date(share.expires_at).toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric'
+                          })}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 ml-4">
+                      <span className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded">
+                        Shared
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* My Reports */}
         <div className="bg-white rounded-lg shadow-sm border">
           {filteredReports.length === 0 ? (
             <div className="px-6 py-12 text-center">
