@@ -183,7 +183,7 @@ export default function RootLayout({
         <ClientLayout>
           {children}
           <Toaster
-            position="bottom-right"
+            position="top-center"
             toastOptions={{
               style: {
                 fontFamily: "'Inter', sans-serif",

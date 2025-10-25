@@ -109,15 +109,16 @@ export function JobApplicationModal({ isOpen, onClose, jobTitle }: JobApplicatio
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
-          <h2 className="text-2xl font-semibold text-gray-900">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-0 sm:p-4">
+      <div className="bg-white sm:rounded-lg w-full h-full sm:h-auto sm:max-w-2xl sm:max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-white border-b px-4 sm:px-6 py-4 flex items-center justify-between z-10">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">
             Apply for {jobTitle || 'Position'}
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-gray-400 hover:text-gray-600 transition-colors p-2 -mr-2"
+            aria-label="Close"
           >
             <X size={24} />
           </button>
@@ -153,9 +154,11 @@ export function JobApplicationModal({ isOpen, onClose, jobTitle }: JobApplicatio
                   id="email"
                   name="email"
                   required
+                  inputMode="email"
+                  autoComplete="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
             </div>
@@ -169,9 +172,11 @@ export function JobApplicationModal({ isOpen, onClose, jobTitle }: JobApplicatio
                   type="tel"
                   id="phone"
                   name="phone"
+                  inputMode="tel"
+                  autoComplete="tel"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
 

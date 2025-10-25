@@ -272,27 +272,27 @@ const ReportsPage = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Filters */}
         <div className="bg-white rounded-lg shadow-sm border mb-6">
-          <div className="p-6">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="relative">
-                  <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  <input
-                    type="text"
-                    placeholder="Search reports..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5c5ce6] focus:border-transparent"
-                  />
-                </div>
+          <div className="p-4 sm:p-6">
+            <div className="flex flex-col gap-4">
+              <div className="relative w-full">
+                <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search reports..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5c5ce6] focus:border-transparent"
+                />
+              </div>
 
+              <div className="flex flex-col sm:flex-row gap-3">
                 <select
                   value={filterBy}
                   onChange={(e) => setFilterBy(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5c5ce6]"
+                  className="flex-1 px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5c5ce6]"
                 >
                   <option value="all">All Reports</option>
                   <option value="shared">Shared Only</option>
@@ -302,7 +302,7 @@ const ReportsPage = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5c5ce6]"
+                  className="flex-1 px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5c5ce6]"
                 >
                   <option value="date">Sort by Date</option>
                   <option value="title">Sort by Title</option>
@@ -431,8 +431,8 @@ const ReportsPage = () => {
             </div>
           ) : (
             <>
-              {/* Table Header */}
-              <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+              {/* Desktop Table Header - Hidden on mobile */}
+              <div className="hidden lg:block px-6 py-4 border-b border-gray-200 bg-gray-50">
                 <div className="flex items-center gap-4">
                   <input
                     type="checkbox"
@@ -452,11 +452,12 @@ const ReportsPage = () => {
                 </div>
               </div>
 
-              {/* Table Body */}
+              {/* Reports List - Card layout on mobile, table on desktop */}
               <div className="divide-y divide-gray-200">
                 {filteredReports.map((report) => (
-                  <div key={report.id} className="px-6 py-4 hover:bg-gray-50">
-                    <div className="flex items-center gap-4">
+                  <div key={report.id} className="hover:bg-gray-50">
+                    {/* Desktop Table Row */}
+                    <div className="hidden lg:flex items-center gap-4 px-6 py-4">
                       <input
                         type="checkbox"
                         checked={selectedReports.includes(report.id)}
@@ -464,34 +465,25 @@ const ReportsPage = () => {
                         className="rounded border-gray-300 text-[#5c5ce6] focus:ring-[#5c5ce6]"
                       />
                       <div className="flex-1 grid grid-cols-12 gap-4 items-center">
-                        {/* Report Info */}
                         <div className="col-span-4">
                           <h3 className="font-medium text-gray-900 truncate">
                             {report.title || 'Daily Work Report'}
                           </h3>
                         </div>
-
-                        {/* Date */}
                         <div className="col-span-2">
                           <div className="text-sm text-gray-900">{formatDate(report.report_date)}</div>
                           <div className="text-xs text-gray-500">{formatTime(report.created_at)}</div>
                         </div>
-
-                        {/* Lines */}
                         <div className="col-span-1">
                           <span className="text-sm font-medium text-gray-900">
                             {(report.lines_written || 0).toLocaleString()}
                           </span>
                         </div>
-
-                        {/* Files */}
                         <div className="col-span-1">
                           <span className="text-sm font-medium text-gray-900">
                             {report.files_modified_count || 0}
                           </span>
                         </div>
-
-                        {/* Status */}
                         <div className="col-span-1">
                           {report.shared_at ? (
                             <span className="inline-flex items-center gap-1 px-2 py-1 bg-[#5c5ce6]/10 text-[#5c5ce6] text-xs rounded-full">
@@ -505,15 +497,11 @@ const ReportsPage = () => {
                             </span>
                           )}
                         </div>
-
-                        {/* Views */}
                         <div className="col-span-1">
                           <span className="text-sm text-gray-600">
                             {report.view_count || 0}
                           </span>
                         </div>
-
-                        {/* Actions */}
                         <div className="col-span-2">
                           <div className="flex items-center gap-1">
                             <Link
@@ -522,7 +510,6 @@ const ReportsPage = () => {
                             >
                               View
                             </Link>
-
                             <button
                               onClick={() => handleExportReport(report, 'json')}
                               className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded transition-colors"
@@ -530,7 +517,6 @@ const ReportsPage = () => {
                             >
                               <Download className="w-3 h-3" />
                             </button>
-
                             {report.shared_at ? (
                               <button
                                 onClick={() => handleUnshareReport(report.id)}
@@ -548,13 +534,108 @@ const ReportsPage = () => {
                                 <Share2 className="w-3 h-3" />
                               </button>
                             )}
-
                             <button
                               onClick={() => handleDeleteReport(report.id)}
                               className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
                               title="Delete"
                             >
                               <Trash2 className="w-3 h-3" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Mobile Card */}
+                    <div className="lg:hidden p-4">
+                      <div className="flex items-start gap-3 mb-3">
+                        <input
+                          type="checkbox"
+                          checked={selectedReports.includes(report.id)}
+                          onChange={() => toggleReportSelection(report.id)}
+                          className="mt-1 rounded border-gray-300 text-[#5c5ce6] focus:ring-[#5c5ce6]"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-gray-900 mb-2">
+                            {report.title || 'Daily Work Report'}
+                          </h3>
+
+                          {/* Stats Grid */}
+                          <div className="grid grid-cols-2 gap-3 mb-3">
+                            <div>
+                              <p className="text-xs text-gray-500">Date</p>
+                              <p className="text-sm font-medium text-gray-900">{formatDate(report.report_date)}</p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-gray-500">Time</p>
+                              <p className="text-sm font-medium text-gray-900">{formatTime(report.created_at)}</p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-gray-500">Lines Written</p>
+                              <p className="text-sm font-medium text-gray-900">{(report.lines_written || 0).toLocaleString()}</p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-gray-500">Files Modified</p>
+                              <p className="text-sm font-medium text-gray-900">{report.files_modified_count || 0}</p>
+                            </div>
+                          </div>
+
+                          {/* Status and Views */}
+                          <div className="flex items-center gap-3 mb-3">
+                            {report.shared_at ? (
+                              <span className="inline-flex items-center gap-1 px-2 py-1 bg-[#5c5ce6]/10 text-[#5c5ce6] text-xs rounded-full">
+                                <Eye className="w-3 h-3" />
+                                Shared
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
+                                <EyeOff className="w-3 h-3" />
+                                Private
+                              </span>
+                            )}
+                            <span className="text-xs text-gray-500">
+                              {report.view_count || 0} views
+                            </span>
+                          </div>
+
+                          {/* Actions */}
+                          <div className="flex flex-wrap items-center gap-2">
+                            <Link
+                              href={`/reports/${report.id}`}
+                              className="flex-1 min-w-[120px] text-center px-4 py-2 text-sm bg-[#5c5ce6] text-white rounded-lg hover:bg-[#4c4cd6] transition-colors"
+                            >
+                              View Report
+                            </Link>
+                            <button
+                              onClick={() => handleExportReport(report, 'json')}
+                              className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                              title="Export"
+                            >
+                              <Download className="w-5 h-5" />
+                            </button>
+                            {report.shared_at ? (
+                              <button
+                                onClick={() => handleUnshareReport(report.id)}
+                                className="p-2 text-[#5c5ce6] hover:text-[#4c4cd6] hover:bg-[#5c5ce6]/10 rounded-lg transition-colors"
+                                title="Stop sharing"
+                              >
+                                <EyeOff className="w-5 h-5" />
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => handleShareReport(report.id)}
+                                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                                title="Share"
+                              >
+                                <Share2 className="w-5 h-5" />
+                              </button>
+                            )}
+                            <button
+                              onClick={() => handleDeleteReport(report.id)}
+                              className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+                              title="Delete"
+                            >
+                              <Trash2 className="w-5 h-5" />
                             </button>
                           </div>
                         </div>

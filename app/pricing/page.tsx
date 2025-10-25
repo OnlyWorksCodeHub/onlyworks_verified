@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Check, X, ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import { Footer } from '@/components/layout/Footer'
+import { MobileNavigation } from '@/components/layout/MobileNavigation'
 
 export default function PricingPage() {
   const plans = [
@@ -69,42 +70,15 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center space-x-10">
-              <Link href="/" className="flex items-center">
-                <Image
-                  src="/images/onlyworks-logo.png"
-                  alt="OnlyWorks"
-                  width={128}
-                  height={32}
-                  className="h-8 w-auto"
-                />
-              </Link>
-              <div className="hidden md:flex items-center space-x-6">
-                <Link href="/pricing" className="text-primary hover:text-primary-dark text-base font-medium">Pricing</Link>
-                <Link href="/careers" className="text-gray-600 hover:text-gray-900 text-base">Careers</Link>
-                <Link href="/updates" className="text-gray-600 hover:text-gray-900 text-base">Updates</Link>
-                <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-base">Contact</Link>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-base">
-                Get started
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <MobileNavigation currentPage="/pricing" />
 
       {/* Hero */}
-      <section className="pt-32 pb-16 px-6">
+      <section className="pt-32 pb-16 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-7xl md:text-8xl font-semibold text-gray-900 mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal">
             Simple, Transparent <span className="text-primary">Pricing</span>
           </h1>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             Start free, upgrade when you need more. No hidden fees, no surprises.
           </p>
         </div>
