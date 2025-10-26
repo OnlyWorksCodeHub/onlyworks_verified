@@ -10,7 +10,7 @@ import { MobileNavigation } from '@/components/layout/MobileNavigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { useState, useEffect, useRef } from 'react'
 import toast from 'react-hot-toast'
-import * as anime from 'animejs'
+import { animate, createTimeline } from 'animejs'
 
 export default function HomePage() {
   const { user } = useAuth() as any
@@ -63,31 +63,29 @@ export default function HomePage() {
 
   // Hero entrance animation
   useEffect(() => {
-    const timeline = anime.default.timeline({
-      easing: 'easeOutExpo',
+    const timeline = createTimeline({
+      defaults: {
+        ease: 'out-expo',
+      },
     })
 
     timeline
-      .add({
-        targets: heroTitleRef.current,
+      .add(heroTitleRef.current, {
         opacity: [0, 1],
         translateY: [20, 0],
         duration: 600,
       })
-      .add({
-        targets: heroSubtextRef.current,
+      .add(heroSubtextRef.current, {
         opacity: [0, 1],
         translateY: [20, 0],
         duration: 500,
       }, '-=400') // Start 400ms before previous animation ends
-      .add({
-        targets: heroBadgeRef.current,
+      .add(heroBadgeRef.current, {
         opacity: [0, 1],
         scale: [0.95, 1],
         duration: 400,
       }, '-=300')
-      .add({
-        targets: heroButtonsRef.current,
+      .add(heroButtonsRef.current, {
         opacity: [0, 1],
         translateY: [10, 0],
         duration: 400,
@@ -98,11 +96,10 @@ export default function HomePage() {
   useEffect(() => {
     if (!heroBadgeRef.current) return
 
-    anime.default({
-      targets: heroBadgeRef.current,
+    animate(heroBadgeRef.current, {
       scale: [1, 1.02, 1],
       duration: 2000,
-      easing: 'easeInOutQuad',
+      ease: 'in-out-quad',
       delay: 3000,
       loop: true,
     })
@@ -112,19 +109,19 @@ export default function HomePage() {
   useEffect(() => {
     if (!useCaseContentRef.current || !useCaseImageRef.current) return
 
-    const timeline = anime.default.timeline({
-      easing: 'easeInOutQuad',
+    const timeline = createTimeline({
+      defaults: {
+        ease: 'in-out-quad',
+      },
     })
 
     timeline
-      .add({
-        targets: [useCaseContentRef.current, useCaseImageRef.current],
+      .add([useCaseContentRef.current, useCaseImageRef.current], {
         opacity: [1, 0],
         translateX: [-10, 0],
         duration: 300,
       })
-      .add({
-        targets: [useCaseContentRef.current, useCaseImageRef.current],
+      .add([useCaseContentRef.current, useCaseImageRef.current], {
         opacity: [0, 1],
         translateX: [10, 0],
         duration: 300,

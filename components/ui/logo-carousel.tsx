@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import * as anime from 'animejs'
+import { animate, type JSAnimation } from 'animejs'
 
 const logos = [
   { name: 'Perplexity', src: 'https://framerusercontent.com/images/H2uMsivchZzjvRhz3xCe7yheV0.png?scale-down-to=512', width: 133, height: 32 },
@@ -15,7 +15,7 @@ const logos = [
 export function LogoCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [isPaused, setIsPaused] = useState(false)
-  const animationRef = useRef<anime.AnimeInstance | null>(null)
+  const animationRef = useRef<JSAnimation | null>(null)
 
   useEffect(() => {
     const scrollContainer = scrollRef.current
@@ -28,14 +28,13 @@ export function LogoCarousel() {
         animationRef.current.pause()
       }
 
-      animationRef.current = anime.default({
-        targets: scrollContainer,
+      animationRef.current = animate(scrollContainer, {
         scrollLeft: maxScroll,
         duration: maxScroll * 60, // 60px per second for smooth, slow scroll
-        easing: 'linear',
+        ease: 'linear',
         loop: true,
         autoplay: true,
-      }) as anime.AnimeInstance
+      })
     }
 
     startAnimation()
