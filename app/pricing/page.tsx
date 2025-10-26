@@ -1,10 +1,18 @@
+'use client'
+
 import Link from 'next/link'
 import { Check, X, ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import { Footer } from '@/components/layout/Footer'
 import { MobileNavigation } from '@/components/layout/MobileNavigation'
+import { useRef } from 'react'
+import { useHeroEntrance } from '@/hooks/useHeroEntrance'
 
 export default function PricingPage() {
+  const heroTitleRef = useRef<HTMLHeadingElement>(null)
+  const heroSubtextRef = useRef<HTMLParagraphElement>(null)
+
+  useHeroEntrance([heroTitleRef, heroSubtextRef])
   const plans = [
     {
       name: 'Free',
@@ -75,10 +83,18 @@ export default function PricingPage() {
       {/* Hero */}
       <section className="pt-32 pb-16 px-3 xs:px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal">
+          <h1
+            ref={heroTitleRef}
+            className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal"
+            style={{ opacity: 0 }}
+          >
             Simple, Transparent <span className="text-primary">Pricing</span>
           </h1>
-          <p className="text-base sm:text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p
+            ref={heroSubtextRef}
+            className="text-base sm:text-lg text-gray-600 mb-8 max-w-2xl mx-auto"
+            style={{ opacity: 0 }}
+          >
             Start free, upgrade when you need more. No hidden fees, no surprises.
           </p>
         </div>
@@ -91,7 +107,7 @@ export default function PricingPage() {
             {plans.map((plan) => (
               <div
                 key={plan.name}
-                className={`relative ${
+                className={`relative hover-lift ${
                   plan.highlighted
                     ? 'bg-white border-2 border-primary shadow-xl shadow-primary/20'
                     : 'bg-gray-50 border border-gray-200'

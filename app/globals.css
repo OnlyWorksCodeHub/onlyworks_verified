@@ -66,6 +66,33 @@
     animation: slideInRight 0.5s ease-out;
   }
 
+  /* Hover effects for cards and elements */
+  .hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .hover-scale {
+    transition: transform 0.2s ease;
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.02);
+  }
+
+  .hover-border {
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .hover-border:hover {
+    border-color: #5b70f8;
+    background-color: rgba(91, 112, 248, 0.02);
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -94,6 +121,17 @@
     to {
       transform: translateX(0);
       opacity: 1;
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
   }
 }
