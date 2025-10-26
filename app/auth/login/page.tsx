@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import Image from 'next/image'
 import { Mail, Lock, ArrowRight, Chrome } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { getUserProfile, getRedirectPath } from '@/lib/utils/onboardingHelper'
 
 export default function LoginPage() {
   const { user, loading: authLoading } = useAuth() as any
@@ -18,12 +19,31 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!authLoading && user) {
-      // Check for redirect parameter in URL
-      const params = new URLSearchParams(window.location.search)
-      const redirect = params.get('redirect') || '/dashboard'
-      router.push(redirect)
+      handleRedirect()
     }
   }, [user, authLoading, router])
+
+  const handleRedirect = async () => {
+    try {
+      // Check if there's a specific redirect parameter
+      const params = new URLSearchParams(window.location.search)
+      const explicitRedirect = params.get('redirect')
+
+      if (explicitRedirect) {
+        router.push(explicitRedirect)
+        return
+      }
+
+      // Otherwise, check onboarding status and redirect accordingly
+      const profile = await getUserProfile(user.id)
+      const redirectPath = getRedirectPath(profile)
+      router.push(redirectPath)
+    } catch (error) {
+      console.error('Error determining redirect:', error)
+      // Fallback to dashboard if error
+      router.push('/dashboard')
+    }
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()

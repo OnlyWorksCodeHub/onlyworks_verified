@@ -25,8 +25,11 @@ export default function RegisterPage() {
     if (!authLoading && user) {
       // Check for redirect parameter in URL
       const params = new URLSearchParams(window.location.search)
-      const redirect = params.get('redirect') || '/dashboard'
-      router.push(redirect)
+      const redirect = params.get('redirect')
+
+      // If explicit redirect is provided, use it
+      // Otherwise, new users should go to onboarding
+      router.push(redirect || '/onboarding')
     }
   }, [user, authLoading, router])
 

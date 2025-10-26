@@ -5,31 +5,52 @@ import { useAuth } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 import { Users, User, ArrowRight, BarChart3, Shield } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { supabase } from '@/lib/supabase'
+import { getUserProfile, completeOnboarding, getRedirectPath } from '@/lib/utils/onboardingHelper'
 
 export default function OnboardingPage() {
   const { user, loading: authLoading } = useAuth() as any
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [checkingStatus, setCheckingStatus] = useState(true)
 
   useEffect(() => {
     if (!authLoading && !user) {
       router.push('/auth/login')
+      return
+    }
+
+    if (!authLoading && user) {
+      checkOnboardingStatus()
     }
   }, [user, authLoading, router])
+
+  const checkOnboardingStatus = async () => {
+    try {
+      setCheckingStatus(true)
+      const profile = await getUserProfile(user.id)
+
+      // If user already has a role, redirect them
+      if (profile && profile.user_role) {
+        const redirectPath = getRedirectPath(profile)
+        router.push(redirectPath)
+        return
+      }
+    } catch (error) {
+      console.error('Error checking onboarding status:', error)
+    } finally {
+      setCheckingStatus(false)
+    }
+  }
 
   const handleRoleSelection = async (role: 'manager' | 'member') => {
     setLoading(true)
 
     try {
-      // Update user profile with selected role
-      const { error } = await supabase
-        .from('profiles')
-        .update({ user_role: role })
-        .eq('id', user.id)
+      // Complete onboarding with the new helper
+      const result = await completeOnboarding(user.id, role)
 
-      if (error) {
-        throw error
+      if (!result.success) {
+        throw result.error
       }
 
       toast.success(`Welcome! You're set up as a ${role}`)
@@ -47,7 +68,7 @@ export default function OnboardingPage() {
     }
   }
 
-  if (authLoading) {
+  if (authLoading || checkingStatus) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
