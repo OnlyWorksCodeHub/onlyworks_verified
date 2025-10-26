@@ -11,6 +11,7 @@ const config: Config = {
     extend: {
       screens: {
         'xs': '475px',
+        'md': '800px',
       },
       fontFamily: {
         'playfair': ['Playfair Display', 'serif'],
