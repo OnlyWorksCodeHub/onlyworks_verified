@@ -59,7 +59,7 @@ export default function HomePage() {
       {/* Hero */}
       <section className="pt-32 pb-16 px-3 xs:px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal lg:leading-loose">
+          <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal lg:leading-loose">
           An AI platform built for<br className="hidden sm:block" />professionals and specialists.
           </h1>
           <br></br>
