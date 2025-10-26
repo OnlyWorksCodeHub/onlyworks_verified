@@ -144,7 +144,7 @@ export default function HomePage() {
             className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal lg:leading-loose"
             style={{ opacity: 0 }}
           >
-          An AI platform built for<br className="hidden sm:block" />professionals and specialists.
+          An AI platform built for<br className="hidden sm:block" /> professionals and specialists.
           </h1>
           <br></br>
           <p
