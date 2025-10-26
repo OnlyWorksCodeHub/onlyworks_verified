@@ -5,12 +5,17 @@ import { Target, Eye, Lock, Users } from 'lucide-react'
 import Image from 'next/image'
 import { Footer } from '@/components/layout/Footer'
 import { MobileNavigation } from '@/components/layout/MobileNavigation'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { useHeroEntrance } from '@/hooks/useHeroEntrance'
 
 export default function AboutPage() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const heroTitleRef = useRef<HTMLHeadingElement>(null)
+  const heroSubtextRef = useRef<HTMLParagraphElement>(null)
+
+  useHeroEntrance([heroTitleRef, heroSubtextRef])
 
   const handleNewsletterSignup = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -48,10 +53,18 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="pt-32 pb-20 px-3 xs:px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal">
+          <h1
+            ref={heroTitleRef}
+            className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal"
+            style={{ opacity: 0 }}
+          >
             Proving Work is <span className="text-primary">Real</span>
           </h1>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p
+            ref={heroSubtextRef}
+            className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto"
+            style={{ opacity: 0 }}
+          >
             In a world of remote work and AI assistance, how do you prove your work is genuine?
             OnlyWorks was built to solve the trust problem in modern work.
           </p>

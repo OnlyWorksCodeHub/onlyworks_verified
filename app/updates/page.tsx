@@ -4,12 +4,17 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Footer } from '@/components/layout/Footer'
 import { MobileNavigation } from '@/components/layout/MobileNavigation'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { useHeroEntrance } from '@/hooks/useHeroEntrance'
 
 export default function UpdatesPage() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const heroTitleRef = useRef<HTMLHeadingElement>(null)
+  const heroSubtextRef = useRef<HTMLParagraphElement>(null)
+
+  useHeroEntrance([heroTitleRef, heroSubtextRef])
 
   const handleNewsletterSignup = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -134,10 +139,18 @@ export default function UpdatesPage() {
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-3 xs:px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal">
+          <h1
+            ref={heroTitleRef}
+            className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal"
+            style={{ opacity: 0 }}
+          >
             Product Updates
           </h1>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p
+            ref={heroSubtextRef}
+            className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto"
+            style={{ opacity: 0 }}
+          >
             Stay up to date with the latest OnlyWorks features, improvements, and insights
             from our team. See what we're building and where we're headed.
           </p>

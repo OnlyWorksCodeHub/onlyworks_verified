@@ -1,10 +1,19 @@
+'use client'
+
 import Link from 'next/link'
 import { ArrowRight, Users, Shield, BarChart3, Zap } from 'lucide-react'
 import Image from 'next/image'
 import { Footer } from '@/components/layout/Footer'
 import { MobileNavigation } from '@/components/layout/MobileNavigation'
+import { useRef } from 'react'
+import { useHeroEntrance } from '@/hooks/useHeroEntrance'
 
 export default function TeamsPage() {
+  const heroTitleRef = useRef<HTMLHeadingElement>(null)
+  const heroSubtextRef = useRef<HTMLParagraphElement>(null)
+
+  useHeroEntrance([heroTitleRef, heroSubtextRef])
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -13,10 +22,18 @@ export default function TeamsPage() {
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-3 xs:px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal">
+          <h1
+            ref={heroTitleRef}
+            className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal"
+            style={{ opacity: 0 }}
+          >
             Built for Teams That <span className="text-primary">Ship Real Work</span>
           </h1>
-          <p className="text-base sm:text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p
+            ref={heroSubtextRef}
+            className="text-base sm:text-lg text-gray-600 mb-8 max-w-2xl mx-auto"
+            style={{ opacity: 0 }}
+          >
             Ensure every team member's work is genuine and efficient. Get team-wide insights,
             detect automation, and create verifiable reports for clients.
           </p>
@@ -37,28 +54,28 @@ export default function TeamsPage() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-semibold text-center mb-12 text-gray-900">Team Features</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 hover-lift">
               <Users className="w-12 h-12 text-primary mb-4" />
               <h3 className="text-2xl font-semibold text-gray-900 mb-2">Team Dashboard</h3>
               <p className="text-gray-600">
                 See all team members' productivity in one place. Track who's working on what.
               </p>
             </div>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 hover-lift">
               <Shield className="w-12 h-12 text-primary mb-4" />
               <h3 className="text-2xl font-semibold text-gray-900 mb-2">Fraud Prevention</h3>
               <p className="text-gray-600">
                 Detect outsourcing, automation tools, and suspicious patterns across your team.
               </p>
             </div>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 hover-lift">
               <BarChart3 className="w-12 h-12 text-primary mb-4" />
               <h3 className="text-2xl font-semibold text-gray-900 mb-2">Team Analytics</h3>
               <p className="text-gray-600">
                 Compare productivity, identify top performers, and optimize team workflows.
               </p>
             </div>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 hover-lift">
               <Zap className="w-12 h-12 text-primary mb-4" />
               <h3 className="text-2xl font-semibold text-gray-900 mb-2">Client Reports</h3>
               <p className="text-gray-600">

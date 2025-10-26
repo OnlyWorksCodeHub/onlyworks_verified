@@ -1,10 +1,19 @@
+'use client'
+
 import Link from 'next/link'
 import { Mail, MessageSquare, MapPin } from 'lucide-react'
 import Image from 'next/image'
 import { Footer } from '@/components/layout/Footer'
 import { MobileNavigation } from '@/components/layout/MobileNavigation'
+import { useRef } from 'react'
+import { useHeroEntrance } from '@/hooks/useHeroEntrance'
 
 export default function ContactPage() {
+  const heroTitleRef = useRef<HTMLHeadingElement>(null)
+  const heroSubtextRef = useRef<HTMLParagraphElement>(null)
+
+  useHeroEntrance([heroTitleRef, heroSubtextRef])
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -13,10 +22,18 @@ export default function ContactPage() {
       {/* Hero */}
       <section className="pt-32 pb-16 px-3 xs:px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal">
+          <h1
+            ref={heroTitleRef}
+            className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal"
+            style={{ opacity: 0 }}
+          >
             Book a Demo
           </h1>
-          <p className="text-base sm:text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p
+            ref={heroSubtextRef}
+            className="text-base sm:text-lg text-gray-600 mb-8 max-w-2xl mx-auto"
+            style={{ opacity: 0 }}
+          >
             See OnlyWorks in action. Schedule a personalized demo with our team.
           </p>
         </div>
@@ -26,7 +43,7 @@ export default function ContactPage() {
       <section className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center hover-lift">
               <Mail className="w-12 h-12 text-primary mx-auto mb-4" />
               <h3 className="text-2xl font-semibold text-gray-900 mb-2">Sales Inquiries</h3>
               <p className="text-gray-600 mb-4">Questions about pricing or features?</p>
@@ -35,7 +52,7 @@ export default function ContactPage() {
               </a>
             </div>
 
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center hover-lift">
               <MessageSquare className="w-12 h-12 text-primary mx-auto mb-4" />
               <h3 className="text-2xl font-semibold text-gray-900 mb-2">Enterprise</h3>
               <p className="text-gray-600 mb-4">Custom solutions for large teams</p>
@@ -44,7 +61,7 @@ export default function ContactPage() {
               </a>
             </div>
 
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center hover-lift">
               <MapPin className="w-12 h-12 text-primary mx-auto mb-4" />
               <h3 className="text-2xl font-semibold text-gray-900 mb-2">Partnership</h3>
               <p className="text-gray-600 mb-4">Interested in partnering with us?</p>

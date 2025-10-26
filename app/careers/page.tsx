@@ -1,15 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Footer } from '@/components/layout/Footer'
 import { MobileNavigation } from '@/components/layout/MobileNavigation'
 import { JobApplicationModal } from '@/components/JobApplicationModal'
+import { useHeroEntrance } from '@/hooks/useHeroEntrance'
 
 export default function CareersPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedJob, setSelectedJob] = useState<string>('')
+  const heroTitleRef = useRef<HTMLHeadingElement>(null)
+  const heroSubtextRef = useRef<HTMLParagraphElement>(null)
+
+  useHeroEntrance([heroTitleRef, heroSubtextRef])
 
   const openModal = (jobTitle: string) => {
     setSelectedJob(jobTitle)
@@ -99,10 +104,18 @@ export default function CareersPage() {
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-3 xs:px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal">
+          <h1
+            ref={heroTitleRef}
+            className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal"
+            style={{ opacity: 0 }}
+          >
             Join us in making work <span className="text-primary">undeniable</span>
           </h1>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p
+            ref={heroSubtextRef}
+            className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto"
+            style={{ opacity: 0 }}
+          >
             We're building the future of work verification with AI. Join a team that values transparency,
             innovation, and genuine impact on how the world views productivity.
           </p>
@@ -120,7 +133,7 @@ export default function CareersPage() {
           <h2 className="text-3xl font-semibold text-center mb-12 text-gray-900">Our Values</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, index) => (
-              <div key={index} className="bg-white border border-gray-200 rounded-lg p-6">
+              <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 hover-lift">
                 <h3 className="text-2xl font-semibold text-gray-900 mb-3">{value.title}</h3>
                 <p className="text-gray-600">{value.description}</p>
               </div>
@@ -193,7 +206,7 @@ export default function CareersPage() {
           <h2 className="text-3xl font-semibold text-center mb-12 text-gray-900">Open Positions</h2>
           <div className="space-y-4">
             {jobs.map((job, index) => (
-              <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+              <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 hover-lift">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <h3 className="text-2xl font-semibold text-gray-900 mb-1">{job.title}</h3>
