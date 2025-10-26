@@ -100,7 +100,7 @@ export function MobileNavigation({ currentPage }: MobileNavigationProps) {
             {/* Mobile Hamburger Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-3 -mr-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+              className="md:hidden ml-auto p-3 -mr-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
               aria-label={isOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isOpen}
             >
