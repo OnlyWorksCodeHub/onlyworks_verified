@@ -5,8 +5,8 @@ export function Footer() {
   return (
     <footer className="py-12 px-4 sm:px-6 border-t border-gray-200">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8 mb-8">
-          <div className="sm:col-span-2">
+        <div className="grid grid-cols-5 gap-8 mb-8">
+          <div className="col-span-2">
             <Link href="/" className="flex items-center mb-4">
               <Image
                 src="/images/onlyworks-logo.png"
@@ -84,9 +84,9 @@ export function Footer() {
           </div>
         </div>
         <div className="pt-8 border-t border-gray-200">
-          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
+          <div className="flex flex-row justify-between items-center text-sm text-gray-600">
             <p>© 2025 OnlyWorks. All rights reserved.</p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
+            <div className="flex space-x-6">
               <Link href="/privacy" className="hover:text-gray-900 transition">Privacy Policy</Link>
               <Link href="/terms" className="hover:text-gray-900 transition">Terms of Service</Link>
               <Link href="/security" className="hover:text-gray-900 transition">Security</Link>
