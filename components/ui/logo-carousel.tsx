@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import anime from 'animejs'
 
 const logos = [
   { name: 'Perplexity', src: 'https://framerusercontent.com/images/H2uMsivchZzjvRhz3xCe7yheV0.png?scale-down-to=512', width: 133, height: 32 },
@@ -13,36 +14,48 @@ const logos = [
 
 export function LogoCarousel() {
   const scrollRef = useRef<HTMLDivElement>(null)
-  
+  const [isPaused, setIsPaused] = useState(false)
+  const animationRef = useRef<anime.AnimeInstance | null>(null)
+
   useEffect(() => {
     const scrollContainer = scrollRef.current
     if (!scrollContainer) return
-    
-    let animationId: number
-    let scrollAmount = 0
-    const scrollSpeed = 0.5
-    
-    const animate = () => {
-      if (scrollContainer) {
-        scrollAmount += scrollSpeed
-        
-        if (scrollAmount >= scrollContainer.scrollWidth / 2) {
-          scrollAmount = 0
-        }
-        
-        scrollContainer.scrollLeft = scrollAmount
+
+    const maxScroll = scrollContainer.scrollWidth / 2
+
+    const startAnimation = () => {
+      if (animationRef.current) {
+        animationRef.current.pause()
       }
-      animationId = requestAnimationFrame(animate)
+
+      animationRef.current = anime({
+        targets: scrollContainer,
+        scrollLeft: maxScroll,
+        duration: maxScroll * 60, // 60px per second for smooth, slow scroll
+        easing: 'linear',
+        loop: true,
+        autoplay: !isPaused,
+      })
     }
-    
-    animationId = requestAnimationFrame(animate)
-    
+
+    startAnimation()
+
     return () => {
-      if (animationId) {
-        cancelAnimationFrame(animationId)
+      if (animationRef.current) {
+        animationRef.current.pause()
       }
     }
   }, [])
+
+  useEffect(() => {
+    if (!animationRef.current) return
+
+    if (isPaused) {
+      animationRef.current.pause()
+    } else {
+      animationRef.current.play()
+    }
+  }, [isPaused])
   
   // Duplicate logos for seamless loop
   const duplicatedLogos = [...logos, ...logos]
@@ -61,6 +74,8 @@ export function LogoCarousel() {
           <div
             ref={scrollRef}
             className="flex items-center gap-16 overflow-x-hidden"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
             style={{
               scrollBehavior: 'auto',
               WebkitOverflowScrolling: 'touch'

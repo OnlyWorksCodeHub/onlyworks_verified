@@ -59,13 +59,14 @@ export function MobileNavigation({ currentPage }: MobileNavigationProps) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`text-base ${
+                  className={`text-base relative group ${
                     currentPage === item.href
                       ? 'text-primary hover:text-primary-dark font-medium'
                       : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >
                   {item.label}
+                  <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-primary transition-all duration-250 ease-out group-hover:w-full"></span>
                 </Link>
               ))}
             </div>

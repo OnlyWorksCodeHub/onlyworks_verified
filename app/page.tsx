@@ -8,14 +8,23 @@ import Image from 'next/image'
 import { Footer } from '@/components/layout/Footer'
 import { MobileNavigation } from '@/components/layout/MobileNavigation'
 import { useAuth } from '@/contexts/AuthContext'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import toast from 'react-hot-toast'
+import anime from 'animejs'
 
 export default function HomePage() {
   const { user } = useAuth() as any
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [activeUseCase, setActiveUseCase] = useState('finance')
+
+  // Refs for animations
+  const heroTitleRef = useRef<HTMLHeadingElement>(null)
+  const heroSubtextRef = useRef<HTMLParagraphElement>(null)
+  const heroBadgeRef = useRef<HTMLDivElement>(null)
+  const heroButtonsRef = useRef<HTMLDivElement>(null)
+  const useCaseContentRef = useRef<HTMLDivElement>(null)
+  const useCaseImageRef = useRef<HTMLDivElement>(null)
 
   const handleNewsletterSignup = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -51,6 +60,77 @@ export default function HomePage() {
       setIsLoading(false)
     }
   }
+
+  // Hero entrance animation
+  useEffect(() => {
+    const timeline = anime.timeline({
+      easing: 'easeOutExpo',
+    })
+
+    timeline
+      .add({
+        targets: heroTitleRef.current,
+        opacity: [0, 1],
+        translateY: [20, 0],
+        duration: 600,
+      })
+      .add({
+        targets: heroSubtextRef.current,
+        opacity: [0, 1],
+        translateY: [20, 0],
+        duration: 500,
+      }, '-=400') // Start 400ms before previous animation ends
+      .add({
+        targets: heroBadgeRef.current,
+        opacity: [0, 1],
+        scale: [0.95, 1],
+        duration: 400,
+      }, '-=300')
+      .add({
+        targets: heroButtonsRef.current,
+        opacity: [0, 1],
+        translateY: [10, 0],
+        duration: 400,
+      }, '-=250')
+  }, [])
+
+  // Badge pulse animation
+  useEffect(() => {
+    if (!heroBadgeRef.current) return
+
+    anime({
+      targets: heroBadgeRef.current,
+      scale: [1, 1.02, 1],
+      duration: 2000,
+      easing: 'easeInOutQuad',
+      delay: 3000,
+      loop: true,
+    })
+  }, [])
+
+  // Industry toggle transition animation
+  useEffect(() => {
+    if (!useCaseContentRef.current || !useCaseImageRef.current) return
+
+    const timeline = anime.timeline({
+      easing: 'easeInOutQuad',
+    })
+
+    timeline
+      .add({
+        targets: [useCaseContentRef.current, useCaseImageRef.current],
+        opacity: [1, 0],
+        translateX: [-10, 0],
+        duration: 300,
+      })
+      .add({
+        targets: [useCaseContentRef.current, useCaseImageRef.current],
+        opacity: [0, 1],
+        translateX: [10, 0],
+        duration: 300,
+      })
+  }, [activeUseCase])
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -59,25 +139,41 @@ export default function HomePage() {
       {/* Hero */}
       <section className="pt-32 pb-16 px-3 xs:px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal lg:leading-loose">
+          <h1
+            ref={heroTitleRef}
+            className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal lg:leading-loose"
+            style={{ opacity: 0 }}
+          >
           An AI platform built for<br className="hidden sm:block" />professionals and specialists.
           </h1>
           <br></br>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p
+            ref={heroSubtextRef}
+            className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto"
+            style={{ opacity: 0 }}
+          >
           Making your work undeniable, detect automation, and generate verified reports, minus the headache.
           </p>
 
           <div className="flex items-center justify-center mb-8">
-            <div className="flex items-center space-x-2 px-3 py-3 sm:py-1.5 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+            <div
+              ref={heroBadgeRef}
+              className="flex items-center space-x-2 px-3 py-3 sm:py-1.5 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+              style={{ opacity: 0 }}
+            >
               <img src="/images/f.svg" alt="F" className="w-5 h-5" />
               <p className="text-sm text-gray-600">Backed by Friends and Family</p>
             </div>
           </div>
-          <div className="flex flex-row items-center justify-center gap-4">
-            <Link href="/downloads" className="text-center px-6 py-3 sm:px-5 sm:py-2.5 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors">
+          <div
+            ref={heroButtonsRef}
+            className="flex flex-row items-center justify-center gap-4"
+            style={{ opacity: 0 }}
+          >
+            <Link href="/downloads" className="text-center px-6 py-3 sm:px-5 sm:py-2.5 bg-primary text-white rounded-md hover:bg-primary-dark hover:scale-[1.02] hover:shadow-lg transition-all duration-200">
               Download
             </Link>
-            <Link href="/contact" className="text-center px-6 py-3 sm:px-5 sm:py-2.5 text-gray-700 hover:text-gray-900 transition-colors">
+            <Link href="/contact" className="text-center px-6 py-3 sm:px-5 sm:py-2.5 text-gray-700 hover:text-gray-900 hover:scale-[1.02] transition-all duration-200">
               Book a demo →
             </Link>
           </div>
@@ -224,7 +320,7 @@ export default function HomePage() {
 
           {/* Use Case Content */}
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
+            <div ref={useCaseContentRef}>
               {activeUseCase === 'finance' && (
                 <>
                   <h3 className="text-2xl font-semibold text-gray-900 mb-4">
@@ -301,7 +397,7 @@ export default function HomePage() {
               )}
             </div>
 
-            <div className="bg-white rounded-xl p-8 shadow-sm">
+            <div ref={useCaseImageRef} className="bg-white rounded-xl p-8 shadow-sm">
               <div className="rounded-lg aspect-video overflow-hidden">
                 {activeUseCase === 'finance' && (
                   <Image
@@ -392,7 +488,7 @@ export default function HomePage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="px-6 py-3 sm:py-2.5 bg-primary text-white rounded-md sm:rounded-l-none sm:rounded-r-md hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+              className="px-6 py-3 sm:py-2.5 bg-primary text-white rounded-md sm:rounded-l-none sm:rounded-r-md hover:bg-primary-dark hover:scale-[1.02] hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none whitespace-nowrap"
             >
               {isLoading ? 'Joining...' : 'Join'}
             </button>
@@ -400,11 +496,11 @@ export default function HomePage() {
           <div className="flex flex-row items-center justify-center gap-4">
             <Link
               href="/downloads"
-              className="text-center px-6 py-3 sm:px-5 sm:py-2.5 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors"
+              className="text-center px-6 py-3 sm:px-5 sm:py-2.5 bg-primary text-white rounded-md hover:bg-primary-dark hover:scale-[1.02] hover:shadow-lg transition-all duration-200"
             >
               Download
             </Link>
-            <Link href="/contact" className="text-center px-6 py-3 sm:px-5 sm:py-2.5 text-gray-700 hover:text-gray-900 transition-colors">
+            <Link href="/contact" className="text-center px-6 py-3 sm:px-5 sm:py-2.5 text-gray-700 hover:text-gray-900 hover:scale-[1.02] transition-all duration-200">
             Book a demo →
             </Link>
           </div>
