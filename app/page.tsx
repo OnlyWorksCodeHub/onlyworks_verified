@@ -10,7 +10,7 @@ import { MobileNavigation } from '@/components/layout/MobileNavigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { useState, useEffect, useRef } from 'react'
 import toast from 'react-hot-toast'
-import anime from 'animejs/lib/anime.es.js'
+import * as anime from 'animejs'
 
 export default function HomePage() {
   const { user } = useAuth() as any
@@ -63,7 +63,7 @@ export default function HomePage() {
 
   // Hero entrance animation
   useEffect(() => {
-    const timeline = anime.timeline({
+    const timeline = anime.default.timeline({
       easing: 'easeOutExpo',
     })
 
@@ -98,7 +98,7 @@ export default function HomePage() {
   useEffect(() => {
     if (!heroBadgeRef.current) return
 
-    anime({
+    anime.default({
       targets: heroBadgeRef.current,
       scale: [1, 1.02, 1],
       duration: 2000,
@@ -112,7 +112,7 @@ export default function HomePage() {
   useEffect(() => {
     if (!useCaseContentRef.current || !useCaseImageRef.current) return
 
-    const timeline = anime.timeline({
+    const timeline = anime.default.timeline({
       easing: 'easeInOutQuad',
     })
 
