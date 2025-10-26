@@ -187,11 +187,11 @@ export default function HomePage() {
           </div>
 
           {/* Toggle Buttons */}
-          <div className="flex justify-center mb-12 overflow-x-auto px-4 sm:px-0">
-            <div className="bg-white rounded-lg p-1 flex space-x-1 min-w-max">
+          <div className="flex justify-center mb-12 px-4 sm:px-0">
+            <div className="bg-white rounded-lg p-1 flex flex-col sm:flex-row space-y-1 sm:space-y-0 sm:space-x-1 w-full sm:w-auto">
               <button
                 onClick={() => setActiveUseCase('finance')}
-                className={`px-4 sm:px-6 py-3 sm:py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                className={`w-full sm:w-auto px-4 sm:px-6 py-3 sm:py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
                   activeUseCase === 'finance'
                     ? 'bg-primary text-white'
                     : 'text-gray-600 hover:text-gray-900'
@@ -201,7 +201,7 @@ export default function HomePage() {
               </button>
               <button
                 onClick={() => setActiveUseCase('cybersecurity')}
-                className={`px-4 sm:px-6 py-3 sm:py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                className={`w-full sm:w-auto px-4 sm:px-6 py-3 sm:py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
                   activeUseCase === 'cybersecurity'
                     ? 'bg-primary text-white'
                     : 'text-gray-600 hover:text-gray-900'
@@ -211,7 +211,7 @@ export default function HomePage() {
               </button>
               <button
                 onClick={() => setActiveUseCase('everyday')}
-                className={`px-4 sm:px-6 py-3 sm:py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
+                className={`w-full sm:w-auto px-4 sm:px-6 py-3 sm:py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${
                   activeUseCase === 'everyday'
                     ? 'bg-primary text-white'
                     : 'text-gray-600 hover:text-gray-900'
