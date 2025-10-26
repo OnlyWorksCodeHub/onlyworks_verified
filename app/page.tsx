@@ -63,6 +63,9 @@ export default function HomePage() {
 
   // Hero entrance animation
   useEffect(() => {
+    if (!heroTitleRef.current || !heroSubtextRef.current ||
+        !heroBadgeRef.current || !heroButtonsRef.current) return
+
     const timeline = createTimeline({
       defaults: {
         ease: 'out-expo',
