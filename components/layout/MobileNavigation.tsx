@@ -71,7 +71,7 @@ export function MobileNavigation({ currentPage }: MobileNavigationProps) {
             </div>
 
             {/* Desktop CTA */}
-            <div className="hidden md:flex items-center space-x-4">
+            <div className="hidden sm:flex items-center space-x-4">
               {user ? (
                 <Link
                   href="/dashboard"

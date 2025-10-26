@@ -132,9 +132,9 @@ export default function UpdatesPage() {
       <MobileNavigation currentPage="/updates" />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-6">
+      <section className="pt-32 pb-16 px-3 xs:px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-7xl md:text-8xl font-semibold text-gray-900 mb-6">
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal">
             Product Updates
           </h1>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">

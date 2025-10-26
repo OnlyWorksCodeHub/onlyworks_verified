@@ -11,9 +11,9 @@ export default function TeamsPage() {
       <MobileNavigation currentPage="/teams" />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-4 sm:px-6">
+      <section className="pt-32 pb-16 px-3 xs:px-4 sm:px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal">
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal">
             Built for Teams That <span className="text-primary">Ship Real Work</span>
           </h1>
           <p className="text-base sm:text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
