@@ -16,7 +16,7 @@ export function Footer() {
                 className="h-8 w-auto"
               />
             </Link>
-            <p className="text-gray-600 text-sm mb-4">The AI Backbone of Credibility...</p>
+            <p className="text-gray-600 text-xs sm:text-sm mb-4">The AI Backbone of Credibility...</p>
 
             {/* Social Media Icons */}
             <div className="flex space-x-6">
@@ -57,34 +57,34 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-medium text-gray-900 mb-3">Product</h4>
+            <h4 className="font-medium text-gray-900 mb-3 text-sm sm:text-base">Product</h4>
             <ul className="space-y-2">
-              <li><Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-sm">Pricing</Link></li>
-              <li><Link href="/teams" className="text-gray-600 hover:text-gray-900 text-sm">Teams</Link></li>
-              <li><Link href="/coming-soon" className="text-gray-600 hover:text-gray-900 text-sm">Business</Link></li>
-              <li><Link href="/downloads" className="text-gray-600 hover:text-gray-900 text-sm">Download</Link></li>
+              <li><Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-xs sm:text-sm">Pricing</Link></li>
+              <li><Link href="/teams" className="text-gray-600 hover:text-gray-900 text-xs sm:text-sm">Teams</Link></li>
+              <li><Link href="/coming-soon" className="text-gray-600 hover:text-gray-900 text-xs sm:text-sm">Business</Link></li>
+              <li><Link href="/downloads" className="text-gray-600 hover:text-gray-900 text-xs sm:text-sm">Download</Link></li>
             </ul>
           </div>
           <div>
-            <h4 className="font-medium text-gray-900 mb-3">Company</h4>
+            <h4 className="font-medium text-gray-900 mb-3 text-sm sm:text-base">Company</h4>
             <ul className="space-y-2">
-              <li><Link href="/about" className="text-gray-600 hover:text-gray-900 text-sm">About Us</Link></li>
-              <li><Link href="/careers" className="text-gray-600 hover:text-gray-900 text-sm">Careers</Link></li>
-              <li><Link href="/updates" className="text-gray-600 hover:text-gray-900 text-sm">Updates</Link></li>
-              <li><Link href="/coming-soon" className="text-gray-600 hover:text-gray-900 text-sm">Collaborate with us</Link></li>
+              <li><Link href="/about" className="text-gray-600 hover:text-gray-900 text-xs sm:text-sm">About Us</Link></li>
+              <li><Link href="/careers" className="text-gray-600 hover:text-gray-900 text-xs sm:text-sm">Careers</Link></li>
+              <li><Link href="/updates" className="text-gray-600 hover:text-gray-900 text-xs sm:text-sm">Updates</Link></li>
+              <li><Link href="/coming-soon" className="text-gray-600 hover:text-gray-900 text-xs sm:text-sm">Collaborate with us</Link></li>
             </ul>
           </div>
           <div>
-            <h4 className="font-medium text-gray-900 mb-3">Support</h4>
+            <h4 className="font-medium text-gray-900 mb-3 text-sm sm:text-base">Support</h4>
             <ul className="space-y-2">
-              <li><Link href="/contact" className="text-gray-600 hover:text-gray-900 text-sm">Contact</Link></li>
-              <li><Link href="/pricing#faq" className="text-gray-600 hover:text-gray-900 text-sm">FAQs</Link></li>
-              <li><Link href="/coming-soon" className="text-gray-600 hover:text-gray-900 text-sm">Tutorial</Link></li>
+              <li><Link href="/contact" className="text-gray-600 hover:text-gray-900 text-xs sm:text-sm">Contact</Link></li>
+              <li><Link href="/pricing#faq" className="text-gray-600 hover:text-gray-900 text-xs sm:text-sm">FAQs</Link></li>
+              <li><Link href="/coming-soon" className="text-gray-600 hover:text-gray-900 text-xs sm:text-sm">Tutorial</Link></li>
             </ul>
           </div>
         </div>
         <div className="pt-8 border-t border-gray-200">
-          <div className="flex flex-row justify-between items-center text-sm text-gray-600">
+          <div className="flex flex-row justify-between items-center text-xs sm:text-sm text-gray-600">
             <p>© 2025 OnlyWorks. All rights reserved.</p>
             <div className="flex space-x-6">
               <Link href="/privacy" className="hover:text-gray-900 transition">Privacy Policy</Link>
