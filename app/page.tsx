@@ -73,11 +73,11 @@ export default function HomePage() {
               <p className="text-sm text-gray-600">Backed by Friends and Family</p>
             </div>
           </div>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/downloads" className="w-full sm:w-auto text-center px-6 py-3 sm:px-5 sm:py-2.5 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors">
+          <div className="flex flex-row items-center justify-center gap-4">
+            <Link href="/downloads" className="text-center px-6 py-3 sm:px-5 sm:py-2.5 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors">
               Download
             </Link>
-            <Link href="/contact" className="w-full sm:w-auto text-center px-6 py-3 sm:px-5 sm:py-2.5 text-gray-700 hover:text-gray-900 transition-colors">
+            <Link href="/contact" className="text-center px-6 py-3 sm:px-5 sm:py-2.5 text-gray-700 hover:text-gray-900 transition-colors">
               Book a demo →
             </Link>
           </div>
@@ -397,14 +397,14 @@ export default function HomePage() {
               {isLoading ? 'Joining...' : 'Join'}
             </button>
           </form>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-row items-center justify-center gap-4">
             <Link
               href="/downloads"
-              className="w-full sm:w-auto text-center px-6 py-3 sm:px-5 sm:py-2.5 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors"
+              className="text-center px-6 py-3 sm:px-5 sm:py-2.5 bg-primary text-white rounded-md hover:bg-primary-dark transition-colors"
             >
               Download
             </Link>
-            <Link href="/contact" className="w-full sm:w-auto text-center px-6 py-3 sm:px-5 sm:py-2.5 text-gray-700 hover:text-gray-900 transition-colors">
+            <Link href="/contact" className="text-center px-6 py-3 sm:px-5 sm:py-2.5 text-gray-700 hover:text-gray-900 transition-colors">
             Book a demo →
             </Link>
           </div>
