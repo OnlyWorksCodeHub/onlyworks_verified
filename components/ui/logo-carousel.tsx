@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import anime from 'animejs'
+import anime from 'animejs/lib/anime.es.js'
 
 const logos = [
   { name: 'Perplexity', src: 'https://framerusercontent.com/images/H2uMsivchZzjvRhz3xCe7yheV0.png?scale-down-to=512', width: 133, height: 32 },
@@ -34,7 +34,7 @@ export function LogoCarousel() {
         duration: maxScroll * 60, // 60px per second for smooth, slow scroll
         easing: 'linear',
         loop: true,
-        autoplay: !isPaused,
+        autoplay: true,
       })
     }
 

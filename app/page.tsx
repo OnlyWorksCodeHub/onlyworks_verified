@@ -10,7 +10,7 @@ import { MobileNavigation } from '@/components/layout/MobileNavigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { useState, useEffect, useRef } from 'react'
 import toast from 'react-hot-toast'
-import anime from 'animejs'
+import anime from 'animejs/lib/anime.es.js'
 
 export default function HomePage() {
   const { user } = useAuth() as any
