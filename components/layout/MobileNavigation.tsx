@@ -41,7 +41,7 @@ export function MobileNavigation({ currentPage }: MobileNavigationProps) {
       {/* Mobile Navigation Bar */}
       <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex items-center h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center">
               <Image
@@ -54,7 +54,7 @@ export function MobileNavigation({ currentPage }: MobileNavigationProps) {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-6">
+            <div className="hidden md:flex items-center space-x-6 ml-8">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
@@ -71,7 +71,7 @@ export function MobileNavigation({ currentPage }: MobileNavigationProps) {
             </div>
 
             {/* Desktop CTA */}
-            <div className="hidden md:flex items-center space-x-4">
+            <div className="hidden md:flex items-center space-x-4 ml-auto">
               {user ? (
                 <Link
                   href="/dashboard"
