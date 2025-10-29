@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://onlyworks.com/sitemap.xml
+Sitemap: https://www.only-works.com/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1

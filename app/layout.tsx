@@ -127,6 +127,11 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
 
+        {/* Explicit logo for Google */}
+        <link rel="icon" href="/images/onlyworks-logo.png" type="image/png" />
+        <meta property="og:logo" content="https://www.only-works.com/images/onlyworks-logo.png" />
+        <meta name="logo" content="https://www.only-works.com/images/onlyworks-logo.png" />
+
         {/* Performance - Font preconnect */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -157,13 +162,15 @@ export default function RootLayout({
                 "logo": {
                   "@type": "ImageObject",
                   "url": "https://www.only-works.com/images/onlyworks-logo.png",
-                  "width": 160,
-                  "height": 40
+                  "width": 512,
+                  "height": 128,
+                  "caption": "OnlyWorks Logo"
                 },
+                "image": "https://www.only-works.com/images/onlyworks-logo.png",
                 "sameAs": [
                   "https://twitter.com/OnlyWorksAI",
-                  "https://www.linkedin.com/company/onlyworks",
-                  "https://github.com/onlyworks"
+                  "https://www.linkedin.com/company/only-works",
+                  "https://www.youtube.com/@OnlyWorksAI"
                 ]
               },
               "keywords": "AI platform, work verification, productivity tracking, automation detection, verified reports",
