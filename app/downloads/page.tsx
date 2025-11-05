@@ -55,13 +55,21 @@ export default function DownloadsPage() {
       const data = await response.json()
 
       if (data.success && data.downloadUrl) {
-        // Start download
-        const link = document.createElement('a')
-        link.href = data.downloadUrl
-        link.download = data.downloadUrl.split('/').pop() || 'OnlyWorks-Desktop'
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
+        // Check if URL is external (GitHub releases) or local
+        const isExternalUrl = data.downloadUrl.startsWith('http')
+
+        if (isExternalUrl) {
+          // For external URLs, open in new tab to trigger download
+          window.open(data.downloadUrl, '_blank')
+        } else {
+          // For local files, use the download attribute
+          const link = document.createElement('a')
+          link.href = data.downloadUrl
+          link.download = data.downloadUrl.split('/').pop() || 'OnlyWorks-Desktop'
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        }
 
         toast.success(`Downloading OnlyWorks Desktop v${data.version}`)
       } else {
