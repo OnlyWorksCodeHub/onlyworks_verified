@@ -41,7 +41,7 @@ export const CURRENT_VERSION: AppVersion = {
       },
       intel: {
         url: 'https://github.com/Namkha-yolo/onlyworks-dist/releases/download/v1.0.0/OnlyWorks.Desktop-1.0.0.dmg',
-        size: '97MB',
+        size: '99MB',
       },
     },
     windows: {
