@@ -55,24 +55,22 @@ export default function DownloadsPage() {
       const data = await response.json()
 
       if (data.success && data.downloadUrl) {
-        // Check if URL is external (GitHub releases) or local
+        // For GitHub releases, open in new tab to trigger download
+        // For local files, use download attribute
         const isExternalUrl = data.downloadUrl.startsWith('http')
 
-        let finalDownloadUrl = data.downloadUrl
-
         if (isExternalUrl) {
-          // For external URLs, use our proxy to enable proper downloads
-          const filename = data.downloadUrl.split('/').pop() || 'OnlyWorks-Desktop'
-          finalDownloadUrl = `/api/desktop/proxy-download?url=${encodeURIComponent(data.downloadUrl)}&filename=${encodeURIComponent(filename)}`
+          // GitHub releases - open in new tab
+          window.open(data.downloadUrl, '_blank')
+        } else {
+          // Local files - use download attribute
+          const link = document.createElement('a')
+          link.href = data.downloadUrl
+          link.download = data.downloadUrl.split('/').pop() || 'OnlyWorks-Desktop'
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
         }
-
-        // Use the download attribute for all URLs (local and proxied)
-        const link = document.createElement('a')
-        link.href = finalDownloadUrl
-        link.download = finalDownloadUrl.split('/').pop()?.split('?')[0] || 'OnlyWorks-Desktop'
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
 
         toast.success(`Downloading OnlyWorks Desktop v${data.version}`)
       } else {

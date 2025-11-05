@@ -36,18 +36,18 @@ export const CURRENT_VERSION: AppVersion = {
   platforms: {
     mac: {
       arm64: {
-        url: 'https://github.com/Namkha-yolo/onlyworks_desktop/releases/download/v1.0.0/OnlyWorks%20Desktop-1.0.0-arm64.dmg',
+        url: 'https://github.com/Namkha-yolo/onlyworks-dist/releases/download/v1.0.0/OnlyWorks.Desktop-1.0.0-arm64.dmg',
         size: '95MB',
       },
       intel: {
-        url: '/downloads/OnlyWorks Desktop-1.0.0.dmg',
+        url: 'https://github.com/Namkha-yolo/onlyworks-dist/releases/download/v1.0.0/OnlyWorks.Desktop-1.0.0.dmg',
         size: '97MB',
       },
     },
     windows: {
       x64: {
-        url: '/downloads/OnlyWorks Desktop Setup 1.0.0.exe',
-        size: '74MB',
+        url: 'https://github.com/Namkha-yolo/onlyworks-dist/releases/download/v1.0.0/OnlyWorks.Desktop.Setup.1.0.0.exe',
+        size: '75MB',
       },
     },
   },
