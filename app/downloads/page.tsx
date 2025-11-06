@@ -21,7 +21,7 @@ export default function DownloadsPage() {
   const [versionInfo, setVersionInfo] = useState<VersionInfo | null>(null)
   const [downloading, setDownloading] = useState<string | null>(null)
 
-  const correctAccessCode = 'ONLYWORKS2024' // You can change this to any code you want
+  const correctAccessCode = 'OW2025@!' // You can change this to any code you want
 
   // Fetch version info on mount
   useEffect(() => {
