@@ -127,15 +127,46 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
 
-        {/* Explicit logo for Google */}
-        <link rel="icon" href="/images/onlyworks-logo.png" type="image/png" />
-        <meta property="og:logo" content="https://www.only-works.com/images/onlyworks-logo.png" />
-        <meta name="logo" content="https://www.only-works.com/images/onlyworks-logo.png" />
 
         {/* Performance - Font preconnect */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* Invalid font removed - "Perfect Ninety-Three" is not available on Google Fonts */}
+
+        {/* Organization Schema - for Google logo and Knowledge Graph */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "OnlyWorks",
+              "alternateName": "OnlyWorks AI Platform",
+              "url": "https://www.only-works.com",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.only-works.com/images/logo.png",
+                "width": 500,
+                "height": 500,
+                "caption": "OnlyWorks Logo"
+              },
+              "description": "Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.",
+              "email": "contact@only-works.com",
+              "sameAs": [
+                "https://twitter.com/OnlyWorksAI",
+                "https://www.linkedin.com/company/only-works",
+                "https://www.youtube.com/@OnlyWorksAI"
+              ],
+              "foundingDate": "2024",
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "US"
+              }
+            })
+          }}
+        />
+
+        {/* SoftwareApplication Schema */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -148,7 +179,7 @@ export default function RootLayout({
               "url": "https://www.only-works.com",
               "applicationCategory": "BusinessApplication",
               "operatingSystem": "Cross-platform",
-              "logo": "https://www.only-works.com/images/onlyworks-logo.png",
+              "logo": "https://www.only-works.com/images/logo.png",
               "image": "https://www.only-works.com/images/og-image.png",
               "offers": {
                 "@type": "Offer",
@@ -161,12 +192,12 @@ export default function RootLayout({
                 "url": "https://www.only-works.com",
                 "logo": {
                   "@type": "ImageObject",
-                  "url": "https://www.only-works.com/images/onlyworks-logo.png",
-                  "width": 512,
-                  "height": 128,
+                  "url": "https://www.only-works.com/images/logo.png",
+                  "width": 500,
+                  "height": 500,
                   "caption": "OnlyWorks Logo"
                 },
-                "image": "https://www.only-works.com/images/onlyworks-logo.png",
+                "image": "https://www.only-works.com/images/logo.png",
                 "sameAs": [
                   "https://twitter.com/OnlyWorksAI",
                   "https://www.linkedin.com/company/only-works",
