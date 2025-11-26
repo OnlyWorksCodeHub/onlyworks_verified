@@ -32,16 +32,24 @@ export const AuthProvider = ({ children }) => {
 
         if (session?.user) {
           // Fetch web_users record when auth state changes
+          console.log('Fetching web_users for auth_user_id:', session.user.id)
           const { data: webUser, error } = await supabase
             .from('web_users')
             .select('*')
             .eq('auth_user_id', session.user.id)
             .single()
 
+          console.log('web_users query result:', { webUser, error })
+
           if (error) {
-            console.error('Failed to fetch web_users on auth change:', error)
+            console.error('ERROR CODE:', error.code)
+            console.error('ERROR MESSAGE:', error.message)
+            console.error('ERROR DETAILS:', error.details)
+            console.error('ERROR HINT:', error.hint)
+            console.error('Full error object:', JSON.stringify(error, null, 2))
             setUser(null)
           } else {
+            console.log('Successfully loaded web_users record:', webUser)
             setUser({
               ...webUser,
               auth_id: session.user.id,
