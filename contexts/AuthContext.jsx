@@ -29,7 +29,29 @@ export const AuthProvider = ({ children }) => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth state changed:', event, session?.user?.id)
-        setUser(session?.user ?? null)
+
+        if (session?.user) {
+          // Fetch web_users record when auth state changes
+          const { data: webUser, error } = await supabase
+            .from('web_users')
+            .select('*')
+            .eq('auth_user_id', session.user.id)
+            .single()
+
+          if (error) {
+            console.error('Failed to fetch web_users on auth change:', error)
+            setUser(null)
+          } else {
+            setUser({
+              ...webUser,
+              auth_id: session.user.id,
+              email_verified: session.user.email_confirmed_at ? true : false
+            })
+          }
+        } else {
+          setUser(null)
+        }
+
         setLoading(false)
       }
     )
