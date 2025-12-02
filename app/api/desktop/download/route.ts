@@ -37,9 +37,9 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    if (!downloadUrl) {
+    if (!downloadUrl || downloadUrl === '') {
       return NextResponse.json(
-        { error: 'Invalid platform or architecture' },
+        { error: 'Platform not available yet', available: false },
         { status: 400 }
       )
     }

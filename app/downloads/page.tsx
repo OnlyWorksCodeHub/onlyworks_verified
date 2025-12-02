@@ -68,6 +68,8 @@ export default function DownloadsPage() {
         document.body.removeChild(link)
 
         toast.success(`Downloading OnlyWorks Desktop v${data.version}`)
+      } else if (data.available === false) {
+        toast.error('This platform is not available yet. Coming soon!')
       } else {
         throw new Error('Failed to get download URL')
       }
