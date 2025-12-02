@@ -16,10 +16,13 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Get initial session
+    // Get initial session - handle gracefully for public pages
     getCurrentUser().then(({ user, error }) => {
       if (error) {
-        console.error('Auth error:', error)
+        // Only log auth errors that aren't expected (like missing session on public pages)
+        if (!error.message?.includes('Auth session missing') && !error.message?.includes('session missing')) {
+          console.error('Auth error:', error)
+        }
       }
       setUser(user)
       setLoading(false)

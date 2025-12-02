@@ -1,16 +1,15 @@
  import { createClient } from '@supabase/supabase-js'
 
-  // TEMPORARY FIX: Use placeholders during build to avoid build-time errors
-  // TODO: Replace with proper lazy initialization (Option 1) in future
+  // Use anon key for server-side operations (mainly for shared_reports table access)
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
-  const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key'
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
 
   // Warn if env vars are missing (won't fail build, will fail at runtime if used)
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
     console.warn('WARNING: Supabase environment variables not set - using placeholders for build')
   }
 
-  export const supabaseServer = createClient(supabaseUrl, supabaseServiceRoleKey, {
+  export const supabaseServer = createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
       autoRefreshToken: false,
       persistSession: false,

@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-  import { supabaseServer, type SharedReport } from '@/lib/supabase-server'
   import pako from 'pako'
 
   export const runtime = 'nodejs'
@@ -12,100 +11,76 @@ import { NextRequest, NextResponse } from 'next/server'
     const { token } = params
 
     try {
-      console.log(`[Report API] Fetching report for token: ${token}`)
+      console.log(`[Report API] Fetching report via backend for token: ${token}`)
 
-      // Step 1: Validate token from database
-      const { data: report, error: dbError } = await supabaseServer
-        .from('shared_reports')
-        .select('*')
-        .eq('token', token)
-        .single<SharedReport>()
+      // Step 1: Get signed URL from backend (which has service role key)
+      const backendUrl = `https://onlyworks-backend-server.onrender.com/api/batch/shared/${token}`
 
-      if (dbError || !report) {
-        console.error('[Report API] Report not found:', dbError)
+      console.log(`[Report API] Calling backend: ${backendUrl}`)
+      const backendResponse = await fetch(backendUrl)
+
+      if (!backendResponse.ok) {
+        if (backendResponse.status === 404) {
+          console.log('[Report API] Report not found on backend')
+          return NextResponse.json(
+            { error: 'Report not found' },
+            { status: 404 }
+          )
+        }
+        console.error('[Report API] Backend error:', backendResponse.status, backendResponse.statusText)
         return NextResponse.json(
-          { error: 'Report not found' },
-          { status: 404 }
-        )
-      }
-
-      // Step 2: Check if expired
-      if (report.expires_at && new Date(report.expires_at) < new Date()) {
-        console.log('[Report API] Report expired:', report.expires_at)
-        return NextResponse.json(
-          {
-            error: 'expired',
-            message: 'This report link has expired',
-            expiresAt: report.expires_at
-          },
-          { status: 410 }
-        )
-      }
-
-      // Step 3: Check if revoked
-      if (report.is_revoked) {
-        console.log('[Report API] Report revoked')
-        return NextResponse.json(
-          {
-            error: 'revoked',
-            message: 'This report link has been revoked by the owner'
-          },
-          { status: 403 }
-        )
-      }
-
-      // Step 4: Fetch report from storage
-      console.log(`[Report API] Fetching from storage: ${report.storage_path}`)
-
-      const { data: fileData, error: storageError } = await supabaseServer.storage
-        .from('reports')
-        .download(report.storage_path)
-
-      if (storageError || !fileData) {
-        console.error('[Report API] Storage error:', storageError)
-        return NextResponse.json(
-          { error: 'Failed to fetch report from storage' },
+          { error: 'Failed to fetch report from backend' },
           { status: 500 }
         )
       }
 
-      // Step 5: Decompress HTML
-      const arrayBuffer = await fileData.arrayBuffer()
-      const compressed = new Uint8Array(arrayBuffer)
+      const backendData = await backendResponse.json()
+
+      if (!backendData.success || !backendData.data?.htmlUrl) {
+        console.error('[Report API] Invalid backend response:', backendData)
+        return NextResponse.json(
+          { error: 'Invalid report data from backend' },
+          { status: 500 }
+        )
+      }
+
+      // Step 2: Fetch HTML from signed URL
+      const { htmlUrl } = backendData.data
+      console.log(`[Report API] Fetching HTML from signed URL`)
+
+      const htmlResponse = await fetch(htmlUrl)
+
+      if (!htmlResponse.ok) {
+        console.error('[Report API] Failed to fetch HTML from signed URL:', htmlResponse.status)
+        return NextResponse.json(
+          { error: 'Failed to fetch report HTML' },
+          { status: 500 }
+        )
+      }
+
+      // Step 3: Decompress HTML content (files are stored as .html.gz)
+      const htmlBuffer = await htmlResponse.arrayBuffer()
+      const compressed = new Uint8Array(htmlBuffer)
 
       let html: string
       try {
         html = pako.ungzip(compressed, { to: 'string' })
-        console.log('[Report API] Decompressed successfully')
+        console.log('[Report API] Successfully decompressed report HTML')
       } catch (decompressError) {
-        console.log('[Report API] Not compressed, using as-is')
+        console.log('[Report API] File not compressed, using as-is')
         html = new TextDecoder().decode(compressed)
       }
 
-      // Step 6: Increment view counter (async, fire and forget)
-      supabaseServer
-        .from('shared_reports')
-        .update({
-          view_count: (report.view_count || 0) + 1,
-          last_viewed_at: new Date().toISOString(),
-        })
-        .eq('id', report.id)
-        .then((result) => {
-          if (result.error) {
-            console.error('[Report API] Failed to increment view counter:', result.error)
-          } else {
-            console.log('[Report API] View counter incremented')
-          }
-        })
+      console.log('[Report API] Successfully fetched report HTML via backend')
 
-      // Step 7: Return HTML
+      // Step 4: Return HTML
       return new NextResponse(html, {
         status: 200,
         headers: {
           'Content-Type': 'text/html; charset=utf-8',
           'Cache-Control': 'private, no-cache, no-store, must-revalidate',
-          'X-Report-ID': report.id,
-          'X-View-Count': String(report.view_count + 1),
+          'X-Report-Token': token,
+          'X-Backend-Proxy': 'true',
         },
       })
 
