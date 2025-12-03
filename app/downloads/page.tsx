@@ -40,6 +40,26 @@ export default function DownloadsPage() {
     }
   }
 
+  // Auto-detect Mac architecture
+  const detectMacArchitecture = () => {
+    // Check if user agent contains info about Apple Silicon
+    const userAgent = navigator.userAgent.toLowerCase()
+
+    // If we can detect M1/M2/M3 explicitly, use arm64
+    if (userAgent.includes('macintosh') && userAgent.includes('arm')) {
+      return 'arm64'
+    }
+
+    // Default to arm64 for newer Macs (most common now)
+    // Users with Intel Macs can manually select if needed
+    return 'arm64'
+  }
+
+  const handleMacDownload = async () => {
+    const arch = detectMacArchitecture()
+    await handleDownload('mac', arch)
+  }
+
   const handleDownload = async (platform: string, arch: string) => {
     const downloadKey = `${platform}-${arch}`
     setDownloading(downloadKey)
@@ -197,22 +217,36 @@ export default function DownloadsPage() {
 
             <div className="space-y-4">
               <button
-                onClick={() => handleDownload('mac', 'arm64')}
-                disabled={downloading === 'mac-arm64'}
+                onClick={handleMacDownload}
+                disabled={downloading?.startsWith('mac-')}
                 className="flex items-center justify-center w-full px-6 py-3 bg-[#5b70f8] text-white rounded-lg hover:bg-[#5b70f8]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Download className="h-5 w-5 mr-2" />
-                {downloading === 'mac-arm64' ? 'Downloading...' : 'Download for Apple Silicon (M1/M2)'}
+                {downloading?.startsWith('mac-') ? 'Downloading...' : 'Download for Mac'}
               </button>
 
-              <button
-                onClick={() => handleDownload('mac', 'intel')}
-                disabled={downloading === 'mac-intel'}
-                className="flex items-center justify-center w-full px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <Download className="h-5 w-5 mr-2" />
-                {downloading === 'mac-intel' ? 'Downloading...' : 'Download for Intel Mac'}
-              </button>
+              <div className="text-center space-y-2">
+                <p className="text-sm text-gray-500">
+                  Auto-detects Apple Silicon (M1/M2/M3) or Intel processor
+                </p>
+                <div className="flex justify-center space-x-4 text-xs text-gray-400">
+                  <button
+                    onClick={() => handleDownload('mac', 'arm64')}
+                    disabled={downloading === 'mac-arm64'}
+                    className="hover:text-gray-600 disabled:opacity-50"
+                  >
+                    Force Apple Silicon
+                  </button>
+                  <span>•</span>
+                  <button
+                    onClick={() => handleDownload('mac', 'intel')}
+                    disabled={downloading === 'mac-intel'}
+                    className="hover:text-gray-600 disabled:opacity-50"
+                  >
+                    Force Intel
+                  </button>
+                </div>
+              </div>
             </div>
 
             <p className="text-sm text-gray-500 mt-4 text-center">
