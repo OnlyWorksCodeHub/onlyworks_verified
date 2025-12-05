@@ -1,252 +1,63 @@
 'use client'
 
-import { useState, useRef } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
-import { Footer } from '@/components/layout/Footer'
-import { MobileNavigation } from '@/components/layout/MobileNavigation'
-import { JobApplicationModal } from '@/components/JobApplicationModal'
-import { useHeroEntrance } from '@/hooks/useHeroEntrance'
 
 export default function CareersPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedJob, setSelectedJob] = useState<string>('')
-  const heroTitleRef = useRef<HTMLHeadingElement>(null)
-  const heroSubtextRef = useRef<HTMLParagraphElement>(null)
-
-  useHeroEntrance([heroTitleRef, heroSubtextRef])
-
-  const openModal = (jobTitle: string) => {
-    setSelectedJob(jobTitle)
-    setIsModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setIsModalOpen(false)
-    setSelectedJob('')
-  }
-  const jobs = [
-    {
-      title: "Senior AI Engineer",
-      department: "Engineering",
-      location: "Remote",
-      type: "Full-time"
-    },
-    {
-      title: "Data Engineer/Analyst",
-      department: "Engineering",
-      location: "Remote",
-      type: "Full-time"
-    },
-    {
-      title: "Product Designer",
-      department: "Design",
-      location: "Remote",
-      type: "Full-time"
-    },
-    {
-      title: "Marketing Manager",
-      department: "Marketing",
-      location: "Remote",
-      type: "Full-time"
-    },
-    {
-      title: "Customer Success Manager",
-      department: "Customer Success",
-      location: "Remote",
-      type: "Full-time"
-    }
-  ]
-
-  const values = [
-    {
-      title: "Transparency",
-      description: "We believe in open communication and honest feedback. No hidden agendas, just clear expectations and genuine collaboration."
-    },
-    {
-      title: "Excellence",
-      description: "We set high standards for ourselves and our work. Quality isn't just a goal—it's our baseline for everything we deliver."
-    },
-    {
-      title: "Innovation",
-      description: "We're building the future of work verification. Every day, we push boundaries and explore new possibilities in AI and productivity."
-    },
-    {
-      title: "Trust",
-      description: "Trust is at the core of everything we do. We trust our team, our process, and our mission to make work undeniable."
-    },
-    {
-      title: "Impact",
-      description: "We're not just building software—we're solving real problems for real people and creating genuine value in the world."
-    },
-    {
-      title: "Growth",
-      description: "We invest in our people's growth and celebrate learning from both successes and failures. Your development is our priority."
-    }
-  ]
-
-  const benefits = [
-    "Comprehensive health, dental, and vision insurance",
-    "Competitive salary and equity package",
-    "Unlimited PTO and flexible working hours",
-    "Latest tech and home office setup allowance",
-    "Learning and development budget",
-    "Fully remote-first company culture",
-    "Generous parental leave policy",
-    "Mental health and wellness support"
-  ]
-
   return (
-    <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <MobileNavigation currentPage="/careers" />
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Ultra minimal header */}
+      <header className="w-full px-12 py-12">
+        <nav className="flex justify-between items-center">
+          <Link href="/" className="text-sm font-light text-black tracking-wider">
+            ✱ONLYWORKS
+          </Link>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 px-3 xs:px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1
-            ref={heroTitleRef}
-            className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold md:font-semibold text-gray-900 mb-6 leading-tight sm:leading-snug md:leading-normal"
-            style={{ opacity: 0 }}
-          >
-            Join us in making work <span className="text-primary">undeniable</span>
+          <div className="flex items-center gap-6 text-xs font-light uppercase tracking-wider">
+            <Link href="/about" className="text-gray-400 hover:text-gray-700 transition-colors">
+              Company
+            </Link>
+            <Link href="/careers" className="text-gray-400 hover:text-gray-700 transition-colors">
+              Careers
+            </Link>
+            <Link href="/contact" className="text-gray-400 hover:text-gray-700 transition-colors">
+              Partners
+            </Link>
+            <div className="flex gap-3 ml-2">
+              <a href="https://x.com/OnlyWorksAI" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-700 transition-colors">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+              <a href="https://linkedin.com/company/only-works" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gray-700 transition-colors">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      {/* Main content - positioned lower with more space */}
+      <main className="flex-1 flex items-center px-12">
+        <div className="w-full max-w-2xl" style={{ marginTop: '-5%' }}>
+          <h1 className="text-4xl font-light text-black mb-6 leading-tight">
+            Join our team
           </h1>
-          <p
-            ref={heroSubtextRef}
-            className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto"
-            style={{ opacity: 0 }}
-          >
-            We're building the future of work verification with AI. Join a team that values transparency,
-            innovation, and genuine impact on how the world views productivity.
+
+          <p className="text-base font-light text-gray-600 leading-relaxed mb-8">
+            We're building the future of work verification.
+            <br />
+            Help us create tools that make work undeniable
+            <br />
+            for professionals everywhere.
           </p>
-          <div className="flex items-center justify-center space-x-8 text-sm text-gray-500">
-            <span>100% Remote</span>
-            <span>Pre-Seed Startup</span>
-            <span>2-10 Team Members</span>
-          </div>
-        </div>
-      </section>
 
-      {/* Company Values */}
-      <section className="py-16 px-6 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-semibold text-center mb-12 text-gray-900">Our Values</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {values.map((value, index) => (
-              <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 hover-lift">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-3">{value.title}</h3>
-                <p className="text-gray-600">{value.description}</p>
-              </div>
-            ))}
-          </div>
+          <button className="px-5 py-2.5 bg-blue-500 text-white text-sm font-light rounded hover:bg-blue-600 transition-colors">
+            View openings →
+          </button>
         </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="py-16 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-semibold text-gray-900 mb-6">Why you'll love working here</h2>
-              <p className="text-gray-600 mb-8">
-                We believe that great work happens when people are supported, trusted, and empowered.
-                Our benefits and culture are designed to help you do your best work while maintaining
-                a healthy work-life balance.
-              </p>
-              <div className="space-y-3">
-                {benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start">
-                    <span className="text-gray-700">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-8">
-              <img src="/images/founders.png" alt="Founders" className="w-full h-auto rounded-lg" />
-            </div>
-          </div>
-        </div>
-      </section>
-      
-{/* Culture */}
-      <section className="py-16 px-6">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-semibold text-gray-900 mb-6">Our Culture</h2>
-          <p className="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
-            We're building more than just software—we're building a team of passionate individuals
-            who believe in the power of authentic work. Our culture is built on trust, transparency,
-            and the shared mission of making work verification accessible to everyone.
-          </p>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Collaborative</h3>
-              <p className="text-gray-600">
-                We believe the best ideas come from diverse perspectives working together toward a common goal.
-              </p>
-            </div>
-            <div className="text-center">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Purpose-Driven</h3>
-              <p className="text-gray-600">
-                Every line of code, every design decision, and every strategy serves our mission of authentic work verification.
-              </p>
-            </div>
-            <div className="text-center">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-2">Growth-Minded</h3>
-              <p className="text-gray-600">
-                We invest in continuous learning and celebrate both individual growth and team achievements.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Open Positions */}
-      <section className="py-16 px-6 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-semibold text-center mb-12 text-gray-900">Open Positions</h2>
-          <div className="space-y-4">
-            {jobs.map((job, index) => (
-              <div key={index} className="bg-white border border-gray-200 rounded-lg p-6 hover-lift">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-semibold text-gray-900 mb-1">{job.title}</h3>
-                    <div className="flex items-center space-x-4 text-sm text-gray-600">
-                      <span>{job.department}</span>
-                      <span>•</span>
-                      <span>{job.location}</span>
-                      <span>•</span>
-                      <span>{job.type}</span>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => openModal(job.title)}
-                    className="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition"
-                  >
-                    Apply
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="bg-primary/10 border border-primary/20 rounded-lg p-8 mt-8 text-center">
-            <h3 className="text-2xl font-semibold text-gray-900 mb-3">Don't see a role that fits?</h3>
-            <p className="text-gray-700 mb-6">We're always looking for exceptional talent to join our mission of making work undeniable.</p>
-            <button
-              onClick={() => openModal('General Application')}
-              className="px-8 py-3 bg-primary text-white rounded-md hover:bg-primary-dark transition font-medium"
-            >
-              Get in Touch
-            </button>
-          </div>
-        </div>
-      </section>
-      <Footer />
-
-      <JobApplicationModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        jobTitle={selectedJob}
-      />
+      </main>
     </div>
   )
 }
