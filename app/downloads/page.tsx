@@ -39,14 +39,16 @@ export default function DownloadsPage() {
                 <a
                   href={CURRENT_VERSION.platforms.mac.arm64.url}
                   className="inline-block px-5 py-2.5 bg-[#0066FF] text-white text-[13px] rounded hover:bg-[#0052CC] transition-colors"
-                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   Download for Apple Silicon ({CURRENT_VERSION.platforms.mac.arm64.size})
                 </a>
                 <a
                   href={CURRENT_VERSION.platforms.mac.intel.url}
                   className="inline-block px-5 py-2.5 bg-gray-600 text-white text-[13px] rounded hover:bg-gray-700 transition-colors"
-                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   Download for Intel ({CURRENT_VERSION.platforms.mac.intel.size})
                 </a>
@@ -62,7 +64,8 @@ export default function DownloadsPage() {
                 <a
                   href={CURRENT_VERSION.platforms.windows.x64.url}
                   className="inline-block px-5 py-2.5 bg-[#0066FF] text-white text-[13px] rounded hover:bg-[#0052CC] transition-colors"
-                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   Download for Windows ({CURRENT_VERSION.platforms.windows.x64.size})
                 </a>
