@@ -75,8 +75,13 @@ export default function DownloadsPage() {
       const data = await response.json()
 
       if (data.success && data.downloadUrl) {
-        // Direct download from GitHub (faster and more reliable)
-        window.open(data.downloadUrl, '_blank')
+        // Direct link download from GitHub (browser handles it)
+        const link = document.createElement('a')
+        link.href = data.downloadUrl
+        link.setAttribute('download', '')
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
         toast.success(`Downloading OnlyWorks Desktop v${data.version}`)
       } else if (data.available === false) {
         toast.error('This platform is not available yet. Coming soon!')
