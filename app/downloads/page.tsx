@@ -75,18 +75,8 @@ export default function DownloadsPage() {
       const data = await response.json()
 
       if (data.success && data.downloadUrl) {
-        // Use proxy download for direct file download (no GitHub redirect)
-        const fileName = data.downloadUrl.split('/').pop() || 'OnlyWorks-Desktop'
-        const proxyUrl = `/api/desktop/proxy-download?url=${encodeURIComponent(data.downloadUrl)}&filename=${encodeURIComponent(fileName)}`
-
-        // Create download link
-        const link = document.createElement('a')
-        link.href = proxyUrl
-        link.download = fileName
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-
+        // Direct download from GitHub (faster and more reliable)
+        window.open(data.downloadUrl, '_blank')
         toast.success(`Downloading OnlyWorks Desktop v${data.version}`)
       } else if (data.available === false) {
         toast.error('This platform is not available yet. Coming soon!')
