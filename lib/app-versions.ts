@@ -31,16 +31,16 @@ export interface AppVersion {
 }
 
 export const CURRENT_VERSION: AppVersion = {
-  version: '1.5.1',
-  releaseDate: '2025-12-07',
+  version: '1.5.2',
+  releaseDate: '2025-12-09',
   platforms: {
     mac: {
       arm64: {
-        url: 'https://github.com/Namkha-yolo/onlyworks_desktop/releases/download/v1.5.1/OnlyWorks.Desktop-1.5.1-arm64.dmg',
+        url: 'https://github.com/Namkha-yolo/onlyworks_desktop/releases/download/v1.5.2/OnlyWorks.Desktop-1.5.2-arm64.dmg',
         size: '95MB',
       },
       intel: {
-        url: 'https://github.com/Namkha-yolo/onlyworks_desktop/releases/download/v1.5.1/OnlyWorks.Desktop-1.5.1.dmg',
+        url: 'https://github.com/Namkha-yolo/onlyworks_desktop/releases/download/v1.5.2/OnlyWorks.Desktop-1.5.2.dmg',
         size: '101MB',
       },
     },
