@@ -1,4 +1,4 @@
-// App version configuration and metadata
+// App version configuration and metadata - v1.5.1
 export interface AppVersion {
   version: string
   releaseDate: string
