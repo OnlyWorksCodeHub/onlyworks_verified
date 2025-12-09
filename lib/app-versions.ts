@@ -89,3 +89,4 @@ export function compareVersions(v1: string, v2: string): number {
 export function isUpdateAvailable(currentVersion: string, latestVersion: string): boolean {
   return compareVersions(latestVersion, currentVersion) > 0
 }
+
