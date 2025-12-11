@@ -31,16 +31,16 @@ export interface AppVersion {
 }
 
 export const CURRENT_VERSION: AppVersion = {
-  version: '1.5.2',
-  releaseDate: '2025-12-09',
+  version: '1.5.3',
+  releaseDate: '2025-12-11',
   platforms: {
     mac: {
       arm64: {
-        url: 'https://github.com/Namkha-yolo/onlyworks_desktop/releases/download/v1.5.2/OnlyWorks.Desktop-1.5.2-arm64.dmg',
+        url: 'https://github.com/Namkha-yolo/onlyworks_desktop/releases/download/v1.5.3/OnlyWorks.Desktop-1.5.3-arm64.dmg',
         size: '95MB',
       },
       intel: {
-        url: 'https://github.com/Namkha-yolo/onlyworks_desktop/releases/download/v1.5.2/OnlyWorks.Desktop-1.5.2.dmg',
+        url: 'https://github.com/Namkha-yolo/onlyworks_desktop/releases/download/v1.5.3/OnlyWorks.Desktop-1.5.3.dmg',
         size: '101MB',
       },
     },
@@ -52,11 +52,11 @@ export const CURRENT_VERSION: AppVersion = {
     },
   },
   releaseNotes: [
-    'Initial release of OnlyWorks Desktop',
-    'Real-time productivity tracking',
-    'AI-powered work analysis',
-    'Verified report generation',
-    'Privacy-focused design',
+    'Real-time contextual assistant with floating overlay',
+    'RAG-powered blocker detection and suggestions',
+    'System-wide draggable assistant widget',
+    'Fix permission prompts and UI improvements',
+    'Fix startup crash on new machines',
   ],
   minOS: {
     mac: '10.15',
