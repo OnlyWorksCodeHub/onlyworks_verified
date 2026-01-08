@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getLatestVersion } from '@/lib/app-versions'
-import { supabaseServer } from '@/lib/supabase-server'
+import { createClient } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -51,7 +51,8 @@ export async function POST(request: NextRequest) {
                        request.headers.get('x-real-ip') ||
                        'Unknown'
 
-      await supabaseServer.from('app_downloads').insert({
+      const supabase = createClient()
+      await supabase.from('app_downloads').insert({
         version: latestVersion.version,
         platform,
         architecture: arch,
@@ -83,7 +84,8 @@ export async function POST(request: NextRequest) {
 // GET /api/desktop/download - Get download stats (admin only)
 export async function GET(request: NextRequest) {
   try {
-    const { data: downloads, error } = await supabaseServer
+    const supabase = createClient()
+    const { data: downloads, error } = await supabase
       .from('app_downloads')
       .select('*')
       .order('download_date', { ascending: false })

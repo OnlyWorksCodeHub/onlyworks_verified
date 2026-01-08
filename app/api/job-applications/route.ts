@@ -1,94 +1,109 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
 
-// Initialize Supabase client with environment variables
-function getSupabaseClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+interface TurnstileResponse {
+  success: boolean
+  'error-codes'?: string[]
+  challenge_ts?: string
+  hostname?: string
+}
 
-  if (!supabaseUrl || !supabaseKey) {
-    throw new Error('Missing Supabase environment variables')
+async function verifyTurnstileToken(token: string): Promise<boolean> {
+  const secretKey = process.env.TURNSTILE_SECRET_KEY
+
+  if (!secretKey) {
+    console.error('TURNSTILE_SECRET_KEY is not configured')
+    return false
   }
 
-  return createClient(supabaseUrl, supabaseKey)
+  try {
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        secret: secretKey,
+        response: token,
+      }),
+    })
+
+    const data: TurnstileResponse = await response.json()
+    return data.success
+  } catch (error) {
+    console.error('Turnstile verification error:', error)
+    return false
+  }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    // Initialize Supabase client
-    const supabase = getSupabaseClient()
-
     const formData = await request.formData()
 
-    // Extract form fields
+    const turnstileToken = formData.get('turnstileToken') as string
+    const jobId = formData.get('jobId') as string
     const jobTitle = formData.get('jobTitle') as string
-    const fullName = formData.get('fullName') as string
+    const name = formData.get('name') as string
     const email = formData.get('email') as string
-    const phone = formData.get('phone') as string
-    const location = formData.get('location') as string
-    const linkedIn = formData.get('linkedIn') as string
+    const linkedin = formData.get('linkedin') as string
     const portfolio = formData.get('portfolio') as string
-    const experience = formData.get('experience') as string
-    const startDate = formData.get('startDate') as string
-    const salary = formData.get('salary') as string
-    const coverLetter = formData.get('coverLetter') as string
-    const resumeFile = formData.get('resume') as File
+    const message = formData.get('message') as string
+    const resume = formData.get('resume') as File | null
 
     // Validate required fields
-    if (!jobTitle || !fullName || !email || !resumeFile) {
+    if (!turnstileToken) {
+      return NextResponse.json(
+        { error: 'Verification required' },
+        { status: 400 }
+      )
+    }
+
+    if (!name || !email || !jobId) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
       )
     }
 
-    // For now, we'll store the file name but skip the actual upload
-    // TODO: Fix Supabase storage authentication and re-enable file upload
-    const fileName = resumeFile.name
-    const filePath = `pending_upload_${Date.now()}_${fullName.replace(/\s+/g, '_')}`
+    // Verify Turnstile token
+    const isValidToken = await verifyTurnstileToken(turnstileToken)
 
-    // Insert application data into database
-    const { data, error: dbError } = await supabase
-      .from('job_applications')
-      .insert({
-        job_title: jobTitle,
-        full_name: fullName,
-        email: email,
-        phone: phone || null,
-        location: location || null,
-        linkedin_url: linkedIn || null,
-        portfolio_url: portfolio || null,
-        resume_file_name: resumeFile.name,
-        resume_file_path: filePath,
-        resume_file_size: resumeFile.size,
-        experience_level: experience || null,
-        start_date: startDate || null,
-        expected_salary: salary || null,
-        cover_letter: coverLetter || null,
-        application_status: 'pending'
-      })
-      .select()
-
-    if (dbError) {
-      console.error('Database error:', dbError)
+    if (!isValidToken) {
       return NextResponse.json(
-        { error: 'Failed to save application' },
-        { status: 500 }
+        { error: 'Verification failed. Please try again.' },
+        { status: 400 }
       )
     }
 
-    return NextResponse.json(
-      {
-        message: 'Application submitted successfully',
-        applicationId: data[0].id
-      },
-      { status: 200 }
-    )
+    // Process the application
+    // In a real application, you would:
+    // 1. Store the application in a database
+    // 2. Upload the resume to cloud storage
+    // 3. Send notification emails
 
+    console.log('Job application received:', {
+      jobId,
+      jobTitle,
+      name,
+      email,
+      linkedin,
+      portfolio,
+      message,
+      hasResume: !!resume,
+      resumeName: resume?.name,
+      resumeSize: resume?.size,
+    })
+
+    // Example: Send notification email (if you have email service configured)
+    // await sendApplicationNotification({ jobTitle, name, email, ... })
+
+    return NextResponse.json({
+      success: true,
+      message: 'Application submitted successfully',
+    })
   } catch (error) {
-    console.error('API error:', error)
+    console.error('Job application error:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to submit application' },
       { status: 500 }
     )
   }

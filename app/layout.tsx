@@ -217,7 +217,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="bg-white text-gray-900 antialiased font-sans">
+      <body className="antialiased">
         <ClientLayout>
           {children}
           <Toaster
@@ -225,9 +225,9 @@ export default function RootLayout({
             toastOptions={{
               style: {
                 fontFamily: "'Inter', sans-serif",
-                background: 'white',
-                color: '#111827',
-                border: '1px solid #e5e7eb'
+                background: '#1a1a24',
+                color: '#ffffff',
+                border: '1px solid #3a3138'
               },
               duration: 4000,
               success: {

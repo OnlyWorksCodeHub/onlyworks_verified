@@ -1,123 +1,94 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
-import { Footer } from '@/components/layout/Footer'
+import { Shield, Lock, Server, Key } from 'lucide-react'
 
 export default function SecurityPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center space-x-10">
-              <Link href="/" className="flex items-center">
-                <Image
-                  src="/images/onlyworks-logo.png"
-                  alt="OnlyWorks"
-                  width={128}
-                  height={32}
-                  className="h-8 w-auto"
-                />
-              </Link>
-              <div className="hidden md:flex items-center space-x-6">
-                <Link href="/pricing" className="text-gray-600 hover:text-gray-900 text-base">Pricing</Link>
-                <Link href="/careers" className="text-gray-600 hover:text-gray-900 text-base">Careers</Link>
-                <Link href="/updates" className="text-gray-600 hover:text-gray-900 text-base">Updates</Link>
-                <Link href="/contact" className="text-gray-600 hover:text-gray-900 text-base">Contact</Link>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link href="/coming-soon" className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark text-base">
-                Get started
-              </Link>
-            </div>
+      <nav className="nav">
+        <div className="nav-inner">
+          <Link href="/" className="flex items-center">
+            <Image src="/images/onlyworks-logo.png" alt="OnlyWorks" width={120} height={30} className="h-6 w-auto" />
+          </Link>
+          <div className="hidden md:flex items-center gap-1">
+            <Link href="/about" className="nav-link">About</Link>
+            <Link href="/pricing" className="nav-link">Pricing</Link>
+            <Link href="/careers" className="nav-link">Careers</Link>
+            <Link href="/contact" className="nav-link">Contact</Link>
           </div>
+          <Link href="/downloads" className="btn btn-primary">
+            Get started
+          </Link>
         </div>
       </nav>
 
-      {/* Content */}
-      <section className="pt-32 pb-20 px-4">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Security</h1>
-            <p className="text-gray-600 mt-1">Your security is our top priority. Learn about our comprehensive security measures.</p>
-          </div>
-
-          <div className="prose prose-gray max-w-none">
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">Data Protection</h2>
-              <p className="text-gray-600 mb-4">
-                OnlyWorks employs enterprise-grade security measures to protect your data and ensure the integrity of your work verification.
-              </p>
-              <ul className="text-gray-600 space-y-2">
-                <li>• End-to-end encryption for all data transmission</li>
-                <li>• AES-256 encryption for data at rest</li>
-                <li>• Zero-knowledge architecture for sensitive data</li>
-                <li>• Regular security audits and penetration testing</li>
-              </ul>
-            </section>
-
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">Privacy Controls</h2>
-              <p className="text-gray-600 mb-4">
-                You maintain complete control over your data and what information is included in verification reports.
-              </p>
-              <ul className="text-gray-600 space-y-2">
-                <li>• Granular privacy settings for data collection</li>
-                <li>• Customizable report visibility controls</li>
-                <li>• Automatic data retention policies</li>
-                <li>• Right to data deletion and export</li>
-              </ul>
-            </section>
-
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">Infrastructure Security</h2>
-              <p className="text-gray-600 mb-4">
-                Our infrastructure is built on industry-leading cloud platforms with multiple layers of security.
-              </p>
-              <ul className="text-gray-600 space-y-2">
-                <li>• SOC 2 Type II compliant infrastructure</li>
-                <li>• Multi-factor authentication for all accounts</li>
-                <li>• Network isolation and firewall protection</li>
-                <li>• 24/7 security monitoring and incident response</li>
-              </ul>
-            </section>
-
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">Compliance</h2>
-              <p className="text-gray-600 mb-4">
-                We adhere to international security standards and regulatory requirements.
-              </p>
-              <ul className="text-gray-600 space-y-2">
-                <li>• GDPR compliant data processing</li>
-                <li>• CCPA compliance for California residents</li>
-                <li>• ISO 27001 security management standards</li>
-                <li>• Regular compliance audits and certifications</li>
-              </ul>
-            </section>
-
-            <section className="mb-12">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">Reporting Security Issues</h2>
-              <p className="text-gray-600 mb-4">
-                If you discover a security vulnerability, please report it responsibly.
-              </p>
-              <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                <p className="text-gray-600 mb-2">
-                  <strong>Email:</strong> security@onlyworks.com
-                </p>
-                <p className="text-gray-600 mb-2">
-                  <strong>Response Time:</strong> Within 24 hours for critical issues
-                </p>
-                <p className="text-gray-600">
-                  Please include detailed information about the vulnerability and steps to reproduce it.
-                </p>
-              </div>
-            </section>
+      {/* Hero */}
+      <section className="pt-40 pb-16">
+        <div className="container">
+          <div className="max-w-lg">
+            <h1 className="mb-6">Security</h1>
+            <p className="text-xl" style={{ color: 'var(--text-secondary)' }}>
+              Enterprise-grade security to protect your work and privacy.
+            </p>
           </div>
         </div>
       </section>
 
-      <Footer />
+      {/* Features */}
+      <section className="pb-24">
+        <div className="container">
+          <div className="grid md:grid-cols-2 gap-8 max-w-3xl">
+            {[
+              { icon: Lock, title: 'End-to-End Encryption', desc: 'AES-256 at rest. TLS in transit. Zero-knowledge architecture.' },
+              { icon: Shield, title: 'Compliance', desc: 'GDPR, CCPA, SOC 2 Type II compliant. Regular audits.' },
+              { icon: Server, title: 'Infrastructure', desc: 'Multi-factor auth. Network isolation. 24/7 monitoring.' },
+              { icon: Key, title: 'Your Control', desc: 'Granular privacy settings. Export or delete your data anytime.' }
+            ].map((item, i) => (
+              <div key={i}>
+                <div className="icon-wrap mb-4">
+                  <item.icon className="w-5 h-5" />
+                </div>
+                <h3 className="mb-2">{item.title}</h3>
+                <p className="text-sm">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section className="section" style={{ background: 'var(--bg-alt)' }}>
+        <div className="container">
+          <div className="max-w-md">
+            <h2 className="mb-4">Report a vulnerability</h2>
+            <p className="mb-6">Found a security issue? We take this seriously.</p>
+            <a href="mailto:security@only-works.com" className="btn btn-primary">
+              security@only-works.com
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="container">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+            <Image src="/images/onlyworks-logo.png" alt="OnlyWorks" width={100} height={25} className="h-5 w-auto" />
+            <div className="flex flex-wrap gap-6">
+              <Link href="/about" className="footer-link">About</Link>
+              <Link href="/pricing" className="footer-link">Pricing</Link>
+              <Link href="/privacy" className="footer-link">Privacy</Link>
+              <Link href="/terms" className="footer-link">Terms</Link>
+              <Link href="/security" className="footer-link">Security</Link>
+              <Link href="/support" className="footer-link">Support</Link>
+            </div>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>© 2025 OnlyWorks</p>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
