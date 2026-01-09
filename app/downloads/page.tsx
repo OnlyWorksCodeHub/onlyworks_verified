@@ -1,10 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
-import { useState } from 'react'
-import { ArrowLeft, ArrowRight, Monitor, Apple } from 'lucide-react'
-import toast from 'react-hot-toast'
+import { useState, useEffect } from 'react'
+import { ArrowLeft, ArrowRight, Monitor, Apple, Loader2 } from 'lucide-react'
+import toast, { Toaster } from 'react-hot-toast'
 import { Navigation } from '@/components/Navigation'
 
 export default function DownloadsPage() {
@@ -12,6 +11,7 @@ export default function DownloadsPage() {
   const [hasAccess, setHasAccess] = useState(false)
   const [error, setError] = useState('')
   const [downloading, setDownloading] = useState<string | null>(null)
+  const [validating, setValidating] = useState(false)
 
   // Contact form state
   const [contactForm, setContactForm] = useState({
@@ -22,15 +22,39 @@ export default function DownloadsPage() {
   })
   const [submitting, setSubmitting] = useState(false)
 
-  const handleAccessSubmit = (e: React.FormEvent) => {
+  // Handle success redirect from Stripe
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('success') === 'true') {
+      toast.success('Payment successful! Check your email for your access code.', { duration: 6000 })
+      window.history.replaceState({}, '', '/downloads')
+    }
+  }, [])
+
+  const handleAccessSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const code = accessCode.trim().toUpperCase()
-    if (code === 'ONLYWORKS' || code === 'OW2025') {
-      setHasAccess(true)
-      setError('')
-      toast.success('Access granted!')
-    } else {
-      setError('Invalid access code.')
+    setError('')
+    setValidating(true)
+
+    try {
+      const res = await fetch('/api/access-codes/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: accessCode.trim() })
+      })
+
+      const data = await res.json()
+
+      if (data.valid) {
+        setHasAccess(true)
+        toast.success('Access granted!')
+      } else {
+        setError(data.error || 'Invalid access code.')
+      }
+    } catch {
+      setError('Failed to validate code. Please try again.')
+    } finally {
+      setValidating(false)
     }
   }
 
@@ -90,6 +114,7 @@ export default function DownloadsPage() {
   if (!hasAccess) {
     return (
       <div className="min-h-screen">
+        <Toaster position="top-center" />
         <Navigation />
 
         <div className="min-h-screen grid md:grid-cols-2 pt-20">
@@ -110,9 +135,18 @@ export default function DownloadsPage() {
                   required
                 />
                 {error && <p className="text-sm" style={{ color: '#ef4444' }}>{error}</p>}
-                <button type="button" onClick={(e) => handleAccessSubmit(e)} className="btn btn-primary w-full">
-                  Continue
-                  <ArrowRight className="w-4 h-4" />
+                <button type="submit" disabled={validating} className="btn btn-primary w-full">
+                  {validating ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Validating...
+                    </>
+                  ) : (
+                    <>
+                      Continue
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
                 </button>
               </form>
               <div className="mt-8">
@@ -156,6 +190,7 @@ export default function DownloadsPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Toaster position="top-center" />
       <Navigation />
 
       {/* Downloads */}

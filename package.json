@@ -9,6 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@stripe/stripe-js": "^8.6.1",
         "@supabase/auth-helpers-nextjs": "^0.8.7",
         "@supabase/ssr": "^0.0.10",
         "@supabase/supabase-js": "^2.39.3",
@@ -26,6 +27,7 @@
         "react-hot-toast": "^2.4.1",
         "recharts": "^2.15.4",
         "resend": "^6.1.2",
+        "stripe": "^20.1.2",
         "uuid": "^9.0.1"
     },
     "devDependencies": {

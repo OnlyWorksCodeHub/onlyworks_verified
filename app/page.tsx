@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { Shield, Cpu, BarChart3, Lock, Zap, Globe } from 'lucide-react'
 import { LogoCarousel } from '@/components/ui/logo-carousel'
 import { Navigation } from '@/components/Navigation'

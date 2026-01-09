@@ -1,13 +1,62 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
-import { Check } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Check, X, Loader2 } from 'lucide-react'
 import { Navigation } from '@/components/Navigation'
+import toast, { Toaster } from 'react-hot-toast'
 
 export default function PricingPage() {
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+
+  // Handle canceled checkout
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('canceled') === 'true') {
+      toast.error('Checkout was canceled')
+      window.history.replaceState({}, '', '/pricing')
+    }
+  }, [])
+
+  const handleCheckout = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!email) {
+      toast.error('Please enter your email')
+      return
+    }
+
+    setLoading(true)
+    try {
+      const res = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          priceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID,
+        })
+      })
+
+      const data = await res.json()
+
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        throw new Error(data.error || 'Failed to create checkout')
+      }
+    } catch (error) {
+      toast.error('Failed to start checkout. Please try again.')
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
+      <Toaster position="top-center" />
       <Navigation />
 
       {/* Hero */}
@@ -63,9 +112,15 @@ export default function PricingPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/contact" className="btn btn-primary w-full">
-                Start trial
-              </Link>
+              <button
+                onClick={() => setShowModal(true)}
+                className="btn btn-primary w-full"
+              >
+                Start 14-day free trial
+              </button>
+              <p className="text-xs text-center mt-3" style={{ color: 'var(--text-muted)' }}>
+                No charge until trial ends
+              </p>
             </div>
 
             {/* Enterprise */}
@@ -101,7 +156,7 @@ export default function PricingPage() {
             <div className="grid md:grid-cols-2 gap-4 pb-4">
               {[
                 { q: 'Can I cancel anytime?', a: 'Yes. Cancel from settings. Keep access until billing period ends.' },
-                { q: 'Is there a free trial?', a: 'Yes. 14 days free on all paid plans. No card required.' },
+                { q: 'Is there a free trial?', a: 'Yes. 14 days free on Pro plan. Card required but not charged until trial ends.' },
                 { q: 'What payment methods?', a: 'All major cards via Stripe. Enterprise can pay by invoice.' },
                 { q: 'What happens to my data?', a: 'Export anytime. Deleted 30 days after cancellation.' },
                 { q: 'How does detection work?', a: 'AI analyzes work patterns, mouse movements, and screen activity to verify authenticity.' },
@@ -151,6 +206,71 @@ export default function PricingPage() {
           </div>
         </div>
       </footer>
+
+      {/* Email Modal */}
+      {showModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: 'rgba(0,0,0,0.5)' }}
+          onClick={() => setShowModal(false)}
+        >
+          <div
+            className="bg-white rounded-2xl p-8 max-w-md w-full relative"
+            style={{ boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
+            >
+              <X className="w-5 h-5" style={{ color: 'var(--text-muted)' }} />
+            </button>
+
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-semibold mb-2">Start your free trial</h2>
+              <p style={{ color: 'var(--text-secondary)' }}>
+                14 days free, then $19/month. Cancel anytime.
+              </p>
+            </div>
+
+            <form onSubmit={handleCheckout} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Email address</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className="input w-full"
+                  required
+                  autoFocus
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn btn-primary w-full flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Redirecting to checkout...
+                  </>
+                ) : (
+                  'Continue to checkout'
+                )}
+              </button>
+            </form>
+
+            <p className="text-xs text-center mt-4" style={{ color: 'var(--text-muted)' }}>
+              By continuing, you agree to our{' '}
+              <Link href="/terms" className="underline">Terms</Link> and{' '}
+              <Link href="/privacy" className="underline">Privacy Policy</Link>
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
