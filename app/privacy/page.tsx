@@ -1,5 +1,3 @@
-'use client'
-
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -9,17 +7,16 @@ export default function PrivacyPage() {
       {/* Navigation */}
       <nav className="nav">
         <div className="nav-inner">
-          <Link href="/" className="flex items-center">
-            <Image src="/images/onlyworks-logo.png" alt="OnlyWorks" width={120} height={30} className="h-6 w-auto" />
+          <Link href="/">
+            <Image src="/images/logo.png" alt="OnlyWorks" width={32} height={32} className="logo-icon" />
           </Link>
           <div className="hidden md:flex items-center gap-1">
             <Link href="/about" className="nav-link">About</Link>
             <Link href="/pricing" className="nav-link">Pricing</Link>
             <Link href="/careers" className="nav-link">Careers</Link>
-            <Link href="/contact" className="nav-link">Contact</Link>
           </div>
           <Link href="/downloads" className="btn btn-primary">
-            Get started
+            Access
           </Link>
         </div>
       </nav>
@@ -50,18 +47,11 @@ export default function PrivacyPage() {
 
       {/* Footer */}
       <footer className="footer">
-        <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            <Image src="/images/onlyworks-logo.png" alt="OnlyWorks" width={100} height={25} className="h-5 w-auto" />
-            <div className="flex flex-wrap gap-6">
-              <Link href="/about" className="footer-link">About</Link>
-              <Link href="/pricing" className="footer-link">Pricing</Link>
-              <Link href="/privacy" className="footer-link">Privacy</Link>
-              <Link href="/terms" className="footer-link">Terms</Link>
-              <Link href="/security" className="footer-link">Security</Link>
-              <Link href="/support" className="footer-link">Support</Link>
-            </div>
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>© 2025 OnlyWorks</p>
+        <div className="container flex justify-between items-center">
+          <span className="text-sm" style={{ color: 'var(--text-muted)' }}>© 2025 OnlyWorks</span>
+          <div className="flex gap-6">
+            <Link href="/privacy" className="footer-link">Privacy</Link>
+            <Link href="/terms" className="footer-link">Terms</Link>
           </div>
         </div>
       </footer>

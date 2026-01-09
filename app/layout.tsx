@@ -218,6 +218,8 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
+        <div className="grid-bg" />
+        <div className="grid-dots" />
         <ClientLayout>
           {children}
           <Toaster

@@ -223,17 +223,16 @@ export default function CareersPage() {
       {/* Navigation */}
       <nav className="nav">
         <div className="nav-inner">
-          <Link href="/" className="flex items-center">
-            <Image src="/images/onlyworks-logo.png" alt="OnlyWorks" width={120} height={30} className="h-6 w-auto" />
+          <Link href="/">
+            <Image src="/images/logo.png" alt="OnlyWorks" width={32} height={32} className="logo-icon" />
           </Link>
           <div className="hidden md:flex items-center gap-1">
             <Link href="/about" className="nav-link">About</Link>
             <Link href="/pricing" className="nav-link">Pricing</Link>
             <Link href="/careers" className="nav-link">Careers</Link>
-            <Link href="/contact" className="nav-link">Contact</Link>
           </div>
           <Link href="/downloads" className="btn btn-primary">
-            Get started
+            Access
           </Link>
         </div>
       </nav>
@@ -242,77 +241,13 @@ export default function CareersPage() {
       <section className="pt-40 pb-16">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
-            <span className="badge mb-6">We're Hiring</span>
+            <span className="inline-block px-4 py-2 mb-6 text-sm font-medium rounded-full" style={{ background: '#8b5cf6', color: '#fff' }}>
+              We're Hiring — {jobs.length} open roles
+            </span>
             <h1 className="mb-6">Join our team</h1>
             <p className="text-xl" style={{ color: 'var(--text-secondary)' }}>
-              Help us build the future of work verification. We're looking for talented people who want to make a real impact.
+              Help us build the future of work verification.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Values */}
-      <section className="py-16" style={{ background: 'var(--bg-alt)' }}>
-        <div className="container">
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {[
-              { title: 'Remote-first', desc: 'Work from anywhere in the world. We believe in flexibility and trust.' },
-              { title: 'Impact-driven', desc: 'Your work directly shapes how millions verify their productivity.' },
-              { title: 'Growth-focused', desc: 'We invest in your development with learning budgets and mentorship.' }
-            ].map((value, i) => (
-              <div key={i} className="text-center">
-                <h3 className="mb-2">{value.title}</h3>
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{value.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Our Product */}
-      <section className="section">
-        <div className="container">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="mb-4">What you'll be building</h2>
-            <p style={{ color: 'var(--text-secondary)' }}>
-              Join us in creating a product that helps professionals verify their work authenticity.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            <div className="card p-0 overflow-hidden">
-              <div className="relative aspect-[4/3]">
-                <Image
-                  src="/Screenshot 2026-01-07 at 10.47.53 PM.png"
-                  alt="OnlyWorks app dark mode"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="mb-2">Dark Mode</h3>
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  Our desktop app features a sleek dark mode for comfortable all-day use. Real-time session tracking and productivity insights.
-                </p>
-              </div>
-            </div>
-
-            <div className="card p-0 overflow-hidden">
-              <div className="relative aspect-[4/3]">
-                <Image
-                  src="/Screenshot 2026-01-07 at 10.48.07 PM.png"
-                  alt="OnlyWorks app light mode"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="mb-2">Light Mode</h3>
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  Clean, modern interface with intuitive navigation. Track sessions, view analytics, and generate verified reports.
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -321,37 +256,65 @@ export default function CareersPage() {
       <section className="section">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <h2 className="mb-8 text-center">Open positions</h2>
+            <h2 className="mb-10 text-center">Open positions</h2>
 
             <div className="space-y-4">
-              {jobs.map((job) => (
-                <div
-                  key={job.id}
-                  className="card cursor-pointer hover:border-[var(--text)] transition-colors"
-                  onClick={() => openModal(job)}
-                >
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div>
-                      <h3 className="mb-2">{job.title}</h3>
-                      <div className="flex flex-wrap gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
-                        <span className="flex items-center gap-1">
-                          <Briefcase className="w-4 h-4" />
-                          {job.department}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <MapPin className="w-4 h-4" />
-                          {job.location}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-4 h-4" />
-                          {job.type}
-                        </span>
+              {jobs.map((job, index) => {
+                const deptColors: Record<string, string> = {
+                  'Engineering': '#ede9fe',
+                  'AI/ML': '#ede9fe',
+                  'Design': '#ede9fe'
+                }
+                const deptTextColors: Record<string, string> = {
+                  'Engineering': '#8b5cf6',
+                  'AI/ML': '#8b5cf6',
+                  'Design': '#8b5cf6'
+                }
+                return (
+                  <div
+                    key={job.id}
+                    className="group cursor-pointer rounded-xl p-6 transition-all hover:shadow-lg"
+                    style={{
+                      background: '#fff',
+                      border: '1px solid var(--border)',
+                    }}
+                    onClick={() => openModal(job)}
+                  >
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                      <div>
+                        <div className="flex items-center gap-3 mb-3">
+                          <span
+                            className="px-3 py-1 text-xs font-medium rounded-full"
+                            style={{
+                              background: deptColors[job.department] || '#f5f5f5',
+                              color: deptTextColors[job.department] || '#525252'
+                            }}
+                          >
+                            {job.department}
+                          </span>
+                          {index === 0 && (
+                            <span className="px-2 py-1 text-xs font-medium rounded-full" style={{ background: '#ede9fe', color: '#8b5cf6' }}>
+                              New
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="mb-2 group-hover:underline">{job.title}</h3>
+                        <div className="flex flex-wrap gap-4 text-sm" style={{ color: 'var(--text-muted)' }}>
+                          <span className="flex items-center gap-1">
+                            <MapPin className="w-4 h-4" />
+                            {job.location}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-4 h-4" />
+                            {job.type}
+                          </span>
+                        </div>
                       </div>
+                      <ArrowRight className="w-5 h-5 hidden md:block transition-transform group-hover:translate-x-1" style={{ color: 'var(--text-muted)' }} />
                     </div>
-                    <ArrowRight className="w-5 h-5 hidden md:block" style={{ color: 'var(--text-muted)' }} />
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
 
             {jobs.length === 0 && (
@@ -366,33 +329,43 @@ export default function CareersPage() {
       {/* CTA */}
       <section className="section" style={{ background: 'var(--bg-alt)' }}>
         <div className="container">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="mb-4">Don't see a perfect fit?</h2>
-            <p className="mb-8" style={{ color: 'var(--text-secondary)' }}>
-              We're always looking for exceptional talent. Send us your resume and we'll reach out when the right opportunity opens up.
-            </p>
-            <Link href="/contact" className="btn btn-primary">
-              Get in touch
-            </Link>
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="mb-4">Don't see a perfect fit?</h2>
+              <p style={{ color: 'var(--text-secondary)' }}>
+                We're always looking for exceptional talent. Send us your resume and we'll reach out when the right opportunity opens up.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6 mb-10">
+              {[
+                { title: 'Remote-first', desc: 'Work from anywhere. We believe in flexibility and trust.' },
+                { title: 'Impact-driven', desc: 'Your work shapes how millions verify their productivity.' },
+                { title: 'Growth-focused', desc: 'Learning budgets, mentorship, and room to grow.' }
+              ].map((value, i) => (
+                <div key={i} className="text-center p-4">
+                  <h3 className="text-sm font-medium mb-1">{value.title}</h3>
+                  <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{value.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="text-center">
+              <Link href="/contact" className="btn btn-primary">
+                Get in touch
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
       <footer className="footer">
-        <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            <Image src="/images/onlyworks-logo.png" alt="OnlyWorks" width={100} height={25} className="h-5 w-auto" />
-            <div className="flex flex-wrap gap-6">
-              <Link href="/about" className="footer-link">About</Link>
-              <Link href="/pricing" className="footer-link">Pricing</Link>
-              <Link href="/careers" className="footer-link">Careers</Link>
-              <Link href="/privacy" className="footer-link">Privacy</Link>
-              <Link href="/terms" className="footer-link">Terms</Link>
-              <Link href="/security" className="footer-link">Security</Link>
-              <Link href="/support" className="footer-link">Support</Link>
-            </div>
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>© 2025 OnlyWorks</p>
+        <div className="container flex justify-between items-center">
+          <span className="text-sm" style={{ color: 'var(--text-muted)' }}>© 2025 OnlyWorks</span>
+          <div className="flex gap-6">
+            <Link href="/privacy" className="footer-link">Privacy</Link>
+            <Link href="/terms" className="footer-link">Terms</Link>
           </div>
         </div>
       </footer>

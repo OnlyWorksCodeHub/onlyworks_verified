@@ -19,27 +19,26 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       {/* Navigation */}
       <nav className="nav">
         <div className="nav-inner">
-          <Link href="/" className="flex items-center">
-            <Image src="/images/onlyworks-logo.png" alt="OnlyWorks" width={120} height={30} className="h-6 w-auto" />
+          <Link href="/">
+            <Image src="/images/logo.png" alt="OnlyWorks" width={32} height={32} className="logo-icon" />
           </Link>
           <div className="hidden md:flex items-center gap-1">
             <Link href="/about" className="nav-link">About</Link>
             <Link href="/pricing" className="nav-link">Pricing</Link>
             <Link href="/careers" className="nav-link">Careers</Link>
-            <Link href="/contact" className="nav-link">Contact</Link>
           </div>
           <Link href="/downloads" className="btn btn-primary">
-            Get started
+            Access
           </Link>
         </div>
       </nav>
 
       {/* Main */}
-      <section className="pt-40 pb-24">
+      <section className="flex-1 pt-40 pb-24">
         <div className="container">
           <div className="grid md:grid-cols-2 gap-16 max-w-4xl">
             <div>
@@ -47,13 +46,19 @@ export default function ContactPage() {
               <p className="mb-8" style={{ color: 'var(--text-secondary)' }}>
                 Questions about OnlyWorks? Want a demo? We'd love to hear from you.
               </p>
-              <div className="space-y-4 text-sm">
-                <p><span style={{ color: 'var(--text-muted)' }}>Email</span><br />admin@only-works.com</p>
-                <p><span style={{ color: 'var(--text-muted)' }}>Support</span><br />support@only-works.com</p>
+              <div className="space-y-6 text-sm">
+                <div>
+                  <p className="mb-1" style={{ color: 'var(--text-muted)' }}>Email</p>
+                  <p>admin@only-works.com</p>
+                </div>
+                <div>
+                  <p className="mb-1" style={{ color: 'var(--text-muted)' }}>Support</p>
+                  <p>support@only-works.com</p>
+                </div>
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <input
                   type="text"
@@ -95,18 +100,11 @@ export default function ContactPage() {
 
       {/* Footer */}
       <footer className="footer">
-        <div className="container">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-            <Image src="/images/onlyworks-logo.png" alt="OnlyWorks" width={100} height={25} className="h-5 w-auto" />
-            <div className="flex flex-wrap gap-6">
-              <Link href="/about" className="footer-link">About</Link>
-              <Link href="/pricing" className="footer-link">Pricing</Link>
-              <Link href="/privacy" className="footer-link">Privacy</Link>
-              <Link href="/terms" className="footer-link">Terms</Link>
-              <Link href="/security" className="footer-link">Security</Link>
-              <Link href="/support" className="footer-link">Support</Link>
-            </div>
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>© 2025 OnlyWorks</p>
+        <div className="container flex justify-between items-center">
+          <span className="text-sm" style={{ color: 'var(--text-muted)' }}>© 2025 OnlyWorks</span>
+          <div className="flex gap-6">
+            <Link href="/privacy" className="footer-link">Privacy</Link>
+            <Link href="/terms" className="footer-link">Terms</Link>
           </div>
         </div>
       </footer>
