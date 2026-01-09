@@ -54,10 +54,16 @@ export default function AboutPage() {
               <h2 className="mb-6">Why we exist</h2>
               <div className="space-y-4">
                 <p>
-                  We saw a gap between what people claim and what they deliver. Remote work created trust issues. AI made it worse. Companies needed a way to verify work authentically.
+                  Most applications fail for reasons you never see. You've done the work, whether it's projects, coding, school assignments, or side hustles, but it often goes unnoticed. Hiring systems rely on résumés, job titles, and keywords instead of what you can actually do.
                 </p>
                 <p>
-                  So we built a platform that captures genuine productivity, detects shortcuts and automation, and generates reports anyone can verify.
+                  OnlyWorks changes that. We turn your real experience into verifiable proof. Projects, decisions, and results that anyone can trust make your skills and achievements visible early. You get recognized for what you've actually done, not just how well you sell yourself.
+                </p>
+                <p>
+                  With an OnlyWorks profile, you can share trusted evidence of your work across jobs, internships, or projects. No fluff, no guessing, just proof that shows you're capable. At the same time, employers get real signals they can trust, making hiring faster and fairer for everyone.
+                </p>
+                <p style={{ fontWeight: 500 }}>
+                  In short: your work finally speaks for itself.
                 </p>
               </div>
             </div>

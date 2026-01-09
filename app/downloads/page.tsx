@@ -159,53 +159,105 @@ export default function DownloadsPage() {
       <Navigation />
 
       {/* Downloads */}
-      <section className="flex-1 flex items-center justify-center pt-20 pb-12">
-        <div className="text-center px-6">
-          <h1 className="mb-4">Downloads</h1>
-          <p className="mb-12" style={{ color: 'var(--text-secondary)' }}>Get the desktop app.</p>
+      <section className="flex-1 pt-32 pb-16">
+        <div className="container">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h1 className="mb-4">Download OnlyWorks</h1>
+            <p className="text-xl" style={{ color: 'var(--text-secondary)' }}>
+              Get started with our desktop app. Available for macOS and Windows.
+            </p>
+          </div>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            <div className="card text-center">
-              <div className="icon-wrap mx-auto mb-4">
-                <Apple className="w-5 h-5" />
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* macOS Card */}
+            <div
+              className="rounded-2xl p-8 md:p-10 text-center transition-all hover:scale-[1.02]"
+              style={{
+                background: 'var(--bg)',
+                border: '1px solid var(--border)',
+                boxShadow: '0 4px 24px rgba(0,0,0,0.06)'
+              }}
+            >
+              <div
+                className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6"
+                style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #333 100%)' }}
+              >
+                <Apple className="w-10 h-10 text-white" />
               </div>
-              <h3 className="mb-1">macOS</h3>
-              <p className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>10.15 or later</p>
+              <h2 className="text-2xl font-semibold mb-2">macOS</h2>
+              <p className="text-sm mb-2" style={{ color: 'var(--text-muted)' }}>
+                Requires macOS 10.15 or later
+              </p>
+              <p className="text-xs mb-8" style={{ color: 'var(--text-muted)' }}>
+                Native support for Apple Silicon & Intel
+              </p>
+
               <button
                 onClick={() => handleDownload('mac', 'arm64')}
                 disabled={downloading?.startsWith('mac-')}
-                className="btn btn-primary w-full mb-3"
+                className="btn btn-primary w-full text-base py-4 mb-4"
               >
-                {downloading?.startsWith('mac-') ? 'Downloading...' : 'Download'}
-                {!downloading?.startsWith('mac-') && <ArrowRight className="w-4 h-4" />}
+                {downloading?.startsWith('mac-') ? 'Downloading...' : 'Download for Mac'}
+                {!downloading?.startsWith('mac-') && <ArrowRight className="w-5 h-5" />}
               </button>
-              <div className="flex justify-center gap-4 text-xs" style={{ color: 'var(--text-muted)' }}>
-                <button onClick={() => handleDownload('mac', 'arm64')} className="hover:underline">Apple Silicon</button>
-                <span>·</span>
-                <button onClick={() => handleDownload('mac', 'intel')} className="hover:underline">Intel</button>
+
+              <div className="flex justify-center gap-6 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                <button
+                  onClick={() => handleDownload('mac', 'arm64')}
+                  className="hover:text-[var(--text)] transition-colors underline underline-offset-2"
+                >
+                  Apple Silicon
+                </button>
+                <button
+                  onClick={() => handleDownload('mac', 'intel')}
+                  className="hover:text-[var(--text)] transition-colors underline underline-offset-2"
+                >
+                  Intel Chip
+                </button>
               </div>
             </div>
 
-            <div className="card text-center">
-              <div className="icon-wrap mx-auto mb-4">
-                <Monitor className="w-5 h-5" />
+            {/* Windows Card */}
+            <div
+              className="rounded-2xl p-8 md:p-10 text-center transition-all hover:scale-[1.02]"
+              style={{
+                background: 'var(--bg)',
+                border: '1px solid var(--border)',
+                boxShadow: '0 4px 24px rgba(0,0,0,0.06)'
+              }}
+            >
+              <div
+                className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6"
+                style={{ background: 'linear-gradient(135deg, #0078D4 0%, #00BCF2 100%)' }}
+              >
+                <Monitor className="w-10 h-10 text-white" />
               </div>
-              <h3 className="mb-1">Windows</h3>
-              <p className="text-sm mb-6" style={{ color: 'var(--text-muted)' }}>10 or later</p>
+              <h2 className="text-2xl font-semibold mb-2">Windows</h2>
+              <p className="text-sm mb-2" style={{ color: 'var(--text-muted)' }}>
+                Requires Windows 10 or later
+              </p>
+              <p className="text-xs mb-8" style={{ color: 'var(--text-muted)' }}>
+                64-bit systems supported
+              </p>
+
               <button
                 onClick={() => handleDownload('windows', 'x64')}
                 disabled={downloading === 'windows-x64'}
-                className="btn btn-primary w-full"
+                className="btn btn-primary w-full text-base py-4 mb-4"
               >
-                {downloading === 'windows-x64' ? 'Downloading...' : 'Download'}
-                {downloading !== 'windows-x64' && <ArrowRight className="w-4 h-4" />}
+                {downloading === 'windows-x64' ? 'Downloading...' : 'Download for Windows'}
+                {downloading !== 'windows-x64' && <ArrowRight className="w-5 h-5" />}
               </button>
+
+              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                <span>Windows 10/11 (64-bit)</span>
+              </div>
             </div>
           </div>
 
-          <div className="mt-8">
-            <Link href="/" className="inline-flex items-center text-sm hover:text-[#8b5cf6]" style={{ color: 'var(--text-secondary)' }}>
-              <ArrowLeft className="w-4 h-4 mr-1" /> Back to home
+          <div className="mt-12 text-center">
+            <Link href="/" className="inline-flex items-center text-sm hover:text-[#8b5cf6] transition-colors" style={{ color: 'var(--text-secondary)' }}>
+              <ArrowLeft className="w-4 h-4 mr-2" /> Back to home
             </Link>
           </div>
         </div>
