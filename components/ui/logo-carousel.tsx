@@ -27,7 +27,7 @@ export function LogoCarousel() {
               <img
                 src={logo.src}
                 alt={`${logo.name} logo`}
-                className="h-8 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                className="h-5 md:h-7 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
               />
             </div>
           ))}
@@ -40,7 +40,7 @@ export function LogoCarousel() {
               <img
                 src={logo.src}
                 alt={`${logo.name} logo`}
-                className="h-8 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                className="h-5 md:h-7 w-auto object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
               />
             </div>
           ))}

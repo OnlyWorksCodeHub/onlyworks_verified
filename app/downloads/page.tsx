@@ -3,8 +3,9 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
-import { ArrowLeft, ArrowRight, Monitor, Apple, Download } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Monitor, Apple } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { Navigation } from '@/components/Navigation'
 
 export default function DownloadsPage() {
   const [accessCode, setAccessCode] = useState('')
@@ -36,11 +37,26 @@ export default function DownloadsPage() {
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
-    // Simulate submission
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    toast.success('Request submitted! We\'ll be in touch soon.')
-    setContactForm({ name: '', email: '', company: '', message: '' })
-    setSubmitting(false)
+
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: contactForm.email }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Failed to join waitlist')
+      }
+
+      toast.success('You\'re on the list! We\'ll notify you when we launch.')
+      setContactForm({ name: '', email: '', company: '', message: '' })
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Something went wrong')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const handleDownload = async (platform: string, arch: string) => {
@@ -74,30 +90,12 @@ export default function DownloadsPage() {
   if (!hasAccess) {
     return (
       <div className="min-h-screen">
-        {/* Navigation */}
-        <nav className="nav">
-          <div className="nav-inner">
-            <Link href="/">
-              <Image src="/images/logo.png" alt="OnlyWorks" width={32} height={32} className="logo-icon" />
-            </Link>
-            <div className="hidden md:flex items-center gap-1">
-              <Link href="/about" className="nav-link">About</Link>
-              <Link href="/pricing" className="nav-link">Pricing</Link>
-              <Link href="/careers" className="nav-link">Careers</Link>
-            </div>
-            <Link href="/downloads" className="btn btn-primary">
-              Download
-            </Link>
-          </div>
-        </nav>
+        <Navigation />
 
         <div className="min-h-screen grid md:grid-cols-2 pt-20">
           {/* Left - Access Code */}
           <div className="flex items-center justify-center p-8 md:p-12" style={{ background: 'var(--bg)' }}>
             <div className="max-w-sm w-full">
-              <div className="icon-wrap mb-6">
-                <Download className="w-5 h-5" />
-              </div>
               <h1 className="text-3xl font-medium mb-2">Enter access code</h1>
               <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>
                 Already have an access code? Enter it below to download.
@@ -125,22 +123,14 @@ export default function DownloadsPage() {
             </div>
           </div>
 
-          {/* Right - Request Access */}
+          {/* Right - Waitlist */}
           <div className="flex items-center justify-center p-8 md:p-12 border-l" style={{ background: 'var(--bg-alt)' }}>
             <div className="max-w-sm w-full">
-              <h2 className="text-3xl font-medium mb-2">Request access</h2>
+              <h2 className="text-3xl font-medium mb-2">Join the waitlist</h2>
               <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>
-                Fill out the form and we'll get back to you within 24 hours.
+                Be the first to know when we launch. Get early access.
               </p>
               <form onSubmit={handleContactSubmit} className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Full name"
-                  value={contactForm.name}
-                  onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                  className="input"
-                  required
-                />
                 <input
                   type="email"
                   placeholder="Email address"
@@ -149,37 +139,14 @@ export default function DownloadsPage() {
                   className="input"
                   required
                 />
-                <input
-                  type="text"
-                  placeholder="Company (optional)"
-                  value={contactForm.company}
-                  onChange={(e) => setContactForm({ ...contactForm, company: e.target.value })}
-                  className="input"
-                />
-                <textarea
-                  placeholder="Tell us about your use case..."
-                  value={contactForm.message}
-                  onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                  className="input"
-                  rows={4}
-                  style={{ height: 'auto', paddingTop: '12px', paddingBottom: '12px' }}
-                />
                 <button type="submit" disabled={submitting} className="btn btn-primary w-full">
-                  {submitting ? 'Submitting...' : 'Request Access'}
+                  {submitting ? 'Joining...' : 'Join Waitlist'}
                   {!submitting && <ArrowRight className="w-4 h-4" />}
                 </button>
               </form>
-              <div className="mt-8 pt-6 border-t">
-                <p className="text-sm mb-3" style={{ color: 'var(--text-muted)' }}>Or reach out directly:</p>
-                <div className="space-y-1">
-                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    <a href="mailto:access@only-works.com" className="hover:text-[#8b5cf6]">access@only-works.com</a>
-                  </p>
-                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    <a href="mailto:sales@only-works.com" className="hover:text-[#8b5cf6]">sales@only-works.com</a>
-                  </p>
-                </div>
-              </div>
+              <p className="mt-6 text-xs text-center" style={{ color: 'var(--text-muted)' }}>
+                No spam, ever. Unsubscribe anytime.
+              </p>
             </div>
           </div>
         </div>
@@ -189,23 +156,7 @@ export default function DownloadsPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Navigation */}
-      <nav className="nav">
-        <div className="nav-inner">
-          <Link href="/" className="flex items-center gap-2">
-            <Image src="/images/logo.png" alt="OnlyWorks" width={32} height={32} className="logo-icon" />
-            <span className="font-medium text-sm tracking-tight hover:text-[#8b5cf6] transition-colors">OnlyWorks</span>
-          </Link>
-          <div className="hidden md:flex items-center gap-1">
-            <Link href="/about" className="nav-link">About</Link>
-            <Link href="/pricing" className="nav-link">Pricing</Link>
-            <Link href="/careers" className="nav-link">Careers</Link>
-          </div>
-          <Link href="/downloads" className="btn btn-primary">
-            Access
-          </Link>
-        </div>
-      </nav>
+      <Navigation />
 
       {/* Downloads */}
       <section className="flex-1 flex items-center justify-center pt-20 pb-12">

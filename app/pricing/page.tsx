@@ -3,26 +3,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Check } from 'lucide-react'
+import { Navigation } from '@/components/Navigation'
 
 export default function PricingPage() {
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Navigation */}
-      <nav className="nav">
-        <div className="nav-inner">
-          <Link href="/">
-            <Image src="/images/logo.png" alt="OnlyWorks" width={32} height={32} className="logo-icon" />
-          </Link>
-          <div className="hidden md:flex items-center gap-1">
-            <Link href="/about" className="nav-link">About</Link>
-            <Link href="/pricing" className="nav-link">Pricing</Link>
-            <Link href="/careers" className="nav-link">Careers</Link>
-          </div>
-          <Link href="/downloads" className="btn btn-primary">
-            Access
-          </Link>
-        </div>
-      </nav>
+      <Navigation />
 
       {/* Hero */}
       <section className="pt-40 pb-16">

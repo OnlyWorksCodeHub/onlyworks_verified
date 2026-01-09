@@ -1,9 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
+import { Navigation } from '@/components/Navigation'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
@@ -12,30 +12,31 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    await new Promise(resolve => setTimeout(resolve, 500))
-    toast.success('Message sent!')
-    setFormData({ name: '', email: '', message: '' })
-    setIsLoading(false)
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Failed to send message')
+      }
+
+      toast.success('Message sent! We\'ll get back to you soon.')
+      setFormData({ name: '', email: '', message: '' })
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Something went wrong')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Navigation */}
-      <nav className="nav">
-        <div className="nav-inner">
-          <Link href="/">
-            <Image src="/images/logo.png" alt="OnlyWorks" width={32} height={32} className="logo-icon" />
-          </Link>
-          <div className="hidden md:flex items-center gap-1">
-            <Link href="/about" className="nav-link">About</Link>
-            <Link href="/pricing" className="nav-link">Pricing</Link>
-            <Link href="/careers" className="nav-link">Careers</Link>
-          </div>
-          <Link href="/downloads" className="btn btn-primary">
-            Access
-          </Link>
-        </div>
-      </nav>
+      <Navigation />
 
       {/* Main */}
       <section className="flex-1 pt-40 pb-24">

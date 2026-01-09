@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+const BACKEND_URL = 'https://onlyworks-backend-server.onrender.com'
+
 interface TurnstileResponse {
   success: boolean
   'error-codes'?: string[]
@@ -8,30 +10,35 @@ interface TurnstileResponse {
 }
 
 async function verifyTurnstileToken(token: string): Promise<boolean> {
-  const secretKey = process.env.TURNSTILE_SECRET_KEY
-
-  if (!secretKey) {
-    console.error('TURNSTILE_SECRET_KEY is not configured')
-    return false
+  // Skip verification in development or if no token
+  if (!token) {
+    return process.env.NODE_ENV === 'development'
   }
 
   try {
-    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    // Send to backend for verification
+    const response = await fetch(`${BACKEND_URL}/api/verify-turnstile`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
-      body: new URLSearchParams({
-        secret: secretKey,
-        response: token,
-      }),
+      body: JSON.stringify({ token }),
     })
 
-    const data: TurnstileResponse = await response.json()
+    if (!response.ok) {
+      // If backend doesn't have this endpoint, allow in dev
+      if (process.env.NODE_ENV === 'development') {
+        return true
+      }
+      return false
+    }
+
+    const data = await response.json()
     return data.success
   } catch (error) {
     console.error('Turnstile verification error:', error)
-    return false
+    // Allow in development if verification fails
+    return process.env.NODE_ENV === 'development'
   }
 }
 
@@ -44,19 +51,13 @@ export async function POST(request: NextRequest) {
     const jobTitle = formData.get('jobTitle') as string
     const name = formData.get('name') as string
     const email = formData.get('email') as string
+    const phone = formData.get('phone') as string
     const linkedin = formData.get('linkedin') as string
     const portfolio = formData.get('portfolio') as string
-    const message = formData.get('message') as string
+    const coverLetter = formData.get('coverLetter') as string
     const resume = formData.get('resume') as File | null
 
     // Validate required fields
-    if (!turnstileToken) {
-      return NextResponse.json(
-        { error: 'Verification required' },
-        { status: 400 }
-      )
-    }
-
     if (!name || !email || !jobId) {
       return NextResponse.json(
         { error: 'Missing required fields' },
@@ -74,36 +75,89 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Process the application
-    // In a real application, you would:
-    // 1. Store the application in a database
-    // 2. Upload the resume to cloud storage
-    // 3. Send notification emails
+    // Prepare data for backend
+    const backendFormData = new FormData()
+    backendFormData.append('job_id', jobId)
+    backendFormData.append('job_title', jobTitle)
+    backendFormData.append('name', name)
+    backendFormData.append('email', email)
+    if (phone) backendFormData.append('phone', phone)
+    if (linkedin) backendFormData.append('linkedin', linkedin)
+    if (portfolio) backendFormData.append('portfolio', portfolio)
+    if (coverLetter) backendFormData.append('cover_letter', coverLetter)
+    if (resume && resume.size > 0) {
+      backendFormData.append('resume', resume)
+    }
 
-    console.log('Job application received:', {
+    // Send to backend server
+    const response = await fetch(`${BACKEND_URL}/api/job-applications`, {
+      method: 'POST',
+      body: backendFormData,
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      console.error('Backend error:', errorData)
+      return NextResponse.json(
+        { error: errorData.error || 'Failed to submit application' },
+        { status: response.status }
+      )
+    }
+
+    const data = await response.json()
+
+    console.log('Job application submitted to backend:', {
       jobId,
       jobTitle,
       name,
       email,
-      linkedin,
-      portfolio,
-      message,
-      hasResume: !!resume,
-      resumeName: resume?.name,
-      resumeSize: resume?.size,
+      hasResume: !!(resume && resume.size > 0)
     })
-
-    // Example: Send notification email (if you have email service configured)
-    // await sendApplicationNotification({ jobTitle, name, email, ... })
 
     return NextResponse.json({
       success: true,
       message: 'Application submitted successfully',
+      data
     })
   } catch (error) {
     console.error('Job application error:', error)
     return NextResponse.json(
       { error: 'Failed to submit application' },
+      { status: 500 }
+    )
+  }
+}
+
+// GET endpoint to retrieve applications (proxies to backend)
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const jobId = searchParams.get('jobId')
+
+    const url = jobId
+      ? `${BACKEND_URL}/api/job-applications?jobId=${jobId}`
+      : `${BACKEND_URL}/api/job-applications`
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: 'Failed to fetch applications' },
+        { status: response.status }
+      )
+    }
+
+    const data = await response.json()
+    return NextResponse.json(data)
+  } catch (error) {
+    console.error('Error fetching applications:', error)
+    return NextResponse.json(
+      { error: 'Failed to fetch applications' },
       { status: 500 }
     )
   }
