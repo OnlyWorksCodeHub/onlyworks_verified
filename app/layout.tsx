@@ -6,8 +6,8 @@ import ClientLayout from '@/components/ClientLayout'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.only-works.com'),
-  title: 'OnlyWorks | AI Platform to Make your Work Undeniable',
-  description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
+  title: 'OnlyWorks | AI-Powered Work Verification Platform',
+  description: 'Prove your work is authentic with OnlyWorks. Our AI detects automation, generates tamper-proof reports, and verifies productivity. Trusted by professionals worldwide.',
   keywords: [
     'AI platform',
     'work verification',
@@ -54,8 +54,8 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://www.only-works.com',
     siteName: 'OnlyWorks',
-    title: 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable',
-    description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
+    title: 'OnlyWorks | AI-Powered Work Verification Platform',
+    description: 'Prove your work is authentic with OnlyWorks. Our AI detects automation, generates tamper-proof reports, and verifies productivity. Trusted by professionals worldwide.',
     images: [
       {
         url: '/images/og-image.png',
@@ -69,8 +69,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@OnlyWorksAI',
     creator: '@OnlyWorksAI',
-    title: 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable',
-    description: 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
+    title: 'OnlyWorks | AI-Powered Work Verification Platform',
+    description: 'Prove your work is authentic with OnlyWorks. Our AI detects automation, generates tamper-proof reports, and verifies productivity. Trusted by professionals worldwide.',
     images: ['/images/twitter-image.png'],
   },
   alternates: {
@@ -87,13 +87,13 @@ export const metadata: Metadata = {
     'dns-prefetch': 'https://fonts.googleapis.com',
     'preconnect': 'https://fonts.gstatic.com',
     // LinkedIn meta tags
-    'linkedin:title': 'OnlyWorks | AI Platform built for professionals and specialists. Making your work undeniable',
-    'linkedin:description': 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
+    'linkedin:title': 'OnlyWorks | AI-Powered Work Verification Platform',
+    'linkedin:description': 'Prove your work is authentic with OnlyWorks. Our AI detects automation, generates tamper-proof reports, and verifies productivity. Trusted by professionals worldwide.',
     'linkedin:image': '/images/linkedin-image.png',
     'linkedin:url': 'https://www.only-works.com',
     // YouTube meta tags
-    'youtube:title': 'AI Platform built for professionals and specialists. Making your work undeniable | OnlyWorks',
-    'youtube:description': 'Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.',
+    'youtube:title': 'OnlyWorks | AI-Powered Work Verification Platform',
+    'youtube:description': 'Prove your work is authentic with OnlyWorks. Our AI detects automation, generates tamper-proof reports, and verifies productivity. Trusted by professionals worldwide.',
     'youtube:image': '/images/youtube-image.png',
     'youtube:url': 'https://www.only-works.com',
   },
@@ -150,7 +150,7 @@ export default function RootLayout({
                 "height": 500,
                 "caption": "OnlyWorks Logo"
               },
-              "description": "Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.",
+              "description": "Prove your work is authentic with OnlyWorks. Our AI detects automation, generates tamper-proof reports, and verifies productivity. Trusted by professionals worldwide.",
               "email": "contact@only-works.com",
               "sameAs": [
                 "https://twitter.com/OnlyWorksAI",
@@ -175,7 +175,7 @@ export default function RootLayout({
               "@type": "SoftwareApplication",
               "name": "OnlyWorks",
               "alternateName": "OnlyWorks AI Platform",
-              "description": "Making your work undeniable. Detect automation, generate verified reports, and prove your productivity. Trusted by professionals worldwide.",
+              "description": "Prove your work is authentic with OnlyWorks. Our AI detects automation, generates tamper-proof reports, and verifies productivity. Trusted by professionals worldwide.",
               "url": "https://www.only-works.com",
               "applicationCategory": "BusinessApplication",
               "operatingSystem": "Cross-platform",
@@ -183,8 +183,9 @@ export default function RootLayout({
               "image": "https://www.only-works.com/images/og-image.png",
               "offers": {
                 "@type": "Offer",
-                "price": "100000000000000000000",
-                "priceCurrency": "USD"
+                "price": "0",
+                "priceCurrency": "USD",
+                "description": "Free to get started"
               },
               "creator": {
                 "@type": "Organization",

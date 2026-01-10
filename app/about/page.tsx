@@ -33,10 +33,9 @@ export default function AboutPage() {
                 <div className="demo-dot" />
               </div>
               <div className="relative aspect-[21/9]" style={{ background: 'var(--bg-alt)' }}>
-                {/* Replace with team/office/product image */}
                 <Image
-                  src="/images/og-image.png"
-                  alt="OnlyWorks Team"
+                  src="/images/aboutus.png"
+                  alt="About OnlyWorks"
                   fill
                   className="object-cover"
                 />
@@ -123,7 +122,7 @@ export default function AboutPage() {
       <section className="section" style={{ background: 'var(--bg-alt)' }}>
         <div className="container">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="mb-4">Built by engineers who care</h2>
+            <h2 className="mb-4">Built by people who care</h2>
             <p style={{ color: 'var(--text-secondary)' }}>
               We're a small team passionate about building tools that create trust and transparency in the modern workplace.
             </p>
@@ -138,10 +137,12 @@ export default function AboutPage() {
                 <div className="demo-dot" />
               </div>
               <div className="relative aspect-[16/9]" style={{ background: 'var(--bg)' }}>
-                {/* Replace with team photo */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <p style={{ color: 'var(--text-muted)' }}>Team photo placeholder</p>
-                </div>
+                <Image
+                  src="/images/Engineers.png"
+                  alt="OnlyWorks Engineering Team"
+                  fill
+                  className="object-cover"
+                />
               </div>
             </div>
           </div>
