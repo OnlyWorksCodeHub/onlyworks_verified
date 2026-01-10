@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     'color-scheme': 'light dark',
     'rating': 'general',
     'revisit-after': '7 days',
-    'google-site-verification': 'pending', // Add your verification code from Google Search Console
+    'google-site-verification': 'nswKY7kAbZl8O4tAwnMpAc0Wwfb7CnmMeZX7lVJtliE',
     // Performance hints
     'dns-prefetch': 'https://fonts.googleapis.com',
     'preconnect': 'https://fonts.gstatic.com',
