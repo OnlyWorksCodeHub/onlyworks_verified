@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getLatestVersion, isUpdateAvailable } from '@/lib/app-versions'
+
+const BACKEND_URL = 'https://onlyworks-backend-server.onrender.com'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,42 +18,32 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const latestVersion = getLatestVersion()
-    const updateAvailable = isUpdateAvailable(currentVersion, latestVersion.version)
+    // Build query string
+    const params = new URLSearchParams()
+    params.set('version', currentVersion)
+    if (platform) params.set('platform', platform)
+    if (arch) params.set('arch', arch)
 
-    if (!updateAvailable) {
-      return NextResponse.json({
-        updateAvailable: false,
-        currentVersion,
-        latestVersion: latestVersion.version,
-        message: 'You are running the latest version',
-      })
-    }
+    const url = `${BACKEND_URL}/api/desktop/check-update?${params.toString()}`
 
-    // Get download URL for the platform
-    let downloadUrl: string | null = null
-
-    if (platform && arch) {
-      if (platform === 'mac') {
-        if (arch === 'arm64') {
-          downloadUrl = latestVersion.platforms.mac.arm64.url
-        } else if (arch === 'intel') {
-          downloadUrl = latestVersion.platforms.mac.intel.url
-        }
-      } else if (platform === 'windows' && arch === 'x64') {
-        downloadUrl = latestVersion.platforms.windows.x64.url
-      }
-    }
-
-    return NextResponse.json({
-      updateAvailable: true,
-      currentVersion,
-      latestVersion: latestVersion.version,
-      releaseDate: latestVersion.releaseDate,
-      releaseNotes: latestVersion.releaseNotes,
-      downloadUrl,
-      message: `Update available: ${latestVersion.version}`,
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     })
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      console.error('Backend error:', errorData)
+      return NextResponse.json(
+        { error: 'Failed to check for updates' },
+        { status: response.status }
+      )
+    }
+
+    const data = await response.json()
+    return NextResponse.json(data)
   } catch (error) {
     console.error('Update check error:', error)
     return NextResponse.json(

@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
 
-// Legacy hardcoded codes for backward compatibility
-const LEGACY_CODES = ['ONLYWORKS', 'OW2025']
+const BACKEND_URL = 'https://onlyworks-backend-server.onrender.com'
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,50 +10,37 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ valid: false, error: 'Code required' }, { status: 400 })
     }
 
-    const normalizedCode = code.trim().toUpperCase()
+    // Send to backend server
+    const response = await fetch(`${BACKEND_URL}/api/access-codes/validate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ code: code.trim() }),
+    })
 
-    // Check legacy codes first
-    if (LEGACY_CODES.includes(normalizedCode)) {
-      return NextResponse.json({
-        valid: true,
-        type: 'legacy',
-        message: 'Access granted'
-      })
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      console.error('Backend error:', errorData)
+      // Extract error message - handle both string and object formats
+      let errorMessage = 'Invalid access code'
+      if (typeof errorData.error === 'string') {
+        errorMessage = errorData.error
+      } else if (typeof errorData.message === 'string') {
+        errorMessage = errorData.message
+      }
+      return NextResponse.json(
+        { valid: false, error: errorMessage },
+        { status: response.status }
+      )
     }
 
-    // Check database for access codes
-    const supabase = createClient()
-
-    const { data: accessCode, error } = await supabase
-      .from('access_codes')
-      .select('id, code, is_active, expires_at')
-      .eq('code', normalizedCode)
-      .single()
-
-    if (error || !accessCode) {
-      return NextResponse.json({ valid: false, error: 'Invalid access code' }, { status: 401 })
-    }
-
-    // Check if code is active
-    if (!accessCode.is_active) {
-      return NextResponse.json({
-        valid: false,
-        error: 'This access code has been deactivated'
-      }, { status: 401 })
-    }
-
-    // Check expiration
-    if (accessCode.expires_at && new Date(accessCode.expires_at) < new Date()) {
-      return NextResponse.json({
-        valid: false,
-        error: 'This access code has expired'
-      }, { status: 401 })
-    }
+    const data = await response.json()
 
     return NextResponse.json({
-      valid: true,
-      type: 'subscription',
-      message: 'Access granted'
+      valid: data.valid ?? true,
+      type: data.type || 'subscription',
+      message: data.message || 'Access granted'
     })
 
   } catch (error) {

@@ -1,41 +1,41 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getLatestVersion, isUpdateAvailable } from '@/lib/app-versions'
+
+const BACKEND_URL = 'https://onlyworks-backend-server.onrender.com'
 
 export const dynamic = 'force-dynamic'
 
 // GET /api/desktop/version - Get latest version info
 export async function GET(request: NextRequest) {
   try {
-    const latestVersion = getLatestVersion()
-
-    // Check if client is checking for updates
     const currentVersion = request.nextUrl.searchParams.get('current')
     const platform = request.nextUrl.searchParams.get('platform')
 
-    if (currentVersion) {
-      const updateAvailable = isUpdateAvailable(currentVersion, latestVersion.version)
+    // Build query string
+    const params = new URLSearchParams()
+    if (currentVersion) params.set('current', currentVersion)
+    if (platform) params.set('platform', platform)
 
-      return NextResponse.json({
-        current: currentVersion,
-        latest: latestVersion.version,
-        updateAvailable,
-        ...(updateAvailable && {
-          download: platform
-            ? latestVersion.platforms[platform as keyof typeof latestVersion.platforms]
-            : null,
-          releaseNotes: latestVersion.releaseNotes,
-        }),
-      })
+    const queryString = params.toString()
+    const url = `${BACKEND_URL}/api/desktop/version${queryString ? `?${queryString}` : ''}`
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      console.error('Backend error:', errorData)
+      return NextResponse.json(
+        { error: 'Failed to fetch version information' },
+        { status: response.status }
+      )
     }
 
-    // Return full version info
-    return NextResponse.json({
-      version: latestVersion.version,
-      releaseDate: latestVersion.releaseDate,
-      platforms: latestVersion.platforms,
-      releaseNotes: latestVersion.releaseNotes,
-      minOS: latestVersion.minOS,
-    })
+    const data = await response.json()
+    return NextResponse.json(data)
   } catch (error) {
     console.error('Version API error:', error)
     return NextResponse.json(

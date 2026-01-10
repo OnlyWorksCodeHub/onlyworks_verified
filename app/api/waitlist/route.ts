@@ -26,8 +26,15 @@ export async function POST(request: NextRequest) {
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}))
       console.error('Backend error:', errorData)
+      // Extract error message - handle both string and object formats
+      let errorMessage = 'Failed to join waitlist'
+      if (typeof errorData.error === 'string') {
+        errorMessage = errorData.error
+      } else if (typeof errorData.message === 'string') {
+        errorMessage = errorData.message
+      }
       return NextResponse.json(
-        { error: errorData.error || 'Failed to join waitlist' },
+        { error: errorMessage },
         { status: response.status }
       )
     }

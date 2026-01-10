@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/client'
+
+const BACKEND_URL = 'https://onlyworks-backend-server.onrender.com'
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,35 +21,37 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = createClient()
+    // Send to backend server
+    const response = await fetch(`${BACKEND_URL}/api/newsletter`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: email.toLowerCase().trim() }),
+    })
 
-    const { data, error } = await supabase
-      .from('newsletter_signups')
-      .insert([
-        {
-          email: email.toLowerCase().trim(),
-          status: 'active'
-        }
-      ])
-      .select()
-
-    if (error) {
-      if (error.code === '23505') {
-        return NextResponse.json(
-          { error: 'This email is already subscribed to our newsletter' },
-          { status: 409 }
-        )
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      console.error('Backend error:', errorData)
+      // Extract error message - handle both string and object formats
+      let errorMessage = 'Failed to subscribe. Please try again.'
+      if (typeof errorData.error === 'string') {
+        errorMessage = errorData.error
+      } else if (typeof errorData.message === 'string') {
+        errorMessage = errorData.message
       }
-
-      console.error('Supabase error:', error)
       return NextResponse.json(
-        { error: 'Failed to subscribe. Please try again.' },
-        { status: 500 }
+        { error: errorMessage },
+        { status: response.status }
       )
     }
 
+    const data = await response.json()
+
+    console.log('Newsletter signup:', { email })
+
     return NextResponse.json(
-      { message: 'Thanks for joining! We\'ll keep you updated.' },
+      { message: data.message || 'Thanks for joining! We\'ll keep you updated.' },
       { status: 201 }
     )
 

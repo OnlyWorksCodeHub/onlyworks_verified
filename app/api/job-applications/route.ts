@@ -98,8 +98,15 @@ export async function POST(request: NextRequest) {
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}))
       console.error('Backend error:', errorData)
+      // Extract error message - handle both string and object formats
+      let errorMessage = 'Failed to submit application'
+      if (typeof errorData.error === 'string') {
+        errorMessage = errorData.error
+      } else if (typeof errorData.message === 'string') {
+        errorMessage = errorData.message
+      }
       return NextResponse.json(
-        { error: errorData.error || 'Failed to submit application' },
+        { error: errorMessage },
         { status: response.status }
       )
     }
