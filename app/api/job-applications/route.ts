@@ -16,28 +16,27 @@ async function verifyTurnstileToken(token: string): Promise<boolean> {
   }
 
   try {
-    // Send to backend for verification
-    const response = await fetch(`${BACKEND_URL}/api/verify-turnstile`, {
+    // Verify directly with Cloudflare
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: JSON.stringify({ token }),
+      body: new URLSearchParams({
+        secret: process.env.TURNSTILE_SECRET_KEY || '',
+        response: token,
+      }),
     })
 
     if (!response.ok) {
-      // If backend doesn't have this endpoint, allow in dev
-      if (process.env.NODE_ENV === 'development') {
-        return true
-      }
+      console.error('Turnstile API error:', response.status)
       return false
     }
 
-    const data = await response.json()
+    const data: TurnstileResponse = await response.json()
     return data.success
   } catch (error) {
     console.error('Turnstile verification error:', error)
-    // Allow in development if verification fails
     return process.env.NODE_ENV === 'development'
   }
 }
