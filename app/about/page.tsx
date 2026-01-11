@@ -34,7 +34,7 @@ export default function AboutPage() {
               </div>
               <div className="relative aspect-[21/9]" style={{ background: 'var(--bg-alt)' }}>
                 <Image
-                  src="/images/aboutus.png"
+                  src="/images/AboutUs.png"
                   alt="About OnlyWorks"
                   fill
                   className="object-cover"

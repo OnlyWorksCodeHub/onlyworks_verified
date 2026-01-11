@@ -95,22 +95,33 @@ export async function POST(request: NextRequest) {
     })
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}))
-      console.error('Backend error:', errorData)
-      // Extract error message - handle both string and object formats
+      // Handle both JSON and text error responses
+      const contentType = response.headers.get('content-type') || ''
       let errorMessage = 'Failed to submit application'
-      if (typeof errorData.error === 'string') {
-        errorMessage = errorData.error
-      } else if (typeof errorData.message === 'string') {
-        errorMessage = errorData.message
+
+      if (contentType.includes('application/json')) {
+        const errorData = await response.json().catch(() => ({}))
+        console.error('Backend error:', errorData)
+        if (typeof errorData.error === 'string') {
+          errorMessage = errorData.error
+        } else if (typeof errorData.message === 'string') {
+          errorMessage = errorData.message
+        }
+      } else {
+        const textError = await response.text().catch(() => '')
+        console.error('Backend error (text):', textError)
+        if (textError && textError.length < 100) {
+          errorMessage = textError
+        }
       }
+
       return NextResponse.json(
         { error: errorMessage },
         { status: response.status }
       )
     }
 
-    const data = await response.json()
+    const data = await response.json().catch(() => ({ success: true }))
 
     console.log('Job application submitted to backend:', {
       jobId,

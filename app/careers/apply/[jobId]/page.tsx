@@ -399,8 +399,18 @@ export default function ApplyPage() {
       })
 
       if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || 'Failed to submit application')
+        let errorMessage = 'Failed to submit application'
+        try {
+          const data = await res.json()
+          errorMessage = data.error || errorMessage
+        } catch {
+          // Response was not JSON (e.g., "Forbidden")
+          const text = await res.text().catch(() => '')
+          if (text && text.length < 100) {
+            errorMessage = text
+          }
+        }
+        throw new Error(errorMessage)
       }
 
       setIsSubmitted(true)
