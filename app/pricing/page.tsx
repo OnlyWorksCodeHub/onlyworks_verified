@@ -59,14 +59,42 @@ export default function PricingPage() {
       <Toaster position="top-center" />
       <Navigation />
 
-      {/* Hero */}
-      <section className="pt-40 pb-16">
+      {/* Hero with Free Trial CTA */}
+      <section className="pt-40 pb-12">
         <div className="container">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="mb-6">Simple pricing</h1>
-            <p className="text-xl" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-xl mb-10" style={{ color: 'var(--text-secondary)' }}>
               Start free. Upgrade when you need more.
             </p>
+
+            {/* Prominent Free Trial CTA */}
+            <div
+              className="inline-flex flex-col items-center p-8 rounded-2xl mb-8"
+              style={{
+                background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                boxShadow: '0 20px 40px rgba(139, 92, 246, 0.3)'
+              }}
+            >
+              <p className="text-white/90 text-sm font-medium mb-2">14 DAYS FREE</p>
+              <h2 className="text-white text-2xl md:text-3xl font-semibold mb-3">
+                Start your free trial today
+              </h2>
+              <p className="text-white/80 mb-6 max-w-md">
+                Full access to all Pro features. No charge until trial ends.
+              </p>
+              <button
+                onClick={() => setShowModal(true)}
+                className="px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105"
+                style={{
+                  background: 'white',
+                  color: '#7c3aed',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.1)'
+                }}
+              >
+                Start Free Trial
+              </button>
+            </div>
           </div>
         </div>
       </section>

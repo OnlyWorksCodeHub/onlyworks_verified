@@ -7,79 +7,53 @@ import toast, { Toaster } from 'react-hot-toast'
 import { Navigation } from '@/components/Navigation'
 
 export default function DownloadsPage() {
-  const [accessCode, setAccessCode] = useState('')
+  const [email, setEmail] = useState('')
   const [hasAccess, setHasAccess] = useState(false)
   const [error, setError] = useState('')
   const [downloading, setDownloading] = useState<string | null>(null)
   const [validating, setValidating] = useState(false)
-
-  // Contact form state
-  const [contactForm, setContactForm] = useState({
-    name: '',
-    email: '',
-    company: '',
-    message: ''
-  })
-  const [submitting, setSubmitting] = useState(false)
+  const [subscriptionInfo, setSubscriptionInfo] = useState<{
+    status?: string
+    trialDaysRemaining?: number | null
+  } | null>(null)
 
   // Handle success redirect from Stripe
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     if (params.get('success') === 'true') {
-      toast.success('Payment successful! Check your email for your access code.', { duration: 6000 })
+      toast.success('Payment successful! Enter your email to access downloads.', { duration: 6000 })
       window.history.replaceState({}, '', '/downloads')
     }
   }, [])
 
-  const handleAccessSubmit = async (e: React.FormEvent) => {
+  const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     setValidating(true)
 
     try {
-      const res = await fetch('/api/access-codes/validate', {
+      const res = await fetch('/api/subscriptions/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: accessCode.trim() })
+        body: JSON.stringify({ email: email.trim() })
       })
 
       const data = await res.json()
 
       if (data.valid) {
         setHasAccess(true)
-        toast.success('Access granted!')
+        setSubscriptionInfo({
+          status: data.status,
+          trialDaysRemaining: data.trialDaysRemaining
+        })
+        toast.success(data.message || 'Access granted!')
       } else {
-        setError(data.error || 'Invalid access code.')
+        setError(data.error || 'No active subscription found.')
       }
     } catch {
-      setError('Failed to validate code. Please try again.')
+      setError('Failed to verify. Please try again.')
     } finally {
       setValidating(false)
-    }
-  }
-
-  const handleContactSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setSubmitting(true)
-
-    try {
-      const res = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: contactForm.email }),
-      })
-
-      if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || 'Failed to join waitlist')
-      }
-
-      toast.success('You\'re on the list! We\'ll notify you when we launch.')
-      setContactForm({ name: '', email: '', company: '', message: '' })
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Something went wrong')
-    } finally {
-      setSubmitting(false)
     }
   }
 
@@ -118,20 +92,20 @@ export default function DownloadsPage() {
         <Navigation />
 
         <div className="min-h-screen grid md:grid-cols-2 pt-20">
-          {/* Left - Access Code */}
+          {/* Left - Email Verification */}
           <div className="flex items-center justify-center p-8 md:p-12" style={{ background: 'var(--bg)' }}>
             <div className="max-w-sm w-full">
-              <h1 className="text-3xl font-medium mb-2">Enter access code</h1>
+              <h1 className="text-3xl font-medium mb-2">Verify your email</h1>
               <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>
-                Already have an access code? Enter it below to download.
+                Enter the email you used to start your free trial.
               </p>
-              <form onSubmit={handleAccessSubmit} className="space-y-4">
+              <form onSubmit={handleEmailSubmit} className="space-y-4">
                 <input
-                  type="text"
-                  placeholder="Access code"
-                  value={accessCode}
-                  onChange={(e) => setAccessCode(e.target.value)}
-                  className="input font-mono"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="input"
                   required
                 />
                 {error && <p className="text-sm" style={{ color: '#ef4444' }}>{error}</p>}
@@ -139,7 +113,7 @@ export default function DownloadsPage() {
                   {validating ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      Validating...
+                      Verifying...
                     </>
                   ) : (
                     <>
@@ -157,29 +131,19 @@ export default function DownloadsPage() {
             </div>
           </div>
 
-          {/* Right - Waitlist */}
+          {/* Right - Start Trial */}
           <div className="flex items-center justify-center p-8 md:p-12 border-l" style={{ background: 'var(--bg-alt)' }}>
-            <div className="max-w-sm w-full">
-              <h2 className="text-3xl font-medium mb-2">Join the waitlist</h2>
+            <div className="max-w-sm w-full text-center">
+              <h2 className="text-3xl font-medium mb-2">New here?</h2>
               <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>
-                Be the first to know when we launch. Get early access.
+                Start your 14-day free trial to get access to downloads.
               </p>
-              <form onSubmit={handleContactSubmit} className="space-y-4">
-                <input
-                  type="email"
-                  placeholder="Email address"
-                  value={contactForm.email}
-                  onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                  className="input"
-                  required
-                />
-                <button type="submit" disabled={submitting} className="btn btn-primary w-full">
-                  {submitting ? 'Joining...' : 'Join Waitlist'}
-                  {!submitting && <ArrowRight className="w-4 h-4" />}
-                </button>
-              </form>
-              <p className="mt-6 text-xs text-center" style={{ color: 'var(--text-muted)' }}>
-                No spam, ever. Unsubscribe anytime.
+              <Link href="/pricing" className="btn btn-primary w-full inline-flex items-center justify-center">
+                Start Free Trial
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <p className="mt-6 text-xs" style={{ color: 'var(--text-muted)' }}>
+                Full access to all Pro features. No charge until trial ends.
               </p>
             </div>
           </div>
