@@ -323,32 +323,48 @@ export default function ApplyPage() {
   const widgetIdRef = useRef<string | null>(null)
 
   useEffect(() => {
-    if (!document.getElementById('turnstile-script')) {
+    const renderTurnstile = () => {
+      if (turnstileRef.current && window.turnstile && !widgetIdRef.current) {
+        widgetIdRef.current = window.turnstile.render(turnstileRef.current, {
+          sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '',
+          callback: (token: string) => setTurnstileToken(token),
+          'expired-callback': () => setTurnstileToken(null),
+          'error-callback': () => {
+            setTurnstileToken(null)
+            toast.error('Verification failed. Please try again.')
+          },
+          theme: 'light'
+        })
+      }
+    }
+
+    // Check if script already exists and is loaded
+    const existingScript = document.getElementById('turnstile-script')
+    if (existingScript && window.turnstile) {
+      renderTurnstile()
+      return
+    }
+
+    // Load the script if it doesn't exist
+    if (!existingScript) {
       const script = document.createElement('script')
       script.id = 'turnstile-script'
       script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js'
       script.async = true
+      script.onload = () => {
+        // Wait a tick for turnstile to initialize
+        setTimeout(renderTurnstile, 0)
+      }
       document.head.appendChild(script)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (turnstileRef.current && window.turnstile && !widgetIdRef.current) {
-      const timer = setTimeout(() => {
-        if (turnstileRef.current && !widgetIdRef.current) {
-          widgetIdRef.current = window.turnstile.render(turnstileRef.current, {
-            sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '',
-            callback: (token: string) => setTurnstileToken(token),
-            'expired-callback': () => setTurnstileToken(null),
-            'error-callback': () => {
-              setTurnstileToken(null)
-              toast.error('Verification failed. Please try again.')
-            },
-            theme: 'light'
-          })
+    } else {
+      // Script exists but not loaded yet, poll for it
+      const interval = setInterval(() => {
+        if (window.turnstile) {
+          clearInterval(interval)
+          renderTurnstile()
         }
       }, 100)
-      return () => clearTimeout(timer)
+      return () => clearInterval(interval)
     }
   }, [])
 
