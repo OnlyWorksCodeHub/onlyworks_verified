@@ -108,3 +108,85 @@ export async function sendAccessCodeEmail(
     throw error
   }
 }
+
+/**
+ * Send trial ending notification email
+ */
+export async function sendTrialEndingEmail(
+  email: string,
+  daysRemaining: number
+): Promise<void> {
+  const subject = `Your OnlyWorks trial ends in ${daysRemaining} days`
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f4f4f5;">
+  <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+    <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+      <div style="background: #8b5cf6; padding: 32px; text-align: center;">
+        <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 600;">OnlyWorks</h1>
+      </div>
+
+      <div style="padding: 32px;">
+        <h2 style="margin: 0 0 16px 0; font-size: 24px; color: #0a0a0a;">Your trial is ending soon</h2>
+
+        <p style="margin: 0 0 16px 0;">
+          Your OnlyWorks Pro trial will end in <strong>${daysRemaining} days</strong>.
+        </p>
+
+        <p style="margin: 0 0 16px 0;">
+          To continue using OnlyWorks Pro features without interruption, no action is needed -
+          your subscription will automatically continue at $19/month.
+        </p>
+
+        <p style="margin: 0 0 16px 0;">
+          If you'd like to cancel before your trial ends, you can manage your subscription at any time.
+        </p>
+
+        <div style="background: #fef3c7; border-radius: 8px; padding: 16px; margin: 24px 0; border-left: 4px solid #f59e0b;">
+          <p style="margin: 0; font-size: 14px; color: #92400e;">
+            <strong>What happens next:</strong><br>
+            After your trial, you'll be charged $19/month. Your access code will continue to work - no need to re-enter it.
+          </p>
+        </div>
+
+        <div style="text-align: center; margin: 24px 0;">
+          <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://www.only-works.com'}/pricing"
+             style="display: inline-block; background: #8b5cf6; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 500;">
+            View Subscription Details
+          </a>
+        </div>
+      </div>
+
+      <div style="padding: 24px 32px; border-top: 1px solid #e5e5e5; background: #fafafa;">
+        <p style="margin: 0; font-size: 14px; color: #666;">
+          Questions? Reply to this email or contact us at support@only-works.com
+        </p>
+        <p style="margin: 16px 0 0 0; font-size: 14px; color: #666;">
+          &copy; ${new Date().getFullYear()} OnlyWorks. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+`
+
+  try {
+    await getResend().emails.send({
+      from: 'OnlyWorks <noreply@only-works.com>',
+      to: email,
+      subject,
+      html,
+    })
+    console.log(`Trial ending email sent to ${email}`)
+  } catch (error) {
+    console.error('Failed to send trial ending email:', error)
+    throw error
+  }
+}

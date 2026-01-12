@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { supabaseAdmin } from '@/lib/supabase/admin'
-import { generateAccessCode, sendAccessCodeEmail } from '@/lib/stripe/utils'
+import { generateAccessCode, sendAccessCodeEmail, sendTrialEndingEmail } from '@/lib/stripe/utils'
 
 let stripeClient: Stripe | null = null
 
@@ -46,6 +46,10 @@ export async function POST(request: NextRequest) {
 
       case 'customer.subscription.deleted':
         await handleSubscriptionCanceled(event.data.object as Stripe.Subscription)
+        break
+
+      case 'customer.subscription.trial_will_end':
+        await handleTrialEnding(event.data.object as Stripe.Subscription)
         break
     }
   } catch (error) {
@@ -148,10 +152,10 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
 async function handleSubscriptionUpdate(subscription: any) {
   const stripeCustomerId = subscription.customer as string
 
-  // Get customer from database
+  // Get customer from database with email
   const { data: customer } = await supabaseAdmin
     .from('customers')
-    .select('id')
+    .select('id, email')
     .eq('stripe_customer_id', stripeCustomerId)
     .single()
 
@@ -184,12 +188,45 @@ async function handleSubscriptionUpdate(subscription: any) {
           : null
       })
       .eq('customer_id', customer.id)
+
+    // Sync profile subscription status (for users who linked their access code)
+    // This ensures trial->paid conversion updates the profile
+    if (customer.email) {
+      const subscriptionType = subscription.status === 'active' ? 'paid' : 'trial'
+      const trialEndsAt = subscription.status === 'trialing' && subscription.trial_end
+        ? new Date(subscription.trial_end * 1000).toISOString()
+        : null
+
+      // Update any profiles with matching email
+      await supabaseAdmin
+        .from('profiles')
+        .update({
+          subscription_type: subscriptionType,
+          subscription_status: 'active',
+          trial_ends_at: trialEndsAt,
+          updated_at: new Date().toISOString()
+        })
+        .eq('email', customer.email.toLowerCase())
+
+      console.log(`Profile synced for ${customer.email}: ${subscriptionType}`)
+    }
   } else if (['canceled', 'unpaid', 'past_due'].includes(subscription.status)) {
     // Deactivate access codes
     await supabaseAdmin
       .from('access_codes')
       .update({ is_active: false })
       .eq('customer_id', customer.id)
+
+    // Update profile subscription status
+    if (customer.email) {
+      await supabaseAdmin
+        .from('profiles')
+        .update({
+          subscription_status: subscription.status,
+          updated_at: new Date().toISOString()
+        })
+        .eq('email', customer.email.toLowerCase())
+    }
   }
 }
 
@@ -215,4 +252,38 @@ async function handleSubscriptionCanceled(subscription: any) {
       .update({ status: 'canceled' })
       .eq('stripe_subscription_id', subscription.id)
   }
+}
+
+async function handleTrialEnding(subscription: any) {
+  const stripeCustomerId = subscription.customer as string
+
+  // Get customer email
+  const { data: customer } = await supabaseAdmin
+    .from('customers')
+    .select('email')
+    .eq('stripe_customer_id', stripeCustomerId)
+    .single()
+
+  if (!customer?.email) {
+    console.error('No customer email found for trial ending notification')
+    return
+  }
+
+  // Calculate days remaining
+  const trialEnd = subscription.trial_end
+    ? new Date(subscription.trial_end * 1000)
+    : null
+
+  if (!trialEnd) {
+    console.error('No trial end date in subscription')
+    return
+  }
+
+  const now = new Date()
+  const msRemaining = trialEnd.getTime() - now.getTime()
+  const daysRemaining = Math.ceil(msRemaining / (24 * 60 * 60 * 1000))
+
+  // Send notification email
+  await sendTrialEndingEmail(customer.email, daysRemaining)
+  console.log(`Trial ending notification sent to ${customer.email} (${daysRemaining} days remaining)`)
 }
