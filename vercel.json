@@ -1,7 +1,17 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "security": {
-    "attackChallengeMode": false
-  }
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.only-works.com"
+        }
+      ],
+      "destination": "https://only-works.com/:path*",
+      "permanent": true
+    }
+  ]
 }
