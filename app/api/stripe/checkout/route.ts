@@ -15,7 +15,10 @@ export async function POST(request: NextRequest) {
   try {
     const { email, priceId } = await request.json()
 
+    console.log('Checkout request:', { email, priceId, hasStripeKey: !!process.env.STRIPE_SECRET_KEY })
+
     if (!email || !priceId) {
+      console.error('Missing required fields:', { email: !!email, priceId: !!priceId })
       return NextResponse.json(
         { error: 'Email and priceId are required' },
         { status: 400 }
@@ -34,7 +37,25 @@ export async function POST(request: NextRequest) {
     let stripeCustomerId: string
 
     if (existingCustomer?.stripe_customer_id) {
-      stripeCustomerId = existingCustomer.stripe_customer_id
+      // Verify customer still exists in Stripe
+      try {
+        await getStripe().customers.retrieve(existingCustomer.stripe_customer_id)
+        stripeCustomerId = existingCustomer.stripe_customer_id
+      } catch {
+        // Customer doesn't exist in Stripe anymore, create a new one
+        console.log('Stale customer ID, creating new Stripe customer')
+        const stripeCustomer = await getStripe().customers.create({
+          email: normalizedEmail,
+          metadata: { source: 'onlyworks_website' }
+        })
+        stripeCustomerId = stripeCustomer.id
+
+        // Update database with new customer ID
+        await supabaseAdmin
+          .from('customers')
+          .update({ stripe_customer_id: stripeCustomerId })
+          .eq('email', normalizedEmail)
+      }
     } else {
       // Create new Stripe customer
       const stripeCustomer = await getStripe().customers.create({
@@ -81,8 +102,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ url: session.url })
   } catch (error) {
     console.error('Checkout error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     return NextResponse.json(
-      { error: 'Failed to create checkout session' },
+      { error: 'Failed to create checkout session', details: errorMessage },
       { status: 500 }
     )
   }

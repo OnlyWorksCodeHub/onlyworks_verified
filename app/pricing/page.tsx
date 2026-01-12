@@ -29,13 +29,22 @@ export default function PricingPage() {
     }
 
     setLoading(true)
+    const priceId = process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID
+    console.log('Starting checkout with priceId:', priceId)
+
+    if (!priceId) {
+      toast.error('Configuration error: Price ID not set')
+      setLoading(false)
+      return
+    }
+
     try {
       const res = await fetch('/api/stripe/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email,
-          priceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID,
+          priceId,
         })
       })
 
@@ -44,11 +53,13 @@ export default function PricingPage() {
       if (data.url) {
         window.location.href = data.url
       } else {
-        throw new Error(data.error || 'Failed to create checkout')
+        const errorMsg = data.details || data.error || 'Failed to create checkout'
+        throw new Error(errorMsg)
       }
     } catch (error) {
-      toast.error('Failed to start checkout. Please try again.')
-      console.error(error)
+      const message = error instanceof Error ? error.message : 'Failed to start checkout'
+      toast.error(message)
+      console.error('Checkout error:', error)
     } finally {
       setLoading(false)
     }
