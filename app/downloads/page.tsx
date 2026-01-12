@@ -17,12 +17,46 @@ export default function DownloadsPage() {
     trialDaysRemaining?: number | null
   } | null>(null)
 
-  // Handle success redirect from Stripe
+  // Handle success redirect from Stripe and auto-verify access code from URL
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
+
+    // Handle success message
     if (params.get('success') === 'true') {
-      toast.success('Payment successful! Enter your email to access downloads.', { duration: 6000 })
-      window.history.replaceState({}, '', '/downloads')
+      toast.success('Payment successful!', { duration: 4000 })
+    }
+
+    // Auto-verify if access code is in URL
+    const code = params.get('code')
+    if (code) {
+      setValidating(true)
+      fetch('/api/access-codes/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.valid) {
+            setHasAccess(true)
+            setSubscriptionInfo({
+              status: data.status,
+              trialDaysRemaining: data.trialDaysRemaining
+            })
+            if (data.email) setEmail(data.email)
+            toast.success(data.message || 'Access granted!')
+          } else {
+            setError(data.error || 'Invalid access code')
+          }
+        })
+        .catch(() => {
+          setError('Failed to verify access code')
+        })
+        .finally(() => {
+          setValidating(false)
+          // Clean up URL
+          window.history.replaceState({}, '', '/downloads')
+        })
     }
   }, [])
 
@@ -83,6 +117,19 @@ export default function DownloadsPage() {
     } finally {
       setDownloading(null)
     }
+  }
+
+  // Show loading state while auto-verifying code from URL
+  if (validating && !hasAccess) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Toaster position="top-center" />
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" style={{ color: '#8b5cf6' }} />
+          <p style={{ color: 'var(--text-secondary)' }}>Verifying your access...</p>
+        </div>
+      </div>
+    )
   }
 
   if (!hasAccess) {

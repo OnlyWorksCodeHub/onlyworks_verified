@@ -74,7 +74,7 @@ export async function sendAccessCodeEmail(
         </div>
 
         <div style="text-align: center; margin: 24px 0;">
-          <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://www.only-works.com'}/downloads"
+          <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://www.only-works.com'}/downloads?code=${accessCode}"
              style="display: inline-block; background: #8b5cf6; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 500;">
             Go to Downloads
           </a>
