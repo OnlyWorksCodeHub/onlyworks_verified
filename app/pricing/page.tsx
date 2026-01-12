@@ -71,32 +71,32 @@ export default function PricingPage() {
       <Navigation />
 
       {/* Hero with Free Trial CTA */}
-      <section className="pt-40 pb-12">
+      <section className="pt-28 md:pt-40 pb-8 md:pb-12 px-4">
         <div className="container">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="mb-6">Simple pricing</h1>
-            <p className="text-xl mb-10" style={{ color: 'var(--text-secondary)' }}>
+            <h1 className="mb-4 md:mb-6">Simple pricing</h1>
+            <p className="text-lg md:text-xl mb-6 md:mb-10" style={{ color: 'var(--text-secondary)' }}>
               Start free. Upgrade when you need more.
             </p>
 
             {/* Prominent Free Trial CTA */}
             <div
-              className="inline-flex flex-col items-center p-8 rounded-2xl mb-8"
+              className="flex flex-col items-center p-5 md:p-8 rounded-2xl mb-6 md:mb-8 mx-auto max-w-md md:max-w-none md:inline-flex"
               style={{
                 background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
                 boxShadow: '0 20px 40px rgba(139, 92, 246, 0.3)'
               }}
             >
-              <p className="text-white/90 text-sm font-medium mb-2">14 DAYS FREE</p>
-              <h2 className="text-white text-2xl md:text-3xl font-semibold mb-3">
+              <p className="text-white/90 text-xs md:text-sm font-medium mb-2">14 DAYS FREE</p>
+              <h2 className="text-white text-xl md:text-3xl font-semibold mb-2 md:mb-3">
                 Start your free trial today
               </h2>
-              <p className="text-white/80 mb-6 max-w-md">
+              <p className="text-white/80 mb-4 md:mb-6 max-w-md text-sm md:text-base">
                 Full access to all Pro features. No charge until trial ends.
               </p>
               <button
                 onClick={() => setShowModal(true)}
-                className="px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105"
+                className="px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all hover:scale-105 w-full md:w-auto"
                 style={{
                   background: 'white',
                   color: '#7c3aed',
@@ -111,9 +111,9 @@ export default function PricingPage() {
       </section>
 
       {/* Pricing Cards */}
-      <section className="pb-24">
+      <section className="pb-16 md:pb-24 px-4">
         <div className="container">
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto">
             {/* Free */}
             <div className="card">
               <p className="text-sm font-medium mb-4" style={{ color: 'var(--text-muted)' }}>Free</p>
@@ -185,14 +185,14 @@ export default function PricingPage() {
       </section>
 
       {/* FAQ */}
-      <section className="flex-1 py-16 flex flex-col" style={{ background: 'var(--bg-alt)' }}>
+      <section className="flex-1 py-10 md:py-16 flex flex-col px-4" style={{ background: 'var(--bg-alt)' }}>
         <div className="container flex-1 flex flex-col">
-          <div className="flex items-center justify-between mb-8 max-w-4xl mx-auto w-full">
+          <div className="flex items-center justify-between mb-6 md:mb-8 max-w-4xl mx-auto w-full">
             <h2>Questions</h2>
-            <span className="text-sm" style={{ color: 'var(--text-muted)' }}>Scroll for more</span>
+            <span className="text-xs md:text-sm hidden md:block" style={{ color: 'var(--text-muted)' }}>Scroll for more</span>
           </div>
-          <div className="max-w-4xl mx-auto w-full flex-1 overflow-y-auto pr-2" style={{ maxHeight: 'calc(100vh - 400px)', minHeight: '300px' }}>
-            <div className="grid md:grid-cols-2 gap-4 pb-4">
+          <div className="max-w-4xl mx-auto w-full flex-1 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 300px)', minHeight: '250px' }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 pb-4">
               {[
                 { q: 'Can I cancel anytime?', a: 'Yes. Cancel from settings. Keep access until billing period ends.' },
                 { q: 'Is there a free trial?', a: 'Yes. 14 days free on Pro plan. Card required but not charged until trial ends.' },
@@ -213,19 +213,19 @@ export default function PricingPage() {
               ].map((faq, i) => (
                 <div
                   key={i}
-                  className="p-5 rounded-xl transition-all hover:shadow-md"
+                  className="p-4 md:p-5 rounded-xl transition-all hover:shadow-md"
                   style={{ background: '#fff', border: '1px solid var(--border)' }}
                 >
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-3 md:gap-4">
                     <span
-                      className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-medium"
+                      className="flex-shrink-0 w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center text-xs font-medium"
                       style={{ background: '#ede9fe', color: '#8b5cf6' }}
                     >
                       {i + 1}
                     </span>
                     <div>
-                      <h3 className="mb-2">{faq.q}</h3>
-                      <p className="text-sm">{faq.a}</p>
+                      <h3 className="mb-1 md:mb-2 text-sm md:text-base">{faq.q}</h3>
+                      <p className="text-xs md:text-sm">{faq.a}</p>
                     </div>
                   </div>
                 </div>
@@ -249,25 +249,25 @@ export default function PricingPage() {
       {/* Email Modal */}
       {showModal && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-4"
           style={{ background: 'rgba(0,0,0,0.5)' }}
           onClick={() => setShowModal(false)}
         >
           <div
-            className="bg-white rounded-2xl p-8 max-w-md w-full relative"
+            className="bg-white rounded-2xl p-5 md:p-8 max-w-md w-full relative"
             style={{ boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setShowModal(false)}
-              className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
+              className="absolute top-3 right-3 md:top-4 md:right-4 p-2 rounded-full hover:bg-gray-100 transition-colors"
             >
               <X className="w-5 h-5" style={{ color: 'var(--text-muted)' }} />
             </button>
 
-            <div className="text-center mb-6">
-              <h2 className="text-2xl font-semibold mb-2">Start your free trial</h2>
-              <p style={{ color: 'var(--text-secondary)' }}>
+            <div className="text-center mb-5 md:mb-6">
+              <h2 className="text-xl md:text-2xl font-semibold mb-2">Start your free trial</h2>
+              <p className="text-sm md:text-base" style={{ color: 'var(--text-secondary)' }}>
                 14 days free, then $19/month. Cancel anytime.
               </p>
             </div>

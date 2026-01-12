@@ -138,12 +138,12 @@ export default function DownloadsPage() {
         <Toaster position="top-center" />
         <Navigation />
 
-        <div className="min-h-screen grid md:grid-cols-2 pt-20">
+        <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 pt-20">
           {/* Left - Email Verification */}
-          <div className="flex items-center justify-center p-8 md:p-12" style={{ background: 'var(--bg)' }}>
+          <div className="flex items-center justify-center p-6 md:p-12" style={{ background: 'var(--bg)' }}>
             <div className="max-w-sm w-full">
-              <h1 className="text-3xl font-medium mb-2">Verify your email</h1>
-              <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>
+              <h1 className="text-2xl md:text-3xl font-medium mb-2">Verify your email</h1>
+              <p className="text-sm mb-6 md:mb-8" style={{ color: 'var(--text-secondary)' }}>
                 Enter the email you used to start your free trial.
               </p>
               <form onSubmit={handleEmailSubmit} className="space-y-4">
@@ -170,7 +170,7 @@ export default function DownloadsPage() {
                   )}
                 </button>
               </form>
-              <div className="mt-8">
+              <div className="mt-6 md:mt-8">
                 <Link href="/" className="inline-flex items-center text-sm hover:text-[#8b5cf6]" style={{ color: 'var(--text-secondary)' }}>
                   <ArrowLeft className="w-4 h-4 mr-1" /> Back to home
                 </Link>
@@ -179,17 +179,17 @@ export default function DownloadsPage() {
           </div>
 
           {/* Right - Start Trial */}
-          <div className="flex items-center justify-center p-8 md:p-12 border-l" style={{ background: 'var(--bg-alt)' }}>
+          <div className="flex items-center justify-center p-6 md:p-12 border-t md:border-t-0 md:border-l" style={{ background: 'var(--bg-alt)' }}>
             <div className="max-w-sm w-full text-center">
-              <h2 className="text-3xl font-medium mb-2">New here?</h2>
-              <p className="text-sm mb-8" style={{ color: 'var(--text-secondary)' }}>
+              <h2 className="text-2xl md:text-3xl font-medium mb-2">New here?</h2>
+              <p className="text-sm mb-6 md:mb-8" style={{ color: 'var(--text-secondary)' }}>
                 Start your 14-day free trial to get access to downloads.
               </p>
               <Link href="/pricing" className="btn btn-primary w-full inline-flex items-center justify-center">
                 Start Free Trial
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              <p className="mt-6 text-xs" style={{ color: 'var(--text-muted)' }}>
+              <p className="mt-4 md:mt-6 text-xs" style={{ color: 'var(--text-muted)' }}>
                 Full access to all Pro features. No charge until trial ends.
               </p>
             </div>
@@ -205,19 +205,19 @@ export default function DownloadsPage() {
       <Navigation />
 
       {/* Downloads */}
-      <section className="flex-1 pt-32 pb-16">
+      <section className="flex-1 pt-24 md:pt-32 pb-12 md:pb-16 px-4">
         <div className="container">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h1 className="mb-4">Download OnlyWorks</h1>
-            <p className="text-xl" style={{ color: 'var(--text-secondary)' }}>
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-16">
+            <h1 className="mb-3 md:mb-4">Download OnlyWorks</h1>
+            <p className="text-lg md:text-xl" style={{ color: 'var(--text-secondary)' }}>
               Get started with our desktop app. Available for macOS and Windows.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto">
             {/* macOS Card */}
             <div
-              className="rounded-2xl p-8 md:p-10 text-center transition-all hover:scale-[1.02]"
+              className="rounded-2xl p-6 md:p-10 text-center transition-all hover:scale-[1.02]"
               style={{
                 background: 'var(--bg)',
                 border: '1px solid var(--border)',
@@ -225,29 +225,29 @@ export default function DownloadsPage() {
               }}
             >
               <div
-                className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6"
+                className="w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6"
                 style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #333 100%)' }}
               >
-                <Apple className="w-10 h-10 text-white" />
+                <Apple className="w-8 h-8 md:w-10 md:h-10 text-white" />
               </div>
-              <h2 className="text-2xl font-semibold mb-2">macOS</h2>
-              <p className="text-sm mb-2" style={{ color: 'var(--text-muted)' }}>
+              <h2 className="text-xl md:text-2xl font-semibold mb-2">macOS</h2>
+              <p className="text-sm mb-1 md:mb-2" style={{ color: 'var(--text-muted)' }}>
                 Requires macOS 10.15 or later
               </p>
-              <p className="text-xs mb-8" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-xs mb-6 md:mb-8" style={{ color: 'var(--text-muted)' }}>
                 Native support for Apple Silicon & Intel
               </p>
 
               <button
                 onClick={() => handleDownload('mac', 'arm64')}
                 disabled={downloading?.startsWith('mac-')}
-                className="btn btn-primary w-full text-base py-4 mb-4"
+                className="btn btn-primary w-full text-sm md:text-base py-3 md:py-4 mb-3 md:mb-4"
               >
                 {downloading?.startsWith('mac-') ? 'Downloading...' : 'Download for Mac'}
-                {!downloading?.startsWith('mac-') && <ArrowRight className="w-5 h-5" />}
+                {!downloading?.startsWith('mac-') && <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />}
               </button>
 
-              <div className="flex justify-center gap-6 text-sm" style={{ color: 'var(--text-secondary)' }}>
+              <div className="flex justify-center gap-4 md:gap-6 text-xs md:text-sm" style={{ color: 'var(--text-secondary)' }}>
                 <button
                   onClick={() => handleDownload('mac', 'arm64')}
                   className="hover:text-[var(--text)] transition-colors underline underline-offset-2"
@@ -265,7 +265,7 @@ export default function DownloadsPage() {
 
             {/* Windows Card */}
             <div
-              className="rounded-2xl p-8 md:p-10 text-center transition-all hover:scale-[1.02]"
+              className="rounded-2xl p-6 md:p-10 text-center transition-all hover:scale-[1.02]"
               style={{
                 background: 'var(--bg)',
                 border: '1px solid var(--border)',
@@ -273,35 +273,35 @@ export default function DownloadsPage() {
               }}
             >
               <div
-                className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6"
+                className="w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6"
                 style={{ background: 'linear-gradient(135deg, #0078D4 0%, #00BCF2 100%)' }}
               >
-                <Monitor className="w-10 h-10 text-white" />
+                <Monitor className="w-8 h-8 md:w-10 md:h-10 text-white" />
               </div>
-              <h2 className="text-2xl font-semibold mb-2">Windows</h2>
-              <p className="text-sm mb-2" style={{ color: 'var(--text-muted)' }}>
+              <h2 className="text-xl md:text-2xl font-semibold mb-2">Windows</h2>
+              <p className="text-sm mb-1 md:mb-2" style={{ color: 'var(--text-muted)' }}>
                 Requires Windows 10 or later
               </p>
-              <p className="text-xs mb-8" style={{ color: 'var(--text-muted)' }}>
+              <p className="text-xs mb-6 md:mb-8" style={{ color: 'var(--text-muted)' }}>
                 64-bit systems supported
               </p>
 
               <button
                 onClick={() => handleDownload('windows', 'x64')}
                 disabled={downloading === 'windows-x64'}
-                className="btn btn-primary w-full text-base py-4 mb-4"
+                className="btn btn-primary w-full text-sm md:text-base py-3 md:py-4 mb-3 md:mb-4"
               >
                 {downloading === 'windows-x64' ? 'Downloading...' : 'Download for Windows'}
-                {downloading !== 'windows-x64' && <ArrowRight className="w-5 h-5" />}
+                {downloading !== 'windows-x64' && <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />}
               </button>
 
-              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+              <div className="text-xs md:text-sm" style={{ color: 'var(--text-secondary)' }}>
                 <span>Windows 10/11 (64-bit)</span>
               </div>
             </div>
           </div>
 
-          <div className="mt-12 text-center">
+          <div className="mt-8 md:mt-12 text-center">
             <Link href="/" className="inline-flex items-center text-sm hover:text-[#8b5cf6] transition-colors" style={{ color: 'var(--text-secondary)' }}>
               <ArrowLeft className="w-4 h-4 mr-2" /> Back to home
             </Link>
