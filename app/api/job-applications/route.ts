@@ -9,10 +9,19 @@ interface TurnstileResponse {
   hostname?: string
 }
 
-async function verifyTurnstileToken(token: string): Promise<boolean> {
+async function verifyTurnstileToken(token: string): Promise<{ success: boolean; error?: string }> {
   // Skip verification in development or if no token
   if (!token) {
-    return process.env.NODE_ENV === 'development'
+    if (process.env.NODE_ENV === 'development') {
+      return { success: true }
+    }
+    return { success: false, error: 'No token provided' }
+  }
+
+  // Check if secret key is configured
+  if (!process.env.TURNSTILE_SECRET_KEY) {
+    console.error('TURNSTILE_SECRET_KEY is not configured')
+    return { success: false, error: 'Server configuration error' }
   }
 
   try {
@@ -23,21 +32,27 @@ async function verifyTurnstileToken(token: string): Promise<boolean> {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams({
-        secret: process.env.TURNSTILE_SECRET_KEY || '',
+        secret: process.env.TURNSTILE_SECRET_KEY,
         response: token,
       }),
     })
 
     if (!response.ok) {
       console.error('Turnstile API error:', response.status)
-      return false
+      return { success: false, error: `Turnstile API error: ${response.status}` }
     }
 
     const data: TurnstileResponse = await response.json()
-    return data.success
+    if (!data.success) {
+      console.error('Turnstile verification failed:', data['error-codes'])
+    }
+    return { success: data.success, error: data['error-codes']?.join(', ') }
   } catch (error) {
     console.error('Turnstile verification error:', error)
-    return process.env.NODE_ENV === 'development'
+    if (process.env.NODE_ENV === 'development') {
+      return { success: true }
+    }
+    return { success: false, error: 'Verification request failed' }
   }
 }
 
@@ -65,11 +80,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify Turnstile token
-    const isValidToken = await verifyTurnstileToken(turnstileToken)
+    const verification = await verifyTurnstileToken(turnstileToken)
 
-    if (!isValidToken) {
+    if (!verification.success) {
+      console.error('Turnstile verification failed:', verification.error)
       return NextResponse.json(
-        { error: 'Verification failed. Please try again.' },
+        { error: verification.error || 'Verification failed. Please try again.' },
         { status: 400 }
       )
     }
