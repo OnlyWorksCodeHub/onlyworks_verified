@@ -2,6 +2,18 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const BACKEND_URL = 'https://onlyworks-backend-server.onrender.com'
 
+// CORS headers
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+}
+
+// Handle preflight requests
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 200, headers: corsHeaders })
+}
+
 interface TurnstileResponse {
   success: boolean
   'error-codes'?: string[]

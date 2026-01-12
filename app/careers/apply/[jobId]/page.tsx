@@ -325,16 +325,26 @@ export default function ApplyPage() {
   useEffect(() => {
     const renderTurnstile = () => {
       if (turnstileRef.current && window.turnstile && !widgetIdRef.current) {
+        console.log('[DEBUG] Rendering Turnstile widget')
+        console.log('[DEBUG] Site key:', process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ? 'SET' : 'NOT SET')
         widgetIdRef.current = window.turnstile.render(turnstileRef.current, {
           sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '',
-          callback: (token: string) => setTurnstileToken(token),
-          'expired-callback': () => setTurnstileToken(null),
+          callback: (token: string) => {
+            console.log('[DEBUG] Turnstile token received:', token.substring(0, 20) + '...')
+            setTurnstileToken(token)
+          },
+          'expired-callback': () => {
+            console.log('[DEBUG] Turnstile token expired')
+            setTurnstileToken(null)
+          },
           'error-callback': () => {
+            console.log('[DEBUG] Turnstile error callback triggered')
             setTurnstileToken(null)
             toast.error('Verification failed. Please try again.')
           },
           theme: 'light'
         })
+        console.log('[DEBUG] Turnstile widget ID:', widgetIdRef.current)
       }
     }
 
@@ -384,6 +394,10 @@ export default function ApplyPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    console.log('[DEBUG] Form submit started')
+    console.log('[DEBUG] Turnstile token:', turnstileToken ? `${turnstileToken.substring(0, 20)}...` : 'NONE')
+    console.log('[DEBUG] Resume file:', resumeFile ? `${resumeFile.name} (${resumeFile.size} bytes)` : 'NONE')
+
     if (!turnstileToken) {
       toast.error('Please complete the verification')
       return
@@ -409,19 +423,26 @@ export default function ApplyPage() {
       submitData.append('turnstileToken', turnstileToken)
       submitData.append('resume', resumeFile)
 
+      console.log('[DEBUG] Sending fetch to /api/job-applications')
+
       const res = await fetch('/api/job-applications', {
         method: 'POST',
         body: submitData
       })
 
+      console.log('[DEBUG] Response status:', res.status)
+      console.log('[DEBUG] Response headers:', Object.fromEntries(res.headers.entries()))
+
       if (!res.ok) {
         let errorMessage = 'Failed to submit application'
         try {
           const data = await res.json()
+          console.log('[DEBUG] Error response JSON:', data)
           errorMessage = data.error || errorMessage
         } catch {
           // Response was not JSON (e.g., "Forbidden")
           const text = await res.text().catch(() => '')
+          console.log('[DEBUG] Error response text:', text)
           if (text && text.length < 100) {
             errorMessage = text
           }
