@@ -114,37 +114,46 @@ export default function PricingPage() {
       <section className="pb-16 md:pb-24 px-4">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto">
-            {/* Free */}
+            {/* Essential */}
             <div className="card">
-              <p className="text-sm font-medium mb-4" style={{ color: 'var(--text-muted)' }}>Free</p>
+              <p className="text-sm font-medium mb-4" style={{ color: 'var(--text-muted)' }}>Essential</p>
               <div className="mb-6">
-                <span className="text-4xl font-medium">$0</span>
+                <span className="text-4xl font-medium">$20</span>
+                <span className="text-sm" style={{ color: 'var(--text-muted)' }}>/mo</span>
               </div>
               <ul className="space-y-3 mb-8">
-                {['5 reports/month', 'Basic detection', '7-day history'].map((item) => (
+                {['Unlimited reports', 'Advanced AI detection', 'Unlimited history', 'Email support'].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-sm">
                     <Check className="w-4 h-4" style={{ color: '#8b5cf6' }} />
                     <span style={{ color: 'var(--text-secondary)' }}>{item}</span>
                   </li>
                 ))}
               </ul>
-              <Link href="/downloads" className="btn btn-secondary w-full">
+              <button
+                onClick={() => setShowModal(true)}
+                className="btn btn-secondary w-full"
+              >
                 Get started
-              </Link>
+              </button>
             </div>
 
-            {/* Pro */}
+            {/* OW EXP */}
             <div className="card relative" style={{ borderColor: '#8b5cf6', borderWidth: '2px' }}>
               <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 text-xs font-medium rounded-full" style={{ background: '#8b5cf6', color: '#fff' }}>
                 Most Popular
               </span>
-              <p className="text-sm font-medium mb-4" style={{ color: 'var(--text-muted)' }}>Pro</p>
+              <p className="text-sm font-medium mb-4" style={{ color: 'var(--text-muted)' }}>OW EXP</p>
               <div className="mb-6">
-                <span className="text-4xl font-medium">$19</span>
+                <span className="text-4xl font-medium">$35</span>
                 <span className="text-sm" style={{ color: 'var(--text-muted)' }}>/mo</span>
               </div>
               <ul className="space-y-3 mb-8">
-                {['Unlimited reports', 'Advanced AI', 'Unlimited history', 'Priority support'].map((item) => (
+                {[
+                  'Everything in Essential',
+                  'Custom programs for dream job',
+                  'Verification of experience',
+                  'Work with OW team'
+                ].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-sm">
                     <Check className="w-4 h-4" style={{ color: '#8b5cf6' }} />
                     <span style={{ color: 'var(--text-secondary)' }}>{item}</span>
@@ -169,7 +178,7 @@ export default function PricingPage() {
                 <span className="text-4xl font-medium">Custom</span>
               </div>
               <ul className="space-y-3 mb-8">
-                {['Everything in Pro', 'Team management', 'SSO & audit logs', 'Dedicated support'].map((item) => (
+                {['Everything in OW EXP', 'Team management', 'SSO & audit logs', 'Dedicated support'].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-sm">
                     <Check className="w-4 h-4" style={{ color: '#8b5cf6' }} />
                     <span style={{ color: 'var(--text-secondary)' }}>{item}</span>
@@ -268,7 +277,7 @@ export default function PricingPage() {
             <div className="text-center mb-5 md:mb-6">
               <h2 className="text-xl md:text-2xl font-semibold mb-2">Start your free trial</h2>
               <p className="text-sm md:text-base" style={{ color: 'var(--text-secondary)' }}>
-                14 days free, then $19/month. Cancel anytime.
+                14 days free. Cancel anytime.
               </p>
             </div>
 
