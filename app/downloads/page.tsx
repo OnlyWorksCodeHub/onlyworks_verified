@@ -301,6 +301,24 @@ export default function DownloadsPage() {
             </div>
           </div>
 
+          {/* Reinstall Section */}
+          <div className="mt-12 md:mt-16 pt-8 border-t text-center" style={{ borderColor: 'var(--border)' }}>
+            <p className="text-sm mb-2" style={{ color: 'var(--text-secondary)' }}>
+              Need to do a fresh reinstall?
+            </p>
+            <a
+              href="/uninstall-onlyworks.command"
+              download
+              className="inline-flex items-center text-sm hover:text-[#8b5cf6] transition-colors underline underline-offset-2"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              Download Uninstaller (Mac)
+            </a>
+            <p className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
+              Double-click the downloaded file to completely remove the app and all data.
+            </p>
+          </div>
+
           <div className="mt-8 md:mt-12 text-center">
             <Link href="/" className="inline-flex items-center text-sm hover:text-[#8b5cf6] transition-colors" style={{ color: 'var(--text-secondary)' }}>
               <ArrowLeft className="w-4 h-4 mr-2" /> Back to home
