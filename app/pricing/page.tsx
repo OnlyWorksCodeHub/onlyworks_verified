@@ -10,6 +10,7 @@ export default function PricingPage() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const [selectedPlan, setSelectedPlan] = useState<'essential' | 'exp'>('exp')
 
   // Handle canceled checkout
   useEffect(() => {
@@ -20,6 +21,11 @@ export default function PricingPage() {
     }
   }, [])
 
+  const openCheckout = (plan: 'essential' | 'exp') => {
+    setSelectedPlan(plan)
+    setShowModal(true)
+  }
+
   const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -29,8 +35,10 @@ export default function PricingPage() {
     }
 
     setLoading(true)
-    const priceId = process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID
-    console.log('Starting checkout with priceId:', priceId)
+    const priceId = selectedPlan === 'essential'
+      ? process.env.NEXT_PUBLIC_STRIPE_ESSENTIAL_PRICE_ID
+      : process.env.NEXT_PUBLIC_STRIPE_EXP_PRICE_ID
+    console.log('Starting checkout with priceId:', priceId, 'plan:', selectedPlan)
 
     if (!priceId) {
       toast.error('Configuration error: Price ID not set')
@@ -95,7 +103,7 @@ export default function PricingPage() {
                 Full access to all Pro features. No charge until trial ends.
               </p>
               <button
-                onClick={() => setShowModal(true)}
+                onClick={() => openCheckout('exp')}
                 className="px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold text-base md:text-lg transition-all hover:scale-105 w-full md:w-auto"
                 style={{
                   background: 'white',
@@ -130,7 +138,7 @@ export default function PricingPage() {
                 ))}
               </ul>
               <button
-                onClick={() => setShowModal(true)}
+                onClick={() => openCheckout('essential')}
                 className="btn btn-secondary w-full"
               >
                 Get started
@@ -161,7 +169,7 @@ export default function PricingPage() {
                 ))}
               </ul>
               <button
-                onClick={() => setShowModal(true)}
+                onClick={() => openCheckout('exp')}
                 className="btn btn-primary w-full"
               >
                 Start 14-day free trial
@@ -275,9 +283,11 @@ export default function PricingPage() {
             </button>
 
             <div className="text-center mb-5 md:mb-6">
-              <h2 className="text-xl md:text-2xl font-semibold mb-2">Start your free trial</h2>
+              <h2 className="text-xl md:text-2xl font-semibold mb-2">
+                {selectedPlan === 'essential' ? 'Essential Plan' : 'OW EXP Plan'}
+              </h2>
               <p className="text-sm md:text-base" style={{ color: 'var(--text-secondary)' }}>
-                14 days free. Cancel anytime.
+                14 days free, then {selectedPlan === 'essential' ? '$20' : '$35'}/month. Cancel anytime.
               </p>
             </div>
 
