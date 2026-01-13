@@ -61,7 +61,7 @@ export default function SupportPage() {
             Download Uninstaller (Mac)
           </a>
           <p className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
-            Double-click the downloaded file to run it.
+            Right-click the file and select "Open" to run it (required for unsigned scripts on macOS).
           </p>
         </div>
       ),
@@ -299,7 +299,7 @@ export default function SupportPage() {
               <div className="p-4 rounded-xl" style={{ background: 'var(--bg-alt)', border: '1px solid var(--border)' }}>
                 <h4 className="font-medium mb-2">Permissions not working?</h4>
                 <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  Try toggling the permission OFF then ON again, then restart the app. If issues persist, use the <a href="/uninstall-onlyworks.command" download className="text-[#8b5cf6] hover:underline">uninstaller</a> and reinstall the app.
+                  Try toggling the permission OFF then ON again, then restart the app. If issues persist, download the <a href="/uninstall-onlyworks.command" download className="text-[#8b5cf6] hover:underline">uninstaller</a>, right-click it and select "Open" to run, then reinstall the app.
                 </p>
               </div>
             </div>

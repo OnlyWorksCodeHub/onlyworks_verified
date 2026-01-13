@@ -315,7 +315,7 @@ export default function DownloadsPage() {
               Download Uninstaller (Mac)
             </a>
             <p className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
-              Double-click the downloaded file to completely remove the app and all data.
+              Right-click the file and select "Open" to run it.
             </p>
           </div>
 
