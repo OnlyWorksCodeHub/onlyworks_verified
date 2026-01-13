@@ -1,4 +1,4 @@
-// App version configuration and metadata - v1.5.1
+// App version configuration and metadata - v2.0.2
 export interface AppVersion {
   version: string
   releaseDate: string
@@ -31,17 +31,17 @@ export interface AppVersion {
 }
 
 export const CURRENT_VERSION: AppVersion = {
-  version: '1.5.3',
-  releaseDate: '2025-12-11',
+  version: '2.0.2',
+  releaseDate: '2026-01-13',
   platforms: {
     mac: {
       arm64: {
-        url: 'https://github.com/Namkha-yolo/onlyworks_desktop/releases/download/v1.5.3/OnlyWorks.Desktop-1.5.3-arm64.dmg',
-        size: '95MB',
+        url: 'https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v2.0.2/OnlyWorks.Desktop-2.0.2-arm64.dmg',
+        size: '113MB',
       },
       intel: {
-        url: 'https://github.com/Namkha-yolo/onlyworks_desktop/releases/download/v1.5.3/OnlyWorks.Desktop-1.5.3.dmg',
-        size: '101MB',
+        url: 'https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v2.0.2/OnlyWorks.Desktop-2.0.2.dmg',
+        size: '119MB',
       },
     },
     windows: {
@@ -57,6 +57,7 @@ export const CURRENT_VERSION: AppVersion = {
     'System-wide draggable assistant widget',
     'Fix permission prompts and UI improvements',
     'Fix startup crash on new machines',
+    'Auto-update improvements',
   ],
   minOS: {
     mac: '10.15',
