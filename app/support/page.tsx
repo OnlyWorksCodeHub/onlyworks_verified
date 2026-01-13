@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { ArrowRight, Mail, Download, Shield, Monitor, Zap, BarChart3, ChevronDown, ChevronUp, AlertTriangle } from 'lucide-react'
+import { ArrowRight, Mail, Shield, Monitor, Zap, BarChart3, ChevronDown, ChevronUp, AlertTriangle, Copy, Check } from 'lucide-react'
+import toast, { Toaster } from 'react-hot-toast'
 import { Navigation } from '@/components/Navigation'
 
 interface FAQItem {
@@ -44,25 +45,54 @@ function FAQSection({ items }: { items: FAQItem[] }) {
 }
 
 export default function SupportPage() {
+  const [copied, setCopied] = useState(false)
+
+  const uninstallCommand = `rm -rf "/Applications/OnlyWorks Desktop.app" ~/Library/Application\\ Support/OnlyWorks\\ Desktop ~/Library/Application\\ Support/screenshot-app ~/Library/Caches/com.onlyworks.desktop ~/Library/Logs/OnlyWorks\\ Desktop ~/Library/Preferences/com.onlyworks.desktop.plist`
+
+  const copyUninstallCommand = async () => {
+    try {
+      await navigator.clipboard.writeText(uninstallCommand)
+      setCopied(true)
+      toast.success('Command copied to clipboard!')
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      toast.error('Failed to copy')
+    }
+  }
+
   const faqItems: FAQItem[] = [
     {
       question: 'How do I completely uninstall the app?',
       answer: (
         <div>
           <p className="mb-3">
-            To do a fresh reinstall, you need to remove the app and all its data. We provide an uninstaller script that does this automatically.
+            To do a fresh reinstall, open Terminal (Applications → Utilities → Terminal) and run this command:
           </p>
-          <a
-            href="/uninstall-onlyworks.command"
-            download
-            className="inline-flex items-center gap-2 text-[#8b5cf6] hover:underline"
+          <div
+            className="rounded-lg p-3 mb-3 overflow-x-auto"
+            style={{ background: 'var(--bg-alt)', border: '1px solid var(--border)' }}
           >
-            <Download className="w-4 h-4" />
-            Download Uninstaller (Mac)
-          </a>
-          <p className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
-            Right-click the file and select "Open" to run it (required for unsigned scripts on macOS).
-          </p>
+            <code className="text-xs break-all" style={{ color: 'var(--text-secondary)' }}>
+              {uninstallCommand}
+            </code>
+          </div>
+          <button
+            onClick={copyUninstallCommand}
+            className="inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg transition-colors hover:bg-[#8b5cf6]/10"
+            style={{ color: '#8b5cf6', border: '1px solid #8b5cf6' }}
+          >
+            {copied ? (
+              <>
+                <Check className="w-3 h-3" />
+                Copied!
+              </>
+            ) : (
+              <>
+                <Copy className="w-3 h-3" />
+                Copy Command
+              </>
+            )}
+          </button>
         </div>
       ),
     },
@@ -143,6 +173,7 @@ export default function SupportPage() {
 
   return (
     <div className="min-h-screen">
+      <Toaster position="top-center" />
       <Navigation />
 
       {/* Hero */}
@@ -299,7 +330,7 @@ export default function SupportPage() {
               <div className="p-4 rounded-xl" style={{ background: 'var(--bg-alt)', border: '1px solid var(--border)' }}>
                 <h4 className="font-medium mb-2">Permissions not working?</h4>
                 <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  Try toggling the permission OFF then ON again, then restart the app. If issues persist, download the <a href="/uninstall-onlyworks.command" download className="text-[#8b5cf6] hover:underline">uninstaller</a>, right-click it and select "Open" to run, then reinstall the app.
+                  Try toggling the permission OFF then ON again, then restart the app. If issues persist, see the <a href="#faq" className="text-[#8b5cf6] hover:underline">FAQ section</a> for complete uninstall instructions, then reinstall the app.
                 </p>
               </div>
             </div>
