@@ -307,7 +307,7 @@ export default function DownloadsPage() {
               Need to do a fresh reinstall?
             </p>
             <a
-              href="https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v1.0.0/UninstallOnlyWorks.dmg"
+              href="https://github.com/Namkha-yolo/ONLYWORKS_UNINSTALLER/releases/download/v1/UninstallOnlyWorks.dmg"
               className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-lg transition-colors hover:bg-[#8b5cf6]/10"
               style={{ color: '#8b5cf6', border: '1px solid #8b5cf6' }}
             >

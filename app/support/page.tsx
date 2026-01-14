@@ -53,7 +53,7 @@ export default function SupportPage() {
             Download our uninstaller app to completely remove OnlyWorks and all its data from your Mac.
           </p>
           <a
-            href="https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v1.0.0/UninstallOnlyWorks.dmg"
+            href="https://github.com/Namkha-yolo/ONLYWORKS_UNINSTALLER/releases/download/v1/UninstallOnlyWorks.dmg"
             className="inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg transition-colors hover:bg-[#8b5cf6]/10"
             style={{ color: '#8b5cf6', border: '1px solid #8b5cf6' }}
           >
