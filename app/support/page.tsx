@@ -2,8 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { ArrowRight, Mail, Shield, Monitor, Zap, BarChart3, ChevronDown, ChevronUp, AlertTriangle, Copy, Check } from 'lucide-react'
-import toast, { Toaster } from 'react-hot-toast'
+import { ArrowRight, Mail, Shield, Monitor, Zap, BarChart3, ChevronDown, ChevronUp, AlertTriangle, Download } from 'lucide-react'
 import { Navigation } from '@/components/Navigation'
 
 interface FAQItem {
@@ -45,54 +44,25 @@ function FAQSection({ items }: { items: FAQItem[] }) {
 }
 
 export default function SupportPage() {
-  const [copied, setCopied] = useState(false)
-
-  const uninstallCommand = `rm -rf "/Applications/OnlyWorks Desktop.app" ~/Library/Application\\ Support/OnlyWorks\\ Desktop ~/Library/Application\\ Support/screenshot-app ~/Library/Caches/com.onlyworks.desktop ~/Library/Logs/OnlyWorks\\ Desktop ~/Library/Preferences/com.onlyworks.desktop.plist`
-
-  const copyUninstallCommand = async () => {
-    try {
-      await navigator.clipboard.writeText(uninstallCommand)
-      setCopied(true)
-      toast.success('Command copied to clipboard!')
-      setTimeout(() => setCopied(false), 2000)
-    } catch {
-      toast.error('Failed to copy')
-    }
-  }
-
   const faqItems: FAQItem[] = [
     {
       question: 'How do I completely uninstall the app?',
       answer: (
         <div>
           <p className="mb-3">
-            To do a fresh reinstall, open Terminal (Applications → Utilities → Terminal) and run this command:
+            Download our uninstaller app to completely remove OnlyWorks and all its data from your Mac.
           </p>
-          <div
-            className="rounded-lg p-3 mb-3 overflow-x-auto"
-            style={{ background: 'var(--bg-alt)', border: '1px solid var(--border)' }}
-          >
-            <code className="text-xs break-all" style={{ color: 'var(--text-secondary)' }}>
-              {uninstallCommand}
-            </code>
-          </div>
-          <button
-            onClick={copyUninstallCommand}
+          <a
+            href="https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v1.0.0/UninstallOnlyWorks.dmg"
             className="inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg transition-colors hover:bg-[#8b5cf6]/10"
             style={{ color: '#8b5cf6', border: '1px solid #8b5cf6' }}
           >
-            {copied ? (
-              <>
-                <Check className="w-3 h-3" />
-                Copied!
-              </>
-            ) : (
-              <>
-                <Copy className="w-3 h-3" />
-                Copy Command
-              </>
-            )}
-          </button>
+            <Download className="w-3 h-3" />
+            Download Uninstaller
+          </a>
+          <p className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
+            Open the DMG and double-click the uninstaller app.
+          </p>
         </div>
       ),
     },
@@ -173,7 +143,6 @@ export default function SupportPage() {
 
   return (
     <div className="min-h-screen">
-      <Toaster position="top-center" />
       <Navigation />
 
       {/* Hero */}

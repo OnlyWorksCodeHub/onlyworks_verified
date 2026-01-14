@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { ArrowLeft, ArrowRight, Monitor, Apple, Loader2, Copy, Check } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Monitor, Apple, Loader2, Download } from 'lucide-react'
 import toast, { Toaster } from 'react-hot-toast'
 import { Navigation } from '@/components/Navigation'
 
@@ -16,20 +16,6 @@ export default function DownloadsPage() {
     status?: string
     trialDaysRemaining?: number | null
   } | null>(null)
-  const [copied, setCopied] = useState(false)
-
-  const uninstallCommand = `rm -rf "/Applications/OnlyWorks Desktop.app" ~/Library/Application\\ Support/OnlyWorks\\ Desktop ~/Library/Application\\ Support/screenshot-app ~/Library/Caches/com.onlyworks.desktop ~/Library/Logs/OnlyWorks\\ Desktop ~/Library/Preferences/com.onlyworks.desktop.plist`
-
-  const copyUninstallCommand = async () => {
-    try {
-      await navigator.clipboard.writeText(uninstallCommand)
-      setCopied(true)
-      toast.success('Command copied to clipboard!')
-      setTimeout(() => setCopied(false), 2000)
-    } catch {
-      toast.error('Failed to copy')
-    }
-  }
 
   // Handle success redirect from Stripe and auto-verify access code from URL
   useEffect(() => {
@@ -318,35 +304,18 @@ export default function DownloadsPage() {
           {/* Reinstall Section */}
           <div className="mt-12 md:mt-16 pt-8 border-t text-center" style={{ borderColor: 'var(--border)' }}>
             <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
-              Need to do a fresh reinstall? Run this command in Terminal:
+              Need to do a fresh reinstall?
             </p>
-            <div
-              className="max-w-2xl mx-auto rounded-lg p-3 mb-3 text-left overflow-x-auto"
-              style={{ background: 'var(--bg-alt)', border: '1px solid var(--border)' }}
-            >
-              <code className="text-xs break-all" style={{ color: 'var(--text-secondary)' }}>
-                {uninstallCommand}
-              </code>
-            </div>
-            <button
-              onClick={copyUninstallCommand}
+            <a
+              href="https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v1.0.0/UninstallOnlyWorks.dmg"
               className="inline-flex items-center gap-2 text-sm px-4 py-2 rounded-lg transition-colors hover:bg-[#8b5cf6]/10"
               style={{ color: '#8b5cf6', border: '1px solid #8b5cf6' }}
             >
-              {copied ? (
-                <>
-                  <Check className="w-4 h-4" />
-                  Copied!
-                </>
-              ) : (
-                <>
-                  <Copy className="w-4 h-4" />
-                  Copy Command
-                </>
-              )}
-            </button>
+              <Download className="w-4 h-4" />
+              Download Uninstaller (Mac)
+            </a>
             <p className="mt-3 text-xs" style={{ color: 'var(--text-muted)' }}>
-              Open Terminal (Applications → Utilities → Terminal), paste the command, and press Enter.
+              Opens the uninstaller app. Double-click to remove OnlyWorks and all its data.
             </p>
           </div>
 
