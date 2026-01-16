@@ -69,8 +69,8 @@ export default function AboutPage() {
 
             <div className="grid grid-cols-2 gap-6">
               {[
-                { value: '98%', label: 'Detection rate' },
-                { value: '20+', label: 'Tools detected' },
+                { value: '98%', label: 'Verification accuracy' },
+                { value: '20+', label: 'Work patterns verified' },
                 { value: 'E2E', label: 'Encryption' },
                 { value: '5s', label: 'Report gen' }
               ].map((stat, i) => (
@@ -96,11 +96,11 @@ export default function AboutPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: Shield, title: 'Privacy First', desc: 'Your data is encrypted end-to-end. You control what gets captured and who sees your reports.' },
-              { icon: Cpu, title: 'AI Powered', desc: 'Advanced analysis detects automation tools, productivity patterns, and work quality.' },
-              { icon: Lock, title: 'Transparency', desc: 'Workers see everything we track. No hidden monitoring. Complete visibility.' },
-              { icon: Users, title: 'Trust', desc: 'Build trust through verification, not surveillance. Empower both sides.' },
-              { icon: Target, title: 'Accuracy', desc: '98% fraud detection rate with minimal false positives. Precision matters.' },
+              { icon: Shield, title: 'Privacy First', desc: 'Your data is encrypted end-to-end. You control what gets verified and who sees your reports.' },
+              { icon: Cpu, title: 'AI Powered', desc: 'Advanced AI helps you verify authentic work and build credible proof of your skills and productivity.' },
+              { icon: Lock, title: 'Transparency', desc: 'You see everything that gets recorded. Complete control over what you share. Full visibility.' },
+              { icon: Users, title: 'Trust', desc: 'Build trust through verification you control. Empower yourself to prove your value.' },
+              { icon: Target, title: 'Accuracy', desc: '98% work verification accuracy. Precision that helps you stand out and prove your capabilities.' },
               { icon: Zap, title: 'Speed', desc: 'Generate verified reports in seconds, not hours. Time is valuable.' }
             ].map((value, i) => (
               <div key={i} className="card transition-all hover:shadow-lg hover:-translate-y-1">

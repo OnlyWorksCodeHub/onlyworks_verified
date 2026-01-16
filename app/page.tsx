@@ -6,13 +6,14 @@ import { LogoCarousel } from '@/components/ui/logo-carousel'
 import { Navigation } from '@/components/Navigation'
 import { TypewriterText } from '@/components/TypewriterText'
 import { AppShowcase } from '@/components/AppShowcase'
+import { FAQ } from '@/components/FAQ'
 
 export default function HomePage() {
   const features = [
-    { icon: Shield, title: 'Fraud Detection', desc: 'AI-powered detection of automation and fraudulent activity.' },
-    { icon: Cpu, title: 'Smart Analysis', desc: 'Real-time analysis of work patterns and productivity.' },
-    { icon: BarChart3, title: 'Detailed Reports', desc: 'Comprehensive, tamper-proof verification reports.' },
-    { icon: Lock, title: 'Privacy First', desc: 'End-to-end encryption. Your data stays yours.' },
+    { icon: Shield, title: 'Work Verification', desc: 'Verify your work is genuine. Build credible proof for employers and clients.' },
+    { icon: Cpu, title: 'Smart Analysis', desc: 'AI analyzes work patterns to create authentic proof you control and share.' },
+    { icon: BarChart3, title: 'Verified Reports', desc: 'Build tamper-proof reports that prove your work. Perfect for portfolios.' },
+    { icon: Lock, title: 'Privacy First', desc: 'End-to-end encryption. You control what gets verified. Your data stays yours.' },
     { icon: Zap, title: 'Real-time Sync', desc: 'Instant updates across all your devices.' },
     { icon: Globe, title: 'Works Everywhere', desc: 'Cross-platform support for Mac and Windows.' },
   ]
@@ -98,6 +99,9 @@ export default function HomePage() {
           <AppShowcase />
         </div>
       </section>
+
+      {/* FAQ */}
+      <FAQ />
 
       {/* CTA */}
       <section className="py-16 md:py-24 px-4 md:px-6" style={{ background: 'var(--accent)' }}>

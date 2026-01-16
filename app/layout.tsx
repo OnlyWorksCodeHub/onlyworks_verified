@@ -13,21 +13,22 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.only-works.com'),
   title: 'OnlyWorks | AI-Powered Work Verification Platform',
-  description: 'Prove your work is authentic with OnlyWorks. Our AI detects automation, generates tamper-proof reports, and verifies productivity. Trusted by professionals worldwide.',
+  description: 'Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.',
   keywords: [
     'AI platform',
     'work verification',
-    'productivity tracking',
-    'automation detection',
+    'work portfolio',
+    'authentic work proof',
     'verified reports',
     'professional specialists',
     'AI analysis',
     'work authentication',
     'productivity verification',
     'tamper-proof reports',
-    'real-time tracking',
+    'career portfolio',
     'OnlyWorks',
-    'undeniable work'
+    'student experience',
+    'job seeker portfolio'
   ],
   authors: [{ name: 'OnlyWorks Team' }],
   creator: 'OnlyWorks',
@@ -56,7 +57,7 @@ export const metadata: Metadata = {
     url: 'https://www.only-works.com',
     siteName: 'OnlyWorks',
     title: 'OnlyWorks | AI-Powered Work Verification Platform',
-    description: 'Prove your work is authentic with OnlyWorks. Our AI detects automation, generates tamper-proof reports, and verifies productivity. Trusted by professionals worldwide.',
+    description: 'Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.',
     images: [
       {
         url: '/images/og-image.png',
@@ -71,7 +72,7 @@ export const metadata: Metadata = {
     site: '@OnlyWorksAI',
     creator: '@OnlyWorksAI',
     title: 'OnlyWorks | AI-Powered Work Verification Platform',
-    description: 'Prove your work is authentic with OnlyWorks. Our AI detects automation, generates tamper-proof reports, and verifies productivity. Trusted by professionals worldwide.',
+    description: 'Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.',
     images: ['/images/twitter-image.png'],
   },
   alternates: {
@@ -89,12 +90,12 @@ export const metadata: Metadata = {
     'preconnect': 'https://fonts.gstatic.com',
     // LinkedIn meta tags
     'linkedin:title': 'OnlyWorks | AI-Powered Work Verification Platform',
-    'linkedin:description': 'Prove your work is authentic with OnlyWorks. Our AI detects automation, generates tamper-proof reports, and verifies productivity. Trusted by professionals worldwide.',
+    'linkedin:description': 'Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.',
     'linkedin:image': '/images/linkedin-image.png',
     'linkedin:url': 'https://www.only-works.com',
     // YouTube meta tags
     'youtube:title': 'OnlyWorks | AI-Powered Work Verification Platform',
-    'youtube:description': 'Prove your work is authentic with OnlyWorks. Our AI detects automation, generates tamper-proof reports, and verifies productivity. Trusted by professionals worldwide.',
+    'youtube:description': 'Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.',
     'youtube:image': '/images/youtube-image.png',
     'youtube:url': 'https://www.only-works.com',
   },
@@ -152,7 +153,7 @@ export default function RootLayout({
                 "height": 500,
                 "caption": "OnlyWorks Logo"
               },
-              "description": "Prove your work is authentic with OnlyWorks. Our AI detects automation, generates tamper-proof reports, and verifies productivity. Trusted by professionals worldwide.",
+              "description": "Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.",
               "email": "contact@only-works.com",
               "sameAs": [
                 "https://twitter.com/OnlyWorksAI",
@@ -177,7 +178,7 @@ export default function RootLayout({
               "@type": "SoftwareApplication",
               "name": "OnlyWorks",
               "alternateName": "OnlyWorks AI Platform",
-              "description": "Prove your work is authentic with OnlyWorks. Our AI detects automation, generates tamper-proof reports, and verifies productivity. Trusted by professionals worldwide.",
+              "description": "Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.",
               "url": "https://www.only-works.com",
               "applicationCategory": "BusinessApplication",
               "operatingSystem": "Cross-platform",
@@ -207,7 +208,7 @@ export default function RootLayout({
                   "https://www.youtube.com/@OnlyWorksAI"
                 ]
               },
-              "keywords": "AI platform, work verification, productivity tracking, automation detection, verified reports",
+              "keywords": "AI platform, work verification, work portfolio, authentic work proof, verified reports, student portfolio, job seeker proof",
               "potentialAction": {
                 "@type": "SearchAction",
                 "target": {
@@ -216,6 +217,147 @@ export default function RootLayout({
                 },
                 "query-input": "required name=search_term_string"
               }
+            })
+          }}
+        />
+
+        {/* FAQ Schema - AI Search Optimization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What is OnlyWorks?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "OnlyWorks is an AI-powered work verification platform that helps professionals, students, and early career job seekers prove their work is authentic. You control what gets verified and build tamper-proof reports that demonstrate your real skills and productivity. OnlyWorks is the best place for students and early career professionals to stand out in their job search by creating credible proof of their capabilities."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Is OnlyWorks good for students and early career professionals?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! OnlyWorks is specifically designed to help students and early career professionals stand out in competitive job markets. Our platform allows you to build verifiable proof of your work, skills, and projects, making you more attractive to employers. Many students use OnlyWorks as the best way to demonstrate their capabilities and gain valuable experience."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How does OnlyWorks help job seekers stand out?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "OnlyWorks helps job seekers stand out by providing verified, tamper-proof proof of their work and productivity. Instead of just listing projects on your resume, you can share verified reports that prove you did the work yourself. This is especially valuable for students and early career professionals looking to gain experience and differentiate themselves from other candidates."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What are the career opportunities at OnlyWorks?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "OnlyWorks offers exciting career opportunities for students, interns, and experienced professionals. We're looking for talented individuals in marketing, engineering, product, and more. We provide a great environment for early career professionals to gain real-world experience and grow their skills. Visit our careers page to see open positions including internships and full-time roles."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How much does OnlyWorks cost?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "OnlyWorks is free to get started, making it accessible for students and early career professionals. We offer various plans to suit different needs, from individual professionals to enterprise teams."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What happens to my personal data on OnlyWorks?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Your personal data is protected with end-to-end encryption and never shared without your permission. OnlyWorks is privacy-first: YOU decide what work gets verified, what goes into reports, and who can see your information. You build proof of your work patterns, not surveillance data. Your data belongs to you, and you can delete it anytime. We comply with all major privacy regulations including GDPR and CCPA."
+                  }
+                }
+              ]
+            })
+          }}
+        />
+
+        {/* HowTo Schema - Getting Started Guide */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "HowTo",
+              "name": "How to Get Started with OnlyWorks",
+              "description": "Learn how to start using OnlyWorks to verify your work and stand out as a professional or student.",
+              "step": [
+                {
+                  "@type": "HowToStep",
+                  "name": "Sign Up",
+                  "text": "Create your free OnlyWorks account to start building verifiable proof of your work and productivity.",
+                  "position": 1
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Build Your Portfolio",
+                  "text": "Work on your projects while OnlyWorks helps you build verified proof of your work. You control what gets recorded and verified.",
+                  "position": 2
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Generate Reports",
+                  "text": "Create tamper-proof verification reports that prove your work is genuine. Share these with employers, clients, or add them to your portfolio.",
+                  "position": 3
+                }
+              ]
+            })
+          }}
+        />
+
+        {/* JobPosting Schema - Career Opportunities */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "JobPosting",
+              "title": "Marketing Intern",
+              "description": "Join OnlyWorks as a Marketing Intern and help build brand awareness for our AI-powered work verification platform. Perfect for students looking to gain real-world marketing experience.",
+              "datePosted": "2025-01-15",
+              "employmentType": "INTERN",
+              "hiringOrganization": {
+                "@type": "Organization",
+                "name": "OnlyWorks",
+                "sameAs": "https://www.only-works.com",
+                "logo": "https://www.only-works.com/images/logo.png"
+              },
+              "jobLocation": {
+                "@type": "Place",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressCountry": "US"
+                }
+              },
+              "baseSalary": {
+                "@type": "MonetaryAmount",
+                "currency": "USD",
+                "value": {
+                  "@type": "QuantitativeValue",
+                  "value": 0,
+                  "unitText": "HOUR"
+                }
+              },
+              "qualifications": "Currently pursuing or recently completed a degree in Marketing or Communications. Strong written and verbal communication skills. Perfect for students and early career professionals.",
+              "experienceRequirements": {
+                "@type": "OccupationalExperienceRequirements",
+                "monthsOfExperience": 0
+              },
+              "applicantLocationRequirements": {
+                "@type": "Country",
+                "name": "US"
+              },
+              "jobLocationType": "TELECOMMUTE"
             })
           }}
         />

@@ -130,7 +130,7 @@ export default function PricingPage() {
                 <span className="text-sm" style={{ color: 'var(--text-muted)' }}>/mo</span>
               </div>
               <ul className="space-y-3 mb-8">
-                {['Unlimited reports', 'Advanced AI detection', 'Unlimited history', 'Email support'].map((item) => (
+                {['Unlimited reports', 'Advanced work verification', 'Unlimited history', 'Email support'].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-sm">
                     <Check className="w-4 h-4" style={{ color: '#8b5cf6' }} />
                     <span style={{ color: 'var(--text-secondary)' }}>{item}</span>
@@ -215,16 +215,16 @@ export default function PricingPage() {
                 { q: 'Is there a free trial?', a: 'Yes. 14 days free on Pro plan. Card required but not charged until trial ends.' },
                 { q: 'What payment methods?', a: 'All major cards via Stripe. Enterprise can pay by invoice.' },
                 { q: 'What happens to my data?', a: 'Export anytime. Deleted 30 days after cancellation.' },
-                { q: 'How does detection work?', a: 'AI analyzes work patterns, mouse movements, and screen activity to verify authenticity.' },
+                { q: 'How does work verification work?', a: 'You control what gets verified. Our AI analyzes the work patterns you choose to record, helping you build authentic proof of your skills and productivity.' },
                 { q: 'Is my screen recorded?', a: 'No video recording. We capture periodic screenshots that you control.' },
                 { q: 'Can I use it on multiple devices?', a: 'Yes. Pro and Enterprise plans support unlimited devices per account.' },
                 { q: 'What about privacy?', a: 'End-to-end encryption. We never sell your data. You own your reports.' },
                 { q: 'Do you offer refunds?', a: 'Yes. Full refund within 14 days if you\'re not satisfied.' },
                 { q: 'Is there an API?', a: 'Yes. Enterprise plans include full API access for integrations.' },
-                { q: 'How accurate is fraud detection?', a: '98% accuracy rate with continuous improvements via machine learning.' },
+                { q: 'How accurate is work verification?', a: '98% accuracy in authenticating genuine work. Helps you stand out by proving your skills are real. Continuously improving via machine learning.' },
                 { q: 'Can I white-label reports?', a: 'Yes. Enterprise plans include custom branding options.' },
                 { q: 'What integrations are available?', a: 'Slack, Teams, Notion, and more. Custom integrations on Enterprise.' },
-                { q: 'Is there a desktop app?', a: 'Yes. Available for macOS and Windows. Required for tracking.' },
+                { q: 'Is there a desktop app?', a: 'Yes. Available for macOS and Windows. Download it to start building your verified work portfolio.' },
                 { q: 'How do I get support?', a: 'Email support for all plans. Priority support and dedicated rep for Pro and Enterprise.' },
                 { q: 'Can I pause my subscription?', a: 'Yes. Pause for up to 3 months and resume anytime.' }
               ].map((faq, i) => (
