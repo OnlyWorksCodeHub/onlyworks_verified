@@ -13,9 +13,9 @@ function getStripe(): Stripe {
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, priceId } = await request.json()
+    const { email, priceId, attribution } = await request.json()
 
-    console.log('Checkout request:', { email, priceId, hasStripeKey: !!process.env.STRIPE_SECRET_KEY })
+    console.log('Checkout request:', { email, priceId, hasStripeKey: !!process.env.STRIPE_SECRET_KEY, attribution })
 
     if (!email || !priceId) {
       console.error('Missing required fields:', { email: !!email, priceId: !!priceId })
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     // Check if customer exists in database
     const { data: existingCustomer } = await supabaseAdmin
       .from('customers')
-      .select('stripe_customer_id')
+      .select('stripe_customer_id, source_partner')
       .eq('email', normalizedEmail)
       .single()
 
@@ -41,6 +41,20 @@ export async function POST(request: NextRequest) {
       try {
         await getStripe().customers.retrieve(existingCustomer.stripe_customer_id)
         stripeCustomerId = existingCustomer.stripe_customer_id
+
+        // Update attribution if provided and not already set
+        if (attribution?.source_partner && !existingCustomer.source_partner) {
+          await supabaseAdmin
+            .from('customers')
+            .update({
+              source_partner: attribution.source_partner,
+              attribution_date: new Date().toISOString(),
+              attribution_locked: true,
+              first_opt_in: attribution.first_opt_in || false,
+              future_opt_in: attribution.future_opt_in || false,
+            })
+            .eq('email', normalizedEmail)
+        }
       } catch {
         // Customer doesn't exist in Stripe anymore, create a new one
         console.log('Stale customer ID, creating new Stripe customer')
@@ -50,10 +64,21 @@ export async function POST(request: NextRequest) {
         })
         stripeCustomerId = stripeCustomer.id
 
+        // Prepare update data with new customer ID and attribution
+        const updateData: any = { stripe_customer_id: stripeCustomerId }
+
+        if (attribution?.source_partner && !existingCustomer.source_partner) {
+          updateData.source_partner = attribution.source_partner
+          updateData.attribution_date = new Date().toISOString()
+          updateData.attribution_locked = true
+          updateData.first_opt_in = attribution.first_opt_in || false
+          updateData.future_opt_in = attribution.future_opt_in || false
+        }
+
         // Update database with new customer ID
         await supabaseAdmin
           .from('customers')
-          .update({ stripe_customer_id: stripeCustomerId })
+          .update(updateData)
           .eq('email', normalizedEmail)
       }
     } else {
@@ -64,13 +89,25 @@ export async function POST(request: NextRequest) {
       })
       stripeCustomerId = stripeCustomer.id
 
+      // Prepare customer data with attribution
+      const customerData: any = {
+        email: normalizedEmail,
+        stripe_customer_id: stripeCustomerId,
+      }
+
+      // Add attribution fields if provided
+      if (attribution?.source_partner) {
+        customerData.source_partner = attribution.source_partner
+        customerData.attribution_date = new Date().toISOString()
+        customerData.attribution_locked = true
+        customerData.first_opt_in = attribution.first_opt_in || false
+        customerData.future_opt_in = attribution.future_opt_in || false
+      }
+
       // Save customer to database
       await supabaseAdmin
         .from('customers')
-        .upsert({
-          email: normalizedEmail,
-          stripe_customer_id: stripeCustomerId,
-        }, { onConflict: 'email' })
+        .upsert(customerData, { onConflict: 'email' })
     }
 
     // Create checkout session with 14-day trial

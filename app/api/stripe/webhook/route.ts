@@ -152,10 +152,10 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
 async function handleSubscriptionUpdate(subscription: any) {
   const stripeCustomerId = subscription.customer as string
 
-  // Get customer from database with email
+  // Get customer from database with email and attribution
   const { data: customer } = await supabaseAdmin
     .from('customers')
-    .select('id, email')
+    .select('id, email, source_partner')
     .eq('stripe_customer_id', stripeCustomerId)
     .single()
 
@@ -188,6 +188,31 @@ async function handleSubscriptionUpdate(subscription: any) {
           : null
       })
       .eq('customer_id', customer.id)
+
+    // Create partner payout if customer has source_partner and becomes paid subscriber
+    if (subscription.status === 'active' && customer.source_partner) {
+      // Check if payout already exists for this customer
+      const { data: existingPayout } = await supabaseAdmin
+        .from('partner_payouts')
+        .select('id')
+        .eq('customer_id', customer.id)
+        .single()
+
+      if (!existingPayout) {
+        // Create pending payout
+        await supabaseAdmin
+          .from('partner_payouts')
+          .insert({
+            partner_id: customer.source_partner,
+            customer_id: customer.id,
+            amount: 10.00,
+            status: 'pending',
+            subscription_date: new Date().toISOString(),
+          })
+
+        console.log(`Created $10 payout for partner ${customer.source_partner} from customer ${customer.id}`)
+      }
+    }
 
     // Sync profile subscription status (for users who linked their access code)
     // This ensures trial->paid conversion updates the profile

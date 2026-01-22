@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { Check, X, Loader2 } from 'lucide-react'
 import { Navigation } from '@/components/Navigation'
 import toast, { Toaster } from 'react-hot-toast'
+import { getCookie } from '@/lib/cookies'
 
 export default function PricingPage() {
   const [email, setEmail] = useState('')
@@ -46,6 +47,11 @@ export default function PricingPage() {
       return
     }
 
+    // Capture attribution data
+    const sourcePartner = sessionStorage.getItem('source_partner') || getCookie('ow_src') || null
+    const firstOptIn = sessionStorage.getItem('first_opt_in') === 'true'
+    const futureOptIn = sessionStorage.getItem('future_opt_in') === 'true'
+
     try {
       const res = await fetch('/api/stripe/checkout', {
         method: 'POST',
@@ -53,6 +59,11 @@ export default function PricingPage() {
         body: JSON.stringify({
           email,
           priceId,
+          attribution: {
+            source_partner: sourcePartner,
+            first_opt_in: firstOptIn,
+            future_opt_in: futureOptIn,
+          }
         })
       })
 

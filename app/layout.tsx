@@ -148,9 +148,9 @@ export default function RootLayout({
               "url": "https://www.only-works.com",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://www.only-works.com/images/logo.png",
-                "width": 500,
-                "height": 500,
+                "url": "https://www.only-works.com/favicon.svg",
+                "width": 90,
+                "height": 108,
                 "caption": "OnlyWorks Logo"
               },
               "description": "Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.",
