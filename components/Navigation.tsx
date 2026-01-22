@@ -22,7 +22,6 @@ export function Navigation() {
             <Link href="/pricing" className="nav-link">Pricing</Link>
             <Link href="/careers" className="nav-link">Careers</Link>
             <Link href="/support" className="nav-link">Support</Link>
-            <Link href="/account" className="nav-link">Account</Link>
           </div>
 
           {/* Desktop Access Button - hidden on mobile */}
@@ -100,14 +99,6 @@ export function Navigation() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Support
-              </Link>
-              <Link
-                href="/account"
-                className="text-lg font-medium py-2"
-                style={{ color: 'var(--text)' }}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Account
               </Link>
               <div className="pt-4 border-t" style={{ borderColor: 'var(--border)' }}>
                 <Link
