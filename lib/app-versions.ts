@@ -1,4 +1,4 @@
-// App version configuration and metadata - v2.0.2
+// App version configuration and metadata - v2.0.5
 export interface AppVersion {
   version: string
   releaseDate: string
@@ -31,16 +31,16 @@ export interface AppVersion {
 }
 
 export const CURRENT_VERSION: AppVersion = {
-  version: '2.0.2',
-  releaseDate: '2026-01-13',
+  version: '2.0.5',
+  releaseDate: '2026-01-23',
   platforms: {
     mac: {
       arm64: {
-        url: 'https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v2.0.2/OnlyWorks.Desktop-2.0.2-arm64.dmg',
+        url: 'https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v2.0.5/OnlyWorks.Desktop-2.0.5-arm64.dmg',
         size: '113MB',
       },
       intel: {
-        url: 'https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v2.0.2/OnlyWorks.Desktop-2.0.2.dmg',
+        url: 'https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v2.0.5/OnlyWorks.Desktop-2.0.5.dmg',
         size: '119MB',
       },
     },
