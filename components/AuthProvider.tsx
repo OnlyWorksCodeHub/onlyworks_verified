@@ -22,12 +22,19 @@ const AuthContext = createContext<AuthContextType>({
   signOut: async () => {},
 })
 
+// NEXT_PUBLIC_ vars are mapped from SUPABASE_URL/SUPABASE_ANON_KEY via next.config.js
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const isSupabaseConfigured =
+  typeof supabaseUrl === 'string' && supabaseUrl.length > 0 &&
+  typeof supabaseKey === 'string' && supabaseKey.length > 0
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [session, setSession] = useState<Session | null>(null)
   const [backendToken, setBackendToken] = useState<string | null>(null)
   const [owId, setOwId] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(isSupabaseConfigured)
 
   const exchangeForBackendToken = useCallback(async () => {
     try {
@@ -45,6 +52,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   useEffect(() => {
+    if (!isSupabaseConfigured) return
+
     const supabase = createClient()
 
     // Check existing session on mount

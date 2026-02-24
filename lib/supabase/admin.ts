@@ -7,7 +7,7 @@ let supabaseAdminClient: SupabaseClient | null = null
 export function getSupabaseAdmin(): SupabaseClient {
   if (!supabaseAdminClient) {
     supabaseAdminClient = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
       {
         auth: {
