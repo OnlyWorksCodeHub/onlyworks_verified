@@ -13,7 +13,7 @@ import type { ProfileData, StatsData, ReportData } from '@/lib/types/profile'
 
 async function getProfile(owId: string): Promise<ProfileData | null> {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/profiles/public/${owId}`, { cache: 'no-store' })
+    const res = await fetch(`${BACKEND_URL}/api/profiles/${owId}`, { cache: 'no-store' })
     if (!res.ok) return null
     const data = await res.json()
     return data.success ? data.data : null
@@ -25,7 +25,7 @@ async function getProfile(owId: string): Promise<ProfileData | null> {
 
 async function getStats(owId: string): Promise<StatsData | null> {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/profiles/public/${owId}/stats`, { cache: 'no-store' })
+    const res = await fetch(`${BACKEND_URL}/api/profiles/${owId}/stats`, { cache: 'no-store' })
     if (!res.ok) return null
     const data = await res.json()
     return data.success ? data.data : null
@@ -37,7 +37,7 @@ async function getStats(owId: string): Promise<StatsData | null> {
 
 async function getReports(owId: string): Promise<ReportData[] | null> {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/profiles/public/${owId}/reports`, { cache: 'no-store' })
+    const res = await fetch(`${BACKEND_URL}/api/profiles/${owId}/reports`, { cache: 'no-store' })
     if (!res.ok) return null
     const data = await res.json()
     return data.success ? data.data : null
