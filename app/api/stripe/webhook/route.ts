@@ -104,8 +104,8 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
       trial_end: subscription.trial_end
         ? new Date(subscription.trial_end * 1000).toISOString()
         : null,
-      current_period_end: subscription.current_period_end
-        ? new Date(subscription.current_period_end * 1000).toISOString()
+      current_period_end: subscription.items.data[0]?.current_period_end
+        ? new Date(subscription.items.data[0].current_period_end * 1000).toISOString()
         : null,
     }, { onConflict: 'stripe_subscription_id' })
   if (upsertSubError) {
@@ -172,8 +172,8 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
       trial_end: subscription.trial_end
         ? new Date(subscription.trial_end * 1000).toISOString()
         : null,
-      current_period_end: subscription.current_period_end
-        ? new Date(subscription.current_period_end * 1000).toISOString()
+      current_period_end: subscription.items.data[0]?.current_period_end
+        ? new Date(subscription.items.data[0].current_period_end * 1000).toISOString()
         : null,
     }, { onConflict: 'stripe_subscription_id' })
   if (upsertError) {
