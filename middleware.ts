@@ -43,16 +43,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  // Logged-in users: redirect homepage and /login to profile
-  if (session) {
-    if (request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/') {
-      return NextResponse.redirect(new URL('/p/edit', request.url))
-    }
+  // Logged-in users: redirect /login to profile (they're already authenticated)
+  if (session && request.nextUrl.pathname === '/login') {
+    return NextResponse.redirect(new URL('/p/edit', request.url))
   }
 
   return response
 }
 
 export const config = {
-  matcher: ['/', '/p/setup', '/p/edit', '/login', '/admin/:path*'],
+  matcher: ['/p/setup', '/p/edit', '/login', '/admin/:path*'],
 }
