@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         valid: false,
         error: 'Invalid access code'
-      })
+      }, { status: 404 })
     }
 
     // Check if code is active
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         valid: false,
         error: 'This access code has been deactivated'
-      })
+      }, { status: 403 })
     }
 
     // Check if code has expired
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
           valid: false,
           error: 'This access code has expired. Please renew your subscription.'
-        })
+        }, { status: 403 })
       }
     }
 

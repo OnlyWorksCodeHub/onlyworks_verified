@@ -48,7 +48,7 @@ export default function ReportNotFound() {
       {/* Footer */}
       <footer className="py-6 text-center">
         <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-          &copy; 2025 OnlyWorks
+          &copy; {new Date().getFullYear()} OnlyWorks
         </p>
       </footer>
     </div>

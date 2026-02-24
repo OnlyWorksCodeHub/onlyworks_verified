@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, Shield, Cpu, Lock, Users, Target, Zap } from 'lucide-react'
 import { Navigation } from '@/components/Navigation'
+import { Footer } from '@/components/Footer'
 
 export default function AboutPage() {
   return (
@@ -170,16 +171,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container flex justify-between items-center">
-          <span className="text-sm" style={{ color: 'var(--text-muted)' }}>© 2025 OnlyWorks</span>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="footer-link">Privacy</Link>
-            <Link href="/terms" className="footer-link">Terms</Link>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

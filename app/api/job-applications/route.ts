@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { BACKEND_URL } from '@/lib/config'
 
-const BACKEND_URL = 'https://onlyworks-backend-server.onrender.com'
-
-// CORS headers
+// CORS headers — restrict to our own domain (same-origin requests work without CORS,
+// but this covers subdomains / preview deployments)
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Origin': 'https://only-works.com',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 }

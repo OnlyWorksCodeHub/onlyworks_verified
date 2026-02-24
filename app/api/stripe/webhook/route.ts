@@ -2,15 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { generateAccessCode, sendAccessCodeEmail, sendTrialEndingEmail } from '@/lib/stripe/utils'
-
-let stripeClient: Stripe | null = null
-
-function getStripe(): Stripe {
-  if (!stripeClient) {
-    stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!)
-  }
-  return stripeClient
-}
+import { logger } from '@/lib/logger'
+import { getStripe } from '@/lib/stripe/client'
 
 export async function POST(request: NextRequest) {
   const body = await request.text()
@@ -29,7 +22,7 @@ export async function POST(request: NextRequest) {
       process.env.STRIPE_WEBHOOK_SECRET!
     )
   } catch (err) {
-    console.error('Webhook signature verification failed:', err)
+    logger.error('Webhook signature verification failed', { error: err instanceof Error ? err.message : String(err) })
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })
   }
 
@@ -53,7 +46,7 @@ export async function POST(request: NextRequest) {
         break
     }
   } catch (error) {
-    console.error('Webhook handler error:', error)
+    logger.error('Webhook handler error', { error: error instanceof Error ? (error as Error).message : String(error) })
     return NextResponse.json({ error: 'Webhook handler failed' }, { status: 500 })
   }
 
@@ -63,7 +56,7 @@ export async function POST(request: NextRequest) {
 async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
   const email = session.customer_details?.email || session.metadata?.customer_email
   if (!email) {
-    console.error('No email found in checkout session')
+    logger.error('No email found in checkout session')
     return
   }
 
@@ -79,7 +72,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
     .single()
 
   if (!customer) {
-    const { data: newCustomer } = await supabaseAdmin
+    const { data: newCustomer, error: insertError } = await supabaseAdmin
       .from('customers')
       .insert({
         email: normalizedEmail,
@@ -87,32 +80,37 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
       })
       .select('id')
       .single()
+    if (insertError) {
+      logger.error('Failed to insert customer', { error: insertError.message, email: normalizedEmail })
+    }
     customer = newCustomer
   }
 
   if (!customer) {
-    console.error('Failed to get/create customer')
+    logger.error('Failed to get/create customer', { email: normalizedEmail })
     return
   }
 
   // Get subscription details
   const subscription = await getStripe().subscriptions.retrieve(subscriptionId)
-    const subData = subscription as any
 
   // Create subscription record
-  await supabaseAdmin
+  const { error: upsertSubError } = await supabaseAdmin
     .from('subscriptions')
     .upsert({
       customer_id: customer.id,
       stripe_subscription_id: subscriptionId,
-      status: subData.status,
-      trial_end: subData.trial_end
-        ? new Date(subData.trial_end * 1000).toISOString()
+      status: subscription.status,
+      trial_end: subscription.trial_end
+        ? new Date(subscription.trial_end * 1000).toISOString()
         : null,
-      current_period_end: subData.current_period_end
-        ? new Date(subData.current_period_end * 1000).toISOString()
+      current_period_end: subscription.current_period_end
+        ? new Date(subscription.current_period_end * 1000).toISOString()
         : null,
     }, { onConflict: 'stripe_subscription_id' })
+  if (upsertSubError) {
+    logger.error('Failed to upsert subscription in checkout', { error: upsertSubError.message, subscriptionId })
+  }
 
   // Check if access code already exists for this customer
   const { data: existingCode } = await supabaseAdmin
@@ -124,7 +122,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
 
   if (existingCode) {
     // Resend existing code
-    await sendAccessCodeEmail(normalizedEmail, existingCode.code, subData.status === 'trialing')
+    await sendAccessCodeEmail(normalizedEmail, existingCode.code, subscription.status === 'trialing')
     return
   }
 
@@ -132,24 +130,27 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
   const accessCode = generateAccessCode()
 
   // Determine expiration (null for paid, trial_end for trials)
-  const expiresAt = subData.status === 'trialing' && subData.trial_end
-    ? new Date(subData.trial_end * 1000).toISOString()
+  const expiresAt = subscription.status === 'trialing' && subscription.trial_end
+    ? new Date(subscription.trial_end * 1000).toISOString()
     : null
 
   // Store access code
-  await supabaseAdmin.from('access_codes').insert({
+  const { error: insertCodeError } = await supabaseAdmin.from('access_codes').insert({
     code: accessCode,
     customer_id: customer.id,
     email: normalizedEmail,
     is_active: true,
     expires_at: expiresAt,
   })
+  if (insertCodeError) {
+    logger.error('Failed to insert access code', { error: insertCodeError.message, email: normalizedEmail })
+  }
 
   // Send email with access code
-  await sendAccessCodeEmail(normalizedEmail, accessCode, subData.status === 'trialing')
+  await sendAccessCodeEmail(normalizedEmail, accessCode, subscription.status === 'trialing')
 }
 
-async function handleSubscriptionUpdate(subscription: any) {
+async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
   const stripeCustomerId = subscription.customer as string
 
   // Get customer from database with email and attribution
@@ -162,7 +163,7 @@ async function handleSubscriptionUpdate(subscription: any) {
   if (!customer) return
 
   // Update subscription record
-  await supabaseAdmin
+  const { error: upsertError } = await supabaseAdmin
     .from('subscriptions')
     .upsert({
       customer_id: customer.id,
@@ -175,11 +176,14 @@ async function handleSubscriptionUpdate(subscription: any) {
         ? new Date(subscription.current_period_end * 1000).toISOString()
         : null,
     }, { onConflict: 'stripe_subscription_id' })
+  if (upsertError) {
+    logger.error('Failed to upsert subscription', { error: upsertError.message, subscriptionId: subscription.id })
+  }
 
   // Update access code status based on subscription status
   if (subscription.status === 'active' || subscription.status === 'trialing') {
     // Ensure access code is active and update expiration
-    await supabaseAdmin
+    const { error: updateCodeError } = await supabaseAdmin
       .from('access_codes')
       .update({
         is_active: true,
@@ -188,6 +192,9 @@ async function handleSubscriptionUpdate(subscription: any) {
           : null
       })
       .eq('customer_id', customer.id)
+    if (updateCodeError) {
+      logger.error('Failed to update access code', { error: updateCodeError.message, customerId: customer.id })
+    }
 
     // Create partner payout if customer has source_partner and becomes paid subscriber
     if (subscription.status === 'active' && customer.source_partner) {
@@ -200,7 +207,7 @@ async function handleSubscriptionUpdate(subscription: any) {
 
       if (!existingPayout) {
         // Create pending payout
-        await supabaseAdmin
+        const { error: payoutError } = await supabaseAdmin
           .from('partner_payouts')
           .insert({
             partner_id: customer.source_partner,
@@ -209,8 +216,11 @@ async function handleSubscriptionUpdate(subscription: any) {
             status: 'pending',
             subscription_date: new Date().toISOString(),
           })
-
-        console.log(`Created $10 payout for partner ${customer.source_partner} from customer ${customer.id}`)
+        if (payoutError) {
+          logger.error('Failed to insert partner payout', { error: payoutError.message, partnerId: customer.source_partner })
+        } else {
+          logger.info('Created partner payout', { partnerId: customer.source_partner, customerId: customer.id, amount: 10.00 })
+        }
       }
     }
 
@@ -223,7 +233,7 @@ async function handleSubscriptionUpdate(subscription: any) {
         : null
 
       // Update any profiles with matching email
-      await supabaseAdmin
+      const { error: profileError } = await supabaseAdmin
         .from('profiles')
         .update({
           subscription_type: subscriptionType,
@@ -232,30 +242,39 @@ async function handleSubscriptionUpdate(subscription: any) {
           updated_at: new Date().toISOString()
         })
         .eq('email', customer.email.toLowerCase())
-
-      console.log(`Profile synced for ${customer.email}: ${subscriptionType}`)
+      if (profileError) {
+        logger.error('Failed to sync profile subscription', { error: profileError.message, email: customer.email })
+      } else {
+        logger.info('Profile synced', { email: customer.email, subscriptionType })
+      }
     }
   } else if (['canceled', 'unpaid', 'past_due'].includes(subscription.status)) {
     // Deactivate access codes
-    await supabaseAdmin
+    const { error: deactivateError } = await supabaseAdmin
       .from('access_codes')
       .update({ is_active: false })
       .eq('customer_id', customer.id)
+    if (deactivateError) {
+      logger.error('Failed to deactivate access codes', { error: deactivateError.message, customerId: customer.id })
+    }
 
     // Update profile subscription status
     if (customer.email) {
-      await supabaseAdmin
+      const { error: profileError } = await supabaseAdmin
         .from('profiles')
         .update({
           subscription_status: subscription.status,
           updated_at: new Date().toISOString()
         })
         .eq('email', customer.email.toLowerCase())
+      if (profileError) {
+        logger.error('Failed to update profile status', { error: profileError.message, email: customer.email })
+      }
     }
   }
 }
 
-async function handleSubscriptionCanceled(subscription: any) {
+async function handleSubscriptionCanceled(subscription: Stripe.Subscription) {
   const stripeCustomerId = subscription.customer as string
 
   const { data: customer } = await supabaseAdmin
@@ -266,20 +285,26 @@ async function handleSubscriptionCanceled(subscription: any) {
 
   if (customer) {
     // Deactivate access codes
-    await supabaseAdmin
+    const { error: deactivateError } = await supabaseAdmin
       .from('access_codes')
       .update({ is_active: false })
       .eq('customer_id', customer.id)
+    if (deactivateError) {
+      logger.error('Failed to deactivate access codes on cancel', { error: deactivateError.message, customerId: customer.id })
+    }
 
     // Update subscription status
-    await supabaseAdmin
+    const { error: updateSubError } = await supabaseAdmin
       .from('subscriptions')
       .update({ status: 'canceled' })
       .eq('stripe_subscription_id', subscription.id)
+    if (updateSubError) {
+      logger.error('Failed to update subscription status on cancel', { error: updateSubError.message, subscriptionId: subscription.id })
+    }
   }
 }
 
-async function handleTrialEnding(subscription: any) {
+async function handleTrialEnding(subscription: Stripe.Subscription) {
   const stripeCustomerId = subscription.customer as string
 
   // Get customer email
@@ -290,7 +315,7 @@ async function handleTrialEnding(subscription: any) {
     .single()
 
   if (!customer?.email) {
-    console.error('No customer email found for trial ending notification')
+    logger.error('No customer email found for trial ending notification')
     return
   }
 
@@ -300,7 +325,7 @@ async function handleTrialEnding(subscription: any) {
     : null
 
   if (!trialEnd) {
-    console.error('No trial end date in subscription')
+    logger.error('No trial end date in subscription', { subscriptionId: subscription.id })
     return
   }
 
@@ -310,5 +335,5 @@ async function handleTrialEnding(subscription: any) {
 
   // Send notification email
   await sendTrialEndingEmail(customer.email, daysRemaining)
-  console.log(`Trial ending notification sent to ${customer.email} (${daysRemaining} days remaining)`)
+  logger.info('Trial ending notification sent', { email: customer.email, daysRemaining })
 }

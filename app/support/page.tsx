@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { ArrowRight, Mail, Shield, Monitor, Zap, BarChart3, ChevronDown, ChevronUp, AlertTriangle, Download } from 'lucide-react'
 import { Navigation } from '@/components/Navigation'
+import { Footer } from '@/components/Footer'
 
 interface FAQItem {
   question: string
@@ -382,16 +383,7 @@ export default function SupportPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container flex justify-between items-center">
-          <span className="text-sm" style={{ color: 'var(--text-muted)' }}>© 2025 OnlyWorks</span>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="footer-link">Privacy</Link>
-            <Link href="/terms" className="footer-link">Terms</Link>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

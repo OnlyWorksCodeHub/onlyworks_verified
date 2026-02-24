@@ -1,8 +1,12 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
+import { requireAdmin } from '@/lib/auth'
 
 export async function GET() {
   try {
+    const { error: authError } = await requireAdmin()
+    if (authError) return authError
+
     const { data: partners, error } = await supabaseAdmin
       .from('partners')
       .select('*')

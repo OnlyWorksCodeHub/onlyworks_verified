@@ -1,24 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Stripe from 'stripe'
 import { supabaseAdmin } from '@/lib/supabase/admin'
-
-let stripeClient: Stripe | null = null
-
-function getStripe(): Stripe {
-  if (!stripeClient) {
-    stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!)
-  }
-  return stripeClient
-}
+import { logger } from '@/lib/logger'
+import { getStripe } from '@/lib/stripe/client'
 
 export async function POST(request: NextRequest) {
   try {
     const { email, priceId, attribution } = await request.json()
 
-    console.log('Checkout request:', { email, priceId, hasStripeKey: !!process.env.STRIPE_SECRET_KEY, attribution })
+    logger.info('Checkout request', { email, priceId, hasAttribution: !!attribution })
 
     if (!email || !priceId) {
-      console.error('Missing required fields:', { email: !!email, priceId: !!priceId })
+      logger.error('Missing required checkout fields', { hasEmail: !!email, hasPriceId: !!priceId })
       return NextResponse.json(
         { error: 'Email and priceId are required' },
         { status: 400 }
@@ -44,7 +36,7 @@ export async function POST(request: NextRequest) {
 
         // Update attribution if provided and not already set
         if (attribution?.source_partner && !existingCustomer.source_partner) {
-          await supabaseAdmin
+          const { error: attrError } = await supabaseAdmin
             .from('customers')
             .update({
               source_partner: attribution.source_partner,
@@ -54,10 +46,13 @@ export async function POST(request: NextRequest) {
               future_opt_in: attribution.future_opt_in || false,
             })
             .eq('email', normalizedEmail)
+          if (attrError) {
+            logger.error('Failed to update customer attribution', { error: attrError.message, email: normalizedEmail })
+          }
         }
       } catch {
         // Customer doesn't exist in Stripe anymore, create a new one
-        console.log('Stale customer ID, creating new Stripe customer')
+        logger.warn('Stale Stripe customer ID, creating new customer', { email: normalizedEmail })
         const stripeCustomer = await getStripe().customers.create({
           email: normalizedEmail,
           metadata: { source: 'onlyworks_website' }
@@ -65,7 +60,7 @@ export async function POST(request: NextRequest) {
         stripeCustomerId = stripeCustomer.id
 
         // Prepare update data with new customer ID and attribution
-        const updateData: any = { stripe_customer_id: stripeCustomerId }
+        const updateData: Record<string, unknown> = { stripe_customer_id: stripeCustomerId }
 
         if (attribution?.source_partner && !existingCustomer.source_partner) {
           updateData.source_partner = attribution.source_partner
@@ -76,10 +71,13 @@ export async function POST(request: NextRequest) {
         }
 
         // Update database with new customer ID
-        await supabaseAdmin
+        const { error: updateError } = await supabaseAdmin
           .from('customers')
           .update(updateData)
           .eq('email', normalizedEmail)
+        if (updateError) {
+          logger.error('Failed to update stale customer', { error: updateError.message, email: normalizedEmail })
+        }
       }
     } else {
       // Create new Stripe customer
@@ -90,7 +88,7 @@ export async function POST(request: NextRequest) {
       stripeCustomerId = stripeCustomer.id
 
       // Prepare customer data with attribution
-      const customerData: any = {
+      const customerData: Record<string, unknown> = {
         email: normalizedEmail,
         stripe_customer_id: stripeCustomerId,
       }
@@ -105,9 +103,12 @@ export async function POST(request: NextRequest) {
       }
 
       // Save customer to database
-      await supabaseAdmin
+      const { error: upsertError } = await supabaseAdmin
         .from('customers')
         .upsert(customerData, { onConflict: 'email' })
+      if (upsertError) {
+        logger.error('Failed to upsert customer', { error: upsertError.message, email: normalizedEmail })
+      }
     }
 
     // Create checkout session with 14-day trial
@@ -138,7 +139,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ url: session.url })
   } catch (error) {
-    console.error('Checkout error:', error)
+    logger.error('Checkout error', { error: error instanceof Error ? error.message : String(error) })
     const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     return NextResponse.json(
       { error: 'Failed to create checkout session', details: errorMessage },

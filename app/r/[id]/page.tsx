@@ -2,9 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Clock, Calendar, Target, CheckCircle, AlertTriangle, Lightbulb, BarChart3, ArrowRight } from 'lucide-react'
-
-// Backend API URL
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://onlyworks-backend-server.onrender.com'
+import { BACKEND_URL } from '@/lib/config'
 
 interface ReportData {
   id: string

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import Link from 'next/link'
 import { Navigation } from '@/components/Navigation'
+import { Footer } from '@/components/Footer'
 import { setCookie } from '@/lib/cookies'
 
 export default function VerifySkillsPage() {
@@ -21,8 +21,6 @@ export default function VerifySkillsPage() {
       // Set 30-day cookie (backup persistence)
       setCookie('ow_src', source, 30)
 
-      // Log for debugging (remove in production)
-      console.log('✅ Attribution captured:', source)
     }
   }, [searchParams])
 
@@ -83,16 +81,7 @@ export default function VerifySkillsPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container flex justify-between items-center">
-          <span className="text-sm" style={{ color: 'var(--text-muted)' }}>© 2025 OnlyWorks</span>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="footer-link">Privacy</Link>
-            <Link href="/terms" className="footer-link">Terms</Link>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

@@ -484,3 +484,26 @@ p {
   font-weight: 300;
   color: var(--accent);
 }
+
+/* Profile page styles */
+.profile-page { max-width: 800px; margin: 0 auto; padding: 2rem; }
+.profile-card { background: white; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.profile-card-header { background: linear-gradient(135deg, #5b70f8 0%, #7c3aed 100%); padding: 2rem; }
+.profile-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+.profile-stat-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; text-align: center; }
+.profile-stat-value { font-size: 1.75rem; font-weight: 700; color: var(--text); }
+.profile-stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.profile-badge { display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+.profile-badge.verified { background: #dcfce7; color: #166534; }
+.profile-badge.trial { background: #dbeafe; color: #1e40af; }
+.profile-badge.previously-verified { background: #f3f4f6; color: #6b7280; }
+.profile-setup-form { max-width: 500px; margin: 0 auto; }
+.profile-step-indicator { display: flex; gap: 0.5rem; margin-bottom: 2rem; }
+.profile-step { width: 100%; height: 4px; border-radius: 2px; background: var(--border); }
+.profile-step.active { background: var(--accent); }
+.ow-id-display { font-family: monospace; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.1em; color: var(--accent); }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

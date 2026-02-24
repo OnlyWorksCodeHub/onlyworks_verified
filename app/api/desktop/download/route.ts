@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-
-const BACKEND_URL = 'https://onlyworks-backend-server.onrender.com'
+import { BACKEND_URL } from '@/lib/config'
 
 export const dynamic = 'force-dynamic'
 

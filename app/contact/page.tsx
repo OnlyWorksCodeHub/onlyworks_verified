@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { Navigation } from '@/components/Navigation'
+import { Footer } from '@/components/Footer'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
@@ -99,16 +100,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container flex justify-between items-center">
-          <span className="text-sm" style={{ color: 'var(--text-muted)' }}>© 2025 OnlyWorks</span>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="footer-link">Privacy</Link>
-            <Link href="/terms" className="footer-link">Terms</Link>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

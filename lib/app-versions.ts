@@ -31,32 +31,32 @@ export interface AppVersion {
 }
 
 export const CURRENT_VERSION: AppVersion = {
-  version: '2.0.5',
-  releaseDate: '2026-01-23',
+  version: '2.8.0',
+  releaseDate: '2026-02-18',
   platforms: {
     mac: {
       arm64: {
-        url: 'https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v2.0.5/OnlyWorks.Desktop-2.0.5-arm64.dmg',
+        url: 'https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v2.8.0/OnlyWorks.Desktop-2.8.0-arm64.dmg',
         size: '113MB',
       },
       intel: {
-        url: 'https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v2.0.5/OnlyWorks.Desktop-2.0.5.dmg',
+        url: 'https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v2.8.0/OnlyWorks.Desktop-2.8.0.dmg',
         size: '119MB',
       },
     },
     windows: {
       x64: {
-        url: '',
-        size: 'N/A',
+        url: 'https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v2.8.0/OnlyWorks.Desktop.Setup.2.8.0.exe',
+        size: '85MB',
       },
     },
   },
   releaseNotes: [
+    'Windows support — NSIS installer and portable .exe',
     'Real-time contextual assistant with floating overlay',
     'RAG-powered blocker detection and suggestions',
     'System-wide draggable assistant widget',
     'Fix permission prompts and UI improvements',
-    'Fix startup crash on new machines',
     'Auto-update improvements',
   ],
   minOS: {

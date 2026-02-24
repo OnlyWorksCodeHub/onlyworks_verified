@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { Navigation } from '@/components/Navigation'
+import { Footer } from '@/components/Footer'
+import toast from 'react-hot-toast'
 import Link from 'next/link'
 
 interface Payout {
@@ -65,12 +67,12 @@ export default function AdminPayoutsPage() {
 
       if (data.success) {
         await fetchPayouts()
-        alert('Payout approved!')
+        toast.success('Payout approved!')
       } else {
-        alert('Failed to approve: ' + data.error)
+        toast.error('Failed to approve: ' + data.error)
       }
     } catch (error) {
-      alert('Error approving payout')
+      toast.error('Error approving payout')
     } finally {
       setActionLoading(null)
     }
@@ -92,12 +94,12 @@ export default function AdminPayoutsPage() {
 
       if (data.success) {
         await fetchPayouts()
-        alert('Payout denied')
+        toast.success('Payout denied')
       } else {
-        alert('Failed to deny: ' + data.error)
+        toast.error('Failed to deny: ' + data.error)
       }
     } catch (error) {
-      alert('Error denying payout')
+      toast.error('Error denying payout')
     } finally {
       setActionLoading(null)
     }
@@ -118,12 +120,12 @@ export default function AdminPayoutsPage() {
 
       if (data.success) {
         await fetchPayouts()
-        alert('Payout marked as paid!')
+        toast.success('Payout marked as paid!')
       } else {
-        alert('Failed to mark as paid: ' + data.error)
+        toast.error('Failed to mark as paid: ' + data.error)
       }
     } catch (error) {
-      alert('Error marking payout as paid')
+      toast.error('Error marking payout as paid')
     } finally {
       setActionLoading(null)
     }
@@ -262,15 +264,7 @@ export default function AdminPayoutsPage() {
         </div>
       </section>
 
-      <footer className="footer">
-        <div className="container flex justify-between items-center">
-          <span className="text-sm" style={{ color: 'var(--text-muted)' }}>© 2025 OnlyWorks</span>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="footer-link">Privacy</Link>
-            <Link href="/terms" className="footer-link">Terms</Link>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

@@ -1,131 +1,8 @@
 import Link from 'next/link'
 import { MapPin, Clock, Briefcase, ArrowRight } from 'lucide-react'
 import { Navigation } from '@/components/Navigation'
-
-interface Job {
-  id: string
-  title: string
-  department: string
-  location: string
-  type: string
-  description: string
-  requirements: string[]
-}
-
-const jobs: Job[] = [
-  {
-    id: 'marketing-intern',
-    title: 'Marketing Intern',
-    department: 'Marketing',
-    location: 'Remote',
-    type: 'Internship',
-    description: 'Join our marketing team to help build brand awareness, create engaging content, and support various marketing initiatives in a fast-paced startup environment.',
-    requirements: [
-      'Currently pursuing or recently completed a degree in Marketing or Communications',
-      'Strong written and verbal communication skills',
-      'Familiarity with social media platforms',
-      'Self-motivated with ability to work independently'
-    ]
-  },
-  {
-    id: 'product-marketing-manager',
-    title: 'Product Marketing Manager',
-    department: 'Product Marketing',
-    location: 'Remote',
-    type: 'Full-time',
-    description: 'Drive go-to-market strategy for our product launches. Own positioning, messaging, and competitive analysis to help OnlyWorks stand out in the market.',
-    requirements: [
-      '4+ years of product marketing experience in B2B SaaS',
-      'Experience launching products and driving adoption',
-      'Strong analytical and storytelling skills',
-      'Ability to translate technical features into customer benefits'
-    ]
-  },
-  {
-    id: 'market-research-analyst',
-    title: 'Market Research Analyst',
-    department: 'Research',
-    location: 'Remote',
-    type: 'Full-time',
-    description: 'Lead market research initiatives to uncover customer insights, competitive intelligence, and market trends that inform our product and marketing strategies.',
-    requirements: [
-      '3+ years of market research experience',
-      'Proficiency in qualitative and quantitative research methods',
-      'Experience with survey tools and data analysis',
-      'Strong presentation and reporting skills'
-    ]
-  },
-  {
-    id: 'sales-development-rep',
-    title: 'Sales Development Representative',
-    department: 'Sales',
-    location: 'Remote',
-    type: 'Full-time',
-    description: 'Be the first point of contact for potential customers. Generate and qualify leads through outbound prospecting and inbound lead follow-up.',
-    requirements: [
-      '1-2 years of sales or customer-facing experience',
-      'Excellent communication and interpersonal skills',
-      'Self-starter mentality with a hunger to learn',
-      'Experience with CRM tools like Salesforce or HubSpot'
-    ]
-  },
-  {
-    id: 'content-marketing-manager',
-    title: 'Content Marketing Manager',
-    department: 'Content',
-    location: 'Remote',
-    type: 'Full-time',
-    description: 'Create compelling content that educates and engages our target audience. Own our blog, case studies, whitepapers, and thought leadership content.',
-    requirements: [
-      '4+ years of content marketing experience',
-      'Exceptional writing and editing skills',
-      'Experience with SEO and content analytics',
-      'Ability to distill complex topics into accessible content'
-    ]
-  },
-  {
-    id: 'growth-marketing-manager',
-    title: 'Growth Marketing Manager',
-    department: 'Growth',
-    location: 'Remote',
-    type: 'Full-time',
-    description: 'Own and optimize our paid acquisition channels. Design and execute experiments to drive efficient customer acquisition and conversion.',
-    requirements: [
-      '3+ years of growth or performance marketing experience',
-      'Hands-on experience with Google Ads, LinkedIn, and Meta',
-      'Strong analytical skills and data-driven mindset',
-      'Experience with A/B testing and CRO'
-    ]
-  },
-  {
-    id: 'brand-marketing-manager',
-    title: 'Brand Marketing Manager',
-    department: 'Brand',
-    location: 'Remote',
-    type: 'Full-time',
-    description: 'Shape and evolve the OnlyWorks brand. Lead creative campaigns, manage brand guidelines, and ensure consistent messaging across all touchpoints.',
-    requirements: [
-      '5+ years of brand marketing experience',
-      'Strong creative vision and design sensibility',
-      'Experience managing agencies and creative teams',
-      'Track record of building memorable brand campaigns'
-    ]
-  },
-  {
-    id: 'partnerships-manager',
-    title: 'Partnerships Manager',
-    department: 'Partnerships',
-    location: 'Remote',
-    type: 'Full-time',
-    description: 'Build and manage strategic partnerships that expand our reach and add value for customers. Identify, negotiate, and execute partnership opportunities.',
-    requirements: [
-      '4+ years of business development or partnerships experience',
-      'Strong negotiation and relationship-building skills',
-      'Experience structuring and executing partnership deals',
-      'Excellent project management abilities'
-    ]
-  }
-]
+import { Footer } from '@/components/Footer'
+import { jobs } from '@/lib/data/jobs'
 
 export default function CareersPage() {
   return (
@@ -206,16 +83,7 @@ export default function CareersPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container flex justify-between items-center">
-          <span className="text-sm" style={{ color: 'var(--text-muted)' }}>© 2025 OnlyWorks</span>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="footer-link">Privacy</Link>
-            <Link href="/terms" className="footer-link">Terms</Link>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

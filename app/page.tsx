@@ -7,6 +7,7 @@ import { Navigation } from '@/components/Navigation'
 import { TypewriterText } from '@/components/TypewriterText'
 import { AppShowcase } from '@/components/AppShowcase'
 import { FAQ } from '@/components/FAQ'
+import { Footer } from '@/components/Footer'
 
 export default function HomePage() {
   const features = [
@@ -119,16 +120,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container flex justify-between items-center">
-          <span className="text-sm" style={{ color: 'var(--text-muted)' }}>© 2025 OnlyWorks</span>
-          <div className="flex gap-6">
-            <Link href="/privacy" className="footer-link">Privacy</Link>
-            <Link href="/terms" className="footer-link">Terms</Link>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
