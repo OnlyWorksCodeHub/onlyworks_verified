@@ -116,7 +116,7 @@ export function Navigation() {
                       {user?.email}
                     </div>
                     <Link
-                      href={owId ? `/p/${owId}` : '/p/setup'}
+                      href="/p/edit"
                       onClick={() => setIsDropdownOpen(false)}
                       style={{
                         display: 'flex',
@@ -272,7 +272,7 @@ export function Navigation() {
                       </span>
                     </div>
                     <Link
-                      href={owId ? `/p/${owId}` : '/p/setup'}
+                      href="/p/edit"
                       className="btn btn-secondary w-full justify-center"
                       style={{ marginBottom: '8px' }}
                       onClick={() => setIsMenuOpen(false)}
