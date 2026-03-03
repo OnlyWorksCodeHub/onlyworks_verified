@@ -96,7 +96,7 @@ export default function PricingPage() {
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="mb-4 md:mb-6">Simple pricing</h1>
             <p className="text-lg md:text-xl mb-6 md:mb-10" style={{ color: 'var(--text-secondary)' }}>
-              Start free. Upgrade when you need more.
+              Start free. Upgrade when you&apos;re ready.
             </p>
 
             {/* Prominent Free Trial CTA */}
@@ -112,7 +112,7 @@ export default function PricingPage() {
                 Start your free trial today
               </h2>
               <p className="text-white/80 mb-4 md:mb-6 max-w-md text-sm md:text-base">
-                Full access to all Pro features. No charge until trial ends.
+                Full access to all Pro features for 14 days.
               </p>
               <button
                 onClick={() => openCheckout('exp')}
@@ -224,7 +224,7 @@ export default function PricingPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 pb-4">
               {[
                 { q: 'Can I cancel anytime?', a: 'Yes. Cancel from settings. Keep access until billing period ends.' },
-                { q: 'Is there a free trial?', a: 'Yes. 14 days free on Pro plan. Card required but not charged until trial ends.' },
+                { q: 'Is there a free trial?', a: 'Yes. 14 days of full Pro features. Card required but not charged until trial ends.' },
                 { q: 'What payment methods?', a: 'All major cards via Stripe. Enterprise can pay by invoice.' },
                 { q: 'What happens to my data?', a: 'Export anytime. Deleted 30 days after cancellation.' },
                 { q: 'How does work verification work?', a: 'You control what gets verified. Our AI analyzes the work patterns you choose to record, helping you build authentic proof of your skills and productivity.' },

@@ -131,11 +131,10 @@ export default function SupportPage() {
       answer: (
         <div>
           <p>
-            You can manage your subscription from your account settings in the app, or contact us at{' '}
+            Go to your <Link href="/account" className="text-[#8b5cf6] hover:underline">Account page</Link> to manage or cancel your subscription. You can also contact us at{' '}
             <a href="mailto:support@only-works.com" className="text-[#8b5cf6] hover:underline">
               support@only-works.com
-            </a>
-            {' '}and we'll help you right away.
+            </a>.
           </p>
         </div>
       ),

@@ -7,6 +7,7 @@ import AppBreakdown from '@/components/profile/AppBreakdown'
 import StreakDisplay from '@/components/profile/StreakDisplay'
 import PublicReportsList from '@/components/profile/PublicReportsList'
 import UpgradePrompt from '@/components/profile/UpgradePrompt'
+import { Navigation } from '@/components/Navigation'
 import { Lock } from 'lucide-react'
 import { BACKEND_URL } from '@/lib/config'
 import type { ProfileData, StatsData, ReportData } from '@/lib/types/profile'
@@ -74,21 +75,7 @@ export default async function ProfilePage({ params }: { params: { owId: string }
         minHeight: '100vh',
         background: 'var(--bg)',
       }}>
-        <header style={{ borderBottom: '1px solid var(--border)' }}>
-          <div style={{
-            maxWidth: '800px',
-            margin: '0 auto',
-            padding: '16px 20px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-            <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <img src="/images/logo.png" alt="OnlyWorks" style={{ height: '32px', width: '32px', filter: 'grayscale(100%) brightness(0)' }} />
-              <span style={{ fontWeight: 600, color: 'var(--text)' }}>OnlyWorks</span>
-            </Link>
-          </div>
-        </header>
+        <Navigation />
         <main style={{
           display: 'flex',
           alignItems: 'center',
@@ -146,28 +133,7 @@ export default async function ProfilePage({ params }: { params: { owId: string }
       minHeight: '100vh',
       background: 'var(--bg)',
     }}>
-      {/* Header */}
-      <header style={{ borderBottom: '1px solid var(--border)' }}>
-        <div style={{
-          maxWidth: '800px',
-          margin: '0 auto',
-          padding: '16px 20px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <img src="/images/logo.png" alt="OnlyWorks" style={{ height: '32px', width: '32px', filter: 'grayscale(100%) brightness(0)' }} />
-            <span style={{ fontWeight: 600, color: 'var(--text)' }}>OnlyWorks</span>
-          </Link>
-          <div style={{
-            fontSize: '0.8125rem',
-            color: 'var(--text-muted)',
-          }}>
-            Verified Profile
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       {/* Main Content */}
       <main className="profile-page">

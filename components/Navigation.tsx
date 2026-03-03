@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
-import { Menu, X, User, LogOut, ChevronDown } from 'lucide-react'
+import { Menu, X, User, LogOut, ChevronDown, CreditCard } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
 
 export function Navigation() {
@@ -132,6 +132,24 @@ export function Navigation() {
                     >
                       <User style={{ width: '16px', height: '16px', color: 'var(--text-muted)' }} />
                       My Profile
+                    </Link>
+                    <Link
+                      href="/account"
+                      onClick={() => setIsDropdownOpen(false)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '10px 16px',
+                        fontSize: '0.875rem',
+                        color: 'var(--text)',
+                        transition: 'background 0.1s',
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-alt)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                    >
+                      <CreditCard style={{ width: '16px', height: '16px', color: 'var(--text-muted)' }} />
+                      Account
                     </Link>
                     <button
                       onClick={handleSignOut}
@@ -278,6 +296,14 @@ export function Navigation() {
                       onClick={() => setIsMenuOpen(false)}
                     >
                       My Profile
+                    </Link>
+                    <Link
+                      href="/account"
+                      className="btn btn-secondary w-full justify-center"
+                      style={{ marginBottom: '8px' }}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Account
                     </Link>
                     <button
                       onClick={handleSignOut}

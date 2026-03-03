@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { Navigation } from '@/components/Navigation'
 import { useAuth } from '@/components/AuthProvider'
 import { Loader2, Save, ExternalLink, Copy, Check } from 'lucide-react'
 
@@ -136,25 +137,7 @@ export default function ProfileEditPage() {
       minHeight: '100vh',
       background: 'var(--bg)',
     }}>
-      {/* Header */}
-      <header style={{ borderBottom: '1px solid var(--border)' }}>
-        <div style={{
-          maxWidth: '1400px',
-          margin: '0 auto',
-          padding: '16px 20px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <img src="/images/logo.png" alt="OnlyWorks" style={{ height: '32px', width: '32px', filter: 'grayscale(100%) brightness(0)' }} />
-            <span style={{ fontWeight: 600, color: 'var(--text)' }}>OnlyWorks</span>
-          </Link>
-          <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
-            {user?.email}
-          </span>
-        </div>
-      </header>
+      <Navigation />
 
       {/* Main */}
       <main style={{

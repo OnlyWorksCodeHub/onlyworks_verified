@@ -135,64 +135,55 @@ export default function DownloadsPage() {
 
   if (!hasAccess) {
     return (
-      <div className="min-h-screen">
+      <div className="min-h-screen flex flex-col">
         <Toaster position="top-center" />
         <Navigation />
 
-        <div className="min-h-screen grid grid-cols-1 md:grid-cols-2 pt-20">
-          {/* Left - Email Verification */}
-          <div className="flex items-center justify-center p-6 md:p-12" style={{ background: 'var(--bg)' }}>
-            <div className="max-w-sm w-full">
-              <h1 className="text-2xl md:text-3xl font-medium mb-2">Verify your email</h1>
-              <p className="text-sm mb-6 md:mb-8" style={{ color: 'var(--text-secondary)' }}>
-                Enter the email you used to start your free trial.
+        <div className="flex-1 flex items-center justify-center px-4">
+          <div className="w-full max-w-[400px]">
+            <div className="text-center mb-6 md:mb-8">
+              <Download className="w-10 h-10 mx-auto mb-4" style={{ color: '#8b5cf6' }} />
+              <h1 className="text-2xl md:text-3xl font-medium mb-2">Download OnlyWorks</h1>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                Enter your account email to continue.
               </p>
-              <form onSubmit={handleEmailSubmit} className="space-y-4">
-                <input
-                  type="email"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="input"
-                  required
-                />
-                {error && <p className="text-sm" style={{ color: '#ef4444' }}>{error}</p>}
-                <button type="submit" disabled={validating} className="btn btn-primary w-full">
-                  {validating ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Verifying...
-                    </>
-                  ) : (
-                    <>
-                      Continue
-                      <ArrowRight className="w-4 h-4" />
-                    </>
-                  )}
-                </button>
-              </form>
-              <div className="mt-6 md:mt-8">
-                <Link href="/" className="inline-flex items-center text-sm hover:text-[#8b5cf6]" style={{ color: 'var(--text-secondary)' }}>
-                  <ArrowLeft className="w-4 h-4 mr-1" /> Back to home
-                </Link>
-              </div>
             </div>
-          </div>
 
-          {/* Right - Start Trial */}
-          <div className="flex items-center justify-center p-6 md:p-12 border-t md:border-t-0 md:border-l" style={{ background: 'var(--bg-alt)' }}>
-            <div className="max-w-sm w-full text-center">
-              <h2 className="text-2xl md:text-3xl font-medium mb-2">New here?</h2>
-              <p className="text-sm mb-6 md:mb-8" style={{ color: 'var(--text-secondary)' }}>
-                Start your 14-day free trial to get access to downloads.
+            <form onSubmit={handleEmailSubmit} className="space-y-4">
+              <input
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="input w-full"
+                required
+              />
+              {error && <p className="text-sm" style={{ color: '#ef4444' }}>{error}</p>}
+              <button type="submit" disabled={validating} className="btn btn-primary w-full">
+                {validating ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Verifying...
+                  </>
+                ) : (
+                  <>
+                    Continue
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </form>
+
+            <div className="mt-6 md:mt-8 text-center space-y-3">
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                Don&apos;t have an account?{' '}
+                <Link href="/pricing" className="hover:text-[#8b5cf6] underline underline-offset-2" style={{ color: '#8b5cf6' }}>
+                  View pricing
+                </Link>
               </p>
-              <Link href="/pricing" className="btn btn-primary w-full inline-flex items-center justify-center">
-                Start Free Trial
-                <ArrowRight className="w-4 h-4" />
+              <Link href="/" className="inline-flex items-center text-sm hover:text-[#8b5cf6]" style={{ color: 'var(--text-secondary)' }}>
+                <ArrowLeft className="w-4 h-4 mr-1" /> Back to home
               </Link>
-              <p className="mt-4 md:mt-6 text-xs" style={{ color: 'var(--text-muted)' }}>
-                Full access to all Pro features. No charge until trial ends.
-              </p>
             </div>
           </div>
         </div>
