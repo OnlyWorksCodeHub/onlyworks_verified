@@ -43,7 +43,7 @@ export function Navigation() {
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">
             <Link href="/about" className="nav-link">About</Link>
-            <Link href="/pricing" className="nav-link">Pricing</Link>
+            <Link href="/downloads" className="nav-link">Download</Link>
             <Link href="/careers" className="nav-link">Careers</Link>
             <Link href="/support" className="nav-link">Support</Link>
           </div>
@@ -231,12 +231,12 @@ export function Navigation() {
                 About
               </Link>
               <Link
-                href="/pricing"
+                href="/downloads"
                 className="text-lg font-medium py-2"
                 style={{ color: 'var(--text)' }}
                 onClick={() => setIsMenuOpen(false)}
               >
-                Pricing
+                Download
               </Link>
               <Link
                 href="/careers"
