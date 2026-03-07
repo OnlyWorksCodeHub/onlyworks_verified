@@ -1,96 +1,14 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { ArrowLeft, ArrowRight, Monitor, Apple, Loader2, Download } from 'lucide-react'
+import { useState } from 'react'
+import { ArrowLeft, ArrowRight, Monitor, Apple, Download } from 'lucide-react'
 import toast, { Toaster } from 'react-hot-toast'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 
 export default function DownloadsPage() {
-  const [email, setEmail] = useState('')
-  const [hasAccess, setHasAccess] = useState(false)
-  const [error, setError] = useState('')
   const [downloading, setDownloading] = useState<string | null>(null)
-  const [validating, setValidating] = useState(false)
-  const [subscriptionInfo, setSubscriptionInfo] = useState<{
-    status?: string
-    trialDaysRemaining?: number | null
-  } | null>(null)
-
-  // Handle success redirect from Stripe and auto-verify access code from URL
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-
-    // Handle success message
-    if (params.get('success') === 'true') {
-      toast.success('Payment successful!', { duration: 4000 })
-    }
-
-    // Auto-verify if access code is in URL
-    const code = params.get('code')
-    if (code) {
-      setValidating(true)
-      fetch('/api/access-codes/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code })
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.valid) {
-            setHasAccess(true)
-            setSubscriptionInfo({
-              status: data.status,
-              trialDaysRemaining: data.trialDaysRemaining
-            })
-            if (data.email) setEmail(data.email)
-            toast.success(data.message || 'Access granted!')
-          } else {
-            setError(data.error || 'Invalid access code')
-          }
-        })
-        .catch(() => {
-          setError('Failed to verify access code')
-        })
-        .finally(() => {
-          setValidating(false)
-          // Clean up URL
-          window.history.replaceState({}, '', '/downloads')
-        })
-    }
-  }, [])
-
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-    setValidating(true)
-
-    try {
-      const res = await fetch('/api/subscriptions/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email.trim() })
-      })
-
-      const data = await res.json()
-
-      if (data.valid) {
-        setHasAccess(true)
-        setSubscriptionInfo({
-          status: data.status,
-          trialDaysRemaining: data.trialDaysRemaining
-        })
-        toast.success(data.message || 'Access granted!')
-      } else {
-        setError(data.error || 'No active subscription found.')
-      }
-    } catch {
-      setError('Failed to verify. Please try again.')
-    } finally {
-      setValidating(false)
-    }
-  }
 
   const handleDownload = async (platform: string, arch: string) => {
     const key = `${platform}-${arch}`
@@ -118,77 +36,6 @@ export default function DownloadsPage() {
     } finally {
       setDownloading(null)
     }
-  }
-
-  // Show loading state while auto-verifying code from URL
-  if (validating && !hasAccess) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Toaster position="top-center" />
-        <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" style={{ color: '#8b5cf6' }} />
-          <p style={{ color: 'var(--text-secondary)' }}>Verifying your access...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (!hasAccess) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Toaster position="top-center" />
-        <Navigation />
-
-        <div className="flex-1 flex items-center justify-center px-4">
-          <div className="w-full max-w-[400px]">
-            <div className="text-center mb-6 md:mb-8">
-              <Download className="w-10 h-10 mx-auto mb-4" style={{ color: '#8b5cf6' }} />
-              <h1 className="text-2xl md:text-3xl font-medium mb-2">Download OnlyWorks</h1>
-              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                Enter your account email to continue.
-              </p>
-            </div>
-
-            <form onSubmit={handleEmailSubmit} className="space-y-4">
-              <input
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="input w-full"
-                required
-              />
-              {error && <p className="text-sm" style={{ color: '#ef4444' }}>{error}</p>}
-              <button type="submit" disabled={validating} className="btn btn-primary w-full">
-                {validating ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Verifying...
-                  </>
-                ) : (
-                  <>
-                    Continue
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </button>
-            </form>
-
-            <div className="mt-6 md:mt-8 text-center space-y-3">
-              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                Don&apos;t have an account?{' '}
-                <Link href="/pricing" className="hover:text-[#8b5cf6] underline underline-offset-2" style={{ color: '#8b5cf6' }}>
-                  View pricing
-                </Link>
-              </p>
-              <Link href="/" className="inline-flex items-center text-sm hover:text-[#8b5cf6]" style={{ color: 'var(--text-secondary)' }}>
-                <ArrowLeft className="w-4 h-4 mr-1" /> Back to home
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
   }
 
   return (
