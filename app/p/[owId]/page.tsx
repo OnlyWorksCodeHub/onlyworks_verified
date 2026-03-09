@@ -2,15 +2,11 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import ProfileCard from '@/components/profile/ProfileCard'
-import ProfileStats from '@/components/profile/ProfileStats'
-import AppBreakdown from '@/components/profile/AppBreakdown'
-import StreakDisplay from '@/components/profile/StreakDisplay'
 import PublicReportsList from '@/components/profile/PublicReportsList'
-import UpgradePrompt from '@/components/profile/UpgradePrompt'
 import { Navigation } from '@/components/Navigation'
-import { Lock } from 'lucide-react'
+import { Lock, Zap, TrendingUp, Award, Star } from 'lucide-react'
 import { BACKEND_URL } from '@/lib/config'
-import type { ProfileData, StatsData, ReportData } from '@/lib/types/profile'
+import type { ProfileData, ReportData, OWProfileData } from '@/lib/types/profile'
 
 async function getProfile(owId: string): Promise<ProfileData | null> {
   try {
@@ -24,14 +20,14 @@ async function getProfile(owId: string): Promise<ProfileData | null> {
   }
 }
 
-async function getStats(owId: string): Promise<StatsData | null> {
+async function getOWProfile(owId: string): Promise<OWProfileData | null> {
   try {
-    const res = await fetch(`${BACKEND_URL}/api/profiles/${owId}/stats`, { cache: 'no-store' })
+    const res = await fetch(`${BACKEND_URL}/api/profiles/${owId}/ow-profile`, { cache: 'no-store' })
     if (!res.ok) return null
     const data = await res.json()
     return data.success ? data.data : null
   } catch (err) {
-    console.error(`[ProfilePage] Failed to fetch stats for ${owId}:`, err)
+    console.error(`[ProfilePage] Failed to fetch OW profile for ${owId}:`, err)
     return null
   }
 }
@@ -119,14 +115,12 @@ export default async function ProfilePage({ params }: { params: { owId: string }
     )
   }
 
-  const [stats, reports] = await Promise.all([
-    getStats(params.owId),
+  const [owProfile, reports] = await Promise.all([
+    getOWProfile(params.owId),
     getReports(params.owId),
   ])
 
   const badgeStatus = profile.badge || (profile as any).verification_status || 'none'
-  const isVerified = badgeStatus === 'verified'
-  const isPreviouslyVerified = badgeStatus === 'previously_verified'
 
   return (
     <div style={{
@@ -139,27 +133,137 @@ export default async function ProfilePage({ params }: { params: { owId: string }
       <main className="profile-page">
         <ProfileCard profile={profile} badgeStatus={badgeStatus} />
 
-        {/* Stats or Upgrade */}
-        {isVerified && stats ? (
+        {/* OW Profile */}
+        {owProfile && owProfile.summary.total_reports > 0 && (
           <>
-            <ProfileStats stats={stats} />
+            {/* Summary Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3" style={{ marginBottom: '1rem' }}>
+              <div className="card p-4 text-center">
+                <div className="text-2xl font-bold" style={{ color: 'var(--accent)' }}>{owProfile.summary.total_skills}</div>
+                <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Skills</div>
+              </div>
+              <div className="card p-4 text-center">
+                <div className="text-2xl font-bold" style={{ color: 'var(--accent)' }}>{owProfile.summary.top_proficiency_count}</div>
+                <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Advanced</div>
+              </div>
+              <div className="card p-4 text-center">
+                <div className="text-2xl font-bold" style={{ color: 'var(--accent)' }}>{owProfile.summary.total_reports}</div>
+                <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Reports</div>
+              </div>
+              <div className="card p-4 text-center">
+                <div className="text-2xl font-bold capitalize" style={{ color: 'var(--accent)', fontSize: owProfile.summary.strongest_category.length > 8 ? '1rem' : undefined }}>{owProfile.summary.strongest_category}</div>
+                <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Top Category</div>
+              </div>
+            </div>
 
-            {stats.current_streak != null && stats.longest_streak != null && (
-              <div style={{ marginBottom: '1rem' }}>
-                <StreakDisplay current={stats.current_streak} longest={stats.longest_streak} />
+            {/* Skills */}
+            {owProfile.skills.length > 0 && (
+              <div className="card p-5" style={{ marginBottom: '1rem' }}>
+                <h3 className="font-semibold mb-3 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+                  <Zap className="w-4 h-4 text-purple-500" />
+                  Skills
+                </h3>
+                {['technical', 'soft', 'domain'].map(cat => {
+                  const catSkills = owProfile.skills.filter(s => s.category === cat)
+                  if (catSkills.length === 0) return null
+                  return (
+                    <div key={cat} style={{ marginBottom: '0.75rem' }}>
+                      <div className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>{cat}</div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {catSkills.map((s, i) => (
+                          <span
+                            key={i}
+                            className={`inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium ${
+                              cat === 'technical' ? 'bg-blue-50 text-blue-600 border border-blue-200' :
+                              cat === 'soft' ? 'bg-purple-50 text-purple-600 border border-purple-200' :
+                              'bg-green-50 text-green-600 border border-green-200'
+                            } ${s.proficiency === 'advanced' ? 'font-semibold' : ''} ${s.proficiency === 'emerging' ? 'border-dashed opacity-80' : ''}`}
+                          >
+                            <span className={`w-1.5 h-1.5 rounded-full ${
+                              s.proficiency === 'advanced' ? 'bg-green-500' :
+                              s.proficiency === 'intermediate' ? 'bg-blue-500' :
+                              'bg-amber-500'
+                            }`} />
+                            {s.skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             )}
 
-            {stats.top_apps && stats.top_apps.length > 0 && (
-              <div style={{ marginBottom: '1rem' }}>
-                <AppBreakdown apps={stats.top_apps} limited={stats.limited} />
+            {/* Top Strengths */}
+            {owProfile.top_strengths.length > 0 && (
+              <div className="card p-5" style={{ marginBottom: '1rem' }}>
+                <h3 className="font-semibold mb-3 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+                  <Star className="w-4 h-4 text-green-500" />
+                  Top Strengths
+                </h3>
+                <div className="space-y-2">
+                  {owProfile.top_strengths.map((s, i) => (
+                    <div key={i} className="p-3 border-l-[3px] border-green-500" style={{ background: 'rgba(34,197,94,0.05)' }}>
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium text-sm" style={{ color: 'var(--text)' }}>{s.strength}</span>
+                        <span className="text-xs px-2 py-0.5" style={{ background: 'rgba(34,197,94,0.1)', color: '#22c55e' }}>{s.occurrences}x</span>
+                      </div>
+                      {s.latest_evidence && (
+                        <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>{s.latest_evidence}</div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Highlights */}
+            {owProfile.highlights.length > 0 && (
+              <div className="card p-5" style={{ marginBottom: '1rem' }}>
+                <h3 className="font-semibold mb-3 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+                  <Award className="w-4 h-4 text-amber-500" />
+                  Highlights
+                </h3>
+                <ul className="space-y-2">
+                  {owProfile.highlights.map((h, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <div className={`w-2 h-2 mt-1.5 flex-shrink-0 ${
+                        h.impact === 'high' ? 'bg-green-500' : h.impact === 'medium' ? 'bg-blue-500' : 'bg-gray-400'
+                      }`} />
+                      <span className="text-sm" style={{ color: 'var(--text)' }}>{h.accomplishment}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Growth Journey */}
+            {owProfile.growth_journey.length > 0 && (
+              <div className="card p-5" style={{ marginBottom: '1rem' }}>
+                <h3 className="font-semibold mb-3 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+                  <TrendingUp className="w-4 h-4 text-amber-500" />
+                  Growth Journey
+                </h3>
+                <div className="space-y-2">
+                  {owProfile.growth_journey.map((g, i) => (
+                    <div key={i} className="p-3 border-l-[3px] border-amber-400" style={{ background: 'rgba(251,191,36,0.05)' }}>
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-sm" style={{ color: 'var(--text)' }}>{g.area}</span>
+                        <span className={`text-xs px-2 py-0.5 ${
+                          g.trend === 'improving' ? 'bg-green-500/10 text-green-600' :
+                          g.trend === 'new' ? 'bg-blue-500/10 text-blue-600' :
+                          'bg-amber-500/10 text-amber-600'
+                        }`}>{g.trend}</span>
+                      </div>
+                      {g.latest_status && (
+                        <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>{g.latest_status}</div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </>
-        ) : (
-          <div style={{ marginTop: '1.5rem', marginBottom: '1rem' }}>
-            <UpgradePrompt previouslyVerified={isPreviouslyVerified} />
-          </div>
         )}
 
         {/* Public Reports */}

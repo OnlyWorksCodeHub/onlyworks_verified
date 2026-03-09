@@ -42,6 +42,31 @@ export interface PrivacySettings {
   show_streak?: boolean
   show_reports?: boolean
   is_profile_public?: boolean
+  show_skills?: boolean
+  show_strengths?: boolean
+  show_highlights?: boolean
+  show_growth?: boolean
+}
+
+export interface OWProfileSkill {
+  skill: string
+  category: string
+  proficiency: 'advanced' | 'intermediate' | 'emerging'
+  report_count: number
+  last_seen: string
+}
+
+export interface OWProfileData {
+  skills: OWProfileSkill[]
+  top_strengths: Array<{ strength: string; occurrences: number; latest_evidence: string }>
+  growth_journey: Array<{ area: string; trend: string; first_seen: string; latest_status: string }>
+  highlights: Array<{ accomplishment: string; impact: string; date: string }>
+  summary: {
+    total_skills: number
+    top_proficiency_count: number
+    total_reports: number
+    strongest_category: string
+  }
 }
 
 export type BadgeStatus = 'verified' | 'trial' | 'previously_verified' | 'none'

@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { Clock, Calendar, Target, CheckCircle, AlertTriangle, Lightbulb, BarChart3, ArrowRight } from 'lucide-react'
+import { Clock, Calendar, Target, CheckCircle, AlertTriangle, Lightbulb, BarChart3, ArrowRight, Zap, TrendingUp, ListChecks } from 'lucide-react'
 import { BACKEND_URL } from '@/lib/config'
 
 interface ReportData {
@@ -30,6 +30,11 @@ interface ReportData {
   date_to?: string
   created_at?: string
   include_private_data?: boolean
+  skills_used?: Array<{ skill: string; category: string; proficiency_signal: string; evidence: string[] }>
+  strengths_demonstrated?: Array<{ strength: string; evidence: string; pattern: string }>
+  growth_areas?: Array<{ area: string; observation: string; suggestion: string; priority: string }>
+  tasks_completed?: Array<{ task: string; status: string; evidence: string[] }>
+  tasks_remaining?: Array<{ task: string; priority: string; context: string }>
 }
 
 async function getSharedReport(token: string): Promise<ReportData | null> {
@@ -199,6 +204,53 @@ export default async function SharedReportPage({ params }: { params: { id: strin
           </div>
         )}
 
+        {/* Tasks */}
+        {((report.tasks_completed && report.tasks_completed.length > 0) || (report.tasks_remaining && report.tasks_remaining.length > 0)) && (
+          <div className="card p-6 mb-6">
+            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+              <ListChecks className="w-5 h-5" style={{ color: 'var(--accent)' }} />
+              Tasks
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {report.tasks_completed && report.tasks_completed.length > 0 && (
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>Completed</div>
+                  <ul className="space-y-2">
+                    {report.tasks_completed.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <div className="w-2 h-2 bg-green-500 mt-2 flex-shrink-0" />
+                        <span style={{ color: 'var(--text)' }}>{item.task}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {report.tasks_remaining && report.tasks_remaining.length > 0 && (
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>Remaining</div>
+                  <ul className="space-y-2">
+                    {report.tasks_remaining.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <div className="w-2 h-2 border-2 mt-2 flex-shrink-0" style={{ borderColor: 'var(--text-muted)' }} />
+                        <div className="flex items-center gap-2">
+                          <span style={{ color: 'var(--text)' }}>{item.task}</span>
+                          {item.priority && (
+                            <span className={`text-xs font-semibold uppercase px-1.5 py-0.5 ${
+                              item.priority === 'high' ? 'bg-red-500/10 text-red-500' :
+                              item.priority === 'medium' ? 'bg-blue-500/10 text-blue-500' :
+                              'bg-gray-500/10 text-gray-500'
+                            }`}>{item.priority}</span>
+                          )}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Accomplishments */}
         {accomplishments.length > 0 && (
           <div className="card p-6 mb-6">
@@ -224,6 +276,35 @@ export default async function SharedReportPage({ params }: { params: { id: strin
           </div>
         )}
 
+        {/* Skills Used */}
+        {report.skills_used && report.skills_used.length > 0 && (
+          <div className="card p-6 mb-6">
+            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+              <Zap className="w-5 h-5 text-purple-500" />
+              Skills Used
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {report.skills_used.map((item, i) => (
+                <span
+                  key={i}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1 text-sm font-medium ${
+                    item.category === 'technical' ? 'bg-blue-50 text-blue-600 border border-blue-200' :
+                    item.category === 'soft' ? 'bg-purple-50 text-purple-600 border border-purple-200' :
+                    'bg-green-50 text-green-600 border border-green-200'
+                  } ${item.proficiency_signal === 'emerging' ? 'border-dashed' : ''}`}
+                >
+                  <span className={`w-1.5 h-1.5 rounded-full ${
+                    item.proficiency_signal === 'advanced' ? 'bg-green-500' :
+                    item.proficiency_signal === 'intermediate' ? 'bg-blue-500' :
+                    'bg-amber-500'
+                  }`} />
+                  {item.skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Blockers */}
         {blockers.length > 0 && (
           <div className="card p-6 mb-6">
@@ -246,6 +327,56 @@ export default async function SharedReportPage({ params }: { params: { id: strin
                 </li>
               ))}
             </ul>
+          </div>
+        )}
+
+        {/* Strengths Demonstrated */}
+        {report.strengths_demonstrated && report.strengths_demonstrated.length > 0 && (
+          <div className="card p-6 mb-6">
+            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+              <Zap className="w-5 h-5 text-green-500" />
+              Strengths Demonstrated
+            </h2>
+            <div className="space-y-3">
+              {report.strengths_demonstrated.map((item, i) => (
+                <div key={i} className="p-3 border-l-[3px] border-green-500" style={{ background: 'rgba(34,197,94,0.05)' }}>
+                  <div className="font-semibold text-sm" style={{ color: 'var(--text)' }}>{item.strength}</div>
+                  <div className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>{item.evidence}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Growth Areas */}
+        {report.growth_areas && report.growth_areas.length > 0 && (
+          <div className="card p-6 mb-6">
+            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+              <TrendingUp className="w-5 h-5 text-amber-500" />
+              Growth Areas
+            </h2>
+            <div className="space-y-3">
+              {report.growth_areas.map((item, i) => (
+                <div key={i} className="p-3 border-l-[3px] border-amber-400" style={{ background: 'rgba(251,191,36,0.05)' }}>
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-sm" style={{ color: 'var(--text)' }}>{item.area}</span>
+                    {item.priority && (
+                      <span className={`text-xs font-semibold uppercase px-1.5 py-0.5 ${
+                        item.priority === 'high' ? 'bg-red-500/10 text-red-500' :
+                        item.priority === 'medium' ? 'bg-blue-500/10 text-blue-500' :
+                        'bg-gray-500/10 text-gray-500'
+                      }`}>{item.priority}</span>
+                    )}
+                  </div>
+                  <div className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>{item.observation}</div>
+                  {item.suggestion && (
+                    <div className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
+                      <strong>Suggestion:</strong> {item.suggestion}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
