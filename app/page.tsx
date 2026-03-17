@@ -104,6 +104,20 @@ export default function HomePage() {
       {/* FAQ */}
       <FAQ />
 
+      {/* Hiring Managers */}
+      <section className="py-16 md:py-24 px-4 md:px-6" style={{ background: 'var(--bg-alt)' }}>
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-sm font-medium mb-3" style={{ color: 'var(--accent)' }}>Coming Soon</p>
+          <h2 className="mb-4">Are you a hiring manager?</h2>
+          <p className="mb-8" style={{ color: 'var(--text-secondary)' }}>
+            See verified proof of how candidates actually work before you hire them. Join the waitlist for early access.
+          </p>
+          <Link href="/hiring" className="btn btn-primary">
+            Join the Waitlist
+          </Link>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-16 md:py-24 px-4 md:px-6" style={{ background: 'var(--accent)' }}>
         <div className="max-w-3xl mx-auto text-center">
