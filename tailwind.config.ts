@@ -14,15 +14,14 @@ const config: Config = {
         'md': '800px',
       },
       fontFamily: {
-        'playfair': ['Playfair Display', 'serif'],
         'inter': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
         'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
       },
       colors: {
         primary: {
-          DEFAULT: '#5b70f8',
-          light: '#7d8ffa',
-          dark: '#4a5fd6',
+          DEFAULT: '#8b5cf6',
+          light: '#a78bfa',
+          dark: '#7c3aed',
         },
         dark: {
           bg: '#0F0F0F',

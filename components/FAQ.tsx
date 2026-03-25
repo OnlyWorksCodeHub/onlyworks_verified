@@ -10,68 +10,36 @@ interface FAQItem {
 
 const faqs: FAQItem[] = [
   {
-    question: "Can I cancel anytime?",
-    answer: "Yes. Cancel from settings whenever you want. You'll keep full access until your billing period ends."
-  },
-  {
-    question: "Is there a free trial?",
-    answer: "Yes. Get 14 days free on the Pro plan. Card required but not charged until trial ends."
-  },
-  {
-    question: "What payment methods do you accept?",
-    answer: "All major cards via Stripe. Enterprise clients can pay by invoice."
-  },
-  {
-    question: "What happens to my work data?",
-    answer: "You own it. Export your verified reports anytime. If you cancel, data is deleted after 30 days—or immediately if you prefer."
-  },
-  {
     question: "How does work verification work?",
-    answer: "You control what gets verified. Our AI analyzes your work patterns to create proof of authenticity you can share with employers or clients. Perfect for building a credible portfolio."
+    answer: "You control what gets verified. OnlyWorks captures your work activity — apps used, time spent, what you built — and AI turns it into a verified report with your skills, accomplishments, and impact. You decide what goes into each report and who can see it."
   },
   {
     question: "Do you record my screen?",
-    answer: "No video recording. You control when verification snapshots happen. Everything stays private unless you choose to include it in a report you share."
+    answer: "OnlyWorks takes periodic screenshots to understand what you're working on, but you control when capture happens and can exclude any apps. Screenshots are analyzed locally and never shared — only the AI-generated insights make it into your reports."
   },
   {
-    question: "Can I use OnlyWorks on multiple devices?",
-    answer: "Yes. Pro and Enterprise plans let you verify work across unlimited devices."
+    question: "What happens to my work data?",
+    answer: "You own it. Your data is encrypted and never shared without your permission. Export your verified reports anytime. If you cancel, data is deleted after 30 days — or immediately if you prefer."
   },
   {
-    question: "How do you protect my privacy?",
-    answer: "End-to-end encryption. You decide what goes into reports. We never sell your data. You control who sees your verified work—clients, employers, or keep it private."
+    question: "Is there a free plan?",
+    answer: "Yes. OnlyWorks is free to get started. Generate reports, build your OW Profile, and share verified proof of your work at no cost."
   },
   {
-    question: "Do you offer refunds?",
-    answer: "Yes. Full refund within 14 days if you're not satisfied, no questions asked."
-  },
-  {
-    question: "Is there an API?",
-    answer: "Yes. Enterprise plans include full API access for custom integrations."
-  },
-  {
-    question: "How accurate is the work verification?",
-    answer: "98% accuracy in authenticating genuine work. Continuously improving through machine learning. Helps you stand out by proving your work is real."
-  },
-  {
-    question: "Can I customize my verification reports?",
-    answer: "Yes. Enterprise plans include custom branding so your reports reflect your personal or company brand."
-  },
-  {
-    question: "What tools does OnlyWorks integrate with?",
-    answer: "Slack, Teams, Notion, and more. Enterprise plans support custom integrations for your workflow."
+    question: "Can I cancel anytime?",
+    answer: "Yes. Cancel from settings whenever you want. You'll keep full access until your billing period ends. Full refund within 14 days if you're not satisfied."
   },
   {
     question: "Is there a desktop app?",
-    answer: "Yes. Available for macOS and Windows. Download it to start building your verified work portfolio."
+    answer: "Yes. Available for macOS (Apple Silicon and Intel) and Windows. Download it from our downloads page to start building your verified work portfolio."
+  },
+  {
+    question: "What tools does OnlyWorks work with?",
+    answer: "OnlyWorks runs in the background and watches whatever tools you use — VS Code, Figma, Chrome, Slack, Terminal, and anything else. No integrations needed. It observes your natural workflow."
   },
   {
     question: "How do I get support?",
-    answer: "Email support for all plans. Pro and Enterprise get priority support with a dedicated rep."
-  },
-  {
-    question: "Can I pause my subscription?",
-    answer: "Yes. Pause for up to 3 months and resume whenever you're ready."
+    answer: "Email us at contact@only-works.com or use the contact form on our website. We respond within 24 hours."
   }
 ]
 
@@ -83,39 +51,39 @@ export function FAQ() {
   }
 
   return (
-    <section className="section" style={{ background: 'var(--bg-alt)' }}>
+    <section className="py-16 md:py-24 px-4 md:px-6" style={{ background: 'var(--bg-alt)' }}>
       <div className="container">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="mb-4">Frequently Asked Questions</h2>
-            <p style={{ color: 'var(--text-secondary)' }}>
-              Everything you need to know about building your verified work portfolio.
-            </p>
+            <h2>Questions? Answers.</h2>
           </div>
 
           <div className="space-y-3">
             {faqs.map((faq, index) => (
-              <div
-                key={index}
-                className="card cursor-pointer transition-all hover:border-[var(--text-muted)]"
-                onClick={() => toggleFAQ(index)}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <h3 className="mb-2 text-base font-medium">{faq.question}</h3>
-                    {openIndex === index && (
-                      <p className="text-sm mt-3" style={{ color: 'var(--text-secondary)' }}>
-                        {faq.answer}
-                      </p>
-                    )}
+              <div key={index} className="card">
+                <button
+                  onClick={() => toggleFAQ(index)}
+                  className="w-full text-left cursor-pointer"
+                  aria-expanded={openIndex === index}
+                  aria-controls={`faq-answer-${index}`}
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <h3 className="text-base font-medium">{faq.question}</h3>
+                    <ChevronDown
+                      className={`w-5 h-5 flex-shrink-0 transition-transform duration-200 mt-0.5 ${
+                        openIndex === index ? 'rotate-180' : ''
+                      }`}
+                      style={{ color: 'var(--text-muted)' }}
+                    />
                   </div>
-                  <ChevronDown
-                    className={`w-5 h-5 flex-shrink-0 transition-transform duration-200 ${
-                      openIndex === index ? 'rotate-180' : ''
-                    }`}
-                    style={{ color: 'var(--text-muted)' }}
-                  />
-                </div>
+                </button>
+                {openIndex === index && (
+                  <div id={`faq-answer-${index}`} role="region" aria-label={faq.question}>
+                    <p className="text-sm mt-3" style={{ color: 'var(--text-secondary)', fontSize: '0.9375rem' }}>
+                      {faq.answer}
+                    </p>
+                  </div>
+                )}
               </div>
             ))}
           </div>

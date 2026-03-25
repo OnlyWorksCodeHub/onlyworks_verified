@@ -2,6 +2,10 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import ClientLayout from '@/components/ClientLayout'
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -80,7 +84,7 @@ export const metadata: Metadata = {
   other: {
     'msapplication-TileColor': '#5c5ce6',
     'theme-color': '#5c5ce6',
-    'color-scheme': 'light dark',
+    'color-scheme': 'light',
     'rating': 'general',
     'revisit-after': '7 days',
     'google-site-verification': 'nswKY7kAbZl8O4tAwnMpAc0Wwfb7CnmMeZX7lVJtliE',
@@ -119,7 +123,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", geist.variable)}>
       <head>
         {/* Favicon - all sizes explicitly defined for search engines */}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -362,8 +366,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <div className="grid-bg" />
-        <div className="grid-dots" />
+        <a href="#main" className="skip-to-content">Skip to content</a>
         <ClientLayout>
           {children}
           <Toaster

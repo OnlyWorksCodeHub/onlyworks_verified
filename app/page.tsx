@@ -1,135 +1,191 @@
 'use client'
 
 import Link from 'next/link'
-import { Shield, Cpu, BarChart3, Lock, Zap, Globe } from 'lucide-react'
-import { LogoCarousel } from '@/components/ui/logo-carousel'
+import Image from 'next/image'
 import { Navigation } from '@/components/Navigation'
-import { TypewriterText } from '@/components/TypewriterText'
-import { AppShowcase } from '@/components/AppShowcase'
 import { FAQ } from '@/components/FAQ'
 import { Footer } from '@/components/Footer'
 
 export default function HomePage() {
-  const features = [
-    { icon: Shield, title: 'Work Verification', desc: 'Verify your work is genuine. Build credible proof for employers and clients.' },
-    { icon: Cpu, title: 'Smart Analysis', desc: 'AI analyzes work patterns to create authentic proof you control and share.' },
-    { icon: BarChart3, title: 'Verified Reports', desc: 'Build tamper-proof reports that prove your work. Perfect for portfolios.' },
-    { icon: Lock, title: 'Privacy First', desc: 'End-to-end encryption. You control what gets verified. Your data stays yours.' },
-    { icon: Zap, title: 'Real-time Sync', desc: 'Instant updates across all your devices.' },
-    { icon: Globe, title: 'Works Everywhere', desc: 'Cross-platform support for Mac and Windows.' },
-  ]
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
 
-      {/* Hero */}
+      {/* Hero — two-column, conversational */}
       <section className="pt-32 md:pt-40 pb-16 md:pb-24 px-4 md:px-6">
-        <div className="max-w-xl mx-auto text-left">
-          <h1 className="mb-2">
-            Is it <span style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontStyle: 'italic' }}>REAL</span>?
-          </h1>
-          <h1 className="mb-6 md:mb-8">
-            <TypewriterText />
-          </h1>
-          <p className="text-lg md:text-xl mb-8 md:mb-12" style={{ color: 'var(--text-secondary)' }}>
-            We make sure of that.
-          </p>
-          <div className="text-center">
-            <Link href="/contact" className="btn btn-primary">
-              Get in touch
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* App Video */}
-      <section className="pb-16 md:pb-24 px-4 md:px-6">
         <div className="max-w-5xl mx-auto">
-          <div className="relative overflow-hidden img-bordered">
-            <video
-              src="/images/filler.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-auto"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Trusted By */}
-      <section className="py-6 md:py-8" style={{ background: 'var(--bg-alt)' }}>
-        <div className="text-center mb-4">
-          <p className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>Trusted by teams at</p>
-        </div>
-        <LogoCarousel />
-      </section>
-
-      {/* Features */}
-      <section className="py-16 md:py-24 px-4 md:px-6">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10 md:mb-16">
-            <h2 className="mb-4">Everything you need</h2>
-            <p style={{ color: 'var(--text-secondary)' }}>Powerful features to verify work and build trust.</p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-            {features.map((feature, i) => (
-              <div key={i} className="card">
-                <div className="icon-wrap mb-4">
-                  <feature.icon className="w-5 h-5" />
-                </div>
-                <h3 className="mb-2">{feature.title}</h3>
-                <p className="text-sm">{feature.desc}</p>
+          <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+            <div>
+              <p className="text-sm font-medium mb-4" style={{ color: 'var(--accent)' }}>
+                Work verification for real people
+              </p>
+              <h1 className="mb-6">
+                Your work is real.{' '}
+                <span style={{ color: 'var(--accent)' }}>Now prove it.</span>
+              </h1>
+              <p className="text-lg mb-8" style={{ color: 'var(--text-secondary)' }}>
+                OnlyWorks watches what you actually do and turns it into verified proof —
+                skills, accomplishments, and impact that employers can trust.
+                No fluff. Just what you&apos;ve built.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Link href="/downloads" className="btn btn-primary">
+                  Try it free
+                </Link>
+                <Link href="#how-it-works" className="btn btn-secondary">
+                  How it works
+                </Link>
               </div>
-            ))}
+            </div>
+            <div className="img-bordered overflow-hidden">
+              <Image
+                src="/images/overview.png"
+                alt="OnlyWorks dashboard showing verified work overview"
+                width={1920}
+                height={1080}
+                className="w-full h-auto"
+                priority
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* App Showcase */}
-      <section className="py-16 md:py-24 px-4 md:px-6" style={{ background: 'var(--bg-alt)' }}>
+      {/* Social proof — honest, static */}
+      <section className="py-8 md:py-10 px-4 md:px-6" style={{ background: 'var(--bg-alt)' }}>
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+            Used by students, freelancers, and professionals building verified portfolios.
+          </p>
+        </div>
+      </section>
+
+      {/* How it works — narrative storytelling sections */}
+      <section id="how-it-works" className="py-16 md:py-24 px-4 md:px-6">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10 md:mb-12">
-            <h2 className="mb-4">See how it works</h2>
-            <p style={{ color: 'var(--text-secondary)' }}>
-              Explore the features that make OnlyWorks the trusted choice for work verification.
+          <div className="text-center mb-16 md:mb-20">
+            <p className="text-sm font-medium mb-3" style={{ color: 'var(--accent)' }}>
+              How it works
             </p>
+            <h2>Three steps to verified proof</h2>
           </div>
-          <AppShowcase />
+
+          <div className="space-y-20 md:space-y-28">
+            {/* Step 1: Capture */}
+            <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+              <div>
+                <p className="text-sm font-medium mb-2" style={{ color: 'var(--accent)' }}>
+                  Step 1
+                </p>
+                <h2 className="mb-4">Work like you normally do</h2>
+                <p style={{ color: 'var(--text-secondary)' }}>
+                  OnlyWorks runs quietly in the background. It watches what
+                  you&apos;re working on — the apps, the focus time, the real effort —
+                  without getting in your way. You stay in control of what gets captured.
+                </p>
+              </div>
+              <div className="img-bordered overflow-hidden">
+                <Image
+                  src="/images/sessions.png"
+                  alt="Work sessions being tracked in OnlyWorks"
+                  width={1920}
+                  height={1080}
+                  className="w-full h-auto"
+                />
+              </div>
+            </div>
+
+            {/* Step 2: Verify (reversed) */}
+            <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+              <div className="order-2 md:order-1 img-bordered overflow-hidden">
+                <Image
+                  src="/images/reports.png"
+                  alt="AI-generated verified work report"
+                  width={1920}
+                  height={1080}
+                  className="w-full h-auto"
+                />
+              </div>
+              <div className="order-1 md:order-2">
+                <p className="text-sm font-medium mb-2" style={{ color: 'var(--accent)' }}>
+                  Step 2
+                </p>
+                <h2 className="mb-4">Get a verified report</h2>
+                <p style={{ color: 'var(--text-secondary)' }}>
+                  AI analyzes your work and generates a report showing
+                  your skills, strengths, and what you accomplished. It&apos;s your
+                  work, verified and ready to share with anyone.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 3: Share */}
+            <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+              <div>
+                <p className="text-sm font-medium mb-2" style={{ color: 'var(--accent)' }}>
+                  Step 3
+                </p>
+                <h2 className="mb-4">Share proof that speaks for itself</h2>
+                <p style={{ color: 'var(--text-secondary)' }}>
+                  Send your OW Profile or individual reports to employers,
+                  clients, or anyone who needs to see what you can do.
+                  No more guessing — just verified work.
+                </p>
+              </div>
+              <div className="img-bordered overflow-hidden">
+                <Image
+                  src="/images/shared-reports.png"
+                  alt="Sharing a verified work report"
+                  width={1920}
+                  height={1080}
+                  className="w-full h-auto"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* FAQ */}
       <FAQ />
 
-      {/* Hiring Managers */}
+      {/* Hiring managers */}
       <section className="py-16 md:py-24 px-4 md:px-6" style={{ background: 'var(--bg-alt)' }}>
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-sm font-medium mb-3" style={{ color: 'var(--accent)' }}>Coming Soon</p>
-          <h2 className="mb-4">Are you a hiring manager?</h2>
+        <div className="max-w-2xl mx-auto text-center">
+          <p className="text-sm font-medium mb-3" style={{ color: 'var(--accent)' }}>
+            For teams
+          </p>
+          <h2 className="mb-4">Hiring? See how candidates actually work.</h2>
           <p className="mb-8" style={{ color: 'var(--text-secondary)' }}>
-            See verified proof of how candidates actually work before you hire them. Join the waitlist for early access.
+            Verified reports show real skills, real projects, and real effort.
+            No more guessing from a resume. We&apos;re opening early access for hiring teams.
           </p>
           <Link href="/hiring" className="btn btn-primary">
-            Join the Waitlist
+            Get early access
           </Link>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 md:py-24 px-4 md:px-6" style={{ background: 'var(--accent)' }}>
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="mb-4 md:mb-6 text-white">Ready to make your work undeniable?</h2>
-          <p className="mb-6 md:mb-8 text-white opacity-80">Join thousands of professionals who trust OnlyWorks.</p>
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-            <Link href="/downloads" className="btn" style={{ background: 'white', color: 'var(--accent)' }}>
-              Get Access
-            </Link>
-            <Link href="/contact" className="btn" style={{ background: 'transparent', color: 'white', border: '1px solid rgba(255,255,255,0.3)' }}>
-              Contact Sales
-            </Link>
+      {/* Final CTA — warm card, not full-purple bleed */}
+      <section className="py-16 md:py-24 px-4 md:px-6">
+        <div className="max-w-3xl mx-auto">
+          <div className="card text-center" style={{
+            padding: '48px 32px',
+            background: 'linear-gradient(135deg, var(--accent-light) 0%, var(--bg) 100%)',
+            border: '1px solid var(--accent)',
+          }}>
+            <h2 className="mb-4">Your work deserves to be seen.</h2>
+            <p className="mb-8" style={{ color: 'var(--text-secondary)' }}>
+              Start building your verified portfolio. It takes two minutes.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link href="/downloads" className="btn btn-primary">
+                Get started free
+              </Link>
+              <Link href="/contact" className="btn btn-secondary">
+                Talk to us
+              </Link>
+            </div>
           </div>
         </div>
       </section>
