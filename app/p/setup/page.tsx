@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/components/AuthProvider'
 import { Loader2, ArrowRight, ArrowLeft, SkipForward } from 'lucide-react'
+import { ShimmerButton } from '@/components/ui/shimmer-button'
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://onlyworks-backend-server.onrender.com'
 
@@ -67,63 +68,34 @@ export default function ProfileSetupPage() {
 
   if (authLoading) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'var(--bg)',
-      }}>
-        <Loader2 style={{ width: '24px', height: '24px', color: 'var(--accent)', animation: 'spin 1s linear infinite' }} />
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <Loader2 className="w-6 h-6 text-violet-600 animate-spin" />
       </div>
     )
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'var(--bg)',
-    }}>
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header style={{ borderBottom: '1px solid var(--border)' }}>
-        <div style={{
-          maxWidth: '1400px',
-          margin: '0 auto',
-          padding: '16px 20px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <img src="/images/logo.png" alt="OnlyWorks" style={{ height: '32px', width: '32px', filter: 'grayscale(100%) brightness(0)' }} />
-            <span style={{ fontWeight: 600, color: 'var(--text)' }}>OnlyWorks</span>
+      <header className="border-b border-neutral-200">
+        <div className="max-w-[1400px] mx-auto px-5 py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <img src="/images/logo.png" alt="OnlyWorks" className="h-8 w-8 grayscale brightness-0" />
+            <span className="font-semibold text-neutral-900">OnlyWorks</span>
           </Link>
-          <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
+          <span className="text-sm text-neutral-400">
             {user?.email}
           </span>
         </div>
       </header>
 
       {/* Main */}
-      <main style={{
-        maxWidth: '500px',
-        margin: '0 auto',
-        padding: '3rem 1rem',
-      }}>
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <h1 style={{
-            fontSize: '1.75rem',
-            fontWeight: 600,
-            color: 'var(--text)',
-            marginBottom: '0.5rem',
-            letterSpacing: '-0.02em',
-          }}>
+      <main className="max-w-[500px] mx-auto px-4 py-12">
+        <div className="text-center mb-8">
+          <h1 className="text-[1.75rem] font-semibold text-neutral-900 mb-2 tracking-tight">
             Set up your profile
           </h1>
-          <p style={{
-            color: 'var(--text-secondary)',
-            fontSize: '0.9375rem',
-          }}>
+          <p className="text-neutral-500 text-[0.9375rem]">
             This will create your public OnlyWorks profile and OW ID.
           </p>
         </div>
@@ -139,14 +111,7 @@ export default function ProfileSetupPage() {
         </div>
 
         {error && (
-          <div style={{
-            padding: '0.75rem 1rem',
-            borderRadius: '8px',
-            background: '#fef2f2',
-            color: '#dc2626',
-            fontSize: '0.875rem',
-            marginBottom: '1.5rem',
-          }}>
+          <div className="px-4 py-3 rounded-xl bg-red-50 text-red-600 text-sm mb-6">
             {error}
           </div>
         )}
@@ -155,86 +120,61 @@ export default function ProfileSetupPage() {
           {/* Step 1: Basic Info */}
           {step === 1 && (
             <div>
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={{
-                  display: 'block',
-                  fontSize: '0.875rem',
-                  fontWeight: 500,
-                  color: 'var(--text)',
-                  marginBottom: '6px',
-                }}>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-neutral-900 mb-1.5">
                   Full name
                 </label>
                 <input
                   type="text"
-                  className="input"
+                  className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-violet-500 focus:bg-white focus:ring-1 focus:ring-violet-500 outline-none transition-all"
                   placeholder="Your full name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                 />
               </div>
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={{
-                  display: 'block',
-                  fontSize: '0.875rem',
-                  fontWeight: 500,
-                  color: 'var(--text)',
-                  marginBottom: '6px',
-                }}>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-neutral-900 mb-1.5">
                   Job title
                 </label>
                 <input
                   type="text"
-                  className="input"
+                  className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-violet-500 focus:bg-white focus:ring-1 focus:ring-violet-500 outline-none transition-all"
                   placeholder="e.g. Software Engineer"
                   value={jobTitle}
                   onChange={(e) => setJobTitle(e.target.value)}
                 />
               </div>
-              <div style={{ marginBottom: '1.5rem' }}>
-                <label style={{
-                  display: 'block',
-                  fontSize: '0.875rem',
-                  fontWeight: 500,
-                  color: 'var(--text)',
-                  marginBottom: '6px',
-                }}>
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-neutral-900 mb-1.5">
                   Company
                 </label>
                 <input
                   type="text"
-                  className="input"
+                  className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-violet-500 focus:bg-white focus:ring-1 focus:ring-violet-500 outline-none transition-all"
                   placeholder="e.g. Acme Inc"
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
                 />
               </div>
-              <button
+              <ShimmerButton
                 onClick={() => setStep(2)}
-                className="btn btn-primary"
-                style={{ width: '100%', height: '48px', fontSize: '0.9375rem' }}
+                className="w-full h-12 text-[0.9375rem]"
               >
                 Continue
-                <ArrowRight style={{ width: '18px', height: '18px' }} />
-              </button>
+                <ArrowRight className="w-[18px] h-[18px]" />
+              </ShimmerButton>
             </div>
           )}
 
           {/* Step 2: Bio */}
           {step === 2 && (
             <div>
-              <div style={{ marginBottom: '1.5rem' }}>
-                <label style={{
-                  display: 'block',
-                  fontSize: '0.875rem',
-                  fontWeight: 500,
-                  color: 'var(--text)',
-                  marginBottom: '6px',
-                }}>
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-neutral-900 mb-1.5">
                   Bio
                 </label>
                 <textarea
-                  className="input"
+                  className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-violet-500 focus:bg-white focus:ring-1 focus:ring-violet-500 outline-none transition-all h-[120px] resize-y font-[inherit]"
                   placeholder="Tell others about yourself..."
                   value={bio}
                   onChange={(e) => {
@@ -242,39 +182,26 @@ export default function ProfileSetupPage() {
                       setBio(e.target.value)
                     }
                   }}
-                  style={{
-                    height: '120px',
-                    padding: '12px 16px',
-                    resize: 'vertical',
-                    fontFamily: 'inherit',
-                  }}
                 />
-                <div style={{
-                  textAlign: 'right',
-                  fontSize: '0.75rem',
-                  color: bio.length > 260 ? '#dc2626' : 'var(--text-muted)',
-                  marginTop: '4px',
-                }}>
+                <div className={`text-right text-xs mt-1 ${bio.length > 260 ? 'text-red-600' : 'text-neutral-400'}`}>
                   {bio.length}/280
                 </div>
               </div>
-              <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <div className="flex gap-3">
                 <button
                   onClick={() => setStep(1)}
-                  className="btn btn-secondary"
-                  style={{ height: '48px', flex: 1 }}
+                  className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl border border-neutral-200 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors h-12 flex-1 gap-1.5"
                 >
-                  <ArrowLeft style={{ width: '18px', height: '18px' }} />
+                  <ArrowLeft className="w-[18px] h-[18px]" />
                   Back
                 </button>
-                <button
+                <ShimmerButton
                   onClick={() => setStep(3)}
-                  className="btn btn-primary"
-                  style={{ height: '48px', flex: 2 }}
+                  className="h-12 flex-[2]"
                 >
                   Continue
-                  <ArrowRight style={{ width: '18px', height: '18px' }} />
-                </button>
+                  <ArrowRight className="w-[18px] h-[18px]" />
+                </ShimmerButton>
               </div>
             </div>
           )}
@@ -282,11 +209,7 @@ export default function ProfileSetupPage() {
           {/* Step 3: Privacy */}
           {step === 3 && (
             <div>
-              <p style={{
-                fontSize: '0.9375rem',
-                color: 'var(--text-secondary)',
-                marginBottom: '1.5rem',
-              }}>
+              <p className="text-[0.9375rem] text-neutral-500 mb-6">
                 Choose what appears on your public profile.
               </p>
               {[
@@ -298,14 +221,7 @@ export default function ProfileSetupPage() {
               ].map(({ key, label }) => (
                 <label
                   key={key}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    padding: '12px 0',
-                    cursor: 'pointer',
-                    borderBottom: '1px solid var(--border)',
-                  }}
+                  className="flex items-center gap-3 py-3 cursor-pointer border-b border-neutral-200"
                 >
                   <input
                     type="checkbox"
@@ -316,72 +232,48 @@ export default function ProfileSetupPage() {
                         [key]: e.target.checked,
                       }))
                     }
-                    style={{
-                      width: '18px',
-                      height: '18px',
-                      accentColor: 'var(--accent)',
-                    }}
+                    className="w-[18px] h-[18px] accent-violet-600"
                   />
-                  <span style={{
-                    fontSize: '0.9375rem',
-                    color: 'var(--text)',
-                  }}>
+                  <span className="text-[0.9375rem] text-neutral-900">
                     {label}
                   </span>
                 </label>
               ))}
 
-              <div style={{ marginTop: '1.5rem', display: 'flex', gap: '0.75rem' }}>
+              <div className="mt-6 flex gap-3">
                 <button
                   onClick={() => setStep(2)}
-                  className="btn btn-secondary"
-                  style={{ height: '48px', flex: 1 }}
+                  className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl border border-neutral-200 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors h-12 flex-1 gap-1.5"
                 >
-                  <ArrowLeft style={{ width: '18px', height: '18px' }} />
+                  <ArrowLeft className="w-[18px] h-[18px]" />
                   Back
                 </button>
-                <button
+                <ShimmerButton
                   onClick={() => handleSubmit()}
-                  className="btn btn-primary"
                   disabled={saving}
-                  style={{
-                    height: '48px',
-                    flex: 2,
-                    opacity: saving ? 0.6 : 1,
-                    cursor: saving ? 'not-allowed' : 'pointer',
-                  }}
+                  className={`h-12 flex-[2] ${saving ? 'opacity-60 cursor-not-allowed' : ''}`}
                 >
                   {saving ? (
                     <>
-                      <Loader2 style={{ width: '18px', height: '18px', animation: 'spin 1s linear infinite' }} />
+                      <Loader2 className="w-[18px] h-[18px] animate-spin" />
                       Creating...
                     </>
                   ) : (
                     'Create Profile'
                   )}
-                </button>
+                </ShimmerButton>
               </div>
             </div>
           )}
 
           {/* Skip option */}
-          <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
+          <div className="text-center mt-6">
             <button
               onClick={() => handleSubmit(true)}
               disabled={saving}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px',
-                fontSize: '0.8125rem',
-                color: 'var(--text-muted)',
-                background: 'none',
-                border: 'none',
-                cursor: saving ? 'not-allowed' : 'pointer',
-                padding: '4px 8px',
-              }}
+              className={`inline-flex items-center gap-1 text-sm text-neutral-400 bg-transparent border-none px-2 py-1 ${saving ? 'cursor-not-allowed' : 'cursor-pointer'}`}
             >
-              <SkipForward style={{ width: '14px', height: '14px' }} />
+              <SkipForward className="w-3.5 h-3.5" />
               Skip for now
             </button>
           </div>

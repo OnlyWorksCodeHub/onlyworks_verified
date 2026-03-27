@@ -7,6 +7,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 import { useAuth } from '@/components/AuthProvider'
+import { ShimmerButton } from '@/components/ui/shimmer-button'
 
 interface SubscriptionInfo {
   status?: string
@@ -14,27 +15,17 @@ interface SubscriptionInfo {
 }
 
 function StatusBadge({ status }: { status?: string }) {
-  const map: Record<string, { label: string; color: string; bg: string }> = {
-    active: { label: 'Active', color: '#16a34a', bg: 'rgba(22, 163, 74, 0.1)' },
-    trialing: { label: 'Trial', color: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.1)' },
-    past_due: { label: 'Past Due', color: '#ea580c', bg: 'rgba(234, 88, 12, 0.1)' },
-    canceled: { label: 'Canceled', color: '#dc2626', bg: 'rgba(220, 38, 38, 0.1)' },
-    expired: { label: 'Expired', color: '#dc2626', bg: 'rgba(220, 38, 38, 0.1)' },
+  const map: Record<string, { label: string; className: string }> = {
+    active: { label: 'Active', className: 'text-green-600 bg-green-50' },
+    trialing: { label: 'Trial', className: 'text-violet-600 bg-violet-50' },
+    past_due: { label: 'Past Due', className: 'text-orange-600 bg-orange-50' },
+    canceled: { label: 'Canceled', className: 'text-red-600 bg-red-50' },
+    expired: { label: 'Expired', className: 'text-red-600 bg-red-50' },
   }
-  const info = map[status || ''] || { label: 'None', color: 'var(--text-muted)', bg: 'var(--bg-alt)' }
+  const info = map[status || ''] || { label: 'None', className: 'text-neutral-400 bg-neutral-50' }
 
   return (
-    <span
-      style={{
-        display: 'inline-block',
-        padding: '4px 12px',
-        borderRadius: '9999px',
-        fontSize: '0.75rem',
-        fontWeight: 600,
-        color: info.color,
-        background: info.bg,
-      }}
-    >
+    <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${info.className}`}>
       {info.label}
     </span>
   )
@@ -103,7 +94,7 @@ export default function AccountPage() {
       <div className="min-h-screen">
         <Navigation />
         <div className="pt-32 pb-20 flex justify-center">
-          <Loader2 className="w-6 h-6 animate-spin" style={{ color: 'var(--text-muted)' }} />
+          <Loader2 className="w-6 h-6 animate-spin text-neutral-400" />
         </div>
         <Footer />
       </div>
@@ -118,22 +109,20 @@ export default function AccountPage() {
         <Toaster position="top-center" />
         <section className="pt-32 pb-20">
           <div className="container flex justify-center">
-            <div
-              className="card p-8 text-center"
-              style={{ maxWidth: '420px', width: '100%' }}
-            >
-              <CreditCard className="w-10 h-10 mx-auto mb-4" style={{ color: 'var(--text-muted)' }} />
-              <h1 className="text-2xl font-semibold mb-2">Account</h1>
-              <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>
+            <div className="rounded-xl border border-neutral-200 bg-white p-8 text-center max-w-[420px] w-full">
+              <CreditCard className="w-10 h-10 mx-auto mb-4 text-neutral-400" />
+              <h1 className="text-2xl font-semibold mb-2 text-neutral-900">Account</h1>
+              <p className="mb-6 text-neutral-500">
                 Sign in to manage your subscription.
               </p>
-              <Link href="/login" className="btn btn-primary w-full justify-center">
-                Sign In
+              <Link href="/login">
+                <ShimmerButton className="w-full justify-center">
+                  Sign In
+                </ShimmerButton>
               </Link>
               <Link
                 href="/"
-                className="inline-flex items-center gap-1 mt-4 text-sm"
-                style={{ color: 'var(--text-muted)' }}
+                className="inline-flex items-center gap-1 mt-4 text-sm text-neutral-400"
               >
                 <ArrowLeft className="w-3 h-3" />
                 Back to home
@@ -156,41 +145,41 @@ export default function AccountPage() {
 
       <section className="pt-32 pb-20">
         <div className="container flex justify-center">
-          <div style={{ maxWidth: '600px', width: '100%' }}>
-            <h1 className="text-2xl font-semibold mb-8">Account</h1>
+          <div className="max-w-[600px] w-full">
+            <h1 className="text-2xl font-semibold mb-8 text-neutral-900">Account</h1>
 
             {/* Subscription Card */}
-            <div className="card p-6 mb-6">
-              <h2 className="text-lg font-medium mb-4">Subscription</h2>
+            <div className="rounded-xl border border-neutral-200 bg-white p-6 mb-6">
+              <h2 className="text-lg font-medium mb-4 text-neutral-900">Subscription</h2>
 
               {loading ? (
                 <div className="flex justify-center py-8">
-                  <Loader2 className="w-5 h-5 animate-spin" style={{ color: 'var(--text-muted)' }} />
+                  <Loader2 className="w-5 h-5 animate-spin text-neutral-400" />
                 </div>
               ) : (
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Email</span>
-                    <span className="text-sm font-medium">{user?.email}</span>
+                    <span className="text-sm text-neutral-500">Email</span>
+                    <span className="text-sm font-medium text-neutral-900">{user?.email}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Status</span>
+                    <span className="text-sm text-neutral-500">Status</span>
                     <StatusBadge status={subscriptionInfo?.status} />
                   </div>
                   {subscriptionInfo?.trialDaysRemaining != null && subscriptionInfo.trialDaysRemaining > 0 && (
                     <div className="flex items-center justify-between">
-                      <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Trial remaining</span>
-                      <span className="text-sm font-medium">
+                      <span className="text-sm text-neutral-500">Trial remaining</span>
+                      <span className="text-sm font-medium text-neutral-900">
                         {subscriptionInfo.trialDaysRemaining} day{subscriptionInfo.trialDaysRemaining !== 1 ? 's' : ''}
                       </span>
                     </div>
                   )}
 
                   {hasActiveSub && (
-                    <button
+                    <ShimmerButton
                       onClick={handleManageSubscription}
                       disabled={portalLoading}
-                      className="btn btn-primary w-full justify-center mt-2"
+                      className="w-full justify-center mt-2"
                     >
                       {portalLoading ? (
                         <Loader2 className="w-4 h-4 animate-spin" />
@@ -198,7 +187,7 @@ export default function AccountPage() {
                         <ExternalLink className="w-4 h-4" />
                       )}
                       Manage Subscription
-                    </button>
+                    </ShimmerButton>
                   )}
                 </div>
               )}
@@ -209,32 +198,29 @@ export default function AccountPage() {
               {!hasActiveSub && !loading && (
                 <Link
                   href="/pricing"
-                  className="card p-4 flex items-center justify-between hover:border-[#8b5cf6] transition-colors"
-                  style={{ display: 'flex' }}
+                  className="rounded-xl border border-neutral-200 bg-white p-4 flex items-center justify-between hover:border-violet-400 transition-colors"
                 >
-                  <span className="text-sm font-medium">Don&apos;t have a subscription?</span>
-                  <span className="text-sm" style={{ color: '#8b5cf6' }}>View plans</span>
+                  <span className="text-sm font-medium text-neutral-900">Don&apos;t have a subscription?</span>
+                  <span className="text-sm text-violet-600">View plans</span>
                 </Link>
               )}
 
               <Link
                 href="/downloads"
-                className="card p-4 flex items-center justify-between hover:border-[#8b5cf6] transition-colors"
-                style={{ display: 'flex' }}
+                className="rounded-xl border border-neutral-200 bg-white p-4 flex items-center justify-between hover:border-violet-400 transition-colors"
               >
-                <span className="text-sm font-medium">
-                  <Download className="w-4 h-4 inline mr-2" style={{ color: 'var(--text-muted)' }} />
+                <span className="text-sm font-medium text-neutral-900">
+                  <Download className="w-4 h-4 inline mr-2 text-neutral-400" />
                   Download the app
                 </span>
-                <span className="text-sm" style={{ color: '#8b5cf6' }}>Downloads</span>
+                <span className="text-sm text-violet-600">Downloads</span>
               </Link>
             </div>
 
             <div className="mt-8 text-center">
               <Link
                 href="/"
-                className="inline-flex items-center gap-1 text-sm"
-                style={{ color: 'var(--text-muted)' }}
+                className="inline-flex items-center gap-1 text-sm text-neutral-400"
               >
                 <ArrowLeft className="w-3 h-3" />
                 Back to home

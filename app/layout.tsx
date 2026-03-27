@@ -2,10 +2,10 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import ClientLayout from '@/components/ClientLayout'
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { Instrument_Sans, Instrument_Serif } from "next/font/google";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const instrumentSans = Instrument_Sans({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
+const instrumentSerif = Instrument_Serif({ subsets: ['latin'], weight: '400', variable: '--font-display', display: 'swap' });
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -123,7 +123,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang="en" className={`${instrumentSans.variable} ${instrumentSerif.variable}`}>
       <head>
         {/* Favicon - all sizes explicitly defined for search engines */}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -137,8 +137,6 @@ export default function RootLayout({
         {/* Performance - Font preconnect */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Invalid font removed - "Perfect Ninety-Three" is not available on Google Fonts */}
-
         {/* Organization Schema - for Google logo and Knowledge Graph */}
         <script
           type="application/ld+json"
@@ -373,10 +371,10 @@ export default function RootLayout({
             position="top-center"
             toastOptions={{
               style: {
-                fontFamily: "'Inter', sans-serif",
-                background: '#1a1a24',
-                color: '#ffffff',
-                border: '1px solid #3a3138'
+                fontFamily: "'Instrument Sans', system-ui, sans-serif",
+                background: '#080503',
+                color: '#fafaf9',
+                border: '1px solid #44423d'
               },
               duration: 4000,
               success: {

@@ -2,9 +2,13 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { ArrowRight, Mail, Shield, Monitor, Zap, BarChart3, ChevronDown, ChevronUp, AlertTriangle, Download } from 'lucide-react'
+import { Mail, Shield, Monitor, Zap, BarChart3, ChevronDown, AlertTriangle, Download, ArrowRight, HelpCircle } from 'lucide-react'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
+import { motion } from 'framer-motion'
+import { FloatingParticles, GridBackground, GeometricPattern, PulsingRings } from '@/components/ui/grid-background'
+import { ShimmerButton } from '@/components/ui/shimmer-button'
+import { BinaryRain, WatermarkText, ConnectionLines, ASCIIBlock, ScanLines } from '@/components/ui/decorative-fills'
 
 interface FAQItem {
   question: string
@@ -13,32 +17,46 @@ interface FAQItem {
 
 function FAQSection({ items }: { items: FAQItem[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
-
   return (
-    <div className="space-y-3">
+    <div>
       {items.map((item, index) => (
-        <div
-          key={index}
-          className="rounded-xl overflow-hidden"
-          style={{ background: 'var(--bg)', border: '1px solid var(--border)' }}
-        >
+        <div key={index} className="border-t border-foreground/10">
           <button
             onClick={() => setOpenIndex(openIndex === index ? null : index)}
-            className="w-full px-5 py-4 flex items-center justify-between text-left"
+            className="w-full py-6 flex items-center justify-between text-left cursor-pointer transition-colors group"
+            aria-expanded={openIndex === index}
           >
-            <span className="font-medium">{item.question}</span>
-            {openIndex === index ? (
-              <ChevronUp className="w-5 h-5 flex-shrink-0" style={{ color: 'var(--text-secondary)' }} />
-            ) : (
-              <ChevronDown className="w-5 h-5 flex-shrink-0" style={{ color: 'var(--text-secondary)' }} />
-            )}
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-mono text-muted-foreground shrink-0">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <span className="text-sm font-medium group-hover:translate-x-1 transition-transform duration-300">{item.question}</span>
+            </div>
+            <ChevronDown className={`w-4 h-4 shrink-0 ml-4 text-muted-foreground transition-transform duration-200 ${openIndex === index ? 'rotate-180' : ''}`} />
           </button>
           {openIndex === index && (
-            <div className="px-5 pb-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              className="pb-6 pl-10 text-sm leading-relaxed text-muted-foreground"
+            >
               {item.answer}
-            </div>
+            </motion.div>
           )}
         </div>
+      ))}
+    </div>
+  )
+}
+
+function GridLines() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
+      {[12.5, 25, 37.5, 50, 62.5, 75, 87.5, 100].map((t) => (
+        <div key={`h-${t}`} className="absolute h-px bg-foreground/10" style={{ top: `${t}%`, left: 0, right: 0 }} />
+      ))}
+      {[8.33, 16.66, 24.99, 33.32, 41.65, 49.98, 58.31, 66.64, 74.97, 83.3, 91.63, 99.96].map((l) => (
+        <div key={`v-${l}`} className="absolute w-px bg-foreground/10" style={{ left: `${l}%`, top: 0, bottom: 0 }} />
       ))}
     </div>
   )
@@ -50,335 +68,443 @@ export default function SupportPage() {
       question: 'How do I completely uninstall the app?',
       answer: (
         <div>
-          <p className="mb-3">
-            Download our uninstaller app to completely remove OnlyWorks and all its data from your Mac.
-          </p>
-          <a
-            href="https://github.com/Namkha-yolo/ONLYWORKS_UNINSTALLER/releases/download/v1/UninstallOnlyWorks.dmg"
-            className="inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg transition-colors hover:bg-[#8b5cf6]/10"
-            style={{ color: '#8b5cf6', border: '1px solid #8b5cf6' }}
-          >
-            <Download className="w-3 h-3" />
-            Download Uninstaller
+          <p className="mb-3">Download our uninstaller to completely remove OnlyWorks and all its data.</p>
+          <a href="https://github.com/Namkha-yolo/ONLYWORKS_UNINSTALLER/releases/download/v1/UninstallOnlyWorks.dmg"
+            className="inline-flex items-center gap-1.5 text-sm font-medium hover:underline underline-offset-4 text-foreground">
+            <Download className="w-3.5 h-3.5" /> Download Uninstaller
           </a>
-          <p className="mt-2 text-xs" style={{ color: 'var(--text-muted)' }}>
-            Open the DMG and double-click the uninstaller app.
-          </p>
         </div>
       ),
     },
     {
       question: 'The app is not starting. What should I do?',
       answer: (
-        <div>
-          <p className="mb-2">Try these steps:</p>
-          <ol className="list-decimal list-inside space-y-1">
-            <li>Make sure the app is in your Applications folder</li>
-            <li>Try right-clicking the app and selecting "Open" (bypasses Gatekeeper on first launch)</li>
-            <li>Check System Settings → Privacy & Security for any blocked app warnings</li>
-            <li>If all else fails, download the uninstaller, run it, then reinstall the app</li>
-          </ol>
-        </div>
+        <ol className="list-decimal list-inside space-y-1.5">
+          <li>Make sure the app is in your Applications folder</li>
+          <li>Right-click the app and select &quot;Open&quot; (bypasses Gatekeeper)</li>
+          <li>Check System Settings &rarr; Privacy & Security for blocked app warnings</li>
+          <li>Try uninstalling and reinstalling</li>
+        </ol>
       ),
     },
     {
       question: 'Permissions are not working. How do I fix this?',
       answer: (
         <div>
-          <p className="mb-2">If permissions aren't working:</p>
-          <ol className="list-decimal list-inside space-y-1">
-            <li>Open System Settings → Privacy & Security → Screen Recording</li>
-            <li>Find "OnlyWorks Desktop" and toggle it OFF then ON again</li>
-            <li>Do the same for Accessibility permissions</li>
-            <li>Restart the app after changing permissions</li>
+          <ol className="list-decimal list-inside space-y-1.5 mb-3">
+            <li>System Settings &rarr; Privacy & Security &rarr; Screen Recording</li>
+            <li>Toggle OnlyWorks OFF then ON</li>
+            <li>Do the same for Accessibility</li>
+            <li>Restart the app</li>
           </ol>
-          <div className="mt-3 p-3 rounded-lg flex gap-2" style={{ background: 'rgba(251, 191, 36, 0.1)' }}>
-            <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#fbbf24' }} />
-            <p className="text-xs">
-              <strong>Important:</strong> Make sure you add the app to "Screen & System Audio Recording" (NOT "System Audio Recording Only").
-            </p>
+          <div className="flex gap-2 p-3 border border-foreground/10 bg-foreground/[0.02]">
+            <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-muted-foreground" />
+            <p className="text-xs">Add to <strong>&quot;Screen & System Audio Recording&quot;</strong>, NOT &quot;System Audio Recording Only&quot;.</p>
           </div>
         </div>
       ),
     },
-    {
-      question: 'How does the app update?',
-      answer: 'OnlyWorks Desktop checks for updates automatically when you open the app. If an update is available, it will download in the background and prompt you to restart when ready. You can also manually check by reopening the app.',
-    },
+    { question: 'How does the app update?', answer: 'OnlyWorks checks for updates automatically on launch. Updates download in the background and prompt you to restart.' },
     {
       question: 'Is my data private and secure?',
       answer: (
-        <div>
-          <p className="mb-2">Yes, we take privacy seriously:</p>
-          <ul className="list-disc list-inside space-y-1">
-            <li>Screenshots are processed locally on your device when possible</li>
-            <li>Data is encrypted in transit and at rest</li>
-            <li>We never sell your data to third parties</li>
-            <li>You can delete your account and data at any time</li>
-          </ul>
-          <p className="mt-2">
-            Read our full <Link href="/privacy" className="text-[#8b5cf6] hover:underline">Privacy Policy</Link> for more details.
-          </p>
-        </div>
+        <ul className="list-disc list-inside space-y-1.5">
+          <li>Screenshots processed locally when possible</li>
+          <li>Data encrypted in transit and at rest</li>
+          <li>Never sold to third parties</li>
+          <li>Delete your account and data anytime</li>
+        </ul>
       ),
     },
-    {
-      question: 'What macOS version do I need?',
-      answer: 'OnlyWorks Desktop requires macOS 10.15 (Catalina) or later. It runs natively on both Apple Silicon (M1/M2/M3) and Intel Macs.',
-    },
+    { question: 'What macOS version do I need?', answer: 'macOS 10.15 (Catalina) or later. Runs natively on Apple Silicon and Intel.' },
     {
       question: 'How do I cancel my subscription?',
-      answer: (
-        <div>
-          <p>
-            Go to your <Link href="/account" className="text-[#8b5cf6] hover:underline">Account page</Link> to manage or cancel your subscription. You can also contact us at{' '}
-            <a href="mailto:support@only-works.com" className="text-[#8b5cf6] hover:underline">
-              support@only-works.com
-            </a>.
-          </p>
-        </div>
-      ),
+      answer: (<p>Go to your <Link href="/account" className="font-medium hover:underline underline-offset-4 text-foreground">Account page</Link> or email <a href="mailto:support@only-works.com" className="font-medium hover:underline underline-offset-4 text-foreground">support@only-works.com</a>.</p>),
     },
   ]
 
+  const installSteps = [
+    { title: 'Download the app', desc: <>Go to <Link href="/downloads" className="font-medium hover:underline underline-offset-4 text-foreground">Downloads</Link> and pick your platform.</> },
+    { title: 'Install', desc: 'Open the DMG, drag OnlyWorks to Applications.' },
+    { title: 'Launch', desc: 'Right-click \u2192 Open on first launch to bypass macOS security.' },
+    { title: 'Grant permissions', desc: 'Follow the prompts for Screen Recording and Accessibility.' },
+    { title: 'Sign in & go', desc: 'Sign in with Google, set up your profile, start working.' },
+  ]
+
+  const permissions = [
+    { icon: Monitor, title: 'Screen Recording', desc: 'Required to capture screenshots for work analysis.', path: 'System Settings \u2192 Privacy \u2192 Screen Recording', warning: 'Add to "Screen & System Audio Recording", NOT "System Audio Recording Only".' },
+    { icon: Shield, title: 'Accessibility', desc: 'Required for keyboard shortcuts and system features.', path: 'System Settings \u2192 Privacy \u2192 Accessibility', warning: null },
+  ]
+
+  const features = [
+    { icon: Zap, title: 'AI-Powered Analysis', desc: 'Understands what you\'re working on from screen activity.' },
+    { icon: BarChart3, title: 'Productivity Tracking', desc: 'Sessions, time, focus — see where your time goes.' },
+    { icon: Monitor, title: 'Work Sessions', desc: 'Auto-detects when you start and stop working.' },
+    { icon: Mail, title: 'Verified Reports', desc: 'AI-generated proof of your skills and accomplishments.' },
+  ]
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background text-foreground">
       <Navigation />
 
-      {/* Hero */}
-      <section className="pt-32 pb-12">
-        <div className="container">
-          <div className="max-w-2xl">
-            <h1 className="mb-4">Help Center</h1>
-            <p className="text-xl" style={{ color: 'var(--text-secondary)' }}>
-              Everything you need to get started and make the most of OnlyWorks.
-            </p>
+      {/* ═══ HERO — left-aligned, v0 hero pattern ═══ */}
+      <section className="relative pt-28 lg:pt-32 pb-12 lg:pb-16 overflow-hidden">
+        <GridLines />
+        <FloatingParticles count={12} />
+        <BinaryRain columns={5} />
+        <ScanLines />
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="mb-8"
+          >
+            <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground">
+              <span className="w-8 h-px bg-foreground/30" />
+              Help center
+            </span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className="text-[clamp(3.5rem,8vw,7rem)] font-display leading-[0.9] tracking-tight mb-12"
+          >
+            <span className="block">Help</span>
+            <span className="block text-muted-foreground">Center</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="text-xl lg:text-2xl text-muted-foreground leading-relaxed max-w-xl"
+          >
+            Everything you need to get started with OnlyWorks.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* ═══ QUICK LINKS — v0 Metrics 2x2 grid ═══ */}
+      <section className="relative py-12 lg:py-16">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-foreground/10">
+            {[
+              { icon: Download, label: 'Installation', href: '#installation', desc: 'Get up and running' },
+              { icon: Shield, label: 'Permissions', href: '#permissions', desc: 'macOS setup guide' },
+              { icon: Zap, label: 'Features', href: '#features', desc: 'What\'s included' },
+              { icon: HelpCircle, label: 'FAQ', href: '#faq', desc: 'Common questions' },
+            ].map((item, i) => (
+              <motion.a
+                key={i}
+                href={item.href}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + i * 0.1 }}
+                className="bg-background flex flex-col items-center gap-4 py-12 lg:py-16 hover:bg-foreground/[0.03] transition-all duration-300 group"
+              >
+                <div className="w-20 h-20 rounded-2xl flex items-center justify-center border border-foreground/10 group-hover:bg-foreground group-hover:text-background group-hover:scale-110 transition-all duration-300" style={{ background: '#f5f5f4' }}>
+                  <item.icon className="w-9 h-9" strokeWidth={1.5} />
+                </div>
+                <div className="text-center">
+                  <span className="block text-sm font-medium mb-1">{item.label}</span>
+                  <span className="block text-xs text-muted-foreground">{item.desc}</span>
+                </div>
+              </motion.a>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Quick Links */}
-      <section className="pb-12">
-        <div className="container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl">
-            <a href="#installation" className="card text-center py-6 hover:border-[#8b5cf6] transition-colors">
-              <Download className="w-6 h-6 mx-auto mb-2" style={{ color: '#8b5cf6' }} />
-              <span className="text-sm font-medium">Installation</span>
-            </a>
-            <a href="#permissions" className="card text-center py-6 hover:border-[#8b5cf6] transition-colors">
-              <Shield className="w-6 h-6 mx-auto mb-2" style={{ color: '#8b5cf6' }} />
-              <span className="text-sm font-medium">Permissions</span>
-            </a>
-            <a href="#features" className="card text-center py-6 hover:border-[#8b5cf6] transition-colors">
-              <Zap className="w-6 h-6 mx-auto mb-2" style={{ color: '#8b5cf6' }} />
-              <span className="text-sm font-medium">Features</span>
-            </a>
-            <a href="#faq" className="card text-center py-6 hover:border-[#8b5cf6] transition-colors">
-              <BarChart3 className="w-6 h-6 mx-auto mb-2" style={{ color: '#8b5cf6' }} />
-              <span className="text-sm font-medium">FAQ</span>
-            </a>
-          </div>
+      {/* ═══ INSTALLATION — v0 Process section (dark, numbered steps with roman numerals) ═══ */}
+      <section id="installation" className="relative py-24 lg:py-32 text-white" style={{ background: '#1c1b18' }}>
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `repeating-linear-gradient(-45deg, transparent, transparent 40px, currentColor 40px, currentColor 41px)`,
+            }}
+          />
         </div>
-      </section>
-
-      {/* Installation Guide */}
-      <section id="installation" className="py-12" style={{ background: 'var(--bg-alt)' }}>
-        <div className="container">
-          <div className="max-w-3xl">
-            <h2 className="text-2xl font-semibold mb-8">Installation Guide</h2>
-
-            <div className="space-y-6">
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style={{ background: '#8b5cf6', color: 'white' }}>1</div>
-                <div>
-                  <h3 className="font-medium mb-1">Download the app</h3>
-                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    Go to the <Link href="/downloads" className="text-[#8b5cf6] hover:underline">Downloads page</Link> and click "Download for Mac". Choose Apple Silicon if you have an M1/M2/M3 Mac, or Intel for older Macs.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style={{ background: '#8b5cf6', color: 'white' }}>2</div>
-                <div>
-                  <h3 className="font-medium mb-1">Install the app</h3>
-                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    Open the downloaded DMG file. Drag the OnlyWorks icon to the Applications folder. You can then eject the DMG.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style={{ background: '#8b5cf6', color: 'white' }}>3</div>
-                <div>
-                  <h3 className="font-medium mb-1">Launch OnlyWorks</h3>
-                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    Open OnlyWorks from your Applications folder. On first launch, you may need to right-click and select "Open" to bypass macOS security.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style={{ background: '#8b5cf6', color: 'white' }}>4</div>
-                <div>
-                  <h3 className="font-medium mb-1">Grant permissions</h3>
-                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    Follow the on-screen prompts to grant Screen Recording and Accessibility permissions. See the Permissions section below for details.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" style={{ background: '#8b5cf6', color: 'white' }}>5</div>
-                <div>
-                  <h3 className="font-medium mb-1">Sign in</h3>
-                  <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    Sign in with Google, GitHub, or create an account with your email. Complete your profile setup and you're ready to go!
-                  </p>
-                </div>
-              </div>
-            </div>
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="mb-16 lg:mb-24">
+            <span className="inline-flex items-center gap-3 text-sm font-mono mb-6" style={{ color: 'rgba(250,250,249,0.5)' }}>
+              <span className="w-8 h-px" style={{ background: 'rgba(250,250,249,0.3)' }} />
+              Getting started
+            </span>
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="text-4xl lg:text-6xl font-display tracking-tight"
+            >
+              Five steps.<br /><span style={{ color: 'rgba(250,250,249,0.5)' }}>That&apos;s it.</span>
+            </motion.h2>
           </div>
-        </div>
-      </section>
 
-      {/* Permissions Setup */}
-      <section id="permissions" className="py-12">
-        <div className="container">
-          <div className="max-w-3xl">
-            <h2 className="text-2xl font-semibold mb-8">Permissions Setup (macOS)</h2>
-
-            <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>
-              OnlyWorks needs two permissions to work properly. The app will prompt you to grant these on first launch.
-            </p>
-
-            <div className="space-y-6">
-              {/* Screen Recording */}
-              <div className="card p-6">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 p-3 rounded-xl" style={{ background: 'var(--bg-alt)' }}>
-                    <Monitor className="w-6 h-6" style={{ color: '#8b5cf6' }} />
-                  </div>
-                  <div>
-                    <h3 className="font-medium mb-2">Screen Recording</h3>
-                    <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
-                      Required to capture screenshots for productivity analysis.
-                    </p>
-                    <div className="p-3 rounded-lg mb-3 flex gap-2" style={{ background: 'rgba(251, 191, 36, 0.1)' }}>
-                      <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#fbbf24' }} />
-                      <p className="text-xs">
-                        <strong>Important:</strong> Add the app to <strong>"Screen & System Audio Recording"</strong> (NOT "System Audio Recording Only"). This is a common mistake!
-                      </p>
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
+            <div className="space-y-0">
+              {installSteps.map((step, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.08 }}
+                  className="py-8 border-b transition-all duration-500 group"
+                  style={{ borderColor: 'rgba(250,250,249,0.1)' }}
+                >
+                  <div className="flex items-start gap-6">
+                    <span className="font-display text-3xl" style={{ color: 'rgba(250,250,249,0.3)' }}>
+                      {['I', 'II', 'III', 'IV', 'V'][i]}
+                    </span>
+                    <div className="flex-1">
+                      <h3 className="text-2xl lg:text-3xl font-display mb-3 group-hover:translate-x-2 transition-transform duration-300">{step.title}</h3>
+                      <p className="leading-relaxed" style={{ color: 'rgba(250,250,249,0.6)' }}>{step.desc}</p>
                     </div>
-                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                      <strong>How to enable:</strong> System Settings → Privacy & Security → Screen Recording → Toggle ON for OnlyWorks Desktop
-                    </p>
                   </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="lg:sticky lg:top-32 self-start">
+              <div className="border overflow-hidden" style={{ borderColor: 'rgba(250,250,249,0.1)' }}>
+                <div className="px-6 py-4 border-b flex items-center justify-between" style={{ borderColor: 'rgba(250,250,249,0.1)' }}>
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(250,250,249,0.2)' }} />
+                    <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(250,250,249,0.2)' }} />
+                    <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(250,250,249,0.2)' }} />
+                  </div>
+                  <span className="text-xs font-mono" style={{ color: 'rgba(250,250,249,0.4)' }}>install.sh</span>
+                </div>
+                <div className="p-8 font-mono text-sm min-h-[280px]" style={{ color: 'rgba(250,250,249,0.7)' }}>
+                  <div className="leading-loose"><span style={{ color: 'rgba(250,250,249,0.2)' }}>1 </span># Step 1: Download</div>
+                  <div className="leading-loose"><span style={{ color: 'rgba(250,250,249,0.2)' }}>2 </span>curl -O onlyworks.app/dl</div>
+                  <div className="leading-loose"><span style={{ color: 'rgba(250,250,249,0.2)' }}>3 </span>&nbsp;</div>
+                  <div className="leading-loose"><span style={{ color: 'rgba(250,250,249,0.2)' }}>4 </span># Step 2: Install</div>
+                  <div className="leading-loose"><span style={{ color: 'rgba(250,250,249,0.2)' }}>5 </span>open OnlyWorks.dmg</div>
+                  <div className="leading-loose"><span style={{ color: 'rgba(250,250,249,0.2)' }}>6 </span>&nbsp;</div>
+                  <div className="leading-loose"><span style={{ color: 'rgba(250,250,249,0.2)' }}>7 </span># Step 3: Launch & go</div>
+                  <div className="leading-loose"><span style={{ color: 'rgba(250,250,249,0.2)' }}>8 </span>open /Applications/OnlyWorks.app</div>
+                </div>
+                <div className="px-6 py-4 border-t flex items-center gap-3" style={{ borderColor: 'rgba(250,250,249,0.1)' }}>
+                  <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                  <span className="text-xs font-mono" style={{ color: 'rgba(250,250,249,0.4)' }}>Ready</span>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-              {/* Accessibility */}
-              <div className="card p-6">
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 p-3 rounded-xl" style={{ background: 'var(--bg-alt)' }}>
-                    <Shield className="w-6 h-6" style={{ color: '#8b5cf6' }} />
+      {/* ═══ PERMISSIONS — v0 Security pattern (2-col grid with icon cards) ═══ */}
+      <section id="permissions" className="relative py-24 lg:py-32 overflow-hidden">
+        <GeometricPattern className="right-0 top-0 w-[350px] h-[350px] opacity-25" />
+        <FloatingParticles count={6} />
+        <WatermarkText text="SETUP" />
+        <ASCIIBlock variant="verify" className="absolute left-12 bottom-16" />
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+            >
+              <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
+                <span className="w-8 h-px bg-foreground/30" />
+                Setup
+              </span>
+              <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-8">
+                Permissions<br /><span className="text-muted-foreground">(macOS).</span>
+              </h2>
+              <p className="text-xl text-muted-foreground leading-relaxed mb-12">
+                OnlyWorks needs two permissions. The app will prompt you on first launch.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {['Screen Recording', 'Accessibility'].map((tag, i) => (
+                  <motion.span
+                    key={tag}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.2 + i * 0.05 }}
+                    className="px-4 py-2 border border-foreground/10 text-sm font-mono"
+                  >
+                    {tag}
+                  </motion.span>
+                ))}
+              </div>
+            </motion.div>
+
+            <div className="grid gap-6">
+              {permissions.map((p, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: 32 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  className="p-6 border border-foreground/10 hover:border-foreground/20 transition-all duration-500 group"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="shrink-0 w-10 h-10 flex items-center justify-center border border-foreground/10 group-hover:bg-foreground group-hover:text-background transition-colors duration-300">
+                      <p.icon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-1 group-hover:translate-x-1 transition-transform duration-300">{p.title}</h3>
+                      <p className="text-muted-foreground mb-2">{p.desc}</p>
+                      <p className="text-xs font-mono text-muted-foreground">{p.path}</p>
+                      {p.warning && (
+                        <div className="flex gap-2 mt-3 p-3 border border-foreground/10 bg-foreground/[0.02]">
+                          <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-muted-foreground" />
+                          <p className="text-xs">{p.warning}</p>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-medium mb-2">Accessibility</h3>
-                    <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
-                      Required for keyboard shortcuts and system-wide features.
-                    </p>
-                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                      <strong>How to enable:</strong> System Settings → Privacy & Security → Accessibility → Toggle ON for OnlyWorks Desktop
-                    </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ GRID BACKGROUND DIVIDER ═══ */}
+      <section className="relative overflow-hidden py-16">
+        <GridBackground />
+      </section>
+
+      {/* ═══ FEATURES — DARK SECTION (v0 Process pattern) ═══ */}
+      <section id="features" className="relative py-24 lg:py-32 text-white" style={{ background: '#1c1b18' }}>
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `repeating-linear-gradient(-45deg, transparent, transparent 40px, currentColor 40px, currentColor 41px)`,
+            }}
+          />
+        </div>
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="mb-16 lg:mb-24">
+            <span className="inline-flex items-center gap-3 text-sm font-mono mb-6" style={{ color: 'rgba(250,250,249,0.5)' }}>
+              <span className="w-8 h-px" style={{ background: 'rgba(250,250,249,0.3)' }} />
+              Features
+            </span>
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="text-4xl lg:text-6xl font-display tracking-tight"
+            >
+              What&apos;s<br /><span style={{ color: 'rgba(250,250,249,0.5)' }}>included.</span>
+            </motion.h2>
+          </div>
+
+          <div className="space-y-0">
+            {features.map((f, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="py-8 border-b transition-all duration-500 group"
+                style={{ borderColor: 'rgba(250,250,249,0.1)' }}
+              >
+                <div className="flex items-start gap-6">
+                  <span className="font-display text-3xl" style={{ color: 'rgba(250,250,249,0.3)' }}>
+                    {['I', 'II', 'III', 'IV'][i]}
+                  </span>
+                  <div className="flex-1 grid lg:grid-cols-2 gap-4 items-center">
+                    <h3 className="text-2xl lg:text-3xl font-display group-hover:translate-x-2 transition-transform duration-300">{f.title}</h3>
+                    <p className="leading-relaxed" style={{ color: 'rgba(250,250,249,0.6)' }}>{f.desc}</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              {/* Troubleshooting */}
-              <div className="p-4 rounded-xl" style={{ background: 'var(--bg-alt)', border: '1px solid var(--border)' }}>
-                <h4 className="font-medium mb-2">Permissions not working?</h4>
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  Try toggling the permission OFF then ON again, then restart the app. If issues persist, see the <a href="#faq" className="text-[#8b5cf6] hover:underline">FAQ section</a> for complete uninstall instructions, then reinstall the app.
-                </p>
-              </div>
+      {/* ═══ FAQ — accordion ═══ */}
+      <section id="faq" className="relative py-24 lg:py-32 overflow-hidden">
+        <PulsingRings className="left-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] opacity-20" />
+        <ConnectionLines className="opacity-30" />
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
+            <div>
+              <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
+                <span className="w-8 h-px bg-foreground/30" />
+                Common questions
+              </span>
+              <motion.h2
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                className="text-4xl lg:text-6xl font-display tracking-tight mb-8"
+              >
+                FAQ
+              </motion.h2>
+              <p className="text-xl text-muted-foreground leading-relaxed">
+                Can&apos;t find what you need? Reach out to our support team.
+              </p>
+            </div>
+
+            <div>
+              <FAQSection items={faqItems} />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Overview */}
-      <section id="features" className="py-12" style={{ background: 'var(--bg-alt)' }}>
-        <div className="container">
-          <div className="max-w-3xl">
-            <h2 className="text-2xl font-semibold mb-8">Features Overview</h2>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="card p-6">
-                <Zap className="w-8 h-8 mb-4" style={{ color: '#8b5cf6' }} />
-                <h3 className="font-medium mb-2">AI-Powered Analysis</h3>
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  Automatically analyzes your screen activity to understand what you're working on and identify productivity patterns.
+      {/* ═══ CTA — v0 CTA pattern ═══ */}
+      <section className="relative py-24 lg:py-32">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            className="relative border border-foreground"
+          >
+            <div className="relative z-10 px-8 lg:px-16 py-16 lg:py-24">
+              <div className="flex-1">
+                <h2 className="text-4xl lg:text-7xl font-display tracking-tight mb-8 leading-[0.95]">
+                  Still need<br />help?
+                </h2>
+                <p className="text-xl text-muted-foreground mb-12 leading-relaxed max-w-xl">
+                  We usually respond within a few hours. Our team is here to help.
                 </p>
-              </div>
-
-              <div className="card p-6">
-                <BarChart3 className="w-8 h-8 mb-4" style={{ color: '#8b5cf6' }} />
-                <h3 className="font-medium mb-2">Productivity Tracking</h3>
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  Track your work sessions, see how you spend your time, and get insights to improve focus and efficiency.
-                </p>
-              </div>
-
-              <div className="card p-6">
-                <Monitor className="w-8 h-8 mb-4" style={{ color: '#8b5cf6' }} />
-                <h3 className="font-medium mb-2">Work Session Monitoring</h3>
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  Automatically detects when you start and end work sessions. Captures context to help you remember what you worked on.
-                </p>
-              </div>
-
-              <div className="card p-6">
-                <Mail className="w-8 h-8 mb-4" style={{ color: '#8b5cf6' }} />
-                <h3 className="font-medium mb-2">Daily & Weekly Reports</h3>
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  Receive summaries of your productivity, accomplishments, and areas for improvement delivered to your inbox.
-                </p>
+                <div className="flex flex-col sm:flex-row items-start gap-4">
+                  <ShimmerButton
+                    shimmerColor="#a78bfa"
+                    background="rgba(139, 92, 246, 1)"
+                    borderRadius="1.75rem"
+                    className="h-14 px-8 text-base font-medium"
+                    onClick={() => window.location.href = 'mailto:support@only-works.com'}
+                  >
+                    <Mail className="w-4 h-4 mr-2" />
+                    Email support
+                  </ShimmerButton>
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
+                  >
+                    Contact us
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section id="faq" className="py-12">
-        <div className="container">
-          <div className="max-w-3xl">
-            <h2 className="text-2xl font-semibold mb-8">Frequently Asked Questions</h2>
-            <FAQSection items={faqItems} />
-          </div>
-        </div>
-      </section>
-
-      {/* Contact */}
-      <section className="py-12" style={{ background: 'var(--bg-alt)' }}>
-        <div className="container">
-          <div className="max-w-3xl text-center">
-            <h2 className="text-2xl font-semibold mb-4">Still need help?</h2>
-            <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>
-              Our support team is here to help you.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="mailto:support@only-works.com" className="btn btn-primary">
-                <Mail className="w-4 h-4" />
-                Email Support
-              </a>
-              <Link href="/contact" className="btn btn-secondary">
-                Contact Us
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
+            <div className="absolute top-0 right-0 w-32 h-32 border-b border-l border-foreground/10" />
+            <div className="absolute bottom-0 left-0 w-32 h-32 border-t border-r border-foreground/10" />
+          </motion.div>
         </div>
       </section>
 

@@ -10,7 +10,16 @@ export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const [scrolled, setScrolled] = useState(false)
   const { user, session, owId, loading, signOut } = useAuth()
+
+  // Scroll detection for floating nav
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -34,7 +43,20 @@ export function Navigation() {
 
   return (
     <>
-      <nav className="nav">
+      <header
+        className="fixed z-50 transition-all duration-500"
+        style={scrolled
+          ? { top: 16, left: 16, right: 16 }
+          : { top: 0, left: 0, right: 0 }
+        }
+      >
+      <nav
+        className="mx-auto transition-all duration-500"
+        style={scrolled
+          ? { background: 'rgba(250,250,249,0.8)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid rgba(8,5,3,0.1)', borderRadius: 16, boxShadow: '0 4px 30px rgba(0,0,0,0.05)', maxWidth: 1200 }
+          : { background: 'transparent', borderBottom: '1px solid rgba(8,5,3,0.06)' }
+        }
+      >
         <div className="nav-inner">
           <Link href="/">
             <Image src="/images/logo.png" alt="OnlyWorks" width={32} height={32} className="logo-icon" />
@@ -72,8 +94,8 @@ export function Navigation() {
                     width: '28px',
                     height: '28px',
                     borderRadius: '50%',
-                    background: 'var(--accent)',
-                    color: 'white',
+                    background: '#080503',
+                    color: '#fafaf9',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -199,6 +221,7 @@ export function Navigation() {
           </button>
         </div>
       </nav>
+      </header>
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
@@ -277,8 +300,8 @@ export function Navigation() {
                         width: '32px',
                         height: '32px',
                         borderRadius: '50%',
-                        background: 'var(--accent)',
-                        color: 'white',
+                        background: '#080503',
+                        color: '#fafaf9',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',

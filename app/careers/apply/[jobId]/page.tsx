@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation'
 import toast, { Toaster } from 'react-hot-toast'
 import { ArrowLeft, Upload, CheckCircle } from 'lucide-react'
 import { findJobById } from '@/lib/data/jobs'
+import { ShimmerButton } from '@/components/ui/shimmer-button'
 
 declare global {
   interface Window {
@@ -95,11 +96,11 @@ export default function ApplyPage() {
 
   if (!job) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: '#fff' }}>
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
-          <h1 className="text-2xl font-semibold mb-4">Job not found</h1>
-          <Link href="/careers" className="text-sm" style={{ color: '#0064e0' }}>
-            ← Back to Careers
+          <h1 className="text-2xl font-semibold mb-4 text-neutral-900">Job not found</h1>
+          <Link href="/careers" className="text-sm text-violet-600">
+            &larr; Back to Careers
           </Link>
         </div>
       </div>
@@ -163,11 +164,11 @@ export default function ApplyPage() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen" style={{ background: '#fff' }}>
+      <div className="min-h-screen bg-white">
         <Toaster position="top-center" />
-        <header className="border-b" style={{ borderColor: '#e5e5e5' }}>
+        <header className="border-b border-neutral-200">
           <div className="max-w-4xl mx-auto px-6 py-4">
-            <Link href="/careers" className="inline-flex items-center gap-2 text-sm" style={{ color: '#525252' }}>
+            <Link href="/careers" className="inline-flex items-center gap-2 text-sm text-neutral-500">
               <ArrowLeft className="w-4 h-4" />
               Back to Careers
             </Link>
@@ -175,21 +176,19 @@ export default function ApplyPage() {
         </header>
 
         <main className="max-w-2xl mx-auto px-6 py-24 text-center">
-          <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" style={{ background: '#dcfce7' }}>
-            <CheckCircle className="w-8 h-8" style={{ color: '#16a34a' }} />
+          <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 bg-green-50">
+            <CheckCircle className="w-8 h-8 text-green-600" />
           </div>
-          <h1 className="text-3xl font-semibold mb-4" style={{ color: '#0a0a0a' }}>
+          <h1 className="text-3xl font-semibold mb-4 text-neutral-900">
             Application Submitted
           </h1>
-          <p className="text-lg mb-8" style={{ color: '#525252' }}>
+          <p className="text-lg mb-8 text-neutral-500">
             Thank you for applying for the {job.title} position. We'll review your application and get back to you within 5 business days.
           </p>
-          <Link
-            href="/careers"
-            className="inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm font-medium"
-            style={{ background: '#0a0a0a', color: '#fff' }}
-          >
-            Back to Careers
+          <Link href="/careers">
+            <ShimmerButton>
+              Back to Careers
+            </ShimmerButton>
           </Link>
         </main>
       </div>
@@ -197,13 +196,13 @@ export default function ApplyPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: '#fff' }}>
+    <div className="min-h-screen bg-white">
       <Toaster position="top-center" />
 
       {/* Header */}
-      <header className="border-b" style={{ borderColor: '#e5e5e5' }}>
+      <header className="border-b border-neutral-200">
         <div className="max-w-4xl mx-auto px-6 py-4">
-          <Link href="/careers" className="inline-flex items-center gap-2 text-sm" style={{ color: '#525252' }}>
+          <Link href="/careers" className="inline-flex items-center gap-2 text-sm text-neutral-500">
             <ArrowLeft className="w-4 h-4" />
             Back to Careers
           </Link>
@@ -216,34 +215,31 @@ export default function ApplyPage() {
           <div className="lg:col-span-2">
             <div className="sticky top-8">
               <div className="mb-6">
-                <span
-                  className="inline-block px-3 py-1 text-xs font-medium rounded-full mb-4"
-                  style={{ background: '#f3f4f6', color: '#525252' }}
-                >
+                <span className="inline-block text-xs font-medium text-neutral-500 bg-neutral-100 px-3 py-1 rounded-full mb-4">
                   {job.department}
                 </span>
-                <h1 className="text-2xl font-semibold mb-2" style={{ color: '#0a0a0a' }}>
+                <h1 className="text-2xl font-semibold mb-2 text-neutral-900">
                   {job.title}
                 </h1>
-                <p className="text-sm" style={{ color: '#525252' }}>
-                  {job.location} · {job.type}
+                <p className="text-sm text-neutral-500">
+                  {job.location} &middot; {job.type}
                 </p>
               </div>
 
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-sm font-semibold mb-2" style={{ color: '#0a0a0a' }}>About the Role</h3>
-                  <p className="text-sm" style={{ color: '#525252', lineHeight: 1.6 }}>
+                  <h3 className="text-sm font-semibold mb-2 text-neutral-900">About the Role</h3>
+                  <p className="text-sm text-neutral-500 leading-relaxed">
                     {job.description}
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-semibold mb-2" style={{ color: '#0a0a0a' }}>Responsibilities</h3>
+                  <h3 className="text-sm font-semibold mb-2 text-neutral-900">Responsibilities</h3>
                   <ul className="space-y-1">
                     {job.responsibilities.map((item, i) => (
-                      <li key={i} className="text-sm flex gap-2" style={{ color: '#525252' }}>
-                        <span>•</span>
+                      <li key={i} className="text-sm flex gap-2 text-neutral-500">
+                        <span>&bull;</span>
                         <span>{item}</span>
                       </li>
                     ))}
@@ -251,11 +247,11 @@ export default function ApplyPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-semibold mb-2" style={{ color: '#0a0a0a' }}>Requirements</h3>
+                  <h3 className="text-sm font-semibold mb-2 text-neutral-900">Requirements</h3>
                   <ul className="space-y-1">
                     {job.requirements.map((item, i) => (
-                      <li key={i} className="text-sm flex gap-2" style={{ color: '#525252' }}>
-                        <span>•</span>
+                      <li key={i} className="text-sm flex gap-2 text-neutral-500">
+                        <span>&bull;</span>
                         <span>{item}</span>
                       </li>
                     ))}
@@ -263,11 +259,11 @@ export default function ApplyPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-semibold mb-2" style={{ color: '#0a0a0a' }}>What We Offer</h3>
+                  <h3 className="text-sm font-semibold mb-2 text-neutral-900">What We Offer</h3>
                   <ul className="space-y-1">
                     {job.benefits.map((item, i) => (
-                      <li key={i} className="text-sm flex gap-2" style={{ color: '#525252' }}>
-                        <span>•</span>
+                      <li key={i} className="text-sm flex gap-2 text-neutral-500">
+                        <span>&bull;</span>
                         <span>{item}</span>
                       </li>
                     ))}
@@ -279,15 +275,15 @@ export default function ApplyPage() {
 
           {/* Application Form - Right Side */}
           <div className="lg:col-span-3">
-            <div className="rounded-xl p-8" style={{ background: '#fafafa', border: '1px solid #e5e5e5' }}>
-              <h2 className="text-xl font-semibold mb-6" style={{ color: '#0a0a0a' }}>
+            <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-8">
+              <h2 className="text-xl font-semibold mb-6 text-neutral-900">
                 Submit Your Application
               </h2>
 
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: '#0a0a0a' }}>
+                    <label className="block text-sm font-medium mb-2 text-neutral-900">
                       Full Name *
                     </label>
                     <input
@@ -295,13 +291,12 @@ export default function ApplyPage() {
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       required
-                      className="w-full px-4 py-3 rounded-lg text-sm"
-                      style={{ border: '1px solid #e5e5e5', background: '#fff' }}
+                      className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 outline-none transition-all"
                       placeholder="John Doe"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: '#0a0a0a' }}>
+                    <label className="block text-sm font-medium mb-2 text-neutral-900">
                       Email *
                     </label>
                     <input
@@ -309,63 +304,58 @@ export default function ApplyPage() {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       required
-                      className="w-full px-4 py-3 rounded-lg text-sm"
-                      style={{ border: '1px solid #e5e5e5', background: '#fff' }}
+                      className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 outline-none transition-all"
                       placeholder="john@example.com"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2" style={{ color: '#0a0a0a' }}>
+                  <label className="block text-sm font-medium mb-2 text-neutral-900">
                     Phone Number
                   </label>
                   <input
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg text-sm"
-                    style={{ border: '1px solid #e5e5e5', background: '#fff' }}
+                    className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 outline-none transition-all"
                     placeholder="+1 (555) 000-0000"
                   />
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: '#0a0a0a' }}>
+                    <label className="block text-sm font-medium mb-2 text-neutral-900">
                       LinkedIn Profile
                     </label>
                     <input
                       type="url"
                       value={formData.linkedin}
                       onChange={(e) => setFormData({ ...formData, linkedin: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg text-sm"
-                      style={{ border: '1px solid #e5e5e5', background: '#fff' }}
+                      className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 outline-none transition-all"
                       placeholder="linkedin.com/in/johndoe"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: '#0a0a0a' }}>
+                    <label className="block text-sm font-medium mb-2 text-neutral-900">
                       Portfolio / Website
                     </label>
                     <input
                       type="url"
                       value={formData.portfolio}
                       onChange={(e) => setFormData({ ...formData, portfolio: e.target.value })}
-                      className="w-full px-4 py-3 rounded-lg text-sm"
-                      style={{ border: '1px solid #e5e5e5', background: '#fff' }}
+                      className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 outline-none transition-all"
                       placeholder="yourportfolio.com"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2" style={{ color: '#0a0a0a' }}>
+                  <label className="block text-sm font-medium mb-2 text-neutral-900">
                     Resume *
                   </label>
                   <div
-                    className="relative rounded-lg p-6 text-center cursor-pointer transition-colors hover:bg-white"
-                    style={{ border: '2px dashed #e5e5e5', background: '#fff' }}
+                    className="relative rounded-xl p-6 text-center cursor-pointer transition-colors hover:bg-white border-2 border-dashed border-neutral-200 bg-white"
                     onClick={() => document.getElementById('resume-input')?.click()}
                   >
                     <input
@@ -375,15 +365,15 @@ export default function ApplyPage() {
                       onChange={(e) => setResumeFile(e.target.files?.[0] || null)}
                       className="hidden"
                     />
-                    <Upload className="w-8 h-8 mx-auto mb-2" style={{ color: '#a3a3a3' }} />
+                    <Upload className="w-8 h-8 mx-auto mb-2 text-neutral-400" />
                     {resumeFile ? (
-                      <p className="text-sm font-medium" style={{ color: '#0a0a0a' }}>{resumeFile.name}</p>
+                      <p className="text-sm font-medium text-neutral-900">{resumeFile.name}</p>
                     ) : (
                       <>
-                        <p className="text-sm font-medium" style={{ color: '#0a0a0a' }}>
+                        <p className="text-sm font-medium text-neutral-900">
                           Click to upload or drag and drop
                         </p>
-                        <p className="text-xs mt-1" style={{ color: '#a3a3a3' }}>
+                        <p className="text-xs mt-1 text-neutral-400">
                           PDF or Word (max 5MB)
                         </p>
                       </>
@@ -392,31 +382,29 @@ export default function ApplyPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2" style={{ color: '#0a0a0a' }}>
+                  <label className="block text-sm font-medium mb-2 text-neutral-900">
                     Cover Letter
                   </label>
                   <textarea
                     value={formData.coverLetter}
                     onChange={(e) => setFormData({ ...formData, coverLetter: e.target.value })}
                     rows={5}
-                    className="w-full px-4 py-3 rounded-lg text-sm resize-none"
-                    style={{ border: '1px solid #e5e5e5', background: '#fff' }}
+                    className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-violet-500 focus:ring-1 focus:ring-violet-500 outline-none transition-all resize-none"
                     placeholder="Tell us why you're interested in this internship and what makes you a great fit..."
                   />
                 </div>
 
-                <button
+                <ShimmerButton
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-3 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  style={{ background: '#0a0a0a', color: '#fff' }}
+                  className="w-full py-3 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? 'Submitting...' : 'Submit Application'}
-                </button>
+                </ShimmerButton>
 
-                <p className="text-xs text-center" style={{ color: '#a3a3a3' }}>
+                <p className="text-xs text-center text-neutral-400">
                   By submitting, you agree to our{' '}
-                  <Link href="/privacy" style={{ color: '#0064e0' }}>Privacy Policy</Link>
+                  <Link href="/privacy" className="text-violet-600">Privacy Policy</Link>
                 </p>
               </form>
             </div>
