@@ -41,7 +41,7 @@ export default function AboutPage() {
       <section className="relative py-28 lg:py-36 overflow-hidden">
         <GridLines />
         <GeometricPattern className="right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] opacity-50" />
-        <BinaryRain columns={5} />
+        <BinaryRain />
         <CodeDecoration side="right" />
         <ScanLines />
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">

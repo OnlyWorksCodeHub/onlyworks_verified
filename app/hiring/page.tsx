@@ -60,7 +60,7 @@ export default function HiringPage() {
       {/* ═══ HERO — centered (conversion page), v0 hero pattern ═══ */}
       <section className="relative py-32 lg:py-40 overflow-hidden">
         <GridBackground />
-        <BinaryRain columns={6} />
+        <BinaryRain />
         <ConnectionLines className="opacity-40" />
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 text-center">
           <motion.div

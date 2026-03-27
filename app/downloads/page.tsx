@@ -82,7 +82,7 @@ export default function DownloadsPage() {
       {/* ═══ HERO ═══ */}
       <section className="relative py-28 lg:py-36 overflow-hidden">
         <GridBackground />
-        <BinaryRain columns={6} />
+        <BinaryRain />
         <CodeDecoration side="right" />
         <ScanLines />
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">

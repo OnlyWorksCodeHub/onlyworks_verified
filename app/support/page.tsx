@@ -151,7 +151,7 @@ export default function SupportPage() {
       <section className="relative pt-28 lg:pt-32 pb-12 lg:pb-16 overflow-hidden">
         <GridLines />
         <FloatingParticles count={12} />
-        <BinaryRain columns={5} />
+        <BinaryRain />
         <ScanLines />
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
           <motion.div

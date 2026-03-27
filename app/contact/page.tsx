@@ -65,7 +65,7 @@ export default function ContactPage() {
       <section className="relative py-32 lg:py-40 overflow-hidden">
         <GridLines />
         <GeometricPattern className="right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] opacity-50" />
-        <BinaryRain columns={4} />
+        <BinaryRain />
         <CodeDecoration side="right" />
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
           <motion.div

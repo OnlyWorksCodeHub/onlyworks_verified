@@ -57,7 +57,7 @@ export default function HomePage() {
       {/* ═══ HERO ═══ */}
       <section className="relative flex flex-col justify-end pb-12 pt-32 lg:pt-40 px-6 md:px-12 lg:px-20 overflow-hidden">
         <GeometricPattern className="right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] opacity-50" />
-        <BinaryRain columns={8} />
+        <BinaryRain />
         <CodeDecoration side="right" />
         <ScanLines />
 
