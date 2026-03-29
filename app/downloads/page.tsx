@@ -128,9 +128,8 @@ export default function DownloadsPage() {
                 shimmerColor="#a78bfa"
                 background="rgba(139, 92, 246, 1)"
                 borderRadius="1.75rem"
-                onClick={() => handleDownload('mac', 'arm64')}
-                disabled={downloading !== null}
-                className="h-14 px-8 text-base font-medium disabled:opacity-50"
+                onClick={() => document.getElementById('platforms')?.scrollIntoView({ behavior: 'smooth' })}
+                className="h-14 px-8 text-base font-medium"
               >
                 Download free
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -147,7 +146,7 @@ export default function DownloadsPage() {
       </section>
 
       {/* ═══ PLATFORMS ═══ */}
-      <section className="relative py-16 lg:py-20 overflow-hidden">
+      <section id="platforms" className="relative py-16 lg:py-20 overflow-hidden">
         <GeometricPattern className="right-0 top-0 w-[400px] h-[400px] opacity-30" />
         <FloatingParticles count={6} />
         <WatermarkText text="DOWNLOAD" />
@@ -403,7 +402,7 @@ export default function DownloadsPage() {
                   </p>
                   <div className="flex flex-col sm:flex-row items-start gap-4">
                     <button
-                      onClick={() => handleDownload('mac', 'arm64')}
+                      onClick={() => document.getElementById('platforms')?.scrollIntoView({ behavior: 'smooth' })}
                       className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium text-white transition-all hover:opacity-90 group"
                       style={{ background: '#8b5cf6' }}
                     >
