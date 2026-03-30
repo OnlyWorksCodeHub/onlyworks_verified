@@ -9,15 +9,7 @@ import { Footer } from '@/components/Footer'
 import { motion } from 'framer-motion'
 import { GeometricPattern, PulsingRings, GridBackground } from '@/components/ui/grid-background'
 import { FlipWords } from '@/components/ui/flip-words'
-import { Marquee } from '@/components/ui/marquee'
 import { BinaryRain, CodeDecoration, WatermarkText, ConnectionLines, ASCIIBlock, ScanLines } from '@/components/ui/decorative-fills'
-
-const stats = [
-  { value: '10x', label: 'faster than resume screening' },
-  { value: '98%', label: 'verification accuracy' },
-  { value: '1,000+', label: 'verified profiles' },
-  { value: '20+', label: 'skills tracked per user' },
-]
 
 const testimonials = [
   { quote: "Finally something that shows what I actually did, not just a bullet on a resume.", name: "Sarah K.", role: "CS Student", result: "3 interviews in 2 weeks", metric: "3x" },
@@ -118,17 +110,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Scrolling stats ticker */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="mt-12 border-t border-foreground/10 pt-6 px-6 lg:px-12">
-          <Marquee pauseOnHover className="[--duration:30s]">
-            {stats.map((s, i) => (
-              <div key={i} className="flex items-baseline gap-3 shrink-0 mx-8">
-                <span className="font-display text-3xl md:text-4xl">{s.value}</span>
-                <span className="text-sm font-mono text-muted-foreground">{s.label}</span>
-              </div>
-            ))}
-          </Marquee>
-        </motion.div>
       </section>
 
       {/* ═══ CAPABILITIES — numbered 01-04 ═══ */}

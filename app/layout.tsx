@@ -267,7 +267,7 @@ export default function RootLayout({
                   "name": "How much does OnlyWorks cost?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "OnlyWorks is free to get started, making it accessible for students and early career professionals. We offer various plans to suit different needs, from individual professionals to enterprise teams."
+                    "text": "OnlyWorks is free to get started. Generate reports, build your OW Profile, and share verified proof of your work at no cost."
                   }
                 },
                 {
@@ -275,7 +275,7 @@ export default function RootLayout({
                   "name": "What happens to my personal data on OnlyWorks?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Your personal data is protected with end-to-end encryption and never shared without your permission. OnlyWorks is privacy-first: YOU decide what work gets verified, what goes into reports, and who can see your information. You build proof of your work patterns, not surveillance data. Your data belongs to you, and you can delete it anytime. We comply with all major privacy regulations including GDPR and CCPA."
+                    "text": "Your personal data is encrypted and never shared without your permission. You decide what gets verified, what goes into reports, and who can see it. Your data belongs to you and you can delete it anytime."
                   }
                 }
               ]

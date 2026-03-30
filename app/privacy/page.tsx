@@ -63,7 +63,7 @@ We are committed to protecting your privacy and ensuring you understand how your
 • Data at rest is encrypted using AES-256 encryption
 • Regular security audits and penetration testing
 • Access controls and authentication requirements
-• Secure cloud infrastructure with SOC 2 compliance
+• Secure cloud infrastructure
 
 While we strive to protect your personal information, no method of transmission over the Internet is 100% secure. We cannot guarantee absolute security.`
   },
@@ -72,9 +72,8 @@ While we strive to protect your personal information, no method of transmission 
     title: 'Data Retention',
     content: `We retain your information based on your subscription plan:
 
-• **Free Plan**: Work session data retained for 7 days
-• **Pro Plan**: Work session data retained for 90 days
-• **Enterprise Plan**: Custom retention policies available
+• Work session data is retained while your account is active
+• You can delete your data at any time from your account settings
 
 Account information is retained until you delete your account. You can request deletion of your data at any time through your account settings or by contacting us.`
   },
