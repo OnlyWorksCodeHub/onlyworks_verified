@@ -1,4 +1,4 @@
-// App version configuration and metadata - v2.0.5
+// App version configuration — dynamically resolved from GitHub releases
 export interface AppVersion {
   version: string
   releaseDate: string
@@ -30,33 +30,35 @@ export interface AppVersion {
   }
 }
 
+const GITHUB_OWNER = 'Namkha-yolo'
+const GITHUB_REPO = 'ONLYWORKS_DIST'
+
+// Fallback when GitHub API is unreachable
 export const CURRENT_VERSION: AppVersion = {
-  version: '2.8.0',
-  releaseDate: '2026-02-18',
+  version: '3.3.2',
+  releaseDate: '2026-03-30',
   platforms: {
     mac: {
       arm64: {
-        url: 'https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v2.8.0/OnlyWorks.Desktop-2.8.0-arm64.dmg',
-        size: '113MB',
+        url: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download/OnlyWorks+Desktop-3.3.2-arm64.dmg`,
+        size: '116MB',
       },
       intel: {
-        url: 'https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v2.8.0/OnlyWorks.Desktop-2.8.0.dmg',
-        size: '119MB',
+        url: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download/OnlyWorks+Desktop-3.3.2.dmg`,
+        size: '123MB',
       },
     },
     windows: {
       x64: {
-        url: 'https://github.com/Namkha-yolo/ONLYWORKS_DIST/releases/download/v2.8.0/OnlyWorks.Desktop.Setup.2.8.0.exe',
-        size: '85MB',
+        url: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download/OnlyWorks+Desktop+Setup+3.3.2.exe`,
+        size: '91MB',
       },
     },
   },
   releaseNotes: [
-    'Windows support — NSIS installer and portable .exe',
-    'Real-time contextual assistant with floating overlay',
-    'RAG-powered blocker detection and suggestions',
-    'System-wide draggable assistant widget',
-    'Fix permission prompts and UI improvements',
+    'Fix startup hang on update check',
+    'Fix infinite loading on sessions and reports',
+    'Fix macOS reactivation loop',
     'Auto-update improvements',
   ],
   minOS: {
@@ -90,4 +92,3 @@ export function compareVersions(v1: string, v2: string): number {
 export function isUpdateAvailable(currentVersion: string, latestVersion: string): boolean {
   return compareVersions(latestVersion, currentVersion) > 0
 }
-
