@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
         }
       },
       success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.only-works.com'}/downloads?success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.only-works.com'}/pricing?canceled=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.only-works.com'}/downloads?canceled=true`,
       metadata: {
         customer_email: normalizedEmail,
         plan_type: 'pro',

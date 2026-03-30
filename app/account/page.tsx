@@ -197,11 +197,11 @@ export default function AccountPage() {
             <div className="space-y-3">
               {!hasActiveSub && !loading && (
                 <Link
-                  href="/pricing"
+                  href="/downloads"
                   className="rounded-xl border border-neutral-200 bg-white p-4 flex items-center justify-between hover:border-violet-400 transition-colors"
                 >
-                  <span className="text-sm font-medium text-neutral-900">Don&apos;t have a subscription?</span>
-                  <span className="text-sm text-violet-600">View plans</span>
+                  <span className="text-sm font-medium text-neutral-900">Get started with OnlyWorks</span>
+                  <span className="text-sm text-violet-600">Download free</span>
                 </Link>
               )}
 

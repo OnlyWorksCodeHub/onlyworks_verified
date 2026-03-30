@@ -66,8 +66,8 @@ export default function AppBreakdown({ apps, limited }: AppBreakdownProps) {
           <Lock style={{ width: '16px', height: '16px', color: 'var(--text-muted)', margin: '0 auto 6px' }} />
           <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', margin: 0 }}>
             {apps.length - 3} more apps hidden.{' '}
-            <Link href="/pricing" style={{ color: 'var(--accent)', fontWeight: 500 }}>
-              Upgrade to see all
+            <Link href="/downloads" style={{ color: 'var(--accent)', fontWeight: 500 }}>
+              Download the app to see all
             </Link>
           </p>
         </div>

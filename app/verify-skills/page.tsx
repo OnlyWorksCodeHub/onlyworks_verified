@@ -24,7 +24,7 @@ export default function VerifySkillsPage() {
   const handleVerifyClick = () => {
     sessionStorage.setItem('first_opt_in', 'true')
     sessionStorage.setItem('future_opt_in', futureOptIn.toString())
-    window.location.href = '/pricing'
+    window.location.href = '/downloads'
   }
 
   return (

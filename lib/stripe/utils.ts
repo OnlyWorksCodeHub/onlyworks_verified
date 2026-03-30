@@ -156,9 +156,9 @@ export async function sendTrialEndingEmail(
         </div>
 
         <div style="text-align: center; margin: 24px 0;">
-          <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://www.only-works.com'}/pricing"
+          <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://www.only-works.com'}/account"
              style="display: inline-block; background: #8b5cf6; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 500;">
-            View Subscription Details
+            View Account Details
           </a>
         </div>
       </div>

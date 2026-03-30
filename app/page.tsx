@@ -10,14 +10,13 @@ import { motion } from 'framer-motion'
 import { GeometricPattern, PulsingRings, GridBackground } from '@/components/ui/grid-background'
 import { FlipWords } from '@/components/ui/flip-words'
 import { Marquee } from '@/components/ui/marquee'
-import { BackgroundBeams } from '@/components/ui/background-beams'
 import { BinaryRain, CodeDecoration, WatermarkText, ConnectionLines, ASCIIBlock, ScanLines } from '@/components/ui/decorative-fills'
 
 const stats = [
   { value: '10x', label: 'faster than resume screening' },
   { value: '98%', label: 'verification accuracy' },
-  { value: '5s', label: 'report generation' },
   { value: '1,000+', label: 'verified profiles' },
+  { value: '20+', label: 'skills tracked per user' },
 ]
 
 const testimonials = [
@@ -51,27 +50,28 @@ function DotGrid({ className = '' }: { className?: string }) {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen" style={{ background: '#fafaf9' }}>
+    <div className="min-h-screen bg-background text-foreground">
       <Navigation />
 
       {/* ═══ HERO ═══ */}
-      <section className="relative flex flex-col justify-end pb-12 pt-32 lg:pt-40 px-6 md:px-12 lg:px-20 overflow-hidden">
+      <section className="relative flex flex-col justify-end pb-12 pt-32 lg:pt-40 overflow-hidden">
         <GeometricPattern className="right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] opacity-50" />
         <BinaryRain />
         <CodeDecoration side="right" />
         <ScanLines />
 
-        <div className="relative z-10 max-w-[1400px] mx-auto w-full">
-          <motion.p
+        <div className="relative z-10 max-w-[1400px] mx-auto w-full px-6 lg:px-12">
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="flex items-center gap-3 mb-6"
-            style={{ color: '#a3a19b', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.8125rem', letterSpacing: '0.02em' }}
+            className="mb-6"
           >
-            <span className="w-10 h-px" style={{ background: '#a3a19b' }} />
-            The platform for verified work
-          </motion.p>
+            <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground">
+              <span className="w-8 h-px bg-foreground/30" />
+              The platform for verified work
+            </span>
+          </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
@@ -89,8 +89,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="max-w-md text-xl lg:text-2xl leading-relaxed"
-              style={{ color: '#57554f' }}
+              className="max-w-md text-xl lg:text-2xl text-muted-foreground leading-relaxed"
             >
               Your toolkit to stop guessing and start proving. Build verified reports that show what you actually did.
             </motion.p>
@@ -101,10 +100,18 @@ export default function HomePage() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex items-center gap-3"
             >
-              <Link href="/downloads" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-medium text-white transition-all hover:opacity-90" style={{ background: '#8b5cf6' }}>
-                Download free <ArrowRight className="w-4 h-4" />
+              <Link
+                href="/downloads"
+                className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium text-white transition-all hover:opacity-90 group"
+                style={{ background: '#8b5cf6' }}
+              >
+                Download free
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
-              <Link href="#how-it-works" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-medium transition-colors" style={{ border: '1px solid #dad7d0', color: '#080503' }}>
+              <Link
+                href="#how-it-works"
+                className="inline-flex items-center justify-center h-14 px-8 text-base rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
+              >
                 How it works
               </Link>
             </motion.div>
@@ -112,12 +119,12 @@ export default function HomePage() {
         </div>
 
         {/* Scrolling stats ticker */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="mt-12 border-t pt-6" style={{ borderColor: '#dad7d0' }}>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="mt-12 border-t border-foreground/10 pt-6 px-6 lg:px-12">
           <Marquee pauseOnHover className="[--duration:30s]">
             {stats.map((s, i) => (
               <div key={i} className="flex items-baseline gap-3 shrink-0 mx-8">
-                <span className="font-display text-3xl md:text-4xl" style={{ color: '#080503' }}>{s.value}</span>
-                <span className="text-sm" style={{ color: '#a3a19b', fontFamily: "'JetBrains Mono', monospace" }}>{s.label}</span>
+                <span className="font-display text-3xl md:text-4xl">{s.value}</span>
+                <span className="text-sm font-mono text-muted-foreground">{s.label}</span>
               </div>
             ))}
           </Marquee>
@@ -125,37 +132,40 @@ export default function HomePage() {
       </section>
 
       {/* ═══ CAPABILITIES — numbered 01-04 ═══ */}
-      <section className="relative px-6 md:px-12 lg:px-20 py-12 md:py-16">
+      <section className="relative py-16 lg:py-24 overflow-hidden">
         <DotGrid className="right-0 top-0 w-[300px] h-full" />
         <DotGrid className="left-0 bottom-0 w-[200px] h-[400px]" />
         <WatermarkText text="VERIFY" />
         <ASCIIBlock variant="chart" className="absolute right-12 top-12" />
-        <div className="relative z-10 max-w-[1400px] mx-auto">
-          <div className="mb-8">
-            <p className="text-sm mb-3" style={{ color: '#a3a19b', fontFamily: "'JetBrains Mono', monospace" }}>Capabilities</p>
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="mb-10">
+            <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-4">
+              <span className="w-8 h-px bg-foreground/30" />
+              Capabilities
+            </span>
             <h2 className="max-w-2xl text-4xl lg:text-6xl font-display tracking-tight">
-              Everything you need.<br /><span style={{ color: '#a3a19b' }}>Nothing you don&apos;t.</span>
+              Everything you need.<br /><span className="text-muted-foreground">Nothing you don&apos;t.</span>
             </h2>
           </div>
 
           {[
-            { num: '01', icon: Cpu, title: 'AI-Powered Analysis', desc: 'Our AI watches what you build — the apps, the focus, the output. It understands context, measures impact, and captures accomplishments automatically.' },
+            { num: '01', icon: Cpu, title: 'Intelligent Verification', desc: 'OnlyWorks verifies what you build, the apps you use, your focus and output. It understands context, measures impact and identifies accomplishments automatically.' },
             { num: '02', icon: Shield, title: 'Verified Reports', desc: 'Generate tamper-proof reports showing skills, accomplishments, and real impact. Not self-reported. Not exaggerated. Verified by data.' },
             { num: '03', icon: Eye, title: 'OW Profile', desc: 'Your living portfolio that grows with every session. A single link that shows employers exactly what you can do — backed by proof.' },
             { num: '04', icon: Lock, title: 'Privacy First', desc: 'End-to-end encryption. You decide what gets captured, what goes into reports, and who can see them. Your data stays yours.' },
           ].map((item, i) => (
             <motion.div key={item.num} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }} transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="grid grid-cols-12 gap-6 py-8 md:py-12 border-t items-start" style={{ borderColor: '#dad7d0' }}>
+              className="grid grid-cols-12 gap-6 py-8 md:py-12 border-t border-foreground/10 items-start">
               <div className="col-span-1">
-                <span className="text-sm" style={{ color: '#a3a19b', fontFamily: "'JetBrains Mono', monospace" }}>{item.num}</span>
+                <span className="text-sm font-mono text-muted-foreground">{item.num}</span>
               </div>
               <div className="col-span-11 md:col-span-5">
-                <h3 className="text-xl md:text-2xl font-medium mb-3" style={{ color: '#080503' }}>{item.title}</h3>
-                <p className="text-base leading-relaxed" style={{ color: '#57554f' }}>{item.desc}</p>
+                <h3 className="text-xl md:text-2xl font-medium mb-3">{item.title}</h3>
+                <p className="text-base text-muted-foreground leading-relaxed">{item.desc}</p>
               </div>
               <div className="hidden md:flex col-span-6 justify-end">
-                <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: '#e7e4dd' }}>
-                  <item.icon className="w-7 h-7" style={{ color: '#57554f' }} />
+                <div className="w-16 h-16 flex items-center justify-center border border-foreground/10">
+                  <item.icon className="w-7 h-7 text-muted-foreground" />
                 </div>
               </div>
             </motion.div>
@@ -164,29 +174,35 @@ export default function HomePage() {
       </section>
 
       {/* ═══ PROCESS — dark section ═══ */}
-      <section id="how-it-works" className="relative px-6 md:px-12 lg:px-20 py-12 md:py-20 overflow-hidden" style={{ background: '#1c1b18', color: '#fafaf9' }}>
+      <section id="how-it-works" className="relative py-16 lg:py-24 overflow-hidden" style={{ background: '#1c1b18', color: '#fafaf9' }}>
         <DiagonalHatch className="opacity-100" />
-        <div className="relative z-10 max-w-[1400px] mx-auto">
-          <div className="mb-8">
-            <p className="text-sm mb-3" style={{ color: '#78766f', fontFamily: "'JetBrains Mono', monospace" }}>—— Process</p>
-            <h2 className="text-4xl lg:text-6xl font-display tracking-tight" style={{ color: '#78766f' }}>
-              Three steps.<br /><span style={{ color: '#fafaf9' }}>Infinite possibilities.</span>
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="mb-10">
+            <span className="inline-flex items-center gap-3 text-sm font-mono mb-4" style={{ color: 'rgba(250,250,249,0.5)' }}>
+              <span className="w-8 h-px" style={{ background: 'rgba(250,250,249,0.3)' }} />
+              Process
+            </span>
+            <h2 className="text-4xl lg:text-6xl font-display tracking-tight" style={{ color: '#fafaf9' }}>
+              Three steps.<br /><span style={{ color: 'rgba(250,250,249,0.4)' }}>Infinite possibilities.</span>
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="space-y-8">
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-20">
+            <div className="space-y-0">
               {[
-                { num: 'I', title: 'Start a session', desc: "OnlyWorks runs in the background. It captures what you're working on — apps, focus time, real output. You control everything." },
-                { num: 'II', title: 'Generate a report', desc: 'AI analyzes your work and creates a verified report — skills, accomplishments, impact. Ready to share.' },
+                { num: 'I', title: 'Start a session', desc: "OnlyWorks runs in the background. It verifies what you're working on, your focus time and real output. You control everything." },
+                { num: 'II', title: 'Generate a report', desc: 'OnlyWorks analyzes your work and creates a verified report with your skills, accomplishments and impact. Ready to share.' },
                 { num: 'III', title: 'Share your proof', desc: 'Send your OW Profile or individual reports to employers, clients, anyone. Proof that speaks for itself.' },
               ].map((step, i) => (
-                <motion.div key={step.num} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.15 }}>
-                  <div className="flex items-start gap-4">
-                    <span className="font-display text-2xl mt-1" style={{ color: '#78766f' }}>{step.num}</span>
-                    <div>
-                      <h3 className="text-xl md:text-2xl font-medium mb-2" style={{ color: i === 2 ? '#fafaf9' : '#78766f' }}>{step.title}</h3>
-                      <p className="text-base leading-relaxed" style={{ color: '#78766f' }}>{step.desc}</p>
+                <motion.div key={step.num} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.15 }}
+                  className="py-8 border-b transition-all duration-500 group"
+                  style={{ borderColor: 'rgba(250,250,249,0.1)' }}
+                >
+                  <div className="flex items-start gap-6">
+                    <span className="font-display text-3xl" style={{ color: 'rgba(250,250,249,0.3)' }}>{step.num}</span>
+                    <div className="flex-1">
+                      <h3 className="text-2xl lg:text-3xl font-display mb-3 group-hover:translate-x-2 transition-transform duration-300" style={{ color: '#fafaf9' }}>{step.title}</h3>
+                      <p className="leading-relaxed" style={{ color: 'rgba(250,250,249,0.6)' }}>{step.desc}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -194,12 +210,12 @@ export default function HomePage() {
             </div>
 
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}
-              className="rounded-xl overflow-hidden border" style={{ borderColor: '#44423d' }}>
-              <div className="flex items-center gap-1.5 px-4 py-3" style={{ background: '#292825', borderBottom: '1px solid #44423d' }}>
-                <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#57554f' }} />
-                <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#57554f' }} />
-                <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#57554f' }} />
-                <span className="ml-auto text-xs" style={{ color: '#78766f', fontFamily: "'JetBrains Mono', monospace" }}>overview.tsx</span>
+              className="overflow-hidden border" style={{ borderColor: 'rgba(250,250,249,0.1)' }}>
+              <div className="flex items-center gap-1.5 px-4 py-3" style={{ background: '#292825', borderBottom: '1px solid rgba(250,250,249,0.1)' }}>
+                <div className="w-2.5 h-2.5 rounded-full" style={{ background: 'rgba(250,250,249,0.2)' }} />
+                <div className="w-2.5 h-2.5 rounded-full" style={{ background: 'rgba(250,250,249,0.2)' }} />
+                <div className="w-2.5 h-2.5 rounded-full" style={{ background: 'rgba(250,250,249,0.2)' }} />
+                <span className="ml-auto text-xs font-mono" style={{ color: 'rgba(250,250,249,0.4)' }}>overview.tsx</span>
               </div>
               <Image src="/images/overview.png" alt="OnlyWorks Dashboard" width={1920} height={1080} className="w-full h-auto" />
             </motion.div>
@@ -208,28 +224,39 @@ export default function HomePage() {
       </section>
 
       {/* ═══ METRICS — 2x2 grid ═══ */}
-      <section className="relative overflow-hidden px-6 md:px-12 lg:px-20 py-12 md:py-16">
+      <section className="relative overflow-hidden py-16 lg:py-24">
         <PulsingRings className="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]" />
         <GridBackground className="opacity-50" />
         <ConnectionLines />
         <ASCIIBlock variant="verify" className="absolute left-12 bottom-12" />
-        <div className="relative z-10 max-w-[1400px] mx-auto">
-          <p className="text-sm mb-3" style={{ color: '#a3a19b', fontFamily: "'JetBrains Mono', monospace" }}>—— Live metrics</p>
-          <h2 className="mb-8 text-4xl lg:text-6xl font-display tracking-tight">
-            Performance you<br /><span style={{ color: '#a3a19b' }}>can measure.</span>
-          </h2>
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="mb-10">
+            <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-4">
+              <span className="w-8 h-px bg-foreground/30" />
+              By the numbers
+            </span>
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="text-4xl lg:text-6xl font-display tracking-tight"
+            >
+              Performance you<br /><span className="text-muted-foreground">can measure.</span>
+            </motion.h2>
+          </div>
 
-          <div className="grid grid-cols-2 border-t border-l" style={{ borderColor: '#dad7d0' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/10">
             {[
-              { value: '50,000+', label: 'Reports generated' },
               { value: '98%', label: 'Verification accuracy' },
-              { value: '<5s', label: 'Average generation time' },
               { value: '20+', label: 'Skills tracked per user' },
+              { value: '1,000+', label: 'Verified profiles' },
+              { value: '10x', label: 'Faster than resume screening' },
             ].map((m, i) => (
-              <motion.div key={i} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="border-b border-r p-6 md:p-10" style={{ borderColor: '#dad7d0' }}>
-                <div className="text-5xl lg:text-7xl font-display tracking-tight" style={{ lineHeight: 1, color: '#080503' }}>{m.value}</div>
-                <p className="mt-2 text-sm" style={{ color: '#a3a19b' }}>{m.label}</p>
+              <motion.div key={i} initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: i * 0.1 }}
+                className="bg-background p-8 lg:p-10">
+                <div className="text-6xl lg:text-8xl font-display tracking-tight" style={{ lineHeight: 1 }}>{m.value}</div>
+                <div className="mt-3 text-lg text-muted-foreground">{m.label}</div>
               </motion.div>
             ))}
           </div>
@@ -237,16 +264,21 @@ export default function HomePage() {
       </section>
 
       {/* ═══ TESTIMONIAL ═══ */}
-      <section className="relative overflow-hidden px-6 md:px-12 lg:px-20 py-12 md:py-16 border-t" style={{ borderColor: '#dad7d0' }}>
+      <section className="relative overflow-hidden py-16 lg:py-24 border-t border-foreground/10">
         <DotGrid className="left-0 top-0 w-[200px] h-full" />
         <GeometricPattern className="right-0 bottom-0 w-[300px] h-[300px] opacity-30" />
         <WatermarkText text="PROOF" />
         <ConnectionLines className="opacity-50" />
-        <div className="relative z-10 max-w-[1400px] mx-auto">
-          <p className="text-sm mb-3" style={{ color: '#a3a19b', fontFamily: "'JetBrains Mono', monospace" }}>—— Testimonials</p>
-          <h2 className="mb-10 text-4xl lg:text-6xl font-display tracking-tight">
-            What people<br /><span style={{ color: '#a3a19b' }}>are saying.</span>
-          </h2>
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="mb-10">
+            <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-4">
+              <span className="w-8 h-px bg-foreground/30" />
+              Testimonials
+            </span>
+            <h2 className="text-4xl lg:text-6xl font-display tracking-tight">
+              What people<br /><span className="text-muted-foreground">are saying.</span>
+            </h2>
+          </div>
 
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
@@ -256,12 +288,11 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.6, delay: i * 0.15 }}
-                className="group relative border p-8 flex flex-col justify-between transition-all duration-500 hover:-translate-y-1"
-                style={{ borderColor: '#dad7d0', background: '#ffffff' }}
+                className="group relative border border-foreground/10 bg-background p-8 flex flex-col justify-between transition-all duration-500 hover:-translate-y-1"
               >
                 {/* Metric badge */}
                 <div className="absolute top-6 right-6">
-                  <span className="text-3xl font-display" style={{ color: '#e7e4dd' }}>{t.metric}</span>
+                  <span className="text-3xl font-display text-foreground/10">{t.metric}</span>
                 </div>
 
                 <div>
@@ -270,15 +301,15 @@ export default function HomePage() {
                       <div key={j} className="w-1.5 h-1.5 rounded-full" style={{ background: '#8b5cf6' }} />
                     ))}
                   </div>
-                  <p className="text-base leading-relaxed mb-6" style={{ color: '#080503' }}>
+                  <p className="text-base leading-relaxed mb-6">
                     &ldquo;{t.quote}&rdquo;
                   </p>
                 </div>
 
-                <div className="pt-6" style={{ borderTop: '1px solid #e7e4dd' }}>
-                  <p className="text-sm font-medium" style={{ color: '#080503' }}>{t.name}</p>
-                  <p className="text-sm" style={{ color: '#a3a19b' }}>{t.role}</p>
-                  <p className="mt-2 text-xs font-medium" style={{ color: '#8b5cf6', fontFamily: "'JetBrains Mono', monospace" }}>{t.result}</p>
+                <div className="pt-6 border-t border-foreground/10">
+                  <p className="text-sm font-medium">{t.name}</p>
+                  <p className="text-sm text-muted-foreground">{t.role}</p>
+                  <p className="mt-2 text-xs font-medium font-mono" style={{ color: '#8b5cf6' }}>{t.result}</p>
                 </div>
               </motion.div>
             ))}
@@ -293,27 +324,42 @@ export default function HomePage() {
       </div>
 
       {/* ═══ CTA ═══ */}
-      <section className="relative overflow-hidden px-6 md:px-12 lg:px-20 py-12 md:py-16">
+      <section className="relative py-16 lg:py-24 overflow-hidden">
         <DiagonalHatch />
-        <div className="relative z-10 max-w-[1400px] mx-auto">
-          <div className="relative rounded-2xl p-10 md:p-16 overflow-hidden" style={{ background: '#f5f5f4', border: '1px solid #dad7d0' }}>
-            <GeometricPattern className="right-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] opacity-40" />
-            <div className="relative z-10">
-              <h2 className="max-w-3xl text-4xl lg:text-7xl font-display tracking-tight leading-[0.95]" style={{ color: '#a3a19b' }}>
-                Ready to prove<br /><span style={{ color: '#080503' }}>your work?</span>
-              </h2>
-              <p className="mt-4 text-lg max-w-md" style={{ color: '#78766f' }}>Join thousands building verified portfolios. Start free, prove everything.</p>
-              <div className="mt-6 flex items-center gap-3">
-                <Link href="/downloads" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-medium text-white transition-all hover:opacity-90" style={{ background: '#8b5cf6' }}>
-                  Start building free
-                </Link>
-                <Link href="/contact" className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-medium transition-colors" style={{ border: '1px solid #dad7d0', color: '#080503' }}>
-                  Talk to sales
-                </Link>
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            className="relative border border-foreground"
+          >
+            <div className="relative z-10 px-8 lg:px-16 py-12 lg:py-16">
+              <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+                <div className="flex-1">
+                  <h2 className="text-4xl lg:text-7xl font-display tracking-tight mb-6 leading-[0.95]">
+                    Ready to prove<br /><span className="text-muted-foreground">your work?</span>
+                  </h2>
+                  <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-xl">
+                    Join thousands building verified portfolios. Start free, prove everything.
+                  </p>
+                  <div className="flex flex-col sm:flex-row items-start gap-4">
+                    <Link
+                      href="/downloads"
+                      className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium text-white transition-all hover:opacity-90 group"
+                      style={{ background: '#8b5cf6' }}
+                    >
+                      Download free
+                      <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-6 font-mono">No credit card required</p>
+                </div>
               </div>
-              <p className="mt-3 text-xs" style={{ color: '#a3a19b' }}>No credit card required</p>
             </div>
-          </div>
+            <div className="absolute top-0 right-0 w-32 h-32 border-b border-l border-foreground/10" />
+            <div className="absolute bottom-0 left-0 w-32 h-32 border-t border-r border-foreground/10" />
+          </motion.div>
         </div>
       </section>
 
