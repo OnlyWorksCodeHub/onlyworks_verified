@@ -106,7 +106,7 @@ export default function CareersPage() {
             {[
               { value: '100%', label: 'Remote' },
               { value: '10+', label: 'Countries' },
-              { value: '∞', label: 'PTO' },
+              { value: 'Flexible', label: 'PTO' },
               { value: '<20', label: 'Team size' },
             ].map((s, i) => (
               <div key={i} className="flex items-baseline gap-4">

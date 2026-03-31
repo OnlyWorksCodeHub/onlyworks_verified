@@ -229,10 +229,10 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/10">
             {[
-              { value: '98%', label: 'Verification accuracy' },
-              { value: '20+', label: 'Skills tracked per user' },
-              { value: '1,000+', label: 'Verified profiles' },
-              { value: '10x', label: 'Faster than resume screening' },
+              { value: 'E2E', label: 'Encrypted' },
+              { value: '<5s', label: 'Report generation' },
+              { value: '20+', label: 'Skills tracked' },
+              { value: 'Free', label: 'To start' },
             ].map((m, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: i * 0.1 }}
                 className="bg-background p-8 lg:p-10">

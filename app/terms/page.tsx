@@ -8,7 +8,7 @@ const sections = [
     title: 'Acceptance of Terms',
     content: `By accessing or using OnlyWorks ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you may not access or use the Service.
 
-These Terms constitute a legally binding agreement between you and OnlyWorks Inc. ("Company," "we," "us," or "our"). We may update these Terms from time to time, and your continued use of the Service constitutes acceptance of any changes.`
+We may update these Terms from time to time, and your continued use of the Service constitutes acceptance of any changes.`
   },
   {
     id: 'description',
@@ -144,8 +144,8 @@ Upon termination, your right to use the Service ceases immediately. We may retai
 **Email**: legal@only-works.com
 
 **Address**: OnlyWorks Inc.
-123 Legal Avenue
-Wilmington, DE 19801
+123 Privacy Lane
+San Francisco, CA 94105
 
 **Response Time**: We aim to respond to all inquiries within 5 business days.`
   }

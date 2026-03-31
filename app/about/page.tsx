@@ -28,7 +28,7 @@ const values = [
   { title: 'AI that serves you', desc: 'AI builds your proof, not surveillance. You own every report.' },
   { title: 'Full transparency', desc: 'See everything captured. Delete anything, anytime.' },
   { title: 'Trust through proof', desc: 'Not through promises. Verified work builds real credibility.' },
-  { title: 'Precision matters', desc: '98% accuracy. Your skills deserve correct representation.' },
+  { title: 'Precision matters', desc: 'AI-verified with human review. Your skills deserve correct representation.' },
   { title: 'Speed', desc: 'Reports in seconds. Your time is too valuable to waste.' },
 ]
 
@@ -145,7 +145,7 @@ export default function AboutPage() {
               </div>
               <div className="grid grid-cols-3 gap-8">
                 {[
-                  { value: '98%', label: 'Accuracy' },
+                  { value: 'AI', label: 'Verified' },
                   { value: '<5s', label: 'Report gen' },
                   { value: 'E2E', label: 'Encrypted' },
                 ].map((s, i) => (
@@ -173,8 +173,8 @@ export default function AboutPage() {
                 </div>
                 <div>
                   {[
-                    { label: 'Verification accuracy', value: '98%' },
-                    { label: 'Work patterns detected', value: '20+' },
+                    { label: 'Verification method', value: 'AI + review' },
+                    { label: 'Skills tracked', value: '20+' },
                     { label: 'Report generation', value: '<5 seconds' },
                     { label: 'Data encryption', value: 'End-to-end' },
                     { label: 'Privacy model', value: 'User-controlled' },
@@ -221,10 +221,10 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/10">
             {[
-              { value: '98%', label: 'Verification accuracy rate' },
-              { value: '20+', label: 'Work patterns detected' },
+              { value: 'E2E', label: 'Encrypted end-to-end' },
+              { value: '20+', label: 'Skills tracked' },
               { value: '<5s', label: 'Average report generation' },
-              { value: '1,000+', label: 'Verified profiles created' },
+              { value: 'Free', label: 'To get started' },
             ].map((stat, i) => (
               <motion.div
                 key={i}
@@ -305,7 +305,7 @@ export default function AboutPage() {
                   <div className="leading-loose pl-4">&quot;mission&quot;: &quot;make work visible&quot;,</div>
                   <div className="leading-loose pl-4">&quot;privacy&quot;: &quot;user-controlled&quot;,</div>
                   <div className="leading-loose pl-4">&quot;encryption&quot;: &quot;end-to-end&quot;,</div>
-                  <div className="leading-loose pl-4">&quot;accuracy&quot;: &quot;98%&quot;,</div>
+                  <div className="leading-loose pl-4">&quot;verification&quot;: &quot;AI + review&quot;,</div>
                   <div className="leading-loose pl-4">&quot;cost&quot;: &quot;free to start&quot;,</div>
                   <div className="leading-loose pl-4">&quot;surveillance&quot;: false</div>
                   <div className="leading-loose">{'}'}</div>

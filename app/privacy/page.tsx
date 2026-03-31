@@ -8,7 +8,7 @@ const sections = [
     title: 'Overview',
     content: `This Privacy Policy describes how OnlyWorks ("we", "us", or "our") collects, uses, and shares information about you when you use our productivity verification platform, website, and related services (collectively, the "Services").
 
-We are committed to protecting your privacy and ensuring you understand how your information is handled. Please read this policy carefully to understand our practices regarding your personal data.`
+By using our Services, you agree to the collection and use of information as described in this policy.`
   },
   {
     id: 'information-collected',
@@ -65,7 +65,7 @@ We are committed to protecting your privacy and ensuring you understand how your
 • Access controls and authentication requirements
 • Secure cloud infrastructure
 
-While we strive to protect your personal information, no method of transmission over the Internet is 100% secure. We cannot guarantee absolute security.`
+No method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security.`
   },
   {
     id: 'data-retention',
