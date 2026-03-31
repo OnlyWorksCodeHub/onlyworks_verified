@@ -166,9 +166,8 @@ export default function AboutPage() {
               <div className="border border-foreground/10">
                 <div className="px-6 py-3 border-b border-foreground/10 flex items-center justify-between">
                   <span className="text-sm font-mono text-muted-foreground">Key Numbers</span>
-                  <span className="flex items-center gap-2 text-xs font-mono text-green-600">
-                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                    Live
+                  <span className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
+                    Overview
                   </span>
                 </div>
                 <div>

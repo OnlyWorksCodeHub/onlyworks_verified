@@ -109,10 +109,6 @@ You can control cookies through your browser settings. Disabling certain cookies
 
 **Email**: privacy@only-works.com
 
-**Address**: OnlyWorks Inc.
-123 Privacy Lane
-San Francisco, CA 94105
-
 We will respond to your inquiry within 30 days.`
   }
 ]

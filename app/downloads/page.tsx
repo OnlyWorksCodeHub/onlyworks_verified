@@ -69,9 +69,9 @@ export default function DownloadsPage() {
 
   const features = [
     { icon: Shield, title: 'Privacy-first', desc: 'You control what gets captured. End-to-end encrypted.' },
-    { icon: Zap, title: 'AI reports locally', desc: 'Reports generated on-device. Your data stays yours.' },
+    { icon: Zap, title: 'Instant insights', desc: 'Reports generated on-device. Your data stays yours.' },
     { icon: RefreshCw, title: 'Auto-updates', desc: 'Always on the latest version. Zero effort.' },
-    { icon: CheckCircle, title: 'Free forever', desc: 'No account required to start. Basic plan is free.' },
+    { icon: CheckCircle, title: 'Ready in seconds', desc: 'No account required to start. Install and go.' },
   ]
 
   return (
@@ -131,7 +131,7 @@ export default function DownloadsPage() {
                 onClick={() => document.getElementById('platforms')?.scrollIntoView({ behavior: 'smooth' })}
                 className="h-14 px-8 text-base font-medium"
               >
-                Download free
+                Download
                 <ArrowRight className="w-4 h-4 ml-2" />
               </ShimmerButton>
               <Link
@@ -398,7 +398,7 @@ export default function DownloadsPage() {
                     Ready to prove<br />your work?
                   </h2>
                   <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-xl">
-                    Download OnlyWorks free. No account required to start.
+                    Download OnlyWorks. No account required to start.
                   </p>
                   <div className="flex flex-col sm:flex-row items-start gap-4">
                     <button
@@ -406,7 +406,7 @@ export default function DownloadsPage() {
                       className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium text-white transition-all hover:opacity-90 group"
                       style={{ background: '#8b5cf6' }}
                     >
-                      Download free
+                      Download
                       <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                     </button>
                     <Link
@@ -416,7 +416,6 @@ export default function DownloadsPage() {
                       Back to home
                     </Link>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-6 font-mono">No credit card required</p>
                 </div>
               </div>
             </div>

@@ -97,7 +97,7 @@ export default function HomePage() {
                 className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium text-white transition-all hover:opacity-90 group"
                 style={{ background: '#8b5cf6' }}
               >
-                Download free
+                Download
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
@@ -130,10 +130,10 @@ export default function HomePage() {
           </div>
 
           {[
-            { num: '01', icon: Cpu, title: 'Intelligent Verification', desc: 'OnlyWorks verifies what you build, the apps you use, your focus and output. It understands context, measures impact and identifies accomplishments automatically.' },
-            { num: '02', icon: Shield, title: 'Verified Reports', desc: 'Generate tamper-proof reports showing skills, accomplishments, and real impact. Not self-reported. Not exaggerated. Verified by data.' },
-            { num: '03', icon: Eye, title: 'OW Profile', desc: 'Your living portfolio that grows with every session. A single link that shows employers exactly what you can do — backed by proof.' },
-            { num: '04', icon: Lock, title: 'Privacy First', desc: 'End-to-end encryption. You decide what gets captured, what goes into reports, and who can see them. Your data stays yours.' },
+            { num: '01', icon: Cpu, title: 'Get noticed faster', desc: 'Hiring managers are drowning in AI-generated resumes. OnlyWorks gives you verified proof of real work so you stand out and actually get reviewed.' },
+            { num: '02', icon: Shield, title: 'Prove what you can do', desc: 'Stop telling employers what you did. Show them. Verified reports with real skills, real accomplishments and real impact.' },
+            { num: '03', icon: Eye, title: 'One link, full picture', desc: 'Share your OW Profile with employers, clients, anyone. A single link that grows with every session and speaks for itself.' },
+            { num: '04', icon: Lock, title: 'Your data, your rules', desc: 'End-to-end encryption. You decide what gets captured, what goes into reports and who can see them.' },
           ].map((item, i) => (
             <motion.div key={item.num} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }} transition={{ duration: 0.6, delay: i * 0.1 }}
               className="grid grid-cols-12 gap-6 py-8 md:py-12 border-t border-foreground/10 items-start">
@@ -322,7 +322,7 @@ export default function HomePage() {
                     Ready to prove<br /><span className="text-muted-foreground">your work?</span>
                   </h2>
                   <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-xl">
-                    Join thousands building verified portfolios. Start free, prove everything.
+                    Start building your verified portfolio today. No credit card required.
                   </p>
                   <div className="flex flex-col sm:flex-row items-start gap-4">
                     <Link
@@ -330,11 +330,10 @@ export default function HomePage() {
                       className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium text-white transition-all hover:opacity-90 group"
                       style={{ background: '#8b5cf6' }}
                     >
-                      Download free
+                      Download
                       <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                     </Link>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-6 font-mono">No credit card required</p>
                 </div>
               </div>
             </div>

@@ -143,10 +143,6 @@ Upon termination, your right to use the Service ceases immediately. We may retai
 
 **Email**: legal@only-works.com
 
-**Address**: OnlyWorks Inc.
-123 Privacy Lane
-San Francisco, CA 94105
-
 **Response Time**: We aim to respond to all inquiries within 5 business days.`
   }
 ]
