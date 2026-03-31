@@ -1,8 +1,9 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, Shield, Cpu, Eye, Lock } from 'lucide-react'
+import { ArrowRight, Shield, Cpu, Eye, Lock, Users, Search, BarChart3, FileCheck } from 'lucide-react'
 import { Navigation } from '@/components/Navigation'
 import { FAQ } from '@/components/FAQ'
 import { Footer } from '@/components/Footer'
@@ -41,6 +42,27 @@ function DotGrid({ className = '' }: { className?: string }) {
 }
 
 export default function HomePage() {
+  const [audience, setAudience] = useState<'personal' | 'employer'>('personal')
+
+  const heroContent = {
+    personal: {
+      tagline: 'The platform for verified work',
+      heading: <>Verified proof<br />of your <FlipWords words={["work", "skills", "impact", "growth"]} className="inline-block" /></>,
+      subtitle: 'Your toolkit to stop guessing and start proving. Build verified reports that show what you actually did.',
+      cta: { label: 'Download', href: '/downloads' },
+      secondary: { label: 'How it works', href: '#how-it-works' },
+    },
+    employer: {
+      tagline: 'The platform for verified talent',
+      heading: <>Find people<br />who can <FlipWords words={["deliver", "build", "ship", "perform"]} className="inline-block" /></>,
+      subtitle: 'AI resumes waste your time. OnlyWorks gives you verified proof of real work so you hire the right people, faster.',
+      cta: { label: 'Start hiring', href: '/hiring' },
+      secondary: { label: 'How it works', href: '#how-it-works' },
+    },
+  }
+
+  const hero = heroContent[audience]
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
@@ -53,6 +75,38 @@ export default function HomePage() {
         <ScanLines />
 
         <div className="relative z-10 max-w-[1400px] mx-auto w-full px-6 lg:px-12">
+
+          {/* ── Audience toggle ── */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8"
+          >
+            <div className="inline-flex items-center rounded-full border border-foreground/20 p-1">
+              <button
+                onClick={() => setAudience('personal')}
+                className={`px-5 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
+                  audience === 'personal'
+                    ? 'bg-foreground text-background'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                Personal
+              </button>
+              <button
+                onClick={() => setAudience('employer')}
+                className={`px-5 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
+                  audience === 'employer'
+                    ? 'bg-foreground text-background'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                Employer
+              </button>
+            </div>
+          </motion.div>
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -61,29 +115,29 @@ export default function HomePage() {
           >
             <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground">
               <span className="w-8 h-px bg-foreground/30" />
-              The platform for verified work
+              {hero.tagline}
             </span>
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 40 }}
+            key={audience}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-4xl text-[clamp(3.5rem,8vw,7rem)] font-display leading-[0.9] tracking-tight"
           >
-            Verified proof
-            <br />
-            of your <FlipWords words={["work", "skills", "impact", "growth"]} className="inline-block" />
+            {hero.heading}
           </motion.h1>
 
           <div className="mt-10 flex flex-col md:flex-row md:items-end justify-between gap-8">
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              key={`subtitle-${audience}`}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
               className="max-w-md text-xl lg:text-2xl text-muted-foreground leading-relaxed"
             >
-              Your toolkit to stop guessing and start proving. Build verified reports that show what you actually did.
+              {hero.subtitle}
             </motion.p>
 
             <motion.div
@@ -93,18 +147,18 @@ export default function HomePage() {
               className="flex items-center gap-3"
             >
               <Link
-                href="/downloads"
+                href={hero.cta.href}
                 className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium text-white transition-all hover:opacity-90 group"
                 style={{ background: '#8b5cf6' }}
               >
-                Download
+                {hero.cta.label}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
-                href="#how-it-works"
+                href={hero.secondary.href}
                 className="inline-flex items-center justify-center h-14 px-8 text-base rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
               >
-                How it works
+                {hero.secondary.label}
               </Link>
             </motion.div>
           </div>
@@ -129,12 +183,17 @@ export default function HomePage() {
             </h2>
           </div>
 
-          {[
+          {(audience === 'personal' ? [
             { num: '01', icon: Cpu, title: 'Get noticed faster', desc: 'Hiring managers are drowning in AI-generated resumes. OnlyWorks gives you verified proof of real work so you stand out and actually get reviewed.' },
             { num: '02', icon: Shield, title: 'Prove what you can do', desc: 'Stop telling employers what you did. Show them. Verified reports with real skills, real accomplishments and real impact.' },
             { num: '03', icon: Eye, title: 'One link, full picture', desc: 'Share your OW Profile with employers, clients, anyone. A single link that grows with every session and speaks for itself.' },
             { num: '04', icon: Lock, title: 'Your data, your rules', desc: 'End-to-end encryption. You decide what gets captured, what goes into reports and who can see them.' },
-          ].map((item, i) => (
+          ] : [
+            { num: '01', icon: Search, title: 'Cut through the noise', desc: 'AI-generated resumes are wasting your team\'s time. OnlyWorks shows you verified proof of what candidates actually built, so you review the right people.' },
+            { num: '02', icon: FileCheck, title: 'Verified over self-reported', desc: 'No more guessing if a resume is real. Every OnlyWorks profile is backed by verified work sessions, real skills and measurable output.' },
+            { num: '03', icon: BarChart3, title: 'Faster, better hires', desc: 'Skip the screening calls. See exactly what a candidate can do before you ever talk to them. Save time and hire with confidence.' },
+            { num: '04', icon: Users, title: 'Access verified talent', desc: 'Browse candidates who have already proven their skills. Filter by verified experience, not keyword-stuffed resumes.' },
+          ]).map((item, i) => (
             <motion.div key={item.num} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }} transition={{ duration: 0.6, delay: i * 0.1 }}
               className="grid grid-cols-12 gap-6 py-8 md:py-12 border-t border-foreground/10 items-start">
               <div className="col-span-1">
@@ -319,18 +378,24 @@ export default function HomePage() {
               <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
                 <div className="flex-1">
                   <h2 className="text-4xl lg:text-7xl font-display tracking-tight mb-6 leading-[0.95]">
-                    Ready to prove<br /><span className="text-muted-foreground">your work?</span>
+                    {audience === 'personal'
+                      ? <>Ready to prove<br /><span className="text-muted-foreground">your work?</span></>
+                      : <>Ready to hire<br /><span className="text-muted-foreground">with proof?</span></>
+                    }
                   </h2>
                   <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-xl">
-                    Start building your verified portfolio today. No credit card required.
+                    {audience === 'personal'
+                      ? 'Start building your verified portfolio today.'
+                      : 'Stop wasting time on unverified resumes. Find proven talent.'
+                    }
                   </p>
                   <div className="flex flex-col sm:flex-row items-start gap-4">
                     <Link
-                      href="/downloads"
+                      href={audience === 'personal' ? '/downloads' : '/hiring'}
                       className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium text-white transition-all hover:opacity-90 group"
                       style={{ background: '#8b5cf6' }}
                     >
-                      Download
+                      {audience === 'personal' ? 'Download' : 'Start hiring'}
                       <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                     </Link>
                   </div>
