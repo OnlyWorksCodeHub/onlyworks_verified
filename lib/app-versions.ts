@@ -32,7 +32,7 @@ export interface AppVersion {
 
 const GITHUB_OWNER = 'Namkha-yolo'
 const GITHUB_REPO = 'ONLYWORKS_DIST'
-const CURRENT_VERSION_NUMBER = '3.3.2'
+const CURRENT_VERSION_NUMBER = '3.7.2'
 const GITHUB_RELEASE_BASE = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download`
 
 // Fallback when GitHub API is unreachable
