@@ -32,25 +32,27 @@ export interface AppVersion {
 
 const GITHUB_OWNER = 'Namkha-yolo'
 const GITHUB_REPO = 'ONLYWORKS_DIST'
+const CURRENT_VERSION_NUMBER = '3.3.2'
+const GITHUB_RELEASE_BASE = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download`
 
 // Fallback when GitHub API is unreachable
 export const CURRENT_VERSION: AppVersion = {
-  version: '3.3.2',
+  version: CURRENT_VERSION_NUMBER,
   releaseDate: '2026-03-30',
   platforms: {
     mac: {
       arm64: {
-        url: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download/OnlyWorks+Desktop-3.3.2-arm64.dmg`,
+        url: `${GITHUB_RELEASE_BASE}/OnlyWorks+Desktop-${CURRENT_VERSION_NUMBER}-arm64.dmg`,
         size: '116MB',
       },
       intel: {
-        url: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download/OnlyWorks+Desktop-3.3.2.dmg`,
+        url: `${GITHUB_RELEASE_BASE}/OnlyWorks+Desktop-${CURRENT_VERSION_NUMBER}.dmg`,
         size: '123MB',
       },
     },
     windows: {
       x64: {
-        url: `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download/OnlyWorks+Desktop+Setup+3.3.2.exe`,
+        url: `${GITHUB_RELEASE_BASE}/OnlyWorks+Desktop+Setup+${CURRENT_VERSION_NUMBER}.exe`,
         size: '91MB',
       },
     },
