@@ -153,7 +153,7 @@ export default async function SharedReportPage({ params }: { params: { id: strin
             {report.total_duration_seconds && (
               <div className="flex items-center gap-1">
                 <Clock className="w-4 h-4" />
-                <span>{formatDuration(report.total_duration_seconds)} tracked</span>
+                <span>{formatDuration(report.total_duration_seconds)} logged</span>
               </div>
             )}
             {report.total_sessions && (

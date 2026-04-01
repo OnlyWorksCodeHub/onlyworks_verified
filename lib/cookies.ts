@@ -1,4 +1,4 @@
-// Cookie utility functions for attribution tracking
+// Cookie utility functions for attribution
 
 export function getCookie(name: string): string | null {
   if (typeof document === 'undefined') return null

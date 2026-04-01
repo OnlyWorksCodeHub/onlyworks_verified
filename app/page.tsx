@@ -290,7 +290,7 @@ export default function HomePage() {
             {[
               { value: 'E2E', label: 'Encrypted' },
               { value: '<5s', label: 'Report generation' },
-              { value: '20+', label: 'Skills tracked' },
+              { value: '20+', label: 'Skills verified' },
               { value: 'Free', label: 'To start' },
             ].map((m, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7, delay: i * 0.1 }}

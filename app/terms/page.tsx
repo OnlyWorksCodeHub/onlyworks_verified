@@ -16,8 +16,8 @@ We may update these Terms from time to time, and your continued use of the Servi
     content: `OnlyWorks provides a productivity verification platform that includes:
 
 • **Screenshot Capture**: Periodic screenshots during active work sessions
-• **Activity Tracking**: Monitoring of application usage and work patterns
-• **AI Analysis**: Automated detection of productivity patterns and potential fraud
+• **Activity Insights**: Understanding of application usage and work patterns
+• **AI Analysis**: Automated recognition of productivity patterns and potential fraud
 • **Report Generation**: Verifiable productivity reports for employers or clients
 • **Data Storage**: Secure storage of work session data
 
@@ -44,7 +44,7 @@ The Service is designed for professionals who need to verify their work to emplo
     content: `You agree NOT to:
 
 • Use the Service for any illegal purpose or in violation of any laws
-• Attempt to circumvent, disable, or interfere with the tracking functionality
+• Attempt to circumvent, disable, or interfere with the verification functionality
 • Use automation, bots, or artificial means to simulate productivity
 • Upload malware, viruses, or other harmful code
 • Falsify or misrepresent your work activity

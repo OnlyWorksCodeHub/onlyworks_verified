@@ -73,7 +73,7 @@ export default function SecurityPage() {
           {[
             { num: '01', icon: Lock, title: 'End-to-End Encryption', desc: 'Your data is encrypted in transit and at rest. Screenshots never leave your device unencrypted.' },
             { num: '02', icon: Shield, title: 'Privacy by Design', desc: 'You choose what gets captured, what goes into reports, and what to exclude. Nothing is shared without your explicit permission.' },
-            { num: '03', icon: Server, title: 'Secure Infrastructure', desc: 'Hosted on trusted cloud providers with automated monitoring. Your personal data is isolated and protected.' },
+            { num: '03', icon: Server, title: 'Secure Infrastructure', desc: 'Hosted on trusted cloud providers with automated safeguards. Your personal data is isolated and protected.' },
             { num: '04', icon: Key, title: 'Full Control', desc: 'Export or delete your data anytime. No lock-in, no hidden retention. When you say delete, we delete.' },
           ].map((item, i) => (
             <motion.div key={item.num} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }} transition={{ duration: 0.6, delay: i * 0.1 }}

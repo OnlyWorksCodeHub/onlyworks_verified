@@ -25,7 +25,7 @@ function GridLines() {
 
 const values = [
   { title: 'Privacy first', desc: 'End-to-end encrypted. You control what gets verified and who sees it.' },
-  { title: 'AI that serves you', desc: 'AI builds your proof, not surveillance. You own every report.' },
+  { title: 'AI that serves you', desc: 'AI builds your proof — on your terms. You own every report.' },
   { title: 'Full transparency', desc: 'See everything captured. Delete anything, anytime.' },
   { title: 'Trust through proof', desc: 'Not through promises. Verified work builds real credibility.' },
   { title: 'Precision matters', desc: 'AI-verified with human review. Your skills deserve correct representation.' },
@@ -173,7 +173,7 @@ export default function AboutPage() {
                 <div>
                   {[
                     { label: 'Verification method', value: 'AI + review' },
-                    { label: 'Skills tracked', value: '20+' },
+                    { label: 'Skills verified', value: '20+' },
                     { label: 'Report generation', value: '<5 seconds' },
                     { label: 'Data encryption', value: 'End-to-end' },
                     { label: 'Privacy model', value: 'User-controlled' },
@@ -221,7 +221,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/10">
             {[
               { value: 'E2E', label: 'Encrypted end-to-end' },
-              { value: '20+', label: 'Skills tracked' },
+              { value: '20+', label: 'Skills verified' },
               { value: '<5s', label: 'Average report generation' },
               { value: 'Free', label: 'To get started' },
             ].map((stat, i) => (
@@ -306,7 +306,7 @@ export default function AboutPage() {
                   <div className="leading-loose pl-4">&quot;encryption&quot;: &quot;end-to-end&quot;,</div>
                   <div className="leading-loose pl-4">&quot;verification&quot;: &quot;AI + review&quot;,</div>
                   <div className="leading-loose pl-4">&quot;cost&quot;: &quot;free to start&quot;,</div>
-                  <div className="leading-loose pl-4">&quot;surveillance&quot;: false</div>
+                  <div className="leading-loose pl-4">&quot;respectsPrivacy&quot;: true</div>
                   <div className="leading-loose">{'}'}</div>
                 </div>
                 <div className="px-6 py-3 border-t flex items-center gap-3" style={{ borderColor: 'rgba(250,250,249,0.1)' }}>

@@ -17,7 +17,7 @@ By using our Services, you agree to the collection and use of information as des
 
 • **Account Information**: Name, email address, password, and profile details when you create an account.
 
-• **Work Session Data**: Screenshots, activity timestamps, application usage, and productivity metrics captured during active tracking sessions.
+• **Work Session Data**: Screenshots, activity timestamps, application usage, and productivity metrics captured during active work sessions.
 
 • **Payment Information**: Billing details processed securely through Stripe. We do not store full credit card numbers.
 
@@ -32,11 +32,11 @@ By using our Services, you agree to the collection and use of information as des
 
 • Provide, maintain, and improve our Services
 • Generate productivity reports and verification documents
-• Detect and prevent fraudulent activity and automation
+• Identify and prevent fraudulent activity and automation
 • Process payments and send related information
 • Send technical notices, updates, and security alerts
 • Respond to your comments, questions, and support requests
-• Monitor and analyze trends, usage, and activities
+• Review trends, usage patterns, and service performance
 • Personalize and improve your experience`
   },
   {
@@ -92,7 +92,7 @@ To exercise these rights, contact us at privacy@only-works.com or use the contro
   },
   {
     id: 'cookies',
-    title: 'Cookies & Tracking',
+    title: 'Cookies & Analytics',
     content: `We use cookies and similar technologies to:
 
 • Keep you logged in and remember your preferences

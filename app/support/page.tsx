@@ -138,8 +138,8 @@ export default function SupportPage() {
 
   const features = [
     { icon: Zap, title: 'AI-Powered Analysis', desc: 'Understands what you\'re working on from screen activity.' },
-    { icon: BarChart3, title: 'Productivity Tracking', desc: 'Sessions, time, focus — see where your time goes.' },
-    { icon: Monitor, title: 'Work Sessions', desc: 'Auto-detects when you start and stop working.' },
+    { icon: BarChart3, title: 'Productivity Insights', desc: 'Sessions, time, focus — see where your time goes.' },
+    { icon: Monitor, title: 'Work Sessions', desc: 'Recognizes when you start and stop working.' },
     { icon: Mail, title: 'Verified Reports', desc: 'AI-generated proof of your skills and accomplishments.' },
   ]
 
