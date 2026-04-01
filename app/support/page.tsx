@@ -69,10 +69,16 @@ export default function SupportPage() {
       answer: (
         <div>
           <p className="mb-3">Download our uninstaller to completely remove OnlyWorks and all its data.</p>
-          <a href="https://github.com/Namkha-yolo/ONLYWORKS_UNINSTALLER/releases/download/v1/UninstallOnlyWorks.dmg"
-            className="inline-flex items-center gap-1.5 text-sm font-medium hover:underline underline-offset-4 text-foreground">
-            <Download className="w-3.5 h-3.5" /> Download Uninstaller
-          </a>
+          <div className="flex items-center gap-4">
+            <a href="https://github.com/Namkha-yolo/ONLYWORKS_UNINSTALLER/releases/download/v1/UninstallOnlyWorks.dmg"
+              className="inline-flex items-center gap-1.5 text-sm font-medium hover:underline underline-offset-4 text-foreground">
+              <Download className="w-3.5 h-3.5" /> Mac
+            </a>
+            <a href="https://github.com/Namkha-yolo/ONLYWORKS_UNINSTALLER_WINDOWS/releases/download/v1/UninstallOnlyWorks-Windows.zip"
+              className="inline-flex items-center gap-1.5 text-sm font-medium hover:underline underline-offset-4 text-foreground">
+              <Download className="w-3.5 h-3.5" /> Windows
+            </a>
+          </div>
         </div>
       ),
     },

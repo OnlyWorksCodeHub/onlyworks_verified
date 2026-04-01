@@ -423,15 +423,23 @@ export default function DownloadsPage() {
             <div className="absolute bottom-0 left-0 w-32 h-32 border-t border-r border-foreground/10" />
           </motion.div>
 
-          {/* Uninstall link */}
+          {/* Uninstall links */}
           <div className="mt-8 text-center">
             <p className="text-xs font-mono text-muted-foreground mb-2">Need a fresh start?</p>
-            <a
-              href="https://github.com/Namkha-yolo/ONLYWORKS_UNINSTALLER/releases/download/v1/UninstallOnlyWorks.dmg"
-              className="inline-flex items-center gap-1.5 text-sm font-medium hover:underline underline-offset-4"
-            >
-              <Download className="w-3.5 h-3.5" /> Download Uninstaller (Mac)
-            </a>
+            <div className="flex items-center justify-center gap-6">
+              <a
+                href="https://github.com/Namkha-yolo/ONLYWORKS_UNINSTALLER/releases/download/v1/UninstallOnlyWorks.dmg"
+                className="inline-flex items-center gap-1.5 text-sm font-medium hover:underline underline-offset-4"
+              >
+                <Download className="w-3.5 h-3.5" /> Uninstaller (Mac)
+              </a>
+              <a
+                href="https://github.com/Namkha-yolo/ONLYWORKS_UNINSTALLER_WINDOWS/releases/download/v1/UninstallOnlyWorks-Windows.zip"
+                className="inline-flex items-center gap-1.5 text-sm font-medium hover:underline underline-offset-4"
+              >
+                <Download className="w-3.5 h-3.5" /> Uninstaller (Windows)
+              </a>
+            </div>
           </div>
         </div>
       </section>
