@@ -70,3 +70,42 @@ export interface OWProfileData {
 }
 
 export type BadgeStatus = 'verified' | 'trial' | 'previously_verified' | 'none'
+
+// Unified profile response from /api/profiles/:owId/ow-profile
+export interface ResumeData {
+  professional_summary: string
+  work_activity: Array<{
+    period: string
+    title: string
+    company: string
+    accomplishments: string[]
+    skills_applied: string[]
+  }>
+  all_accomplishments: Array<{ accomplishment: string; impact: string; category?: string; date: string }>
+  total_verified_hours: number
+  total_sessions: number
+  active_since: string | null
+  top_tools: string[]
+  work_categories: Record<string, number>
+  current_streak: number
+  longest_streak: number
+}
+
+export interface ProfileInfo {
+  full_name: string
+  job_title: string
+  company: string
+  field_of_work: string
+  experience_level: string
+  bio: string
+  ow_id: string
+  avatar_url: string
+  member_since: string
+}
+
+export interface UnifiedProfileData {
+  ow_profile: OWProfileData
+  resume: ResumeData
+  profile_info: ProfileInfo
+  last_updated: string | null
+}
