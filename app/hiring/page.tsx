@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { CheckCircle, BarChart3, Shield, Users, ArrowRight, Check } from 'lucide-react'
+import { CheckCircle, BarChart3, Shield, Users, ArrowRight, Check, Search } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
@@ -11,38 +11,49 @@ import { GridBackground, FloatingParticles, GeometricPattern, PulsingRings } fro
 import { ShimmerButton } from '@/components/ui/shimmer-button'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import { BinaryRain, WatermarkText, ConnectionLines, CodeDecoration } from '@/components/ui/decorative-fills'
-
-function GridLines() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
-      {[12.5, 25, 37.5, 50, 62.5, 75, 87.5, 100].map((t) => (
-        <div key={`h-${t}`} className="absolute h-px bg-foreground/10" style={{ top: `${t}%`, left: 0, right: 0 }} />
-      ))}
-      {[8.33, 16.66, 24.99, 33.32, 41.65, 49.98, 58.31, 66.64, 74.97, 83.3, 91.63, 99.96].map((l) => (
-        <div key={`v-${l}`} className="absolute w-px bg-foreground/10" style={{ left: `${l}%`, top: 0, bottom: 0 }} />
-      ))}
-    </div>
-  )
-}
+import { useAuth } from '@/components/AuthProvider'
+import { NEXT_PUBLIC_BACKEND_URL } from '@/lib/config'
 
 export default function HiringPage() {
-  const [formData, setFormData] = useState({ name: '', email: '', company: '', job_title: '', team_size: '' })
+  const { backendToken, user } = useAuth()
+  const [formData, setFormData] = useState({ company: '', job_title: '' })
   const [isLoading, setIsLoading] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isRegistered, setIsRegistered] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!backendToken) {
+      toast.error('Please sign in first to create a hiring manager account.')
+      return
+    }
+    if (!formData.company.trim()) {
+      toast.error('Company name is required.')
+      return
+    }
+
     setIsLoading(true)
     try {
-      const res = await fetch('/api/hiring-waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) })
+      const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/hiring/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${backendToken}` },
+        body: JSON.stringify(formData)
+      })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Failed to join waitlist')
-      setIsSubmitted(true)
-      toast.success('You\'re on the list!')
+      if (!res.ok) throw new Error(data.message || 'Registration failed')
+      setIsRegistered(true)
+      toast.success('Hiring manager account created!')
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Something went wrong')
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`
     }
   }
 
@@ -57,7 +68,7 @@ export default function HiringPage() {
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
 
-      {/* ═══ HERO — centered (conversion page), v0 hero pattern ═══ */}
+      {/* ═══ HERO ═══ */}
       <section className="relative py-32 lg:py-40 overflow-hidden">
         <GridBackground />
         <BinaryRain />
@@ -89,36 +100,41 @@ export default function HiringPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-xl lg:text-2xl text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-12"
+            className="text-xl lg:text-2xl text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-10"
           >
-            See verified proof of how candidates actually work before you hire them.
+            Search candidates with verified, work-proven skills. No more guessing if a resume is real.
           </motion.p>
 
-          <motion.div
+          {/* Search bar */}
+          <motion.form
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            onSubmit={handleSearch}
+            className="flex gap-3 max-w-2xl mx-auto"
           >
-            <a
-              href="#waitlist"
-              className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium text-white transition-all hover:opacity-90 group"
+            <div className="flex-1 relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search skills — React, Python, Design..."
+                className="w-full h-14 pl-12 pr-4 text-base rounded-full border border-foreground/15 bg-background focus:outline-none focus:ring-2 focus:ring-[#8b5cf6]/30 focus:border-[#8b5cf6] transition-all"
+              />
+            </div>
+            <button
+              type="submit"
+              className="h-14 px-8 rounded-full font-medium text-white transition-all hover:opacity-90"
               style={{ background: '#8b5cf6' }}
             >
-              Join the waitlist
-              <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-            </a>
-            <Link
-              href="/about"
-              className="inline-flex items-center justify-center h-14 px-8 text-base rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
-            >
-              Learn more
-            </Link>
-          </motion.div>
+              Search
+            </button>
+          </motion.form>
         </div>
       </section>
 
-      {/* ═══ BENEFITS — v0 Capabilities pattern (numbered, border-t dividers) ═══ */}
+      {/* ═══ BENEFITS ═══ */}
       <section className="relative py-24 lg:py-32 overflow-hidden">
         <GeometricPattern className="right-0 top-0 w-[350px] h-[350px] opacity-25" />
         <FloatingParticles count={6} />
@@ -173,12 +189,7 @@ export default function HiringPage() {
         </div>
       </section>
 
-      {/* ═══ FLOATING PARTICLES DIVIDER ═══ */}
-      <section className="relative overflow-hidden py-16">
-        <FloatingParticles />
-      </section>
-
-      {/* ═══ METRICS — v0 Metrics 2x2 grid ═══ */}
+      {/* ═══ METRICS ═══ */}
       <section className="relative py-24 lg:py-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-16 lg:mb-24">
@@ -220,8 +231,8 @@ export default function HiringPage() {
         </div>
       </section>
 
-      {/* ═══ WAITLIST FORM — bordered card (v0 style) ═══ */}
-      <section id="waitlist" className="relative py-24 lg:py-32 overflow-hidden">
+      {/* ═══ REGISTRATION ═══ */}
+      <section id="register" className="relative py-24 lg:py-32 overflow-hidden">
         <PulsingRings className="left-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] opacity-20" />
         <ConnectionLines className="opacity-30" />
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
@@ -229,7 +240,7 @@ export default function HiringPage() {
             <div>
               <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
                 <span className="w-8 h-px bg-foreground/30" />
-                Early access
+                Get started
               </span>
               <motion.h2
                 initial={{ opacity: 0, y: 16 }}
@@ -238,14 +249,19 @@ export default function HiringPage() {
                 transition={{ duration: 0.7 }}
                 className="text-4xl lg:text-6xl font-display tracking-tight mb-8"
               >
-                Get early<br />access.
+                Start hiring<br />smarter.
               </motion.h2>
               <p className="text-xl text-muted-foreground leading-relaxed mb-12">
-                Be the first to try OnlyWorks for hiring. Join the waitlist and we&apos;ll notify you when it&apos;s ready.
+                Create a free hiring manager account to unlock full candidate profiles, shortlists, and verified work history.
               </p>
 
               <div className="space-y-4">
-                {['See verified candidate work history', 'AI-powered skill matching', 'Tamper-proof credentials', 'Priority access at launch'].map((item, i) => (
+                {[
+                  'Search verified candidates for free',
+                  'View full profiles and work history',
+                  'Save candidates to shortlists',
+                  'Upgrade to post jobs and auto-match',
+                ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <Check className="w-4 h-4 shrink-0" />
                     <span className="text-muted-foreground">{item}</span>
@@ -255,7 +271,7 @@ export default function HiringPage() {
             </div>
 
             <div>
-              {isSubmitted ? (
+              {isRegistered ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -264,99 +280,82 @@ export default function HiringPage() {
                   <div className="w-14 h-14 flex items-center justify-center border border-foreground/10 mx-auto mb-6">
                     <CheckCircle className="w-7 h-7" />
                   </div>
-                  <h3 className="text-2xl font-display mb-3">You&apos;re on the list!</h3>
-                  <p className="text-muted-foreground">We&apos;ll email you when it&apos;s ready.</p>
+                  <h3 className="text-2xl font-display mb-3">You&apos;re all set!</h3>
+                  <p className="text-muted-foreground mb-6">Your hiring manager account is ready.</p>
+                  <Link
+                    href="/search"
+                    className="inline-flex items-center gap-2 h-12 px-6 rounded-full font-medium text-white hover:opacity-90 transition-all"
+                    style={{ background: '#8b5cf6' }}
+                  >
+                    Search candidates
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
                 </motion.div>
               ) : (
-                <motion.form
+                <motion.div
                   initial={{ opacity: 0, x: 32 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.7 }}
-                  onSubmit={handleSubmit}
-                  className="border border-foreground/10 p-8 lg:p-10 space-y-6"
                 >
-                  <div className="grid grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-xs font-mono text-muted-foreground mb-2">Name</label>
-                      <input
-                        type="text"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="Jane Smith"
-                        required
-                        className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background outline-none transition-all focus:border-foreground/30"
-                      />
+                  {!user ? (
+                    <div className="border border-foreground/10 p-12 text-center">
+                      <h3 className="text-xl font-display mb-3">Sign in to get started</h3>
+                      <p className="text-muted-foreground mb-6">Sign in with your account to register as a hiring manager.</p>
+                      <Link
+                        href="/login"
+                        className="inline-flex items-center gap-2 h-12 px-6 rounded-full font-medium text-white hover:opacity-90 transition-all"
+                        style={{ background: '#8b5cf6' }}
+                      >
+                        Sign in
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
                     </div>
-                    <div>
-                      <label className="block text-xs font-mono text-muted-foreground mb-2">Work email</label>
-                      <input
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="jane@co.com"
-                        required
-                        className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background outline-none transition-all focus:border-foreground/30"
-                      />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-xs font-mono text-muted-foreground mb-2">Company</label>
-                      <input
-                        type="text"
-                        value={formData.company}
-                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                        placeholder="Acme Inc."
-                        className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background outline-none transition-all focus:border-foreground/30"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-mono text-muted-foreground mb-2">Title</label>
-                      <input
-                        type="text"
-                        value={formData.job_title}
-                        onChange={(e) => setFormData({ ...formData, job_title: e.target.value })}
-                        placeholder="Eng Manager"
-                        className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background outline-none transition-all focus:border-foreground/30"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-mono text-muted-foreground mb-2">Team size</label>
-                    <select
-                      value={formData.team_size}
-                      onChange={(e) => setFormData({ ...formData, team_size: e.target.value })}
-                      className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background outline-none transition-all focus:border-foreground/30"
-                    >
-                      <option value="">Select</option>
-                      <option value="1-10">1-10</option>
-                      <option value="11-50">11-50</option>
-                      <option value="51-200">51-200</option>
-                      <option value="201-1000">201-1000</option>
-                      <option value="1000+">1000+</option>
-                    </select>
-                  </div>
-                  <ShimmerButton
-                    shimmerColor="#a78bfa"
-                    background="rgba(139, 92, 246, 1)"
-                    borderRadius="1.75rem"
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full h-14 px-8 text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isLoading ? 'Joining...' : 'Join waitlist'}
-                    {!isLoading && <ArrowRight className="w-4 h-4 ml-2" />}
-                  </ShimmerButton>
-                  <p className="text-center text-xs text-muted-foreground font-mono">No spam. We only email when it&apos;s ready.</p>
-                </motion.form>
+                  ) : (
+                    <form onSubmit={handleRegister} className="border border-foreground/10 p-8 lg:p-10 space-y-6">
+                      <div>
+                        <label className="block text-xs font-mono text-muted-foreground mb-2">Company *</label>
+                        <input
+                          type="text"
+                          value={formData.company}
+                          onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                          placeholder="Acme Inc."
+                          required
+                          className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background outline-none transition-all focus:border-foreground/30"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-mono text-muted-foreground mb-2">Your title</label>
+                        <input
+                          type="text"
+                          value={formData.job_title}
+                          onChange={(e) => setFormData({ ...formData, job_title: e.target.value })}
+                          placeholder="Engineering Manager"
+                          className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background outline-none transition-all focus:border-foreground/30"
+                        />
+                      </div>
+                      <ShimmerButton
+                        shimmerColor="#a78bfa"
+                        background="rgba(139, 92, 246, 1)"
+                        borderRadius="1.75rem"
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full h-14 px-8 text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isLoading ? 'Creating account...' : 'Create free account'}
+                        {!isLoading && <ArrowRight className="w-4 h-4 ml-2" />}
+                      </ShimmerButton>
+                      <p className="text-center text-xs text-muted-foreground font-mono">Free forever. Upgrade anytime for job posting.</p>
+                    </form>
+                  )}
+                </motion.div>
               )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ═══ CTA — v0 CTA pattern ═══ */}
+      {/* ═══ CTA ═══ */}
       <section className="relative py-24 lg:py-32">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <motion.div
@@ -367,29 +366,27 @@ export default function HiringPage() {
             className="relative border border-foreground"
           >
             <div className="relative z-10 px-8 lg:px-16 py-16 lg:py-24">
-              <div className="flex-1">
-                <h2 className="text-4xl lg:text-7xl font-display tracking-tight mb-8 leading-[0.95]">
-                  Stop guessing.<br />Start knowing.
-                </h2>
-                <p className="text-xl text-muted-foreground mb-12 leading-relaxed max-w-xl">
-                  Join hundreds of forward-thinking teams already on the waitlist.
-                </p>
-                <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <a
-                    href="#waitlist"
-                    className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium text-white transition-all hover:opacity-90 group"
-                    style={{ background: '#8b5cf6' }}
-                  >
-                    Join waitlist
-                    <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                  </a>
-                  <Link
-                    href="/about"
-                    className="inline-flex items-center justify-center h-14 px-8 text-base rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
-                  >
-                    Learn more
-                  </Link>
-                </div>
+              <h2 className="text-4xl lg:text-7xl font-display tracking-tight mb-8 leading-[0.95]">
+                Stop guessing.<br />Start knowing.
+              </h2>
+              <p className="text-xl text-muted-foreground mb-12 leading-relaxed max-w-xl">
+                Search verified candidates right now, or create a free account to unlock full profiles.
+              </p>
+              <div className="flex flex-col sm:flex-row items-start gap-4">
+                <Link
+                  href="/search"
+                  className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium text-white transition-all hover:opacity-90 group"
+                  style={{ background: '#8b5cf6' }}
+                >
+                  Search candidates
+                  <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                </Link>
+                <a
+                  href="#register"
+                  className="inline-flex items-center justify-center h-14 px-8 text-base rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
+                >
+                  Create free account
+                </a>
               </div>
             </div>
             <div className="absolute top-0 right-0 w-32 h-32 border-b border-l border-foreground/10" />

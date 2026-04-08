@@ -7,7 +7,7 @@ import { ArrowRight, Shield, Cpu, Eye, Lock, Users, Search, BarChart3, FileCheck
 import { Navigation } from '@/components/Navigation'
 import { FAQ } from '@/components/FAQ'
 import { Footer } from '@/components/Footer'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { GeometricPattern, PulsingRings, GridBackground } from '@/components/ui/grid-background'
 import { FlipWords } from '@/components/ui/flip-words'
 import { BinaryRain, CodeDecoration, WatermarkText, ConnectionLines, ASCIIBlock, ScanLines } from '@/components/ui/decorative-fills'
@@ -163,6 +163,47 @@ export default function HomePage() {
             </motion.div>
           </div>
         </div>
+
+        {/* ── Employer search bar ── */}
+        <AnimatePresence>
+          {audience === 'employer' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: 'auto' }}
+              exit={{ opacity: 0, y: 20, height: 0 }}
+              transition={{ duration: 0.4 }}
+              className="relative z-10 max-w-[1400px] mx-auto w-full px-6 lg:px-12 overflow-hidden"
+            >
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  const input = (e.target as HTMLFormElement).elements.namedItem('heroSearch') as HTMLInputElement
+                  if (input?.value.trim()) {
+                    window.location.href = `/search?q=${encodeURIComponent(input.value.trim())}`
+                  }
+                }}
+                className="flex gap-3 mt-8 max-w-2xl"
+              >
+                <div className="flex-1 relative">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <input
+                    name="heroSearch"
+                    type="text"
+                    placeholder="Search by skills — React, Python, Design..."
+                    className="w-full h-14 pl-12 pr-4 text-base rounded-full border border-foreground/15 bg-background focus:outline-none focus:ring-2 focus:ring-[#8b5cf6]/30 focus:border-[#8b5cf6] transition-all"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="h-14 px-8 rounded-full font-medium text-white transition-all hover:opacity-90"
+                  style={{ background: '#8b5cf6' }}
+                >
+                  Search
+                </button>
+              </form>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </section>
 
