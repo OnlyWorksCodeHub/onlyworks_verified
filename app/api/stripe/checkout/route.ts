@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { logger } from '@/lib/logger'
 import { getStripe } from '@/lib/stripe/client'
+import { APP_URL } from '@/lib/config'
 
 export async function POST(request: NextRequest) {
   try {
@@ -127,8 +128,8 @@ export async function POST(request: NextRequest) {
           customer_email: normalizedEmail,
         }
       },
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.only-works.com'}/downloads?success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.only-works.com'}/downloads?canceled=true`,
+      success_url: `${APP_URL}/downloads?success=true`,
+      cancel_url: `${APP_URL}/downloads?canceled=true`,
       metadata: {
         customer_email: normalizedEmail,
         plan_type: 'pro',

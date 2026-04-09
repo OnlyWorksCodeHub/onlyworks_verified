@@ -32,13 +32,13 @@ export interface AppVersion {
 
 const GITHUB_OWNER = 'Namkha-yolo'
 const GITHUB_REPO = 'ONLYWORKS_DIST'
-const CURRENT_VERSION_NUMBER = '3.8.2'
+const CURRENT_VERSION_NUMBER = '3.9.0'
 const GITHUB_RELEASE_BASE = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download`
 
 // Fallback when GitHub API is unreachable
 export const CURRENT_VERSION: AppVersion = {
   version: CURRENT_VERSION_NUMBER,
-  releaseDate: '2026-04-02',
+  releaseDate: '2026-04-09',
   platforms: {
     mac: {
       arm64: {
@@ -58,12 +58,11 @@ export const CURRENT_VERSION: AppVersion = {
     },
   },
   releaseNotes: [
-    'Activity page: merged Sessions + Reports into unified timeline',
-    'Auto daily reports generated at end of each session',
-    'Email verification flow for sign-ups',
-    'Report sharing via links and email (replaces downloads)',
-    'Dashboard redesign with daily briefing and skills cloud',
-    'Auth hardening: OAuth via system browser, team authorization fixes',
+    'Signed Mac and Windows distribution',
+    'Resume Upload + Skill Verification on OW Profile',
+    'AI-powered structured resume extraction with color-graded skill matching',
+    'Bug fixes for teams endpoint and resume storage',
+    'App version number displayed on Settings page',
   ],
   minOS: {
     mac: '10.15',

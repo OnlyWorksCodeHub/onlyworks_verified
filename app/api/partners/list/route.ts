@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { requireAdmin } from '@/lib/auth'
+import { APP_URL } from '@/lib/config'
 
 export async function GET() {
   try {
@@ -21,7 +22,7 @@ export async function GET() {
     }
 
     // Generate links for each partner
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://only-works.com'
+    const baseUrl = APP_URL
     const partnersWithLinks = partners.map(p => ({
       ...p,
       link: `${baseUrl}/verify-skills?src=${p.unique_code}`

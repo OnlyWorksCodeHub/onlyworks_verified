@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { requireAdmin } from '@/lib/auth'
+import { APP_URL } from '@/lib/config'
 
 export async function POST(req: NextRequest) {
   try {
@@ -61,7 +62,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Generate full URL
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://only-works.com'
+    const baseUrl = APP_URL
     const partnerLink = `${baseUrl}/verify-skills?src=${finalCode}`
 
     return NextResponse.json({

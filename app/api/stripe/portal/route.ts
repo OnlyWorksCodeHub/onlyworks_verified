@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { logger } from '@/lib/logger'
 import { getStripe } from '@/lib/stripe/client'
+import { APP_URL } from '@/lib/config'
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
     // Create Stripe billing portal session
     const portalSession = await getStripe().billingPortal.sessions.create({
       customer: customer.stripe_customer_id,
-      return_url: process.env.NEXT_PUBLIC_APP_URL || 'https://www.only-works.com',
+      return_url: APP_URL,
     })
 
     return NextResponse.json({ url: portalSession.url })
