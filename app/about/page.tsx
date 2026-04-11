@@ -343,16 +343,6 @@ export default function AboutPage() {
               A small team passionate about making work visible and verifiable.
             </p>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="border border-foreground/10 overflow-hidden"
-          >
-            <Image src="/images/Engineers.png" alt="OnlyWorks team" width={1920} height={1080} className="w-full h-auto" />
-          </motion.div>
         </div>
       </section>
 
