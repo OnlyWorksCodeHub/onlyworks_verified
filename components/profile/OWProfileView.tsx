@@ -1,11 +1,13 @@
 import { Zap, TrendingUp, Award, Star } from 'lucide-react'
 import type { OWProfileData } from '@/lib/types/profile'
+import { formatCategoryLabel, groupSkillsByCategory } from '@/lib/skills'
 
 interface Props {
   owProfile: OWProfileData
 }
 
 export default function OWProfileView({ owProfile }: Props) {
+  const strongestCategoryLabel = formatCategoryLabel(owProfile.summary.strongest_category)
   return (
     <>
       {/* Summary Stats */}
@@ -23,7 +25,7 @@ export default function OWProfileView({ owProfile }: Props) {
           <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Reports</div>
         </div>
         <div className="card p-4 text-center">
-          <div className="text-2xl font-bold capitalize" style={{ color: 'var(--accent)', fontSize: owProfile.summary.strongest_category.length > 8 ? '1rem' : undefined }}>{owProfile.summary.strongest_category}</div>
+          <div className="text-2xl font-bold" style={{ color: 'var(--accent)', fontSize: strongestCategoryLabel.length > 12 ? '1rem' : undefined }}>{strongestCategoryLabel}</div>
           <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Top Category</div>
         </div>
       </div>
@@ -34,19 +36,19 @@ export default function OWProfileView({ owProfile }: Props) {
           <h3 className="font-semibold mb-3 flex items-center gap-2" style={{ color: 'var(--text)' }}>
             <Zap className="w-4 h-4 text-purple-500" /> Skills
           </h3>
-          {['technical', 'soft', 'domain'].map(cat => {
-            const catSkills = owProfile.skills.filter(s => s.category === cat)
-            if (catSkills.length === 0) return null
+          {groupSkillsByCategory(owProfile.skills).map(({ key, label, skills: catSkills }) => {
+            // Visual style per legacy category (technical/soft/domain). Unknown
+            // categories fall back to the domain style so they still render.
+            const tint =
+              key === 'technical' ? 'bg-blue-50 text-blue-600 border-blue-200' :
+              key === 'soft' ? 'bg-purple-50 text-purple-600 border-purple-200' :
+              'bg-green-50 text-green-600 border-green-200'
             return (
-              <div key={cat} style={{ marginBottom: '0.75rem' }}>
-                <div className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>{cat}</div>
+              <div key={key} style={{ marginBottom: '0.75rem' }}>
+                <div className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>{label}</div>
                 <div className="flex flex-wrap gap-1.5">
                   {catSkills.map((s, i) => (
-                    <span key={i} className={`inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium ${
-                      cat === 'technical' ? 'bg-blue-50 text-blue-600 border border-blue-200' :
-                      cat === 'soft' ? 'bg-purple-50 text-purple-600 border border-purple-200' :
-                      'bg-green-50 text-green-600 border border-green-200'
-                    } ${s.proficiency === 'advanced' ? 'font-semibold' : ''} ${s.proficiency === 'emerging' ? 'border-dashed opacity-80' : ''}`}>
+                    <span key={i} className={`inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium border ${tint} ${s.proficiency === 'advanced' ? 'font-semibold' : ''} ${s.proficiency === 'emerging' ? 'border-dashed opacity-80' : ''}`}>
                       <span className={`w-1.5 h-1.5 rounded-full ${
                         s.proficiency === 'advanced' ? 'bg-green-500' :
                         s.proficiency === 'intermediate' ? 'bg-blue-500' : 'bg-amber-500'

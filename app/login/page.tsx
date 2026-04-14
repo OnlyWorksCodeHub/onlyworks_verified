@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
@@ -8,6 +8,15 @@ import { ArrowLeft, Loader2 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { PulsingRings, FloatingParticles } from '@/components/ui/grid-background'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
+
+// Friendly messages for errors propagated here either by the callback route
+// (query string) or by Supabase's implicit-flow error response (hash fragment).
+const FRIENDLY_ERROR: Record<string, string> = {
+  signup_failed: "We couldn't complete your sign-in right now. This is usually temporary — please try again in a moment.",
+  access_denied: 'Sign-in was cancelled. You can try again below.',
+  auth_failed: "We couldn't complete your sign-in right now. Please try again.",
+  server_error: "We couldn't complete your sign-in right now. Please try again.",
+}
 
 function GridLines() {
   return (
@@ -25,6 +34,31 @@ function GridLines() {
 export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const queryError = new URLSearchParams(window.location.search).get('error')
+    const hash = window.location.hash.slice(1)
+    const hashParams = new URLSearchParams(hash)
+    const hashError = hashParams.get('error') || hashParams.get('error_code')
+    const hashDescription = hashParams.get('error_description')
+
+    const errorKey = queryError || hashError
+    if (!errorKey) return
+
+    if (hashError) {
+      // The hash fragment leaks raw Supabase error details into the visible
+      // URL. Strip it so the user doesn't see "Database error saving new user"
+      // in their address bar, but log it first so we can diagnose from the
+      // browser console if someone screenshots this page during triage.
+      // eslint-disable-next-line no-console
+      console.warn('[Login] OAuth error from Supabase hash:', { error: hashError, description: hashDescription })
+      window.history.replaceState(null, '', window.location.pathname + window.location.search)
+    }
+
+    setError(FRIENDLY_ERROR[errorKey] || "We couldn't complete your sign-in right now. Please try again.")
+  }, [])
 
   const handleGoogleLogin = async () => {
     setError(null)

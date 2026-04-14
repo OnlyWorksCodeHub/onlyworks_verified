@@ -1,5 +1,6 @@
 import { Briefcase, Clock, Flame, Calendar } from 'lucide-react'
 import type { ResumeData, OWProfileSkill } from '@/lib/types/profile'
+import { groupSkillsByCategory } from '@/lib/skills'
 
 interface Props {
   resume: ResumeData
@@ -28,28 +29,23 @@ export default function ResumeView({ resume, skills, strengths }: Props) {
           <h3 className="font-semibold mb-3 text-sm uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
             Skills
           </h3>
-          {['technical', 'soft', 'domain'].map(cat => {
-            const catSkills = skills.filter(s => s.category === cat)
-            if (catSkills.length === 0) return null
-            const catLabel = cat === 'technical' ? 'Technical' : cat === 'soft' ? 'Interpersonal' : 'Domain Knowledge'
-            return (
-              <div key={cat} style={{ marginBottom: '0.75rem' }}>
-                <div className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>{catLabel}</div>
-                <div className="flex flex-wrap gap-1.5">
-                  {catSkills.map((s, i) => (
-                    <span key={i} className="inline-block px-2.5 py-1 text-xs font-medium border" style={{
-                      color: 'var(--text)',
-                      borderColor: 'var(--border)',
-                      borderLeftWidth: '3px',
-                      borderLeftColor: s.proficiency === 'advanced' ? '#22c55e' : s.proficiency === 'intermediate' ? '#3b82f6' : '#f59e0b',
-                    }}>
-                      {s.skill}
-                    </span>
-                  ))}
-                </div>
+          {groupSkillsByCategory(skills).map(({ key, label, skills: catSkills }) => (
+            <div key={key} style={{ marginBottom: '0.75rem' }}>
+              <div className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>{label}</div>
+              <div className="flex flex-wrap gap-1.5">
+                {catSkills.map((s, i) => (
+                  <span key={i} className="inline-block px-2.5 py-1 text-xs font-medium border" style={{
+                    color: 'var(--text)',
+                    borderColor: 'var(--border)',
+                    borderLeftWidth: '3px',
+                    borderLeftColor: s.proficiency === 'advanced' ? '#22c55e' : s.proficiency === 'intermediate' ? '#3b82f6' : '#f59e0b',
+                  }}>
+                    {s.skill}
+                  </span>
+                ))}
               </div>
-            )
-          })}
+            </div>
+          ))}
         </div>
       )}
 

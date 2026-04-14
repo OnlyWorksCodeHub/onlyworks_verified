@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import ProfileViewToggle from '@/components/profile/ProfileViewToggle'
 import { BACKEND_URL } from '@/lib/config'
+import { displayOwId } from '@/lib/skills'
 import type { UnifiedProfileData } from '@/lib/types/profile'
 
 async function getSharedProfile(token: string): Promise<UnifiedProfileData | null> {
@@ -62,7 +63,7 @@ export default async function SharedOWProfilePage({ params }: { params: { token:
         <div style={{ marginBottom: '1.5rem' }}>
           <h1 className="text-2xl font-bold" style={{ color: 'var(--text)', marginBottom: '0.25rem' }}>{name}</h1>
           {pi.ow_id && (
-            <div className="text-xs font-mono" style={{ color: 'var(--text-muted)', marginBottom: '0.25rem' }}>OW-{pi.ow_id}</div>
+            <div className="text-xs font-mono" style={{ color: 'var(--text-muted)', marginBottom: '0.25rem' }}>{displayOwId(pi.ow_id)}</div>
           )}
           {pi.job_title && (
             <div className="text-sm" style={{ color: 'var(--accent, #8b5cf6)', fontWeight: 500 }}>
