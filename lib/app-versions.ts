@@ -32,13 +32,13 @@ export interface AppVersion {
 
 const GITHUB_OWNER = 'Namkha-yolo'
 const GITHUB_REPO = 'ONLYWORKS_DIST'
-const CURRENT_VERSION_NUMBER = '3.9.0'
+const CURRENT_VERSION_NUMBER = '3.10.0'
 const GITHUB_RELEASE_BASE = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download`
 
 // Fallback when GitHub API is unreachable
 export const CURRENT_VERSION: AppVersion = {
   version: CURRENT_VERSION_NUMBER,
-  releaseDate: '2026-04-09',
+  releaseDate: '2026-04-14',
   platforms: {
     mac: {
       arm64: {
@@ -58,11 +58,11 @@ export const CURRENT_VERSION: AppVersion = {
     },
   },
   releaseNotes: [
-    'Signed Mac and Windows distribution',
-    'Resume Upload + Skill Verification on OW Profile',
-    'AI-powered structured resume extraction with color-graded skill matching',
-    'Bug fixes for teams endpoint and resume storage',
-    'App version number displayed on Settings page',
+    'OW Profile now shows skills in every category (previously ~71% of skills were hidden)',
+    'Fixed duplicated "OW-" prefix on profile pages',
+    'OW Profile load errors now show a retry button instead of a silent empty state',
+    'Backend: profile skill history is now durable — survives cache corruption and pipeline issues',
+    'Website: friendlier error messages on sign-in failure, safer URL handling',
   ],
   minOS: {
     mac: '10.15',
