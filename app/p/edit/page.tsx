@@ -131,8 +131,8 @@ export default function ProfileEditPage() {
     <div className="min-h-screen bg-white">
       <Navigation />
 
-      {/* Main */}
-      <main className="max-w-[560px] mx-auto px-4 pt-8 pb-16">
+      {/* Main — pt clears the fixed Navigation header (~70px) plus breathing room */}
+      <main className="max-w-[560px] mx-auto px-4 pt-28 lg:pt-32 pb-16">
         <div className="flex items-center justify-between mb-8 flex-wrap gap-3">
           <h1 className="text-2xl font-semibold text-neutral-900 tracking-tight">
             Edit Profile
