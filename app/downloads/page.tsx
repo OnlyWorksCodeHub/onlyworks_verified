@@ -135,10 +135,12 @@ export default function DownloadsPage() {
                 <ArrowRight className="w-4 h-4 ml-2" />
               </ShimmerButton>
               <Link
-                href="/support"
-                className="inline-flex items-center justify-center h-14 px-8 text-base rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
+                href="/talent"
+                className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium transition-all hover:bg-[#8b5cf6]/10 group"
+                style={{ border: '1.5px solid #8b5cf6', color: '#8b5cf6' }}
               >
-                View setup guide
+                Join Talent Community
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </motion.div>
           </div>

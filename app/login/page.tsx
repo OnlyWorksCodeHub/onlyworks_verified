@@ -155,13 +155,20 @@ export default function LoginPage() {
                 <div className="flex-1 h-px bg-foreground/10" />
               </div>
 
-              {/* Download CTA */}
+              {/* Download CTA + Talent Community */}
               <Link
                 href="/downloads"
                 className="w-full flex items-center justify-center gap-2 h-14 px-6 text-sm font-medium text-white rounded-full transition-all hover:opacity-90"
                 style={{ background: '#8b5cf6' }}
               >
                 Download the desktop app
+              </Link>
+              <Link
+                href="/talent"
+                className="w-full flex items-center justify-center gap-2 h-14 px-6 mt-3 text-sm font-medium rounded-full transition-all hover:bg-[#8b5cf6]/10"
+                style={{ border: '1.5px solid #8b5cf6', color: '#8b5cf6' }}
+              >
+                Join Talent Community
               </Link>
 
               {/* Terms */}

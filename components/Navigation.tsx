@@ -66,28 +66,6 @@ export function Navigation() {
           <div className="hidden md:flex items-center gap-1">
             <Link href="/about" className="nav-link">About</Link>
             <Link href="/downloads" className="nav-link">Download</Link>
-            <Link
-              href="/talent"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                marginLeft: 6,
-                marginRight: 6,
-                padding: '6px 14px',
-                borderRadius: 999,
-                background: '#8b5cf6',
-                color: '#ffffff',
-                fontSize: '0.8125rem',
-                fontWeight: 600,
-                whiteSpace: 'nowrap',
-                transition: 'opacity 0.15s',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.9')}
-              onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
-            >
-              Join Talent Community
-            </Link>
             <Link href="/careers" className="nav-link">Careers</Link>
             <Link href="/support" className="nav-link">Support</Link>
             <Link href="/hiring" className="nav-link">Hiring</Link>
@@ -283,14 +261,6 @@ export function Navigation() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Download
-              </Link>
-              <Link
-                href="/talent"
-                className="text-lg font-medium py-2"
-                style={{ color: 'var(--text)' }}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Talent Community
               </Link>
               <Link
                 href="/careers"

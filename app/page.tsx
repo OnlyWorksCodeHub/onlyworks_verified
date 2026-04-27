@@ -164,12 +164,14 @@ export default function HomePage() {
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               )}
-              <Link
-                href={hero.secondary.href}
-                className="inline-flex items-center justify-center h-14 px-8 text-base rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
-              >
-                {hero.secondary.label}
-              </Link>
+              {audience === 'employer' && (
+                <Link
+                  href={hero.secondary.href}
+                  className="inline-flex items-center justify-center h-14 px-8 text-base rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
+                >
+                  {hero.secondary.label}
+                </Link>
+              )}
             </motion.div>
           </div>
         </div>
