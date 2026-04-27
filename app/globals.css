@@ -11,7 +11,11 @@
   --text-secondary: #44423d;
   --text-muted: #a3a19b;
   --border: #dad7d0;
-  --accent: #e7e4dd;
+  /* Brand purple — used for highlight numbers, icons, progress bars, hover accents.
+     Was previously #e7e4dd (light beige) which made big stat numbers invisible
+     on white cards. Soft-beige usages were migrated to var(--bg-alt). */
+  --accent: #8b5cf6;
+  --accent-light: #ede9fe;
   --card: #ffffff;
   --destructive: #e40014;
 }
@@ -188,7 +192,7 @@ p {
 }
 
 .btn-secondary:hover {
-  background: var(--accent);
+  background: var(--bg-alt);
   border-color: #c4c1ba;
 }
 
@@ -258,7 +262,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--accent);
+  background: var(--bg-alt);
   border-radius: 10px;
   color: var(--text);
 }
@@ -303,7 +307,7 @@ p {
   font-size: 0.75rem;
   font-weight: 500;
   color: var(--text-secondary);
-  background: var(--accent);
+  background: var(--bg-alt);
   border-radius: 100px;
   border: 1px solid var(--border);
 }
@@ -439,8 +443,8 @@ button:focus-visible {
     --secondary-foreground: #080503;
     --muted: #e7e4dd;
     --muted-foreground: #a3a19b;
-    --accent: #e7e4dd;
-    --accent-foreground: #080503;
+    --accent: #8b5cf6;
+    --accent-foreground: #ffffff;
     --destructive: #e40014;
     --border: #dad7d0;
     --input: #dad7d0;
