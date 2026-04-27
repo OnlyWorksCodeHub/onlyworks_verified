@@ -61,8 +61,8 @@ export default function ProfileSetupPage() {
         const alreadySetUp =
           profile?.profile_complete === true ||
           (typeof profile?.full_name === 'string' && profile.full_name.trim().length > 0 && profile?.ow_id)
-        if (alreadySetUp) {
-          router.replace('/p/edit')
+        if (alreadySetUp && profile?.ow_id) {
+          router.replace(`/p/${profile.ow_id}`)
           return
         }
         // Pre-fill any partial data the user already has so they don't re-enter from scratch

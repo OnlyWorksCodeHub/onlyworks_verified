@@ -129,13 +129,13 @@ export default function HomePage() {
             {hero.heading}
           </motion.h1>
 
-          <div className="mt-10 flex flex-col items-start gap-8">
+          <div className="mt-10 grid lg:grid-cols-2 gap-8 lg:gap-16 items-end">
             <motion.p
               key={`subtitle-${audience}`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className="max-w-2xl text-xl lg:text-2xl text-muted-foreground leading-relaxed"
+              className="max-w-md text-xl lg:text-2xl text-muted-foreground leading-relaxed"
             >
               {hero.subtitle}
             </motion.p>
@@ -144,7 +144,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-wrap items-center gap-3"
+              className="flex flex-wrap items-center gap-3 lg:justify-end"
             >
               <Link
                 href={hero.cta.href}

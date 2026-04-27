@@ -46,9 +46,10 @@ export async function GET(request: Request) {
   }
 
   // Decide where to send the user: returning users with a complete profile
-  // go to /p/edit; new users go to /p/setup. The /p/setup page is also
-  // gated client-side as a safety net, but doing it server-side avoids the
-  // visible flash through the onboarding form for returning users.
+  // go to their public OW profile page (/p/[owId]) so they see exactly what
+  // others see; new users go to /p/setup. The /p/setup page is also gated
+  // client-side as a safety net, but doing it server-side avoids the visible
+  // flash through the onboarding form for returning users.
   const accessToken = sessionData?.session?.access_token
   let nextPath = '/p/setup'
 
@@ -56,7 +57,6 @@ export async function GET(request: Request) {
     try {
       const backendUrl = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || 'https://onlyworks-backend-server.onrender.com'
 
-      // Exchange Supabase token for backend JWT (same flow as AuthProvider)
       const tokenRes = await fetch(`${backendUrl}/api/auth/website/website-token`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -75,11 +75,12 @@ export async function GET(request: Request) {
           const alreadySetUp =
             profile?.profile_complete === true ||
             (typeof profile?.full_name === 'string' && profile.full_name.trim().length > 0 && profile?.ow_id)
-          if (alreadySetUp) nextPath = '/p/edit'
+          if (alreadySetUp && profile?.ow_id) {
+            nextPath = `/p/${profile.ow_id}`
+          }
         }
       }
     } catch (err) {
-      // Non-fatal — fall through to /p/setup, which has its own guard.
       logger.warn('Profile routing check failed in auth callback (falling through)', {
         error: err instanceof Error ? err.message : String(err),
       })
