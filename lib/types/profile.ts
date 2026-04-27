@@ -54,6 +54,11 @@ export interface OWProfileSkill {
   proficiency: 'advanced' | 'intermediate' | 'emerging'
   report_count: number
   last_seen: string
+  // Per-skill evidence aggregated from generated_reports.skills_used by the
+  // backend's OWProfileService. Optional because old/incomplete profiles may
+  // not have it. When present, the UI renders a click-to-expand evidence panel
+  // matching the desktop's verified-skills row pattern.
+  evidence?: string[]
 }
 
 export interface OWProfileData {

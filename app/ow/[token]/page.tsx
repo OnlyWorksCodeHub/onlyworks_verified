@@ -2,10 +2,12 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import ProfileCard from '@/components/profile/ProfileCard'
 import ProfileViewToggle from '@/components/profile/ProfileViewToggle'
+import { Navigation } from '@/components/Navigation'
 import { BACKEND_URL } from '@/lib/config'
 import { displayOwId } from '@/lib/skills'
-import type { UnifiedProfileData } from '@/lib/types/profile'
+import type { UnifiedProfileData, ProfileData, BadgeStatus } from '@/lib/types/profile'
 
 async function getSharedProfile(token: string): Promise<UnifiedProfileData | null> {
   try {
@@ -42,50 +44,50 @@ export default async function SharedOWProfilePage({ params }: { params: { token:
   const profile = await getSharedProfile(params.token)
   if (!profile) notFound()
 
-  const pi = profile.profile_info || {}
-  const name = pi.full_name || 'Professional'
+  const pi = profile.profile_info || ({} as Partial<UnifiedProfileData['profile_info']>)
   const owp = profile.ow_profile
 
+  // Build a ProfileData-shaped object so we can reuse the same ProfileCard
+  // rendered on /p/[owId] — keeps the two pages visually identical.
+  const profileData: ProfileData = {
+    ow_id: pi.ow_id ? displayOwId(pi.ow_id).replace(/^OW-/, 'OW-') : 'OW-?????',
+    full_name: pi.full_name,
+    job_title: pi.job_title,
+    company: pi.company,
+    avatar_url: pi.avatar_url,
+    bio: pi.bio,
+    member_since: pi.member_since,
+    is_profile_public: true,
+    badge: 'none',
+  }
+
+  // Infer badge: if there's any verified work in the OW profile, it's verified.
+  const badgeStatus: BadgeStatus =
+    owp && owp.summary && owp.summary.total_reports > 0 ? 'verified' : 'none'
+
+  const hasProfileData = owp && owp.summary && owp.summary.total_reports > 0
+
   return (
-    <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      <header className="border-b" style={{ borderColor: 'var(--border)' }}>
-        <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <img src="/images/logo.png" alt="OnlyWorks" className="h-8 w-8" />
-            <span className="font-semibold" style={{ color: 'var(--text)' }}>OnlyWorks</span>
-          </Link>
-          <div className="text-sm" style={{ color: 'var(--text-muted)' }}>OW Profile</div>
-        </div>
-      </header>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+      <Navigation />
 
-      <main className="max-w-3xl mx-auto px-4 py-8">
-        {/* Profile Header */}
-        <div style={{ marginBottom: '1.5rem' }}>
-          <h1 className="text-2xl font-bold" style={{ color: 'var(--text)', marginBottom: '0.25rem' }}>{name}</h1>
-          {pi.ow_id && (
-            <div className="text-xs font-mono" style={{ color: 'var(--text-muted)', marginBottom: '0.25rem' }}>{displayOwId(pi.ow_id)}</div>
-          )}
-          {pi.job_title && (
-            <div className="text-sm" style={{ color: 'var(--accent, #8b5cf6)', fontWeight: 500 }}>
-              {pi.job_title}{pi.company ? ` at ${pi.company}` : ''}
-            </div>
-          )}
-        </div>
+      <main className="profile-page">
+        <ProfileCard profile={profileData} badgeStatus={badgeStatus} />
 
-        {/* Toggle + Views */}
-        {owp && owp.summary.total_reports > 0 && (
+        {hasProfileData && (
           <Suspense fallback={null}>
-            <ProfileViewToggle
-              owProfile={profile.ow_profile}
-              resume={profile.resume}
-            />
+            <ProfileViewToggle owProfile={profile.ow_profile} resume={profile.resume} />
           </Suspense>
         )}
 
         {/* Footer */}
-        <div className="text-center pt-6 pb-4">
-          <p className="text-sm mb-4" style={{ color: 'var(--text-muted)' }}>OW Profile powered by OnlyWorks</p>
-          <Link href="/downloads" className="btn btn-primary">Get OnlyWorks</Link>
+        <div style={{ textAlign: 'center', padding: '2rem 0 1rem' }}>
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+            Profile powered by OnlyWorks
+          </p>
+          <Link href="/downloads" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            Get OnlyWorks
+          </Link>
         </div>
       </main>
     </div>

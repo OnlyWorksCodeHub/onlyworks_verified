@@ -1,4 +1,7 @@
-import { Zap, TrendingUp, Award, Star } from 'lucide-react'
+'use client'
+
+import { useState } from 'react'
+import { Zap, TrendingUp, Award, Star, ChevronDown } from 'lucide-react'
 import type { OWProfileData } from '@/lib/types/profile'
 import { formatCategoryLabel, groupSkillsByCategory } from '@/lib/skills'
 
@@ -7,7 +10,19 @@ interface Props {
 }
 
 export default function OWProfileView({ owProfile }: Props) {
+  const [expandedSkills, setExpandedSkills] = useState<Set<string>>(new Set())
+
+  const toggleSkill = (id: string) => {
+    setExpandedSkills((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
   const strongestCategoryLabel = formatCategoryLabel(owProfile.summary.strongest_category)
+
   return (
     <>
       {/* Summary Stats */}
@@ -30,36 +45,106 @@ export default function OWProfileView({ owProfile }: Props) {
         </div>
       </div>
 
-      {/* Skills */}
+      {/* Verified Skills — collapsible rows with evidence */}
       {owProfile.skills.length > 0 && (
         <div className="card p-5" style={{ marginBottom: '1rem' }}>
-          <h3 className="font-semibold mb-3 flex items-center gap-2" style={{ color: 'var(--text)' }}>
-            <Zap className="w-4 h-4 text-purple-500" /> Skills
+          <h3 className="font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+            <Zap className="w-4 h-4" style={{ color: 'var(--accent)' }} /> Verified Skills
           </h3>
-          {groupSkillsByCategory(owProfile.skills).map(({ key, label, skills: catSkills }) => {
-            // Visual style per legacy category (technical/soft/domain). Unknown
-            // categories fall back to the domain style so they still render.
-            const tint =
-              key === 'technical' ? 'bg-blue-50 text-blue-600 border-blue-200' :
-              key === 'soft' ? 'bg-purple-50 text-purple-600 border-purple-200' :
-              'bg-green-50 text-green-600 border-green-200'
-            return (
-              <div key={key} style={{ marginBottom: '0.75rem' }}>
-                <div className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>{label}</div>
-                <div className="flex flex-wrap gap-1.5">
-                  {catSkills.map((s, i) => (
-                    <span key={i} className={`inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium border ${tint} ${s.proficiency === 'advanced' ? 'font-semibold' : ''} ${s.proficiency === 'emerging' ? 'border-dashed opacity-80' : ''}`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${
-                        s.proficiency === 'advanced' ? 'bg-green-500' :
-                        s.proficiency === 'intermediate' ? 'bg-blue-500' : 'bg-amber-500'
-                      }`} />
-                      {s.skill}
-                    </span>
-                  ))}
-                </div>
+          {groupSkillsByCategory(owProfile.skills).map(({ key, label, skills: catSkills }) => (
+            <div key={key} className="mb-6 last:mb-0">
+              <div className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>{label}</div>
+              <div className="border-t" style={{ borderColor: 'var(--border)' }}>
+                {catSkills.map((s, idx) => {
+                  const skillId = `${key}-${idx}`
+                  const isExpanded = expandedSkills.has(skillId)
+                  const hasEvidence = Array.isArray(s.evidence) && s.evidence.length > 0
+                  const profColor =
+                    s.proficiency === 'advanced'
+                      ? '#22c55e'
+                      : s.proficiency === 'intermediate'
+                      ? 'var(--text-muted)'
+                      : '#f59e0b'
+
+                  if (!hasEvidence) {
+                    return (
+                      <div
+                        key={skillId}
+                        className="flex items-center gap-3 py-3 px-1 border-b last:border-b-0"
+                        style={{ borderColor: 'var(--border)' }}
+                      >
+                        <span className="text-sm font-medium flex-1" style={{ color: 'var(--text)' }}>{s.skill}</span>
+                        <span
+                          className="text-[0.625rem] px-2 py-0.5 border uppercase tracking-wider font-bold"
+                          style={{ borderColor: profColor, color: profColor }}
+                        >
+                          {s.proficiency}
+                        </span>
+                        <span className="w-4 h-4" /> {/* spacer to align with chevron rows */}
+                      </div>
+                    )
+                  }
+
+                  return (
+                    <div key={skillId} className="border-b last:border-b-0" style={{ borderColor: 'var(--border)' }}>
+                      <button
+                        type="button"
+                        onClick={() => toggleSkill(skillId)}
+                        aria-expanded={isExpanded}
+                        className="w-full flex items-center gap-3 py-3 px-1 text-left transition-colors"
+                        style={{ background: 'transparent' }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(8,5,3,0.03)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                      >
+                        <span className="text-sm font-medium flex-1" style={{ color: 'var(--text)' }}>{s.skill}</span>
+                        <span
+                          className="text-[0.625rem] px-2 py-0.5 border uppercase tracking-wider font-bold"
+                          style={{ borderColor: profColor, color: profColor }}
+                        >
+                          {s.proficiency}
+                        </span>
+                        <ChevronDown
+                          className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                          style={{ color: isExpanded ? 'var(--accent)' : 'var(--text-muted)' }}
+                        />
+                      </button>
+                      {isExpanded && (
+                        <div
+                          className="px-4 pb-4 pt-2 ml-1 border-l-[3px]"
+                          style={{ borderColor: 'var(--accent)', background: 'rgba(139,92,246,0.03)' }}
+                        >
+                          <div className="text-[0.625rem] uppercase tracking-widest font-bold mb-3" style={{ color: 'var(--accent)' }}>Evidence</div>
+                          <ol className="space-y-3">
+                            {s.evidence!.map((e, i) => (
+                              <li key={i} className="grid grid-cols-[26px_1fr] gap-3 items-baseline">
+                                <span
+                                  className="text-[0.6875rem] font-mono font-medium"
+                                  style={{ color: 'var(--text-muted)', letterSpacing: '0.04em' }}
+                                >
+                                  {String(i + 1).padStart(2, '0')}
+                                </span>
+                                <span className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{e}</span>
+                              </li>
+                            ))}
+                          </ol>
+                          {s.report_count > 1 && (
+                            <div
+                              className="mt-4 inline-flex items-center gap-1.5 text-[0.625rem] px-2 py-1 border font-bold uppercase tracking-wider"
+                              style={{ borderColor: 'var(--accent)', color: 'var(--accent)' }}
+                            >
+                              <span>✓</span>
+                              <span>Verified</span>
+                              <span className="font-mono">×{s.report_count}</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
-            )
-          })}
+            </div>
+          ))}
         </div>
       )}
 
