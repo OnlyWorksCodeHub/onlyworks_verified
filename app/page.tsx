@@ -144,7 +144,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex items-center gap-3"
+              className="flex flex-wrap items-center gap-3"
             >
               <Link
                 href={hero.cta.href}
@@ -154,6 +154,16 @@ export default function HomePage() {
                 {hero.cta.label}
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
+              {audience === 'personal' && (
+                <Link
+                  href="/talent"
+                  className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium transition-all hover:bg-[#8b5cf6]/10 group"
+                  style={{ border: '1.5px solid #8b5cf6', color: '#8b5cf6' }}
+                >
+                  Join Talent Community
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              )}
               <Link
                 href={hero.secondary.href}
                 className="inline-flex items-center justify-center h-14 px-8 text-base rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
