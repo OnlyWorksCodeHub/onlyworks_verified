@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/components/AuthProvider'
@@ -18,6 +18,10 @@ export default function ProfileSetupPage() {
   const [step, setStep] = useState(1)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  // Wait for the profile-completion check before rendering the setup form,
+  // otherwise returning users see this page flash on screen before they get
+  // redirected to /p/edit.
+  const [checkingProfile, setCheckingProfile] = useState(true)
 
   // Form state
   const [fullName, setFullName] = useState('')
@@ -31,6 +35,52 @@ export default function ProfileSetupPage() {
     show_reports: true,
     is_profile_public: true,
   })
+
+  // If the user has already completed their profile, send them straight to
+  // /p/edit. This catches the case where a returning user signs in and the
+  // auth callback (or AuthProvider) couldn't already make the routing call
+  // server-side.
+  useEffect(() => {
+    if (authLoading) return
+    if (!backendToken) {
+      setCheckingProfile(false)
+      return
+    }
+    let cancelled = false
+    ;(async () => {
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/profiles/me`, {
+          headers: { Authorization: `Bearer ${backendToken}` },
+        })
+        if (!res.ok) {
+          if (!cancelled) setCheckingProfile(false)
+          return
+        }
+        const data = await res.json()
+        const profile = data?.data ?? data
+        const alreadySetUp =
+          profile?.profile_complete === true ||
+          (typeof profile?.full_name === 'string' && profile.full_name.trim().length > 0 && profile?.ow_id)
+        if (alreadySetUp) {
+          router.replace('/p/edit')
+          return
+        }
+        // Pre-fill any partial data the user already has so they don't re-enter from scratch
+        if (!cancelled) {
+          if (profile?.full_name) setFullName(profile.full_name)
+          if (profile?.job_title) setJobTitle(profile.job_title)
+          if (profile?.company) setCompany(profile.company)
+          if (profile?.bio) setBio(profile.bio)
+          setCheckingProfile(false)
+        }
+      } catch {
+        if (!cancelled) setCheckingProfile(false)
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [authLoading, backendToken, router])
 
   const handleSubmit = async (skip?: boolean) => {
     setSaving(true)
@@ -66,7 +116,7 @@ export default function ProfileSetupPage() {
     }
   }
 
-  if (authLoading) {
+  if (authLoading || checkingProfile) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <Loader2 className="w-6 h-6 text-violet-600 animate-spin" />
