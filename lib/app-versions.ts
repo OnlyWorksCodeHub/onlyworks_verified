@@ -32,13 +32,13 @@ export interface AppVersion {
 
 const GITHUB_OWNER = 'Namkha-yolo'
 const GITHUB_REPO = 'ONLYWORKS_DIST'
-const CURRENT_VERSION_NUMBER = '3.10.0'
+const CURRENT_VERSION_NUMBER = '3.11.0'
 const GITHUB_RELEASE_BASE = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download`
 
 // Fallback when GitHub API is unreachable
 export const CURRENT_VERSION: AppVersion = {
   version: CURRENT_VERSION_NUMBER,
-  releaseDate: '2026-04-14',
+  releaseDate: '2026-04-27',
   platforms: {
     mac: {
       arm64: {
@@ -47,7 +47,7 @@ export const CURRENT_VERSION: AppVersion = {
       },
       intel: {
         url: `${GITHUB_RELEASE_BASE}/OnlyWorks.Desktop-${CURRENT_VERSION_NUMBER}-x64.dmg`,
-        size: '117MB',
+        size: '116MB',
       },
     },
     windows: {
@@ -58,11 +58,11 @@ export const CURRENT_VERSION: AppVersion = {
     },
   },
   releaseNotes: [
-    'OW Profile now shows skills in every category (previously ~71% of skills were hidden)',
-    'Fixed duplicated "OW-" prefix on profile pages',
-    'OW Profile load errors now show a retry button instead of a silent empty state',
-    'Backend: profile skill history is now durable — survives cache corruption and pipeline issues',
-    'Website: friendlier error messages on sign-in failure, safer URL handling',
+    'New session recovery — interrupted sessions (crash, force-quit, low battery) now auto-finalize and generate their report on next launch, or in the background if you never relaunch',
+    'Closing the window on macOS or refreshing the app no longer resets the active session button',
+    'OW Profile verified skills redesigned — each skill now expands to show evidence from your actual work',
+    'Fixed: macOS window controls no longer overlap the SESSION indicator in the sidebar',
+    'Removed the non-functional Language dropdown from Settings (proper localization is planned for a future release)',
   ],
   minOS: {
     mac: '10.15',
