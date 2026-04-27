@@ -316,52 +316,6 @@ export default function RootLayout({
           }}
         />
 
-        {/* JobPosting Schema - Career Opportunities */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "JobPosting",
-              "title": "Marketing Intern",
-              "description": "Join OnlyWorks as a Marketing Intern and help build brand awareness for our AI-powered work verification platform. Perfect for students looking to gain real-world marketing experience.",
-              "datePosted": "2025-01-15",
-              "employmentType": "INTERN",
-              "hiringOrganization": {
-                "@type": "Organization",
-                "name": "OnlyWorks",
-                "sameAs": "https://www.only-works.com",
-                "logo": "https://www.only-works.com/images/logo.png"
-              },
-              "jobLocation": {
-                "@type": "Place",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressCountry": "US"
-                }
-              },
-              "baseSalary": {
-                "@type": "MonetaryAmount",
-                "currency": "USD",
-                "value": {
-                  "@type": "QuantitativeValue",
-                  "value": 0,
-                  "unitText": "HOUR"
-                }
-              },
-              "qualifications": "Currently pursuing or recently completed a degree in Marketing or Communications. Strong written and verbal communication skills. Perfect for students and early career professionals.",
-              "experienceRequirements": {
-                "@type": "OccupationalExperienceRequirements",
-                "monthsOfExperience": 0
-              },
-              "applicantLocationRequirements": {
-                "@type": "Country",
-                "name": "US"
-              },
-              "jobLocationType": "TELECOMMUTE"
-            })
-          }}
-        />
       </head>
       <body className="antialiased">
         <a href="#main" className="skip-to-content">Skip to content</a>
