@@ -138,7 +138,7 @@ export function Navigation() {
                       {user?.email}
                     </div>
                     <Link
-                      href="/p/edit"
+                      href={owId ? `/p/${owId}` : '/p/edit'}
                       onClick={() => setIsDropdownOpen(false)}
                       style={{
                         display: 'flex',
@@ -154,6 +154,24 @@ export function Navigation() {
                     >
                       <User style={{ width: '16px', height: '16px', color: 'var(--text-muted)' }} />
                       My Profile
+                    </Link>
+                    <Link
+                      href="/p/edit"
+                      onClick={() => setIsDropdownOpen(false)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '10px 16px',
+                        fontSize: '0.875rem',
+                        color: 'var(--text-muted)',
+                        transition: 'background 0.1s',
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-alt)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                    >
+                      <User style={{ width: '16px', height: '16px', color: 'var(--text-muted)' }} />
+                      Edit Profile
                     </Link>
                     <Link
                       href="/account"
@@ -313,12 +331,20 @@ export function Navigation() {
                       </span>
                     </div>
                     <Link
-                      href="/p/edit"
+                      href={owId ? `/p/${owId}` : '/p/edit'}
                       className="btn btn-secondary w-full justify-center"
                       style={{ marginBottom: '8px' }}
                       onClick={() => setIsMenuOpen(false)}
                     >
                       My Profile
+                    </Link>
+                    <Link
+                      href="/p/edit"
+                      className="btn btn-secondary w-full justify-center"
+                      style={{ marginBottom: '8px' }}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Edit Profile
                     </Link>
                     <Link
                       href="/account"

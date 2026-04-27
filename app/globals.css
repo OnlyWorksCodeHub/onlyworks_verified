@@ -405,8 +405,11 @@ button:focus-visible {
   }
 }
 
-/* Profile page styles */
-.profile-page { max-width: 800px; margin: 0 auto; padding: 2rem; }
+/* Profile page styles — top padding clears the fixed Navigation header */
+.profile-page { max-width: 800px; margin: 0 auto; padding: 7rem 2rem 2rem; }
+@media (max-width: 640px) {
+  .profile-page { padding: 6rem 1rem 1.5rem; }
+}
 .profile-card { background: white; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
 .profile-card-header { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); padding: 2rem; }
 .profile-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
