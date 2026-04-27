@@ -67,12 +67,12 @@ export default function AboutPage() {
             <span className="block text-muted-foreground">promises</span>
           </motion.h1>
 
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-end">
+          <div className="flex flex-col items-start gap-8">
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="text-xl lg:text-2xl text-muted-foreground leading-relaxed max-w-xl"
+              className="text-xl lg:text-2xl text-muted-foreground leading-relaxed max-w-2xl"
             >
               In a world of remote work and AI automation, proving real work happened matters more than ever.
             </motion.p>

@@ -108,12 +108,12 @@ export default function DownloadsPage() {
             <span className="block">OnlyWorks</span>
           </motion.h1>
 
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-end">
+          <div className="flex flex-col items-start gap-8">
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="max-w-md text-xl lg:text-2xl leading-relaxed"
+              className="max-w-2xl text-xl lg:text-2xl leading-relaxed"
               style={{ color: '#57554f' }}
             >
               Available for macOS and Windows. Set up in under a minute. Start proving your work today.

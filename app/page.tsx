@@ -129,13 +129,13 @@ export default function HomePage() {
             {hero.heading}
           </motion.h1>
 
-          <div className="mt-10 flex flex-col md:flex-row md:items-end justify-between gap-8">
+          <div className="mt-10 flex flex-col items-start gap-8">
             <motion.p
               key={`subtitle-${audience}`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className="max-w-md text-xl lg:text-2xl text-muted-foreground leading-relaxed"
+              className="max-w-2xl text-xl lg:text-2xl text-muted-foreground leading-relaxed"
             >
               {hero.subtitle}
             </motion.p>
