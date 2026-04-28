@@ -257,32 +257,67 @@ export default function DownloadsPage() {
                       <p className="text-sm font-mono text-muted-foreground">{p.requirement}</p>
                     </div>
                     <div className="flex flex-col items-start lg:items-end gap-4">
-                      <ShimmerButton
-                        shimmerColor="#a78bfa"
-                        background="rgba(139, 92, 246, 1)"
-                        borderRadius="1.75rem"
-                        onClick={() => handleDownload(p.primary.platform, p.primary.arch)}
-                        disabled={downloading !== null}
-                        className="h-14 px-8 text-base font-medium disabled:opacity-50"
-                      >
-                        {downloading === `${p.primary.platform}-${p.primary.arch}` ? 'Downloading...' : p.primary.label}
-                        {downloading !== `${p.primary.platform}-${p.primary.arch}` && (
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        )}
-                      </ShimmerButton>
-                      {p.links.length > 0 && (
-                        <div className="flex gap-4 text-sm">
-                          {p.links.map((link) => (
-                            <button
-                              key={link.arch}
-                              onClick={() => handleDownload(link.platform, link.arch)}
-                              className="text-muted-foreground hover:text-foreground underline underline-offset-4 transition-colors"
+                      {p.title === 'macOS' && macArch === 'unknown' ? (
+                        <>
+                          <p className="text-xs font-mono text-muted-foreground self-start lg:self-end">Choose your Mac:</p>
+                          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                            <ShimmerButton
+                              shimmerColor="#a78bfa"
+                              background="rgba(139, 92, 246, 1)"
+                              borderRadius="1.75rem"
+                              onClick={() => handleDownload('mac', 'arm64')}
+                              disabled={downloading !== null}
+                              className="h-14 px-6 text-sm font-medium disabled:opacity-50 whitespace-nowrap"
                             >
-                              {link.label}
-                            </button>
-                          ))}
-                        </div>
+                              {downloading === 'mac-arm64' ? 'Downloading...' : 'Apple Silicon (M1–M4)'}
+                            </ShimmerButton>
+                            <ShimmerButton
+                              shimmerColor="#a78bfa"
+                              background="rgba(139, 92, 246, 1)"
+                              borderRadius="1.75rem"
+                              onClick={() => handleDownload('mac', 'intel')}
+                              disabled={downloading !== null}
+                              className="h-14 px-6 text-sm font-medium disabled:opacity-50 whitespace-nowrap"
+                            >
+                              {downloading === 'mac-intel' ? 'Downloading...' : 'Intel Mac'}
+                            </ShimmerButton>
+                          </div>
+                          <p className="text-xs text-muted-foreground self-start lg:self-end">
+                            Not sure? Apple menu → About This Mac
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <ShimmerButton
+                            shimmerColor="#a78bfa"
+                            background="rgba(139, 92, 246, 1)"
+                            borderRadius="1.75rem"
+                            onClick={() => handleDownload(p.primary.platform, p.primary.arch)}
+                            disabled={downloading !== null}
+                            className="h-14 px-8 text-base font-medium disabled:opacity-50"
+                          >
+                            {downloading === `${p.primary.platform}-${p.primary.arch}` ? 'Downloading...' : p.primary.label}
+                            {downloading !== `${p.primary.platform}-${p.primary.arch}` && (
+                              <ArrowRight className="w-4 h-4 ml-2" />
+                            )}
+                          </ShimmerButton>
+                        </>
                       )}
+                      {p.title !== 'macOS' || macArch !== 'unknown' ? (
+                        p.links.length > 0 ? (
+                          <div className="flex gap-4 text-sm">
+                            {p.links.map((link) => (
+                              <button
+                                key={link.arch}
+                                onClick={() => handleDownload(link.platform, link.arch)}
+                                className="text-muted-foreground hover:text-foreground underline underline-offset-4 transition-colors"
+                              >
+                                {link.label}
+                              </button>
+                            ))}
+                          </div>
+                        ) : null
+                      ) : null}
                     </div>
                   </div>
                 </div>
