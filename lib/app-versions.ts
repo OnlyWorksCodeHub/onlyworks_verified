@@ -9,10 +9,7 @@ export interface AppVersion {
         size: string
         checksum?: string
       }
-      // intel removed: as of v3.12+ we ship Apple Silicon only. Old users
-      // running Intel Macs are stuck on whatever version they have until
-      // they upgrade hardware.
-      intel?: {
+      intel: {
         url: string
         size: string
         checksum?: string
@@ -48,9 +45,10 @@ export const CURRENT_VERSION: AppVersion = {
         url: `${GITHUB_RELEASE_BASE}/OnlyWorks.Desktop-${CURRENT_VERSION_NUMBER}-arm64.dmg`,
         size: '110MB',
       },
-      // Intel Mac builds dropped — the binary failed to launch on
-      // Intel Macs ("application is not supported on this Mac"). Apple
-      // Silicon only going forward.
+      intel: {
+        url: `${GITHUB_RELEASE_BASE}/OnlyWorks.Desktop-${CURRENT_VERSION_NUMBER}-x64.dmg`,
+        size: '117MB',
+      },
     },
     windows: {
       x64: {
@@ -67,7 +65,7 @@ export const CURRENT_VERSION: AppVersion = {
     'Removed the non-functional Language dropdown from Settings (proper localization is planned for a future release)',
   ],
   minOS: {
-    mac: '11',  // bumped from 10.15 — Apple Silicon required
+    mac: '10.15',
     windows: '10',
   },
 }

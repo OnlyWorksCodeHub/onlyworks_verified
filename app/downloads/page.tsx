@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ArrowRight, Apple, Monitor, Download, CheckCircle, Shield, Zap, RefreshCw } from 'lucide-react'
 import toast, { Toaster } from 'react-hot-toast'
 import { Navigation } from '@/components/Navigation'
@@ -12,8 +12,48 @@ import { ShimmerButton } from '@/components/ui/shimmer-button'
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import { BinaryRain, CodeDecoration, WatermarkText, ASCIIBlock, ScanLines, ConnectionLines } from '@/components/ui/decorative-fills'
 
+type MacArch = 'arm64' | 'intel' | 'unknown'
+
+async function detectMacArch(): Promise<MacArch> {
+  if (typeof navigator === 'undefined') return 'unknown'
+  if (!/Mac/i.test(navigator.platform || navigator.userAgent || '')) return 'unknown'
+
+  // Primary: User-Agent Client Hints (Chrome, Edge, Brave on macOS)
+  const uaData = (navigator as unknown as { userAgentData?: { getHighEntropyValues: (h: string[]) => Promise<{ architecture?: string }> } }).userAgentData
+  if (uaData?.getHighEntropyValues) {
+    try {
+      const hints = await uaData.getHighEntropyValues(['architecture'])
+      if (hints.architecture === 'arm') return 'arm64'
+      if (hints.architecture === 'x86') return 'intel'
+    } catch {
+      // fall through
+    }
+  }
+
+  // Fallback: WebGL renderer string (Safari/Firefox)
+  try {
+    const canvas = document.createElement('canvas')
+    const gl = (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')) as WebGLRenderingContext | null
+    if (gl) {
+      const dbg = gl.getExtension('WEBGL_debug_renderer_info')
+      const renderer = dbg ? String(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL)) : ''
+      if (/apple/i.test(renderer) && !/intel/i.test(renderer)) return 'arm64'
+      if (/(intel|amd|radeon)/i.test(renderer)) return 'intel'
+    }
+  } catch {
+    // fall through
+  }
+
+  return 'unknown'
+}
+
 export default function DownloadsPage() {
   const [downloading, setDownloading] = useState<string | null>(null)
+  const [macArch, setMacArch] = useState<MacArch>('unknown')
+
+  useEffect(() => {
+    detectMacArch().then(setMacArch)
+  }, [])
 
   const handleDownload = async (platform: string, arch: string) => {
     const key = `${platform}-${arch}`
@@ -43,15 +83,37 @@ export default function DownloadsPage() {
     }
   }
 
-  const platforms = [
+  const macPrimary = macArch === 'intel'
+    ? { label: 'Download for Intel Mac', platform: 'mac', arch: 'intel' }
+    : { label: 'Download for Mac', platform: 'mac', arch: 'arm64' }
+
+  const macSecondary = macArch === 'intel'
+    ? [{ label: 'Apple Silicon (M1 / M2 / M3 / M4)', platform: 'mac', arch: 'arm64' }]
+    : [{ label: 'Intel Mac', platform: 'mac', arch: 'intel' }]
+
+  const macSubtitle = macArch === 'arm64'
+    ? 'Apple Silicon detected · M1 / M2 / M3 / M4'
+    : macArch === 'intel'
+    ? 'Intel Mac detected'
+    : 'Apple Silicon (M1 / M2 / M3 / M4) or Intel'
+
+  const platforms: Array<{
+    num: string
+    icon: typeof Apple
+    title: string
+    subtitle: string
+    requirement: string
+    primary: { label: string; platform: string; arch: string }
+    links: Array<{ label: string; platform: string; arch: string }>
+  }> = [
     {
       num: '01',
       icon: Apple,
       title: 'macOS',
-      subtitle: 'Apple Silicon (M1 / M2 / M3 / M4)',
-      requirement: 'macOS 11+ · Apple Silicon only',
-      primary: { label: 'Download for Mac', platform: 'mac', arch: 'arm64' },
-      links: [],
+      subtitle: macSubtitle,
+      requirement: 'macOS 10.15+ · Apple Silicon or Intel',
+      primary: macPrimary,
+      links: macSecondary,
     },
     {
       num: '02',
@@ -299,7 +361,7 @@ export default function DownloadsPage() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
             <div className="space-y-0">
               {[
-                { num: 'I', title: 'macOS', items: ['macOS 11 (Big Sur) or later', 'Apple Silicon — M1, M2, M3, or M4 (Intel Macs not supported)', '200MB disk space', 'Screen Recording & Accessibility permissions'] },
+                { num: 'I', title: 'macOS', items: ['macOS 10.15 (Catalina) or later', 'Apple Silicon (M1, M2, M3, M4) or Intel', '200MB disk space', 'Screen Recording & Accessibility permissions'] },
                 { num: 'II', title: 'Windows', items: ['Windows 10 or later', '64-bit processor', '200MB disk space', 'Administrator access for installation'] },
               ].map((req, i) => (
                 <motion.div

@@ -8,7 +8,7 @@ const faqs = [
   { q: "Do you record my screen?", a: "OnlyWorks takes periodic screenshots to understand what you're working on, but you control when this happens and can exclude any apps. Screenshots are never shared. Only the insights make it into your reports." },
   { q: "What happens to my personal data?", a: "You own it. Your personal data is encrypted and never shared without your permission. Export your verified reports anytime. If you cancel, your personal data is deleted after 30 days, or immediately if you prefer. For full details, see our Terms of Service and Privacy Policy." },
   { q: "Is it free?", a: "Yes. For job seekers, OnlyWorks is free to verify your work. Generate reports, build your OW Profile and share verified proof at no cost. If you're a business looking for talent, visit our hiring page for more information." },
-  { q: "Is there a desktop app?", a: "Yes. Available for Apple Silicon Macs (M1, M2, M3, M4) and Windows. Download it from our downloads page to start building your verified work portfolio." },
+  { q: "Is there a desktop app?", a: "Yes. Available for macOS (Apple Silicon and Intel) and Windows. Download it from our downloads page to start building your verified work portfolio." },
   { q: "What tools does OnlyWorks work with?", a: "OnlyWorks runs in the background and verifies your work across whatever tools you use: VS Code, Figma, Chrome, Slack, Terminal and more. No integrations needed. It fits into your natural workflow." },
   { q: "How do I get support?", a: "Email us at contact@only-works.com or use the contact form on our website. We respond within 24-48 hours." },
 ]
