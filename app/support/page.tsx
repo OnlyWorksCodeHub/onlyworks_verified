@@ -122,7 +122,7 @@ export default function SupportPage() {
         </ul>
       ),
     },
-    { question: 'What macOS version do I need?', answer: 'macOS 10.15 (Catalina) or later. Runs natively on Apple Silicon and Intel.' },
+    { question: 'What macOS version do I need?', answer: 'macOS 11 (Big Sur) or later, on an Apple Silicon Mac (M1, M2, M3, or M4). Intel Macs are not supported.' },
     {
       question: 'How do I cancel my subscription?',
       answer: (<p>Go to your <Link href="/account" className="font-medium hover:underline underline-offset-4 text-foreground">Account page</Link> or email <a href="mailto:support@only-works.com" className="font-medium hover:underline underline-offset-4 text-foreground">support@only-works.com</a>.</p>),

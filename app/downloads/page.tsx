@@ -48,13 +48,10 @@ export default function DownloadsPage() {
       num: '01',
       icon: Apple,
       title: 'macOS',
-      subtitle: 'Apple Silicon & Intel',
-      requirement: 'macOS 10.15+',
+      subtitle: 'Apple Silicon (M1 / M2 / M3 / M4)',
+      requirement: 'macOS 11+ · Apple Silicon only',
       primary: { label: 'Download for Mac', platform: 'mac', arch: 'arm64' },
-      links: [
-        { label: 'Apple Silicon', platform: 'mac', arch: 'arm64' },
-        { label: 'Intel', platform: 'mac', arch: 'intel' },
-      ],
+      links: [],
     },
     {
       num: '02',
@@ -302,7 +299,7 @@ export default function DownloadsPage() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
             <div className="space-y-0">
               {[
-                { num: 'I', title: 'macOS', items: ['macOS 10.15 (Catalina) or later', 'Apple Silicon or Intel processor', '200MB disk space', 'Screen Recording & Accessibility permissions'] },
+                { num: 'I', title: 'macOS', items: ['macOS 11 (Big Sur) or later', 'Apple Silicon — M1, M2, M3, or M4 (Intel Macs not supported)', '200MB disk space', 'Screen Recording & Accessibility permissions'] },
                 { num: 'II', title: 'Windows', items: ['Windows 10 or later', '64-bit processor', '200MB disk space', 'Administrator access for installation'] },
               ].map((req, i) => (
                 <motion.div
