@@ -204,6 +204,24 @@ export default function SearchPage() {
                 {loading ? 'Searching...' : `${total} candidate${total !== 1 ? 's' : ''} found`}
               </p>
 
+              {/* Candidate-facing banner: anonymous viewers can join the Talent Community */}
+              {!isAuthenticated && (
+                <div className="mb-6 p-4 border border-foreground/10 bg-foreground/[0.02] flex items-center justify-between gap-4 flex-wrap sm:flex-nowrap">
+                  <p className="text-sm">
+                    <strong>See yourself here?</strong>{' '}
+                    <span className="text-muted-foreground">Join the Talent Community to appear in hiring-manager searches.</span>
+                  </p>
+                  <Link
+                    href="/talent"
+                    className="shrink-0 inline-flex items-center gap-2 h-10 px-4 text-sm rounded-full font-medium text-white hover:opacity-90 transition-all"
+                    style={{ background: '#8b5cf6' }}
+                  >
+                    Join
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              )}
+
               {results.length > 0 ? (
                 <div className="grid gap-4">
                   {results.map((candidate, i) => (

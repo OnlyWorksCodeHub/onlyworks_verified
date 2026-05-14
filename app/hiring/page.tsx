@@ -352,6 +352,16 @@ export default function HiringPage() {
               )}
             </div>
           </div>
+
+          {/* Cross-link: candidates */}
+          <div className="mt-16 pt-8 border-t border-foreground/10 text-center">
+            <p className="text-sm text-muted-foreground">
+              Are you a candidate looking for jobs?{' '}
+              <Link href="/talent" className="font-medium hover:underline underline-offset-4 text-foreground">
+                Join the Talent Community →
+              </Link>
+            </p>
+          </div>
         </div>
       </section>
 
