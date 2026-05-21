@@ -47,3 +47,4 @@ next-env.d.ts
 # Local planning/spec notes
 docs/ISSUE19_IMPLEMENTATION_GUIDE.local.md
 docs/FRONTEND_DEVELOPMENT_SPEC.local.md
+docs/ISSUE32_SPARSE_PROFILE_DEV_PLAN.local.md
