@@ -4,11 +4,12 @@ import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
-import { Search, Filter, Shield, ChevronDown, ArrowRight, X } from 'lucide-react'
+import { Search, Filter, Shield, ChevronDown, ArrowRight, X, Info } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '@/components/AuthProvider'
 import { NEXT_PUBLIC_BACKEND_URL } from '@/lib/config'
 import Link from 'next/link'
+import VerificationPill from '@/components/ui/VerificationPill'
 
 interface CandidateSkill {
   skill: string
@@ -23,13 +24,16 @@ interface CandidateTeaser {
   company?: string
   job_title?: string
   avatar_url?: string
-  field_of_work: string
-  experience_level: string
+  field_of_work: string | null
+  experience_level: string | null
   top_skills: CandidateSkill[]
   total_verified_skills: number
   total_skills: number
   match_score: number
   matched_count: number
+  verification_status?: 'verified' | 'community'
+  target_roles?: string[]
+  target_locations?: string[]
 }
 
 const FIELDS = [
@@ -188,7 +192,7 @@ export default function SearchPage() {
                     <div className="flex flex-col gap-1 justify-end">
                       <label className="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" checked={verifiedOnly} onChange={(e) => setVerifiedOnly(e.target.checked)} className="rounded" />
-                        <span className="text-sm">Verified skills only</span>
+                        <span className="text-sm">Verified candidates only</span>
                       </label>
                     </div>
                   </div>
@@ -213,7 +217,21 @@ export default function SearchPage() {
               ) : !loading ? (
                 <div className="text-center py-20">
                   <p className="text-xl font-medium mb-2">No candidates found</p>
-                  <p className="text-muted-foreground">Try different skills or broaden your filters.</p>
+                  {verifiedOnly ? (
+                    <p className="text-muted-foreground">
+                      No verified candidates match.{' '}
+                      <button
+                        type="button"
+                        onClick={() => setVerifiedOnly(false)}
+                        className="font-medium hover:underline underline-offset-4 text-foreground"
+                      >
+                        Uncheck &lsquo;Verified only&rsquo;
+                      </button>{' '}
+                      to see Talent Community members too.
+                    </p>
+                  ) : (
+                    <p className="text-muted-foreground">Try different skills or broaden your filters.</p>
+                  )}
                 </div>
               ) : null}
 
@@ -279,6 +297,18 @@ function CandidateCard({ candidate, authenticated }: { candidate: CandidateTease
     intermediate: '#8b5cf6',
     emerging: '#f59e0b',
   }
+  const isCommunity = candidate.verification_status === 'community'
+  // Default to 'verified' on legacy responses that omit the flag — preserves the
+  // pre-#23 result shape so older cached fixtures still render sensibly.
+  const status: 'verified' | 'community' = isCommunity ? 'community' : 'verified'
+
+  // Community has no real "meta" line if the user didn't fill in field/experience.
+  // Fall back to their target_roles in that case.
+  const metaLine = authenticated && candidate.job_title
+    ? `${candidate.job_title}${candidate.company ? ` at ${candidate.company}` : ''}`
+    : isCommunity && (!candidate.field_of_work && !candidate.experience_level) && candidate.target_roles?.length
+      ? `Looking for: ${candidate.target_roles.slice(0, 3).join(', ')}${candidate.target_locations?.length ? ` · ${candidate.target_locations[0]}` : ''}`
+      : `${(candidate.field_of_work || '').replace(/-/g, ' ')}${candidate.field_of_work && candidate.experience_level ? ' · ' : ''}${candidate.experience_level || ''}`.trim() || 'Talent Community member'
 
   return (
     <motion.div
@@ -286,6 +316,11 @@ function CandidateCard({ candidate, authenticated }: { candidate: CandidateTease
       animate={{ opacity: 1, y: 0 }}
       className="p-6 rounded-2xl border border-foreground/10 hover:border-foreground/20 transition-all group"
     >
+      {/* Verification pill — top of card */}
+      <div className="mb-3">
+        <VerificationPill status={status} />
+      </div>
+
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           {/* Identity or anonymous */}
@@ -301,29 +336,42 @@ function CandidateCard({ candidate, authenticated }: { candidate: CandidateTease
             )}
             <div>
               <h3 className="font-medium text-base">
-                {authenticated && candidate.full_name ? candidate.full_name : 'Candidate'}
+                {authenticated && candidate.full_name ? candidate.full_name : (isCommunity ? 'Talent Community Candidate' : 'Verified Candidate')}
               </h3>
-              <p className="text-sm text-muted-foreground">
-                {authenticated && candidate.job_title ? `${candidate.job_title}${candidate.company ? ` at ${candidate.company}` : ''}` : (
-                  <>{candidate.field_of_work?.replace(/-/g, ' ')} &middot; {candidate.experience_level}</>
-                )}
-              </p>
+              <p className="text-sm text-muted-foreground">{metaLine}</p>
             </div>
           </div>
 
           {/* Skills */}
-          <div className="flex flex-wrap gap-2">
-            {candidate.top_skills.map((skill, i) => (
-              <span
-                key={i}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm border"
-                style={{ borderColor: `${proficiencyColor[skill.proficiency] || '#8b5cf6'}33` }}
-              >
-                {skill.verified && <Shield className="w-3.5 h-3.5" style={{ color: proficiencyColor[skill.proficiency] }} />}
-                {skill.skill}
-              </span>
-            ))}
-          </div>
+          {candidate.top_skills.length > 0 && (
+            <>
+              {isCommunity && (
+                <p className="text-xs font-mono text-muted-foreground uppercase tracking-wider mb-2">
+                  Self-reported
+                </p>
+              )}
+              <div className="flex flex-wrap gap-2">
+                {candidate.top_skills.map((skill, i) => (
+                  <span
+                    key={i}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm border"
+                    style={{ borderColor: `${proficiencyColor[skill.proficiency] || '#8b5cf6'}33` }}
+                  >
+                    {skill.verified && <Shield className="w-3.5 h-3.5" style={{ color: proficiencyColor[skill.proficiency] }} />}
+                    {skill.skill}
+                  </span>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* Community-only hint */}
+          {isCommunity && (
+            <div className="flex items-center gap-1.5 mt-3 text-xs text-muted-foreground">
+              <Info className="w-3 h-3" aria-hidden="true" />
+              Has not connected verified work history yet
+            </div>
+          )}
         </div>
 
         {/* Match score + action */}
@@ -332,9 +380,11 @@ function CandidateCard({ candidate, authenticated }: { candidate: CandidateTease
             <span className="text-2xl font-bold" style={{ color: '#8b5cf6' }}>{candidate.match_score}%</span>
             <span className="block text-xs text-muted-foreground">match</span>
           </div>
-          <div className="text-xs text-muted-foreground">
-            {candidate.total_verified_skills} verified skill{candidate.total_verified_skills !== 1 ? 's' : ''}
-          </div>
+          {!isCommunity && (
+            <div className="text-xs text-muted-foreground">
+              {candidate.total_verified_skills} verified skill{candidate.total_verified_skills !== 1 ? 's' : ''}
+            </div>
+          )}
           {authenticated && candidate.ow_id && (
             <Link
               href={`/p/${candidate.ow_id}`}

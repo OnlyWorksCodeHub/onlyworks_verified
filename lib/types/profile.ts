@@ -9,6 +9,11 @@ export interface ProfileData {
   member_since?: string
   is_profile_public: boolean
   badge: 'verified' | 'trial' | 'previously_verified' | 'none'
+  talent_community_member?: boolean
+  target_roles?: string[]
+  target_locations?: string[]
+  self_reported_skills?: string[]
+  open_to_contact?: boolean
 }
 
 export interface StatsData {
