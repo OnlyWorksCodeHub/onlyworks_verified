@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '@/components/AuthProvider'
 import { NEXT_PUBLIC_BACKEND_URL } from '@/lib/config'
 import Link from 'next/link'
+import VerificationPill from '@/components/ui/VerificationPill'
 
 interface CandidateSkill {
   skill: string
@@ -33,27 +34,6 @@ interface CandidateTeaser {
   verification_status?: 'verified' | 'community'
   target_roles?: string[]
   target_locations?: string[]
-}
-
-function VerificationPill({ status }: { status: 'verified' | 'community' }) {
-  if (status === 'verified') {
-    return (
-      <span
-        className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider"
-        style={{ background: '#dcfce7', color: '#166534', border: '1px solid #166534' }}
-      >
-        <span aria-hidden="true">◆</span> Verified
-      </span>
-    )
-  }
-  return (
-    <span
-      className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground"
-      style={{ background: 'rgba(8,5,3,0.04)', border: '1px solid rgba(8,5,3,0.15)' }}
-    >
-      <span aria-hidden="true">○</span> In Community
-    </span>
-  )
 }
 
 const FIELDS = [
