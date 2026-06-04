@@ -199,6 +199,338 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ═══ DOCS · HOW IT WORKS ═══ */}
+      <section id="how-it-works" className="relative py-16 lg:py-24 overflow-hidden" style={{ scrollMarginTop: 96 }}>
+        <div className="absolute inset-0 pointer-events-none opacity-[0.025]" aria-hidden="true" style={{ backgroundImage: `repeating-linear-gradient(135deg, transparent, transparent 30px, #080503 30px, #080503 31px)` }} />
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="mb-12">
+            <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-4">
+              <span className="w-8 h-px bg-foreground/30" />
+              How it works
+            </span>
+            <motion.h2
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="text-4xl lg:text-6xl font-display tracking-tight mb-6"
+            >
+              Three steps,<br /><span className="text-muted-foreground">no friction.</span>
+            </motion.h2>
+            <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl">
+              OnlyWorks turns your real work into a credential anyone can verify — without uploading your code, your screen, or your secrets to anyone else.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-px bg-foreground/10">
+            {[
+              {
+                n: '01',
+                title: 'Install',
+                lede: 'Download the OnlyWorks desktop app. Sign in once.',
+                detail: 'macOS, Windows (Intel + Apple Silicon), and Linux. Free forever to install. The app runs locally and only captures what you ask it to.',
+                cta: { label: 'Download free', href: '/downloads' },
+              },
+              {
+                n: '02',
+                title: 'Verify',
+                lede: 'Work normally. OnlyWorks quietly proves it was you.',
+                detail: 'As you write code, run tests, ship features, build hardware, write docs — OW captures verifiable evidence of activity. End-to-end encrypted. You decide what counts.',
+                cta: { label: 'See what gets captured', href: '#sample' },
+              },
+              {
+                n: '03',
+                title: 'Share',
+                lede: 'Generate a tamper-evident report. Send the link.',
+                detail: 'Reports are signed by OnlyWorks and verifiable at onlyworks.com/verify/<hash>. Recruiters, clients, judges — anyone can confirm it without an account.',
+                cta: { label: 'View a sample report', href: '#sample' },
+              },
+            ].map(step => (
+              <motion.div
+                key={step.n}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.05 * Number(step.n) }}
+                className="bg-background p-8 lg:p-10"
+              >
+                <div className="flex items-baseline justify-between mb-6">
+                  <div className="font-display text-7xl lg:text-8xl tracking-tight" style={{ color: '#8b5cf6' }}>
+                    {step.n}
+                  </div>
+                  <div className="text-sm font-mono text-muted-foreground">step</div>
+                </div>
+                <h3 className="font-display text-3xl lg:text-4xl tracking-tight mb-3">{step.title}</h3>
+                <p className="text-lg leading-relaxed mb-4">{step.lede}</p>
+                <p className="text-base text-muted-foreground leading-relaxed mb-6">{step.detail}</p>
+                <Link
+                  href={step.cta.href}
+                  className="inline-flex items-center gap-2 text-sm font-medium group"
+                  style={{ color: '#8b5cf6' }}
+                >
+                  {step.cta.label}
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ DOCS · SAMPLE REPORT ═══ */}
+      <section id="sample" className="relative py-16 lg:py-24 overflow-hidden" style={{ scrollMarginTop: 96 }}>
+        <WatermarkText text="REPORT" />
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <div className="lg:col-span-5">
+              <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-4">
+                <span className="w-8 h-px bg-foreground/30" />
+                What a report looks like
+              </span>
+              <motion.h2
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                className="text-4xl lg:text-6xl font-display tracking-tight mb-6"
+              >
+                One link.<br /><span className="text-muted-foreground">Whole story.</span>
+              </motion.h2>
+              <p className="text-xl text-muted-foreground leading-relaxed mb-6">
+                A verified report is a signed, public-by-link page on OnlyWorks. Skills, evidence, timeline, hash, signature — everything someone needs to know what you actually did is on one URL.
+              </p>
+              <ul className="space-y-3 text-base">
+                {[
+                  ['◆', 'Tamper-evident. Hash changes if the report is altered.'],
+                  ['◇', 'Verifiable by anyone — no OW account required to read.'],
+                  ['◌', 'Revocable. You can pull a report from circulation any time.'],
+                  ['○', 'Modular. Share a subset (skills only, timeline only) per audience.'],
+                ].map(([g, t], i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="font-mono" style={{ color: '#8b5cf6' }}>{g}</span>
+                    <span className="text-muted-foreground leading-relaxed">{t}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-8">
+                <Link
+                  href="/downloads"
+                  className="inline-flex items-center gap-2 h-12 px-6 text-sm rounded-full font-medium text-white transition-all hover:opacity-90 group"
+                  style={{ background: '#8b5cf6' }}
+                >
+                  Download free
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </div>
+
+            {/* mock report card */}
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="lg:col-span-7"
+            >
+              <div className="border border-foreground/10 bg-white">
+                {/* browser-style header */}
+                <div className="px-5 py-3 border-b border-foreground/10 flex items-center justify-between bg-foreground/[0.02]">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full bg-foreground/15" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-foreground/15" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-foreground/15" />
+                  </div>
+                  <div className="font-mono text-xs text-muted-foreground">onlyworks.com/verify/2f8a91c4</div>
+                  <div className="text-xs font-mono" style={{ color: '#16a34a' }}>● verified</div>
+                </div>
+
+                <div className="p-6 lg:p-8">
+                  <div className="flex items-start justify-between mb-6">
+                    <div>
+                      <div className="font-mono text-xs text-muted-foreground mb-1">Report · 23 Jun 2026</div>
+                      <h3 className="font-display text-3xl tracking-tight">Ren M. Ortega</h3>
+                      <div className="text-sm text-muted-foreground">@cordelia · ONLYWEIRD &apos;26 finalist</div>
+                    </div>
+                    <div
+                      className="px-3 py-1.5 text-xs font-mono"
+                      style={{ background: '#ede9fe', color: '#6d28d9' }}
+                    >
+                      ◆ Verified Weird
+                    </div>
+                  </div>
+
+                  <div className="mb-6">
+                    <div className="font-mono text-xs text-muted-foreground mb-3">Project · kettle.sh</div>
+                    <div className="grid grid-cols-3 gap-px bg-foreground/10 border border-foreground/10">
+                      {[
+                        ['Skills detected', '8'],
+                        ['Languages',       'Bash · Shell'],
+                        ['Build window',    '7 days'],
+                      ].map(([k, v]) => (
+                        <div key={k} className="bg-white p-4">
+                          <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{k}</div>
+                          <div className="font-display text-xl tracking-tight">{v}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mb-6">
+                    <div className="font-mono text-xs text-muted-foreground mb-3">Verified evidence</div>
+                    <ul className="space-y-2 text-sm">
+                      {[
+                        ['◆', '47 commits in build window · all signed'],
+                        ['◆', 'CI run 14× · 12 pass · 2 fail · last green 22 Jun 22:08 PT'],
+                        ['◆', 'Hand-written README · 312 words · no LLM signature'],
+                        ['◆', '1 Loom demo · 02:48 · stranger-witnessed at SF finals'],
+                      ].map(([g, t], i) => (
+                        <li key={i} className="flex gap-3">
+                          <span style={{ color: '#8b5cf6' }}>{g}</span>
+                          <span className="text-muted-foreground">{t}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="pt-4 border-t border-foreground/10 flex items-center justify-between text-xs font-mono text-muted-foreground">
+                    <span>hash · 2f8a91c4d3e7b56a · ed25519</span>
+                    <span>signed by OnlyWorks</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ DOCS · FOR ONLYWEIRD BUILDERS ═══ */}
+      <section id="hackathon" className="relative py-16 lg:py-24 overflow-hidden" style={{ scrollMarginTop: 96, background: '#f5f5f4' }}>
+        <div className="absolute inset-0 pointer-events-none opacity-[0.04]" aria-hidden="true" style={{ backgroundImage: `radial-gradient(circle, #080503 1px, transparent 1px)`, backgroundSize: '20px 20px' }} />
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
+            <div>
+              <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-4">
+                <span className="w-8 h-px bg-foreground/30" />
+                For ONLYWEIRD &apos;26 builders
+              </span>
+              <motion.h2
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                className="text-4xl lg:text-6xl font-display tracking-tight"
+              >
+                Verify your<br /><span className="text-muted-foreground">weird build.</span>
+              </motion.h2>
+            </div>
+            <Link
+              href="/hackathon"
+              className="inline-flex items-center gap-2 h-12 px-6 text-sm rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all group"
+            >
+              ↩ Back to ONLYWEIRD
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+
+          <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mb-12">
+            Registering for the hackathon creates your OnlyWorks account automatically — you just need to install the desktop app and drop one hook into your repo. Here&apos;s the path, end to end.
+          </p>
+
+          <ol className="grid lg:grid-cols-2 gap-4">
+            {[
+              {
+                n: '01',
+                title: 'Register for ONLYWEIRD',
+                body: 'Fills out the registration card. OnlyWorks account created in the background — no separate signup. You get an OW-WEIRD-XXXX serial.',
+                href: '/hackathon/register',
+                cta: 'Register card →',
+              },
+              {
+                n: '02',
+                title: 'Install OnlyWorks',
+                body: 'Free desktop app. Sign in with the same email you registered with. Takes ~60 seconds.',
+                href: '/downloads',
+                cta: 'Download →',
+              },
+              {
+                n: '03',
+                title: 'Drop the hook into your repo',
+                body: 'One-line install from your dashboard. The hook records commit metadata + CI signals in the build window only.',
+                href: '#how-it-works',
+                cta: 'See how it works →',
+              },
+              {
+                n: '04',
+                title: 'Build during the window',
+                body: '16 Jun 09:00 PT → 22 Jun 23:59 PT. Build whatever weird thing you want. OW signs activity automatically as you go.',
+                href: '/hackathon/schedule',
+                cta: 'See schedule →',
+              },
+              {
+                n: '05',
+                title: 'Submit your build',
+                body: 'From the dashboard. Adds your Loom + README + repo URL. Submission is hashed and bound to your serial.',
+                href: '/hackathon/rules#submissions',
+                cta: 'Submission rules →',
+              },
+              {
+                n: '06',
+                title: 'Earn your verified certificate',
+                body: 'Every finalist gets a digital certificate, signed by OnlyWorks. QR resolves to your live verify URL — share anywhere.',
+                href: '/hackathon/certificate',
+                cta: 'See a sample cert →',
+              },
+            ].map(step => (
+              <motion.li
+                key={step.n}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.04 * Number(step.n) }}
+                className="bg-white border border-foreground/10 p-6 lg:p-8 group hover:border-foreground/30 transition-colors"
+              >
+                <div className="flex items-start gap-5">
+                  <div className="font-display text-5xl tracking-tight flex-shrink-0" style={{ color: '#8b5cf6' }}>
+                    {step.n}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-display text-2xl tracking-tight mb-2">{step.title}</h3>
+                    <p className="text-base text-muted-foreground leading-relaxed mb-4">{step.body}</p>
+                    <Link
+                      href={step.href}
+                      className="inline-flex items-center gap-2 text-sm font-medium"
+                      style={{ color: '#8b5cf6' }}
+                    >
+                      {step.cta}
+                    </Link>
+                  </div>
+                </div>
+              </motion.li>
+            ))}
+          </ol>
+
+          <div className="mt-12 p-6 lg:p-8 border border-foreground/20 bg-white">
+            <div className="flex flex-wrap items-center justify-between gap-6">
+              <div>
+                <div className="font-mono text-xs text-muted-foreground mb-2">When something goes sideways</div>
+                <div className="font-display text-2xl tracking-tight mb-1">We answer questions in &lt; 24h.</div>
+                <p className="text-base text-muted-foreground">
+                  Email <a href="mailto:weird@only-works.com" className="underline" style={{ color: '#8b5cf6' }}>weird@only-works.com</a> · or drop into Discord (link in your registration confirmation).
+                </p>
+              </div>
+              <Link
+                href="/hackathon/register"
+                className="inline-flex items-center gap-2 h-12 px-6 text-sm rounded-full font-medium text-white transition-all hover:opacity-90 group"
+                style={{ background: '#8b5cf6' }}
+              >
+                Register for ONLYWEIRD &apos;26
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ═══ METRICS — 2x2 grid ═══ */}
       <section className="relative overflow-hidden py-16 lg:py-24">
         <PulsingRings className="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]" />
