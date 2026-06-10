@@ -41,13 +41,6 @@ const INITIAL: FormState = {
   agree: false,
 }
 
-function randSerial() {
-  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'
-  let s = ''
-  for (let i = 0; i < 4; i++) s += chars[Math.floor(Math.random() * chars.length)]
-  return `OW-WEIRD-${s}`
-}
-
 export default function RegisterPage() {
   const [form, setForm] = useState<FormState>(INITIAL)
   const [mode, setMode] = useState<Mode>('intro')
@@ -166,32 +159,27 @@ export default function RegisterPage() {
       return
     }
     setMode('submitting')
-    // Re-verify the OW ID server-side at submission so a stale client status
-    // can't smuggle in an invalid registration.
+    // The server re-verifies the OW ID and the email cookie, stores the row,
+    // and issues the serial — the client never invents its own admission.
     try {
-      const res = await fetch('/api/hackathon/verify-ow-id', {
+      const res = await fetch('/api/hackathon/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ owId: form.owId }),
+        body: JSON.stringify(form),
       })
       const data = await res.json().catch(() => ({}))
-      if (!data.valid) {
+      if (!res.ok || !data.ok) {
         setMode('idle')
-        setSubmitError(data.error || 'That OW ID could not be verified. Check your OnlyWorks dashboard and try again.')
+        setSubmitError(data.error || 'Could not save your registration right now. Try again in a moment.')
         return
       }
+      setSerial(data.serial)
+      setMode('done')
     } catch {
       setMode('idle')
-      setSubmitError('Could not reach OnlyWorks to verify your ID. Try again in a moment.')
+      setSubmitError('Could not reach OnlyWorks to register. Try again in a moment.')
       return
     }
-    // TODO(weird@only-works.com): wire real Supabase insert into hackathon_registrations table.
-    //   Store the verified OW ID alongside the rest of the row so we can backcheck later.
-    // await supabase.from('hackathon_registrations').insert({ ..., ow_id: form.owId })
-    setTimeout(() => {
-      setSerial(randSerial())
-      setMode('done')
-    }, 1100)
   }
 
   function reset() {
