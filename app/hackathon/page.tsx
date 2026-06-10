@@ -545,7 +545,7 @@ export default function HackathonLanding() {
                 <span>Prize Tree</span>
               </div>
               <h2 style={{ marginTop: 18, color: 'var(--ow-paper)' }}>
-                $1,000<br />
+                $500<br />
                 <span style={{ color: 'var(--ow-red)' }}>+ the rest in access.</span>
               </h2>
             </div>
@@ -563,7 +563,7 @@ export default function HackathonLanding() {
               paddingLeft: 18,
             }}
           >
-            $1,000 cash, lifetime OnlyWorks Pro, 1:1 time with the judges, a permanent feature, and a trophy you&apos;ll keep on your desk. That&apos;s the grand prize. Below, the full tree — including this year&apos;s judge-named awards.
+            $500 cash, lifetime OnlyWorks Pro, 1:1 time with the judges, a permanent feature, and a trophy you&apos;ll keep on your desk. That&apos;s the grand prize — announced end of July. Below, the full tree — including this year&apos;s judge-named awards.
           </p>
 
           {/* GRAND PRIZE — big editorial block */}
@@ -603,7 +603,7 @@ export default function HackathonLanding() {
                   marginTop: 14,
                   lineHeight: 0.9,
                 }}>
-                  $1,000.
+                  $500.
                 </div>
                 <div style={{
                   fontFamily: "'Big Shoulders Display', sans-serif",
@@ -612,7 +612,7 @@ export default function HackathonLanding() {
                   marginTop: 8,
                   color: 'rgba(241,236,226,0.7)',
                 }}>
-                  Plus everything below — and the most embarrassing trophy we could afford to make.
+                  Announced end of July. Plus everything below — and the most embarrassing trophy we could afford to make.
                 </div>
               </div>
 
@@ -736,13 +736,13 @@ export default function HackathonLanding() {
                 textTransform: 'uppercase', letterSpacing: '0.02em',
                 color: 'var(--ow-paper)', marginTop: 6,
               }}>
-                Judge-named awards · <span style={{ color: 'var(--ow-red)' }}>$250 each</span>
+                Judge-named awards · <span style={{ color: 'var(--ow-red)' }}>certificate + mentorship</span>
               </div>
               <p style={{
                 color: 'rgba(241,236,226,0.78)', fontSize: '0.9375rem',
                 marginTop: 8, maxWidth: 640,
               }}>
-                Each guest judge sponsors a named $250 award — &ldquo;The [Judge] Award for [their pick of weirdness].&rdquo; Cash funded by the judge personally; OnlyWorks supplies the certificate and the mentorship slot that comes with it. Names + categories announced at kickoff.
+                Each guest judge sponsors a named award — &ldquo;The [Judge] Award for [their pick of weirdness].&rdquo; No cash attached: winners receive a signed certificate and the mentorship slot that comes with it. Names + categories announced at kickoff.
               </p>
             </div>
             <Link
@@ -761,7 +761,7 @@ export default function HackathonLanding() {
             fontFamily: "'Big Shoulders Display', sans-serif",
             fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase',
           }}>
-            * Grand cash prize paid in USD via Stripe within 30 days of finals. Trophies hand-delivered or hand-mailed. Mentorship sessions scheduled by the OnlyWorks team in the two weeks after finals.
+            * Grand prize winner announced end of July; cash paid in USD via Stripe within 30 days of the announcement. Trophies hand-delivered or hand-mailed. Mentorship sessions scheduled by the OnlyWorks team in the two weeks after finals.
           </p>
         </div>
 

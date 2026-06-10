@@ -75,7 +75,7 @@ const DAYS: Day[] = [
       { pt: '16:00', title: 'Intermission · weird tribute',    body: 'A short film honouring the projects that did not make finals. They were good.', tag: 'finals' },
       { pt: '16:30', title: 'Demos · round 2',                 body: 'The other four. The judges look tired but exhilarated. So do you.', tag: 'finals' },
       { pt: '17:45', title: 'Judges deliberate',               body: 'The bar opens. You do not. That is for the audience.', tag: 'finals' },
-      { pt: '18:30', title: 'Awards ceremony',                 body: 'Grand prize announced. Trophies handed out. The trophies are themselves a joke.', tag: 'finals' },
+      { pt: '18:30', title: 'Awards ceremony',                 body: 'Track + secondary prizes announced; grand prize winner revealed end of July. Trophies handed out. The trophies are themselves a joke.', tag: 'finals' },
       { pt: '19:30', title: 'After-hours weirdtape',           body: 'Open jam · open mic · open mind. Recording strongly discouraged.', tag: 'finals' },
     ],
   },
