@@ -36,8 +36,8 @@ function confirmationEmailHtml(name: string, serial: string): string {
       <p style="margin: 6px 0 0; font-size: 34px; font-weight: 800; letter-spacing: 0.06em; color: #e63a13;">${serial}</p>
       <p style="margin: 24px 0 0; font-size: 14px; line-height: 1.6; color: #4a4842;">
         Keep this serial — it goes on your badge, your submission, and your trophy if you somehow win.
-        The 48-hour build window opens <strong style="color: #1c1b18;">Thursday 18 June &middot; 09:00 ET</strong>
-        and closes <strong style="color: #1c1b18;">Saturday 20 June &middot; 09:00 ET</strong>, with in-person finals in NYC that evening.
+        The 24-hour build window opens <strong style="color: #1c1b18;">Friday 19 June &middot; 09:00 ET</strong>
+        and closes <strong style="color: #1c1b18;">Saturday 20 June &middot; 09:00 ET</strong>, with live online finals that evening.
         Discord and calendar details land in this inbox before kickoff.
       </p>
       <p style="margin: 20px 0 0; font-size: 14px; line-height: 1.6; color: #4a4842;">

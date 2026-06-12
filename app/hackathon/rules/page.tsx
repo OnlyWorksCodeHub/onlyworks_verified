@@ -13,11 +13,10 @@ const SECTIONS: Section[] = [
     label: 'Eligibility',
     title: 'Who can enter',
     rules: [
-      { n: 'E.01', text: 'Must be 18+ on 18 Jun 2026.' },
+      { n: 'E.01', text: 'Must be 18+ on 19 Jun 2026.' },
       { n: 'E.02', text: 'Must be located in a jurisdiction where this kind of nonsense is legal. (It is, in most.)' },
       { n: 'E.03', text: 'Employees of OnlyWorks or Orbis, our judges, and our sponsors may enter but are ineligible for cash prizes.' },
       { n: 'E.04', text: 'One (1) registration per human. No aliasing. Teams of up to four (4) humans permitted.' },
-      { n: 'E.05', text: 'International finalists are responsible for their own visas and passports. We can write an invitation letter — email weird@only-works.com.' },
     ],
   },
   {
@@ -25,7 +24,7 @@ const SECTIONS: Section[] = [
     label: 'Build window',
     title: 'When work counts',
     rules: [
-      { n: 'W.01', text: <>Build window opens at <strong>18 Jun 2026 · 09:00 ET</strong>. Anything committed before that timestamp does not count. 48 hours total — clock does not stop for sleep.</> },
+      { n: 'W.01', text: <>Build window opens at <strong>19 Jun 2026 · 09:00 ET</strong>. Anything committed before that timestamp does not count. 24 hours total — clock does not stop for sleep.</> },
       { n: 'W.02', text: <>Submissions <em style={{ fontStyle: 'normal', color: 'var(--ow-red)' }}>open</em> at 19 Jun · 17:00 ET. You may keep building after this; you may also publish early to lock in.</> },
       { n: 'W.03', text: <>Submissions <em style={{ fontStyle: 'normal', color: 'var(--ow-red)' }}>soft-close</em> at 20 Jun · 08:30 ET. You can keep editing your README after this. Nothing else.</> },
       { n: 'W.04', text: <>Submissions <em style={{ fontStyle: 'normal', color: 'var(--ow-red)' }}>hard-close</em> at 20 Jun · 09:00 ET. The submit button stops working. The door, as they say, is locked from the outside.</> },
@@ -39,7 +38,7 @@ const SECTIONS: Section[] = [
     title: 'About your robot co-author',
     rules: [
       { n: 'A.01', text: 'AI assistance is allowed and encouraged. Use Claude, Codex, Copilot, an evil oracle made of dice, whatever helps.' },
-      { n: 'A.02', text: <>AI as <em style={{ fontStyle: 'normal', color: 'var(--ow-ink)' }}>collaborator</em> = good. AI as <em style={{ fontStyle: 'normal', color: 'var(--ow-red)' }}>sole author</em> = ineligible. You must be able to explain your project, in person at the NYC finals, without it.</> },
+      { n: 'A.02', text: <>AI as <em style={{ fontStyle: 'normal', color: 'var(--ow-ink)' }}>collaborator</em> = good. AI as <em style={{ fontStyle: 'normal', color: 'var(--ow-red)' }}>sole author</em> = ineligible. You must be able to explain your project, live on the finals stream, without it.</> },
       { n: 'A.03', text: 'Projects whose entire premise is "what if an LLM did the thing" are eligible only in the Cursed and Theatre tracks.' },
       { n: 'A.04', text: 'Disclose AI usage in your README. One short paragraph. Judges enjoy honesty more than they enjoy purity.' },
       { n: 'A.05', text: 'We will not run AI detectors on your code. We trust you. We will, however, ask you to explain it.' },
@@ -63,8 +62,8 @@ const SECTIONS: Section[] = [
     label: 'Judging',
     title: 'How we decide',
     rules: [
-      { n: 'J.01', text: <>The judging panel — OnlyWorks in-house plus guest judges — stays anonymous until kickoff, 18 Jun. <span style={{ color: 'var(--ow-ink-3)' }}>(Builds suspense. Also discourages bribery.)</span></> },
-      { n: 'J.02', text: 'Judging happens in two rounds: (1) async over the Loom + repo; (2) in-person demo at the NYC finals for the eight (8) finalists. Finalists who want to present MUST attend in person — no remote demo backup.' },
+      { n: 'J.01', text: <>The judging panel — OnlyWorks in-house plus guest judges — stays anonymous until kickoff, 19 Jun. <span style={{ color: 'var(--ow-ink-3)' }}>(Builds suspense. Also discourages bribery.)</span></> },
+      { n: 'J.02', text: 'Judging happens in two rounds: (1) async over the Loom + repo; (2) live demo on the finals stream for the eight (8) finalists. Finalists who want to present MUST demo live — no pre-recorded backup.' },
       { n: 'J.03', text: 'Rubric (out of 100): committed weirdness (35), craft (25), demoability (20), narrative (10), surprise (10). The rubric is a guide. The rubric does not vote.' },
       { n: 'J.04', text: 'Judges may dock points for: shock-value-as-substance, copying a previous ONLYHACKS for the ONLYWEIRD project, projects that punch down, or projects whose only weird is "I used an LLM".' },
       { n: 'J.05', text: "People's Choice is decided by public vote on submissions during the day of finals. One vote per Discord-verified attendee. Ballot stuffing is detected, mocked, and discarded." },
@@ -73,16 +72,15 @@ const SECTIONS: Section[] = [
   },
   {
     id: 'conduct',
-    label: 'Conduct & venue',
+    label: 'Conduct',
     title: 'How to be a person',
     rules: [
-      { n: 'C.01', text: 'No harassment of any kind. No slurs, no targeted abuse, no "ironic" cruelty. This includes chat, DMs, demos, and the NYC venue.' },
+      { n: 'C.01', text: 'No harassment of any kind. No slurs, no targeted abuse, no "ironic" cruelty. This includes chat, DMs, demos, and the finals stream.' },
       { n: 'C.02', text: 'No shock-value-as-substance: gratuitous gore, fake violence, sexual content, self-harm content. Weird is one thing; ugly is another.' },
       { n: 'C.03', text: 'Projects that target individuals, harass real people, scrape private data, or deepfake identifiable humans are ineligible.' },
       { n: 'C.04', text: 'Discord is moderated. Moderators are friendly. They will also boot you, swiftly and without ceremony, for any of the above.' },
-      { n: 'C.05', text: 'Finals venue is a private NYC space. Address shared with finalists alongside the 13:00 ET announcement on 20 Jun. Attendance is by RSVP only.' },
-      { n: 'C.06', text: 'The venue is sober-friendly. There is a bar (after demos). There is also seltzer. Nobody will pressure you either way.' },
-      { n: 'C.07', text: 'Venue is wheelchair-accessible. Captioning is available on request — tell us in your registration form.' },
+      { n: 'C.05', text: 'Finals stream link shared with finalists and registered builders alongside the 13:00 ET announcement on 20 Jun.' },
+      { n: 'C.06', text: 'Captioning on the finals stream is available on request — email weird@only-works.com.' },
     ],
   },
   {
@@ -94,7 +92,7 @@ const SECTIONS: Section[] = [
       { n: 'O.02', text: 'By submitting, you grant OnlyWorks a non-exclusive license to display your project (title, blurb, Loom, screenshots) on the ONLYHACKS for the ONLYWEIRD Hall of Weird, our newsletter, and our social channels.' },
       { n: 'O.03', text: 'You can request removal of your project from the Hall of Weird at any time. We will honour that within 7 days.' },
       { n: 'O.04', text: 'OnlyWorks verification metadata about your project is owned by you, not by OnlyWorks. You may take it with you.' },
-      { n: 'O.05', text: 'Sponsor prizes (cash, OW Pro accounts) are awarded directly to the winner with no IP exchange. Sponsors do not get to own a piece of your project.' },
+      { n: 'O.05', text: 'Sponsor prizes are awarded directly to the winner with no IP exchange. Sponsors do not get to own a piece of your project.' },
     ],
   },
   {
@@ -114,11 +112,11 @@ const SECTIONS: Section[] = [
 const FAQ: { q: string; a: React.ReactNode }[] = [
   {
     q: 'How much does it cost to enter?',
-    a: "Zero dollars to enter. We cover Discord, video hosting, OW Pro for attendees, and the NYC venue. Travel and lodging for the NYC finals are on you — if travel is the only thing standing between you and the door, email weird@only-works.com and we'll see what we can do.",
+    a: "Zero dollars to enter. We cover Discord, video hosting, and the finals stream. The whole thing happens online — no travel, no lodging, no excuses.",
   },
   {
     q: 'Can I enter from outside the US?',
-    a: 'Yes for the build window (entirely async, run from wherever you live). But the finals are in person in NYC. If you want to present and win, you must be physically present in NYC on 20 Jun. No remote demo backup.',
+    a: 'Yes — the whole event is online, build window and finals both. Build from wherever you live; demo from the same chair.',
   },
   {
     q: 'Do I need an OnlyWorks account?',
@@ -138,11 +136,11 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
   },
   {
     q: 'What if I drop out halfway?',
-    a: 'No penalty. You keep your OW Pro account, your Discord invite, and our affection. Please email so we can plan headcount.',
+    a: 'No penalty. You keep your Discord invite and our affection. Please email so we can plan headcount.',
   },
   {
     q: 'Will there be a waitlist?',
-    a: "Only if we hit capacity. If a cap kicks in, we'll announce it here before it matters — and we'll always email before clearing slots.",
+    a: 'No. The event is fully online and free — there is no room to fill. Register and you are in.',
   },
   {
     q: 'Do you have a code of conduct?',
@@ -166,7 +164,7 @@ export default function RulesPage() {
               letterSpacing: '0.22em', textTransform: 'uppercase',
               color: 'var(--ow-ink-3)',
             }}>↩ Index</Link>
-            <span className="ow-stamp ow-stamp-tilt-r">Rules v1 · Effective 2026-06-04</span>
+            <span className="ow-stamp ow-stamp-tilt-r">Rules v2 · Effective 2026-06-12</span>
           </div>
 
           <div style={{

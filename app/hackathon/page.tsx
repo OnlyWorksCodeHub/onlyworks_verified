@@ -58,12 +58,12 @@ const COMMANDMENTS = [
 ]
 
 const TIMELINE = [
-  { n: '01', date: 'Thu · 18 Jun', time: '09:00 ET', head: 'Kickoff stream',     body: 'Theme reveal, sponsor toast, judges introduced. 48-hour clock starts.' },
-  { n: '02', date: 'Thu → Sat',    time: 'Async',    head: 'Build window',       body: '48 hours. Ship something. Anything. Preferably weird.' },
-  { n: '03', date: 'Fri · 19 Jun', time: '10:00 ET', head: 'Mid-build sync',     body: 'Live check-in stream. Show your scaffold, your first crime.' },
-  { n: '04', date: 'Sat · 20 Jun', time: '09:00 ET', head: 'Submissions close',  body: 'The door is locked from the outside. 48 hours up.' },
-  { n: '05', date: 'Sat · 20 Jun', time: '13:00 ET', head: 'Finalists announced', body: 'Eight (8) projects called up. Get to NYC if you can.' },
-  { n: '06', date: 'Sat · 20 Jun', time: '17:00 ET', head: 'In-person finals',   body: 'An unmarked door in NYC. Demos. Judging. Trophies. Weeping.' },
+  { n: '01', date: 'Fri · 19 Jun', time: '09:00 ET', head: 'Kickoff stream',     body: 'Theme reveal, sponsor toast, judges introduced. 24-hour clock starts.' },
+  { n: '02', date: 'Fri → Sat',    time: 'Async',    head: 'Build window',       body: '24 hours. Ship something. Anything. Preferably weird.' },
+  { n: '03', date: 'Fri · 19 Jun', time: '21:00 ET', head: 'Mid-build sync',     body: 'Live check-in stream. Show your scaffold, your first crime.' },
+  { n: '04', date: 'Sat · 20 Jun', time: '09:00 ET', head: 'Submissions close',  body: 'The door is locked from the outside. 24 hours up.' },
+  { n: '05', date: 'Sat · 20 Jun', time: '13:00 ET', head: 'Finalists announced', body: 'Eight (8) projects called up. Demo from wherever you are.' },
+  { n: '06', date: 'Sat · 20 Jun', time: '17:00 ET', head: 'Live finals',        body: 'An unmarked URL. Demos. Judging. Trophies. Weeping.' },
 ]
 
 const TRACKS = [
@@ -95,12 +95,12 @@ const TRACKS = [
 
 const RULES_PEEK = [
   'Solo builders welcome. Teams of up to four (4) humans.',
-  'Build window opens 18 Jun 09:00 ET. Nothing made before that counts. 48 hours, hard.',
+  'Build window opens 19 Jun 09:00 ET. Nothing made before that counts. 24 hours, hard.',
   'AI assistance: fine. AI submitted on its own behalf: not fine.',
   'No harassment. No harm. No shock-value-as-substance.',
   'Open source everything you ship (license your choice).',
   'One (1) Loom-style demo, three minutes max, mandatory.',
-  'Finalists who want to present MUST be in NYC on 20 Jun. No remote demo backup.',
+  'Finalists demo live on the finals stream, 20 Jun. No pre-recorded backup.',
   "Judges' decisions are final. Unless funny — then extra-final.",
 ]
 
@@ -120,7 +120,7 @@ export default function HackathonLanding() {
             alignItems: 'center', gap: 16, marginBottom: 36,
           }}>
             <span className="ow-stamp ow-stamp-wobble">◆ Verified Weird</span>
-            <span className="ow-label ow-label-mute">§ 00 — Edition One · One Weekend · One Door</span>
+            <span className="ow-label ow-label-mute">§ 00 — Edition One · One Day · One URL</span>
           </div>
 
           {/* huge wordmark */}
@@ -187,7 +187,7 @@ export default function HackathonLanding() {
           >
             <div>
               <p className="lede" style={{ maxWidth: 620 }}>
-                An OnlyWorks hackathon for builders who would rather <span className="ow-ink-underline">ship the joke</span> than slide-deck the empire. <strong>48 hours</strong>, async, on your own machine. Then on June 20th the finalists walk through an unmarked door in NYC and demo to a room full of strangers. Finalists who want to present <strong>must</strong> be there in person.
+                An OnlyWorks hackathon for builders who would rather <span className="ow-ink-underline">ship the joke</span> than slide-deck the empire. <strong>24 hours</strong>, async, on your own machine. Then on June 20th the finalists step through an unmarked URL and demo live to a stream full of strangers. Fully online — <strong>present from wherever the weird happens</strong>.
               </p>
 
               <div style={{
@@ -198,11 +198,11 @@ export default function HackathonLanding() {
                 letterSpacing: '0.16em', textTransform: 'uppercase',
                 color: 'var(--ow-ink)',
               }}>
-                <span>Thu 18 — Sat 20 Jun ’26</span>
+                <span>Fri 19 — Sat 20 Jun ’26</span>
                 <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
-                <span>48 hours async</span>
+                <span>24 hours async</span>
                 <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
-                <span>In-person finals · NYC</span>
+                <span>Live finals · fully online</span>
                 <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
                 <span style={{ color: 'var(--ow-red)' }}>door reveal 20 Jun</span>
               </div>
@@ -230,7 +230,7 @@ export default function HackathonLanding() {
                 fontSize: '0.875rem', color: 'var(--ow-ink-2)',
                 paddingTop: 14, borderTop: '1px solid var(--ow-ink)',
               }}>
-                Anchored to <strong style={{ color: 'var(--ow-ink)' }}>18 Jun · 09:00 ET</strong>. Your local clock may drift; that is your problem and also a beautiful weakness.
+                Anchored to <strong style={{ color: 'var(--ow-ink)' }}>19 Jun · 09:00 ET</strong>. Your local clock may drift; that is your problem and also a beautiful weakness.
               </p>
             </aside>
           </div>
@@ -358,11 +358,11 @@ export default function HackathonLanding() {
               <hr className="ow-rule" style={{ marginBottom: 18 }} />
 
               {[
-                ['Window',       <span key="w"><strong>18 Jun</strong> → <strong>20 Jun ’26</strong></span>],
-                ['Format',       '48-hour build + in-person NYC finals'],
-                ['Finals',       <span key="f">New York City — <span style={{ color: 'var(--ow-red)' }}>door reveal 20 Jun</span></span>],
+                ['Window',       <span key="w"><strong>19 Jun</strong> → <strong>20 Jun ’26</strong></span>],
+                ['Format',       '24-hour build + live online finals'],
+                ['Finals',       <span key="f">Fully online — <span style={{ color: 'var(--ow-red)' }}>URL reveal 20 Jun</span></span>],
                 ['Team size',    '1 – 4 humans'],
-                ['Cost',         '$0 to enter · Pro accounts comped'],
+                ['Cost',         '$0 to enter'],
                 ['Judges',       'Announced at kickoff'],
                 ['Stream',       'Links at kickoff'],
                 ['Presented by', 'OnlyWorks × Orbis'],
@@ -393,12 +393,12 @@ export default function HackathonLanding() {
         `}</style>
       </section>
 
-      {/* ═══════════ §03 — the week ═══════════ */}
+      {/* ═══════════ §03 — the 24 ═══════════ */}
       <section className="ow-section">
         <div className="ow-container">
-          <SectionMark index="03" kicker="The 48" />
+          <SectionMark index="03" kicker="The 24" />
           <h2 style={{ marginTop: 18 }}>
-            48 hours.<br />
+            24 hours.<br />
             <span style={{ color: 'var(--ow-red)' }}>One weird.</span>
           </h2>
 
@@ -575,7 +575,7 @@ export default function HackathonLanding() {
               paddingLeft: 18,
             }}
           >
-            $500 cash, lifetime OnlyWorks Pro, 1:1 time with the judges, a permanent feature, and a trophy you&apos;ll keep on your desk. That&apos;s the grand prize — announced end of July. Below, the full tree — including this year&apos;s judge-named awards.
+            $500 cash, 1:1 time with the judges, a permanent feature, and a trophy you&apos;ll keep on your desk. That&apos;s the grand prize — announced end of July. Below, the full tree — including this year&apos;s judge-named awards.
           </p>
 
           {/* GRAND PRIZE — big editorial block */}
@@ -630,7 +630,6 @@ export default function HackathonLanding() {
 
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 12 }}>
                 {[
-                  'OnlyWorks Pro · lifetime',
                   'Mentorship from the judging panel · details confirmed at kickoff',
                   'Feature on OnlyWorks.com homepage',
                   'Permanent "Verified Weird ’26" badge on your OnlyWorks profile',
@@ -681,7 +680,6 @@ export default function HackathonLanding() {
                   fontSize: '0.8125rem', color: 'rgba(241,236,226,0.78)',
                   display: 'grid', gap: 4,
                 }}>
-                  <li>+ OnlyWorks Pro · 2yr</li>
                   <li>+ Mentorship intro from a panel judge</li>
                   <li>+ Permanent Hall of Weird placement</li>
                   <li>+ Trophy: {trophy}</li>
@@ -698,8 +696,8 @@ export default function HackathonLanding() {
             marginTop: 16,
           }}>
             {[
-              ["People's Choice",   'Crowd-voted · the audience’s favourite weird build', ['OnlyWorks Pro · 1yr', 'Full newsletter spotlight (interview)', 'Swag pack', 'Trophy: a half-eaten sticker']],
-              ['Honourable Mention', 'For the builds that earned a knowing nod from the panel', ['OnlyWorks Pro · 1yr', 'A sticker. Just the one.']],
+              ["People's Choice",   'Crowd-voted · the audience’s favourite weird build', ['Full newsletter spotlight (interview)', 'Swag pack', 'Trophy: a half-eaten sticker']],
+              ['Honourable Mention', 'For the builds that earned a knowing nod from the panel', ['A sticker. Just the one.', 'Bragging rights, notarised informally.']],
             ].map(([label, blurb, perks]) => (
               <article key={label as string} style={{ border: '1px dashed rgba(241,236,226,0.45)', padding: 22, background: 'transparent' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
@@ -773,7 +771,7 @@ export default function HackathonLanding() {
             fontFamily: "'Big Shoulders Display', sans-serif",
             fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase',
           }}>
-            * Grand prize winner announced end of July; cash paid in USD via Stripe within 30 days of the announcement. Trophies hand-delivered or hand-mailed. Mentorship sessions scheduled by the OnlyWorks team in the two weeks after finals.
+            * Grand prize winner announced end of July; cash paid in USD via Stripe within 30 days of the announcement. Trophies hand-mailed worldwide. Mentorship sessions scheduled by the OnlyWorks team in the two weeks after finals.
           </p>
         </div>
 
@@ -930,7 +928,7 @@ export default function HackathonLanding() {
             <span style={{ color: 'var(--ow-red)' }}>verified weird?</span>
           </h2>
           <p className="lede" style={{ maxWidth: 580, margin: '32px auto 0' }}>
-            Registration is one form, one minute, zero cost. You can drop out the moment things get uncomfortable. You will not. We&apos;ll see you on the 18th.
+            Registration is one form, one minute, zero cost. You can drop out the moment things get uncomfortable. You will not. We&apos;ll see you on the 19th.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, justifyContent: 'center', marginTop: 36 }}>
             <Link href="/hackathon/register" className="ow-btn ow-btn-primary no-underline" style={{ padding: '20px 28px', fontSize: '0.9375rem' }}>

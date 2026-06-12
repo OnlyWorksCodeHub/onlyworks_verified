@@ -63,7 +63,7 @@ export function HackathonFooter() {
               lineHeight: 1.55,
               margin: 0,
             }}>
-              ONLYHACKS for the ONLYWEIRD ’26 is a 48-hour hackathon hosted by OnlyWorks, co-hosted with{' '}
+              ONLYHACKS for the ONLYWEIRD ’26 is a 24-hour online hackathon hosted by OnlyWorks, co-hosted with{' '}
               <a
                 href="https://auto-pm-theta.vercel.app"
                 target="_blank"
@@ -76,7 +76,7 @@ export function HackathonFooter() {
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: '0 100%',
                 }}
-              >Orbis, by Gryffin</a>, for builders who would rather ship the joke. 18 — 20 June 2026. An unmarked door in NYC.
+              >Orbis, by Gryffin</a>, for builders who would rather ship the joke. 19 — 20 June 2026. Fully online, behind an unmarked URL.
             </p>
           </div>
         </div>

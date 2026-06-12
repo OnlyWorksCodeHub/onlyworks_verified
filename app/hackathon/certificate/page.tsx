@@ -20,7 +20,7 @@ const SAMPLE = {
   judge:       '[Guest Judge]',
   category:    'Cursed Technology',
   date:        '20 JUNE 2026',
-  location:    'New York City · ◌',
+  location:    'The Internet · ◌',
   serial:      'OW-WEIRD-3F2A',
   hash:        '[hash]',
   verifyUrl:   'only-works.com/verify/[hash]',
@@ -113,7 +113,7 @@ export default function CertificatePage() {
               <header className="cert-top">
                 <div className="cert-top-l">
                   <div className="cert-top-mark">ONLYHACKS for the ONLYWEIRD &apos;26</div>
-                  <div className="cert-top-sub">Issue Nº 00026 · 48 hours, one weird.</div>
+                  <div className="cert-top-sub">Issue Nº 00026 · 24 hours, one weird.</div>
                 </div>
                 <div className="cert-top-r">
                   <div className="cert-top-mark" style={{ color: 'var(--ow-red)' }}>◆ Verified Weird</div>
