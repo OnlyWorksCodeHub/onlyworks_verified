@@ -26,6 +26,7 @@ interface FormState {
   email: string
   owId: string
   github: string
+  discord: string
   blurb: string
   team: 'solo' | 'team'
   teamName: string
@@ -35,7 +36,7 @@ interface FormState {
 }
 
 const INITIAL: FormState = {
-  name: '', email: '', owId: '', github: '', blurb: '',
+  name: '', email: '', owId: '', github: '', discord: '', blurb: '',
   team: 'solo', teamName: '',
   attending: 'maybe', referrer: '',
   agree: false,
@@ -188,6 +189,45 @@ export default function RegisterPage() {
     setMode('idle')
   }
 
+  function focusField(id: string) {
+    const el = document.getElementById(id)
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    el.focus({ preventScroll: true })
+  }
+
+  // The four stamps that unlock the submit button. Single source of truth
+  // for both the stamp card and the button's disabled state.
+  const emailVerified = emailStatus.kind === 'verified' && emailStatus.verifiedEmail === form.email.trim().toLowerCase()
+  const stamps = [
+    {
+      key: 'name', label: 'Name',
+      done: !!form.name.trim(),
+      hint: 'add your name',
+      target: 'reg-field-name',
+    },
+    {
+      key: 'owid', label: 'OW ID',
+      done: !!form.owId.trim() && owStatus.kind !== 'invalid' && owStatus.kind !== 'checking',
+      hint: owStatus.kind === 'checking' ? 'checking…' : owStatus.kind === 'invalid' ? 'fix your OW ID' : 'paste your OW ID',
+      target: 'reg-field-owid',
+    },
+    {
+      key: 'email', label: 'Email verified',
+      done: emailVerified,
+      hint: form.email.trim() ? 'enter the 6-digit code' : 'add + verify your email',
+      target: 'reg-field-email',
+    },
+    {
+      key: 'rules', label: 'Rules agreed',
+      done: form.agree,
+      hint: 'tick the box',
+      target: 'reg-field-agree',
+    },
+  ]
+  const stamped = stamps.filter(s => s.done).length
+  const blocked = stamped < stamps.length
+
   if (mode === 'intro') {
     return <IntroGate onContinue={dismissIntro} />
   }
@@ -287,6 +327,7 @@ export default function RegisterPage() {
           <div style={{ padding: 32, display: 'grid', gap: 28 }}>
             <Row label="Full name" hint="How it appears on your verified-weird badge. Real or chosen, both fine.">
               <input
+                id="reg-field-name"
                 type="text"
                 required
                 className="ow-input"
@@ -316,6 +357,7 @@ export default function RegisterPage() {
                   letterSpacing: '0.05em',
                 }}>OW-</span>
                 <input
+                  id="reg-field-owid"
                   type="text"
                   required
                   className="ow-input"
@@ -347,28 +389,29 @@ export default function RegisterPage() {
               )}
             </Row>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28 }} className="ow-form-pair">
-              <Row label="Email" hint="Required + verified. We send invites + the NYC venue address here.">
-                <input
-                  type="email"
-                  required
-                  className="ow-input"
-                  placeholder="you@somewhere.weird"
-                  value={form.email}
-                  onChange={e => update('email', e.target.value)}
-                  autoComplete="email"
-                  aria-invalid={emailStatus.kind === 'error'}
-                />
-                <EmailVerifyControls
-                  email={form.email}
-                  status={emailStatus}
-                  code={emailCode}
-                  setCode={setEmailCode}
-                  onSend={sendEmailCode}
-                  onVerify={verifyEmailCode}
-                />
-              </Row>
+            <Row label="Email" hint="Required + verified. We send invites + the NYC venue address here.">
+              <input
+                id="reg-field-email"
+                type="email"
+                required
+                className="ow-input"
+                placeholder="you@somewhere.weird"
+                value={form.email}
+                onChange={e => update('email', e.target.value)}
+                autoComplete="email"
+                aria-invalid={emailStatus.kind === 'error'}
+              />
+              <EmailVerifyControls
+                email={form.email}
+                status={emailStatus}
+                code={emailCode}
+                setCode={setEmailCode}
+                onSend={sendEmailCode}
+                onVerify={verifyEmailCode}
+              />
+            </Row>
 
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28 }} className="ow-form-pair">
               <Row label="GitHub" hint="Optional. Used only to verify your build is yours.">
                 <div style={{ display: 'flex', alignItems: 'baseline', borderBottom: '2px solid var(--ow-ink)' }}>
                   <span style={{
@@ -382,6 +425,24 @@ export default function RegisterPage() {
                     placeholder="your-handle"
                     value={form.github}
                     onChange={e => update('github', e.target.value.replace(/^@+/, ''))}
+                  />
+                </div>
+              </Row>
+
+              <Row label="Discord" hint="Optional but smart. This is the handle we pull into the ONLYWEIRD Discord before kickoff.">
+                <div style={{ display: 'flex', alignItems: 'baseline', borderBottom: '2px solid var(--ow-ink)' }}>
+                  <span style={{
+                    paddingRight: 10, fontSize: '1.0625rem',
+                    color: 'var(--ow-ink-3)', fontWeight: 500,
+                  }}>@</span>
+                  <input
+                    type="text"
+                    className="ow-input"
+                    style={{ border: 'none', padding: '14px 0' }}
+                    placeholder="yourhandle"
+                    value={form.discord}
+                    onChange={e => update('discord', e.target.value.replace(/^@+/, ''))}
+                    autoComplete="off"
                   />
                 </div>
               </Row>
@@ -508,6 +569,7 @@ export default function RegisterPage() {
               }}
             >
               <input
+                id="reg-field-agree"
                 type="checkbox"
                 checked={form.agree}
                 onChange={e => update('agree', e.target.checked)}
@@ -526,6 +588,84 @@ export default function RegisterPage() {
 
             <hr className="ow-rule" />
 
+            {/* stamp card — the four gates between you and the button */}
+            <div
+              role="status"
+              aria-label={`${stamped} of ${stamps.length} requirements complete`}
+              style={{
+                border: blocked ? '2px solid var(--ow-ink)' : '2px solid var(--ow-red)',
+                background: blocked ? 'var(--ow-paper-warm)' : 'var(--ow-red-pale)',
+                padding: '18px 20px',
+              }}
+            >
+              <div style={{
+                display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
+                flexWrap: 'wrap', gap: 10, marginBottom: 14,
+              }}>
+                <span className="ow-label" style={{ color: blocked ? 'var(--ow-ink)' : 'var(--ow-red)' }}>
+                  Stamp card · {stamped} / {stamps.length}
+                </span>
+                <span className="ow-label ow-label-mute">
+                  {blocked ? 'All four stamps unlock the button — tap a missing one' : '◆ Fully stamped. Send it.'}
+                </span>
+              </div>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+                gap: 10,
+              }}>
+                {stamps.map((s, i) => s.done ? (
+                  <div
+                    key={s.key}
+                    style={{
+                      border: '2px solid var(--ow-red)',
+                      color: 'var(--ow-red)',
+                      background: 'var(--ow-paper)',
+                      padding: '12px 14px',
+                      transform: i % 2 ? 'rotate(0.7deg)' : 'rotate(-0.7deg)',
+                    }}
+                  >
+                    <div style={{
+                      fontFamily: "'Big Shoulders Display', sans-serif",
+                      fontWeight: 900, fontSize: '0.9375rem',
+                      letterSpacing: '0.12em', textTransform: 'uppercase',
+                    }}>
+                      ◆ {s.label}
+                    </div>
+                    <div className="ow-label ow-label-mute" style={{ marginTop: 4 }}>stamped</div>
+                  </div>
+                ) : (
+                  <button
+                    key={s.key}
+                    type="button"
+                    onClick={() => focusField(s.target)}
+                    style={{
+                      border: '2px dashed var(--ow-ink-3)',
+                      background: 'transparent',
+                      color: 'var(--ow-ink-2)',
+                      padding: '12px 14px',
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <div style={{
+                      fontFamily: "'Big Shoulders Display', sans-serif",
+                      fontWeight: 900, fontSize: '0.9375rem',
+                      letterSpacing: '0.12em', textTransform: 'uppercase',
+                    }}>
+                      ◇ {s.label}
+                    </div>
+                    <div style={{
+                      marginTop: 4, fontSize: '0.8125rem',
+                      color: 'var(--ow-red)', fontWeight: 600,
+                    }}>
+                      → {s.hint}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div style={{
               display: 'flex', justifyContent: 'space-between', alignItems: 'center',
               flexWrap: 'wrap', gap: 14,
@@ -533,40 +673,17 @@ export default function RegisterPage() {
               <div className="ow-label ow-label-mute">
                 Builder &ldquo;{form.name || '—'}&rdquo;
               </div>
-              {(() => {
-                const emailVerified = emailStatus.kind === 'verified' && emailStatus.verifiedEmail === form.email.trim().toLowerCase()
-                const missing = [
-                  !form.name && 'your name',
-                  !form.email && 'your email',
-                  !!form.email && !emailVerified && 'verify your email (6-digit code)',
-                  !form.owId && 'your OW ID',
-                  owStatus.kind === 'invalid' && 'a valid OW ID',
-                  !form.agree && 'the rules checkbox',
-                ].filter(Boolean) as string[]
-                const blocked = missing.length > 0 || owStatus.kind === 'checking'
-                return (
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
-                    <button
-                      type="submit"
-                      className="ow-btn ow-btn-primary no-underline"
-                      disabled={blocked}
-                      style={{
-                        opacity: blocked ? 0.4 : 1,
-                        cursor: blocked ? 'not-allowed' : 'pointer',
-                      }}
-                    >
-                      Submit registration →
-                    </button>
-                    {blocked && (
-                      <div className="ow-label ow-label-mute" style={{ textAlign: 'right', maxWidth: 340 }}>
-                        {owStatus.kind === 'checking'
-                          ? 'Checking your OW ID…'
-                          : `Unlocks after: ${missing.join(' · ')}`}
-                      </div>
-                    )}
-                  </div>
-                )
-              })()}
+              <button
+                type="submit"
+                className="ow-btn ow-btn-primary no-underline"
+                disabled={blocked}
+                style={{
+                  opacity: blocked ? 0.4 : 1,
+                  cursor: blocked ? 'not-allowed' : 'pointer',
+                }}
+              >
+                Submit registration →
+              </button>
             </div>
 
             {submitError && (

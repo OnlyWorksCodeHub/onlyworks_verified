@@ -126,19 +126,27 @@ export async function POST(request: NextRequest) {
     }
 
     const serial = makeSerial()
-    const { error: insertError } = await supabase.from('hackathon_registrations').insert({
+    const row: Record<string, unknown> = {
       name,
       email,
       ow_id: `OW-${normalised}`,
       ow_verified: lookup.found,
-      github: String(body.github ?? '').trim() || null,
+      github: String(body.github ?? '').trim().replace(/^@+/, '').slice(0, 64) || null,
+      discord: String(body.discord ?? '').trim().replace(/^@+/, '').slice(0, 64) || null,
       blurb: String(body.blurb ?? '').trim().slice(0, 280) || null,
       team: body.team === 'team' ? 'team' : 'solo',
       team_name: String(body.teamName ?? '').trim() || null,
       attending: ['in-person', 'maybe', 'remote'].includes(body.attending) ? body.attending : 'maybe',
       referrer: String(body.referrer ?? '').trim() || null,
       serial,
-    })
+    }
+    let { error: insertError } = await supabase.from('hackathon_registrations').insert(row)
+    if (insertError && /discord/i.test(insertError.message)) {
+      // Column migration not applied yet — register anyway, drop the handle.
+      console.error('discord column missing, inserting without it:', insertError.message)
+      const { discord: _dropped, ...withoutDiscord } = row
+      ;({ error: insertError } = await supabase.from('hackathon_registrations').insert(withoutDiscord))
+    }
     if (insertError) {
       console.error('Hackathon registration insert failed:', insertError)
       return NextResponse.json(
