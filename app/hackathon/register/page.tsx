@@ -535,20 +535,36 @@ export default function RegisterPage() {
               </div>
               {(() => {
                 const emailVerified = emailStatus.kind === 'verified' && emailStatus.verifiedEmail === form.email.trim().toLowerCase()
-                const blocked = !form.agree || !form.email || !form.name || !form.owId ||
-                  owStatus.kind === 'invalid' || owStatus.kind === 'checking' || !emailVerified
+                const missing = [
+                  !form.name && 'your name',
+                  !form.email && 'your email',
+                  !!form.email && !emailVerified && 'verify your email (6-digit code)',
+                  !form.owId && 'your OW ID',
+                  owStatus.kind === 'invalid' && 'a valid OW ID',
+                  !form.agree && 'the rules checkbox',
+                ].filter(Boolean) as string[]
+                const blocked = missing.length > 0 || owStatus.kind === 'checking'
                 return (
-                  <button
-                    type="submit"
-                    className="ow-btn ow-btn-primary no-underline"
-                    disabled={blocked}
-                    style={{
-                      opacity: blocked ? 0.4 : 1,
-                      cursor: blocked ? 'not-allowed' : 'pointer',
-                    }}
-                  >
-                    Submit registration →
-                  </button>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
+                    <button
+                      type="submit"
+                      className="ow-btn ow-btn-primary no-underline"
+                      disabled={blocked}
+                      style={{
+                        opacity: blocked ? 0.4 : 1,
+                        cursor: blocked ? 'not-allowed' : 'pointer',
+                      }}
+                    >
+                      Submit registration →
+                    </button>
+                    {blocked && (
+                      <div className="ow-label ow-label-mute" style={{ textAlign: 'right', maxWidth: 340 }}>
+                        {owStatus.kind === 'checking'
+                          ? 'Checking your OW ID…'
+                          : `Unlocks after: ${missing.join(' · ')}`}
+                      </div>
+                    )}
+                  </div>
                 )
               })()}
             </div>
