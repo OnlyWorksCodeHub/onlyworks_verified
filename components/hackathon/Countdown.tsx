@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-const TARGET = new Date('2026-06-18T13:00:00Z') // 09:00 ET kickoff (UTC-4 in June)
+const TARGET = new Date('2026-06-19T13:00:00Z') // 09:00 ET kickoff 19 Jun (UTC-4 in June)
 
 function pad(n: number, w = 2) {
   return String(Math.max(0, Math.floor(n))).padStart(w, '0')

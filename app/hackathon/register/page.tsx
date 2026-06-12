@@ -5,7 +5,6 @@ import { useEffect, useState, FormEvent } from 'react'
 import { Countdown } from '@/components/hackathon/Countdown'
 
 type Mode = 'intro' | 'idle' | 'submitting' | 'done'
-type Attendance = 'in-person' | 'maybe' | 'remote'
 
 type OwIdStatus =
   | { kind: 'empty' }
@@ -30,7 +29,6 @@ interface FormState {
   blurb: string
   team: 'solo' | 'team'
   teamName: string
-  attending: Attendance
   referrer: string
   agree: boolean
 }
@@ -38,7 +36,7 @@ interface FormState {
 const INITIAL: FormState = {
   name: '', email: '', owId: '', github: '', discord: '', blurb: '',
   team: 'solo', teamName: '',
-  attending: 'maybe', referrer: '',
+  referrer: '',
   agree: false,
 }
 
@@ -389,7 +387,7 @@ export default function RegisterPage() {
               )}
             </Row>
 
-            <Row label="Email" hint="Required + verified. We send invites + the NYC venue address here.">
+            <Row label="Email" hint="Required + verified. We send invites + the finals stream link here.">
               <input
                 id="reg-field-email"
                 type="email"
@@ -501,43 +499,6 @@ export default function RegisterPage() {
                   onChange={e => update('teamName', e.target.value)}
                 />
               )}
-            </Row>
-
-            <Row label="Attending finals in NYC (20 Jun)?" hint="Finalists who want to present MUST be in NYC. No remote demo backup. This helps us plan snacks + RSVP cap.">
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }} className="ow-attend-grid">
-                {(
-                  [
-                    ['in-person', 'Planning to be in NYC'],
-                    ['maybe',     'Maybe'],
-                    ['remote',    'Building only — not presenting'],
-                  ] as const
-                ).map(([v, label]) => {
-                  const active = form.attending === v
-                  const isRed = v === 'in-person'
-                  return (
-                    <button
-                      key={v}
-                      type="button"
-                      onClick={() => update('attending', v as Attendance)}
-                      style={{
-                        padding: '14px 16px',
-                        border: `2px solid ${isRed ? 'var(--ow-red)' : 'var(--ow-ink)'}`,
-                        background: active ? (isRed ? 'var(--ow-red)' : 'var(--ow-ink)') : 'transparent',
-                        color: active ? 'var(--ow-paper)' : (isRed ? 'var(--ow-red)' : 'var(--ow-ink)'),
-                        fontFamily: "'Big Shoulders Display', sans-serif",
-                        fontWeight: 800,
-                        fontSize: '0.875rem',
-                        letterSpacing: '0.08em',
-                        textTransform: 'uppercase',
-                        textAlign: 'left',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {active ? '◆ ' : '◇ '}{label}
-                    </button>
-                  )
-                })}
-              </div>
             </Row>
 
             <Row label="How did you find us?" hint="Optional. We just like knowing.">
@@ -724,7 +685,6 @@ export default function RegisterPage() {
         <style>{`
           @media (max-width: 700px) {
             .ow-form-pair { grid-template-columns: 1fr !important; }
-            .ow-attend-grid { grid-template-columns: 1fr !important; }
           }
         `}</style>
       </div>
@@ -1077,7 +1037,7 @@ function AdmittedView({ serial, name, onAnother }: { serial: string; name: strin
         <hr className="ow-rule-fat" style={{ marginTop: 8 }} />
 
         <p className="lede" style={{ marginTop: 24, maxWidth: 660 }}>
-          {name || 'Friend'}, your seat is reserved. A confirmation with your serial is on its way to the address you provided. Discord + calendar details land by email before kickoff. If nothing shows, check spam — and tell us at <a href="mailto:weird@only-works.com" className="no-underline" style={{ color: 'var(--ow-ink)', backgroundImage: 'linear-gradient(var(--ow-ink), var(--ow-ink))', backgroundSize: '100% 2px', backgroundRepeat: 'no-repeat', backgroundPosition: '0 100%' }}>weird@only-works.com</a>.
+          {name || 'Friend'}, your slot is stamped. A confirmation with your serial is on its way to the address you provided. Discord + calendar details land by email before kickoff. If nothing shows, check spam — and tell us at <a href="mailto:weird@only-works.com" className="no-underline" style={{ color: 'var(--ow-ink)', backgroundImage: 'linear-gradient(var(--ow-ink), var(--ow-ink))', backgroundSize: '100% 2px', backgroundRepeat: 'no-repeat', backgroundPosition: '0 100%' }}>weird@only-works.com</a>.
         </p>
 
         {/* big serial card */}

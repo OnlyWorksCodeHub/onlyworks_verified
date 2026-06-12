@@ -39,43 +39,36 @@ function shiftTime(hhmm: string, tz: TZ) {
 
 const DAYS: Day[] = [
   {
-    id: 'thu-18', weekday: 'Thursday', date: '18 Jun 2026', mood: 'Kickoff · clock starts · scaffolding day',
+    id: 'fri-19', weekday: 'Friday', date: '19 Jun 2026', mood: 'Kickoff · clock starts · one-day sprint',
     events: [
       { pt: '05:30', title: 'Pre-show',                       body: 'Discord opens. Coffee opens. The stream waiting room is the lobby track.', tag: 'live' },
       { pt: '06:00', title: 'Kickoff stream',                 body: "OnlyWorks × Orbis read the manifesto. An Orbis demo. One (1) accidental swear word.", tag: 'live' },
-      { pt: '06:15', title: 'Build window begins',            body: '48-hour clock starts. Commit hashes after this point count. Previous ones do not.', tag: 'async' },
+      { pt: '06:00', title: 'Build window begins',            body: '24-hour clock starts (09:00 ET). Commit hashes after this point count. Previous ones do not.', tag: 'async' },
       { pt: '06:30', title: 'Theme reveal',                   body: 'This year there is no theme. You are the theme. It has been verified.', tag: 'live' },
       { pt: '07:00', title: 'Judge introductions',            body: 'Guest judges + the OnlyWorks panel. Each reveals their personal weird north star.', tag: 'live' },
       { pt: '07:30', title: 'Team formation',                 body: 'Discord channels by track. Solos welcome. Matchmaking bot deployed.', tag: 'optional' },
       { pt: '09:00', title: 'Office hours · OnlyWorks API',   body: 'How to wire your build to OnlyWorks for verification. Demo + Q&A.', tag: 'sponsor' },
-      { pt: '17:00', title: 'Late-shift radio',               body: 'Lo-fi stream from a stranger in a basement. Opt-in for night-builders.', tag: 'optional' },
-    ],
-  },
-  {
-    id: 'fri-19', weekday: 'Friday', date: '19 Jun 2026', mood: 'Middle day · the project starts arguing back',
-    events: [
-      { pt: '07:00', title: 'Sync-down',                       body: '15 min checkin stream. Show your scaffold, your first crime.', tag: 'live' },
-      { pt: '09:00', title: 'Office hours · vibes (open)',     body: 'Open mentor desk. Drop a question. Someone will answer. It may even help.', tag: 'optional' },
       { pt: '11:00', title: 'Craft talk · 30 min',             body: "Guest TBA — we're courting an engineer who builds joke games that ship to real app stores.", tag: 'sponsor' },
-      { pt: '14:00', title: 'Office hours · design crit',      body: 'Screenshare your UI. Receive opinions. The opinions are correct.', tag: 'sponsor' },
-      { pt: '18:00', title: 'Happy half-hour',                 body: 'Tea/beer/club-mate of your choosing. A brief, warm reminder you are nearly through.', tag: 'optional' },
+      { pt: '12:00', title: 'Office hours · design crit',      body: 'Screenshare your UI. Receive opinions. The opinions are correct.', tag: 'sponsor' },
+      { pt: '14:00', title: 'Submissions open',                body: 'Publish early to lock in (17:00 ET). You may keep building right up to the close.', tag: 'async' },
+      { pt: '18:00', title: 'Mid-build sync',                  body: '15 min checkin stream (21:00 ET). Show your scaffold, your first crime.', tag: 'live' },
       { pt: '20:00', title: 'Overnight IRC',                   body: 'A real (text-only) IRC channel opens for the all-nighter people.', tag: 'optional' },
     ],
   },
   {
-    id: 'sat-20', weekday: 'Saturday', date: '20 Jun 2026', mood: 'Submissions close · NYC finals · the door reveal',
+    id: 'sat-20', weekday: 'Saturday', date: '20 Jun 2026', mood: 'Submissions close · online finals · the URL reveal',
     events: [
-      { pt: '04:00', title: 'Last sync-down',                  body: 'Last one. Shorter than yesterday. Brace.', tag: 'live' },
+      { pt: '04:00', title: 'Last sync-down',                  body: 'Last one. Short. Brace.', tag: 'live' },
       { pt: '05:30', title: 'Submissions soft close',          body: 'Judges begin watching. You may keep editing your README. Nobody else may.', tag: 'async' },
-      { pt: '06:00', title: 'Submissions close (HARD)',        body: '48 hours up (09:00 ET). Anything pushed after this is for posterity, not points.', tag: 'async' },
-      { pt: '10:00', title: 'Finalists announced',             body: 'Eight (8) projects. Emails sent at 13:00 ET — get to NYC if you can.', tag: 'live' },
-      { pt: '12:00', title: 'Finalist call · briefing',        body: 'Finalists hop on a private call to walk through the order, the room, the rules.', tag: 'live' },
-      { pt: '14:00', title: 'Doors open · NYC finals venue',   body: "An unmarked door in NYC. Address shared with finalists and RSVP'd attendees alongside the 13:00 ET announcement.", tag: 'finals' },
-      { pt: '15:00', title: 'Demos · round 1',                 body: 'Four projects, three minutes each, ruthless Q&A. Snack budget is generous.', tag: 'finals' },
+      { pt: '06:00', title: 'Submissions close (HARD)',        body: '24 hours up (09:00 ET). Anything pushed after this is for posterity, not points.', tag: 'async' },
+      { pt: '10:00', title: 'Finalists announced',             body: 'Eight (8) projects. Emails sent at 13:00 ET — demo from wherever you are.', tag: 'live' },
+      { pt: '12:00', title: 'Finalist call · briefing',        body: 'Finalists hop on a private call to walk through the order, the stream, the rules.', tag: 'live' },
+      { pt: '14:00', title: 'Stream opens · live finals',      body: 'An unmarked URL. Link shared with finalists and registered builders alongside the 13:00 ET announcement.', tag: 'finals' },
+      { pt: '15:00', title: 'Demos · round 1',                 body: 'Four projects, three minutes each, ruthless Q&A. Bring your own snacks.', tag: 'finals' },
       { pt: '16:00', title: 'Intermission · weird tribute',    body: 'A short film honouring the projects that did not make finals. They were good.', tag: 'finals' },
       { pt: '16:30', title: 'Demos · round 2',                 body: 'The other four. The judges look tired but exhilarated. So do you.', tag: 'finals' },
-      { pt: '17:45', title: 'Judges deliberate',               body: 'The bar opens. You do not. That is for the audience.', tag: 'finals' },
-      { pt: '18:30', title: 'Awards ceremony',                 body: 'Track + secondary prizes announced; grand prize winner revealed end of July. Trophies handed out. The trophies are themselves a joke.', tag: 'finals' },
+      { pt: '17:45', title: 'Judges deliberate',               body: 'The chat stays open. Your mic does not. That is for the audience.', tag: 'finals' },
+      { pt: '18:30', title: 'Awards ceremony',                 body: 'Track + secondary prizes announced; grand prize winner revealed end of July. Trophies mailed. The trophies are themselves a joke.', tag: 'finals' },
       { pt: '19:30', title: 'After-hours weirdtape',           body: 'Open jam · open mic · open mind. Recording strongly discouraged.', tag: 'finals' },
     ],
   },
@@ -126,7 +119,7 @@ export default function SchedulePage() {
           <hr className="ow-rule-fat" style={{ marginTop: 8 }} />
 
           <p className="lede" style={{ marginTop: 24, maxWidth: 720 }}>
-            48 hours, one terminal door. All times in ET by default (NYC time) — switch zones below. <strong style={{ color: 'var(--ow-ink)' }}>Live</strong> items stream; <strong style={{ color: 'var(--ow-red)' }}>finals</strong> items happen at the NYC finals venue on 20 Jun; <strong style={{ color: 'var(--ow-ink)' }}>optional</strong> items are explicitly opt-in.
+            24 hours, one unmarked URL. All times in ET by default — switch zones below. <strong style={{ color: 'var(--ow-ink)' }}>Live</strong> items stream; <strong style={{ color: 'var(--ow-red)' }}>finals</strong> items happen on the finals stream on 20 Jun; <strong style={{ color: 'var(--ow-ink)' }}>optional</strong> items are explicitly opt-in.
           </p>
 
           {/* control bar */}

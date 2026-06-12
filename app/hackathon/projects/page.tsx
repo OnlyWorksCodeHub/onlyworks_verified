@@ -62,7 +62,7 @@ const EXEMPLARS: Exemplar[] = [
     id: '006',
     title: 'vending-oracle',
     track: 'theatre',
-    verdict: 'A real vending machine dispensing real snacks AND unsolicited career advice via a thermal printer. Built to be demoed live at the NYC finals.',
+    verdict: 'A real vending machine dispensing real snacks AND unsolicited career advice via a thermal printer. Built to be demoed live on the finals stream.',
     description: 'Picture it: insert $1.25, receive a granola bar and a sentence such as "your refactor will not save you, only joy will".',
     stack: ['esp32', 'thermal printer', 'gpt-4o-mini', 'a tired vending machine'],
   },
