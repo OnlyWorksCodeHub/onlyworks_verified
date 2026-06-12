@@ -15,7 +15,7 @@ const SECTIONS: Section[] = [
     rules: [
       { n: 'E.01', text: 'Must be 18+ on 18 Jun 2026.' },
       { n: 'E.02', text: 'Must be located in a jurisdiction where this kind of nonsense is legal. (It is, in most.)' },
-      { n: 'E.03', text: 'Employees of OnlyWorks, our judges, and our sponsors may enter but are ineligible for cash prizes.' },
+      { n: 'E.03', text: 'Employees of OnlyWorks or Orbis, our judges, and our sponsors may enter but are ineligible for cash prizes.' },
       { n: 'E.04', text: 'One (1) registration per human. No aliasing. Teams of up to four (4) humans permitted.' },
       { n: 'E.05', text: 'International finalists are responsible for their own visas and passports. We can write an invitation letter — email weird@only-works.com.' },
     ],
@@ -63,7 +63,7 @@ const SECTIONS: Section[] = [
     label: 'Judging',
     title: 'How we decide',
     rules: [
-      { n: 'J.01', text: <>Five (5) judges: three from OnlyWorks, two guest judges. Judges remain anonymous until 19 Jun · 09:00 ET. <span style={{ color: 'var(--ow-ink-3)' }}>(Builds suspense. Also discourages bribery.)</span></> },
+      { n: 'J.01', text: <>The judging panel — OnlyWorks in-house plus guest judges — stays anonymous until kickoff, 18 Jun. <span style={{ color: 'var(--ow-ink-3)' }}>(Builds suspense. Also discourages bribery.)</span></> },
       { n: 'J.02', text: 'Judging happens in two rounds: (1) async over the Loom + repo; (2) in-person demo at the NYC finals for the eight (8) finalists. Finalists who want to present MUST attend in person — no remote demo backup.' },
       { n: 'J.03', text: 'Rubric (out of 100): committed weirdness (35), craft (25), demoability (20), narrative (10), surprise (10). The rubric is a guide. The rubric does not vote.' },
       { n: 'J.04', text: 'Judges may dock points for: shock-value-as-substance, copying a previous ONLYHACKS for the ONLYWEIRD project, projects that punch down, or projects whose only weird is "I used an LLM".' },
@@ -80,7 +80,7 @@ const SECTIONS: Section[] = [
       { n: 'C.02', text: 'No shock-value-as-substance: gratuitous gore, fake violence, sexual content, self-harm content. Weird is one thing; ugly is another.' },
       { n: 'C.03', text: 'Projects that target individuals, harass real people, scrape private data, or deepfake identifiable humans are ineligible.' },
       { n: 'C.04', text: 'Discord is moderated. Moderators are friendly. They will also boot you, swiftly and without ceremony, for any of the above.' },
-      { n: 'C.05', text: 'Finals venue is a private NYC space provided by an undisclosed sponsor. Address shared with finalists at 09:00 ET on 20 Jun. Attendance is by RSVP only.' },
+      { n: 'C.05', text: 'Finals venue is a private NYC space. Address shared with finalists alongside the 13:00 ET announcement on 20 Jun. Attendance is by RSVP only.' },
       { n: 'C.06', text: 'The venue is sober-friendly. There is a bar (after demos). There is also seltzer. Nobody will pressure you either way.' },
       { n: 'C.07', text: 'Venue is wheelchair-accessible. Captioning is available on request — tell us in your registration form.' },
     ],
@@ -114,7 +114,7 @@ const SECTIONS: Section[] = [
 const FAQ: { q: string; a: React.ReactNode }[] = [
   {
     q: 'How much does it cost to enter?',
-    a: "Zero dollars to enter. We cover Discord, video hosting, OW Pro for attendees, and the NYC venue. Travel and lodging for the NYC finals are on you — we keep a small emergency travel fund if you absolutely can't otherwise make it. Email weird@only-works.com.",
+    a: "Zero dollars to enter. We cover Discord, video hosting, OW Pro for attendees, and the NYC venue. Travel and lodging for the NYC finals are on you — if travel is the only thing standing between you and the door, email weird@only-works.com and we'll see what we can do.",
   },
   {
     q: 'Can I enter from outside the US?',
@@ -138,11 +138,11 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
   },
   {
     q: 'What if I drop out halfway?',
-    a: 'No penalty. You keep your OW Pro account, your Discord invite, and our affection. Please email so we can free up your finals slot for someone on the waitlist.',
+    a: 'No penalty. You keep your OW Pro account, your Discord invite, and our affection. Please email so we can plan headcount.',
   },
   {
     q: 'Will there be a waitlist?',
-    a: 'Yes, once registrations exceed 512. Waitlist movement happens daily, and we always email before clearing slots.',
+    a: "Only if we hit capacity. If a cap kicks in, we'll announce it here before it matters — and we'll always email before clearing slots.",
   },
   {
     q: 'Do you have a code of conduct?',
@@ -166,7 +166,7 @@ export default function RulesPage() {
               letterSpacing: '0.22em', textTransform: 'uppercase',
               color: 'var(--ow-ink-3)',
             }}>↩ Index</Link>
-            <span className="ow-stamp ow-stamp-tilt-r">Rules v1 · Effective 2026-06-01</span>
+            <span className="ow-stamp ow-stamp-tilt-r">Rules v1 · Effective 2026-06-04</span>
           </div>
 
           <div style={{

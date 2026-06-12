@@ -41,11 +41,11 @@ const DAYS: Day[] = [
   {
     id: 'thu-18', weekday: 'Thursday', date: '18 Jun 2026', mood: 'Kickoff · clock starts · scaffolding day',
     events: [
-      { pt: '05:30', title: 'Pre-show',                       body: 'Discord opens. Coffee opens. Twitch waiting room is the lobby track.', tag: 'live' },
-      { pt: '06:00', title: 'Kickoff stream',                 body: "Cohosts read the manifesto. A sponsor demo. One (1) accidental swear word.", tag: 'live' },
+      { pt: '05:30', title: 'Pre-show',                       body: 'Discord opens. Coffee opens. The stream waiting room is the lobby track.', tag: 'live' },
+      { pt: '06:00', title: 'Kickoff stream',                 body: "OnlyWorks × Orbis read the manifesto. An Orbis demo. One (1) accidental swear word.", tag: 'live' },
       { pt: '06:15', title: 'Build window begins',            body: '48-hour clock starts. Commit hashes after this point count. Previous ones do not.', tag: 'async' },
       { pt: '06:30', title: 'Theme reveal',                   body: 'This year there is no theme. You are the theme. It has been verified.', tag: 'live' },
-      { pt: '07:00', title: 'Judge introductions',            body: 'Four guest judges + the OnlyWorks panel. Each reveals their personal weird north star.', tag: 'live' },
+      { pt: '07:00', title: 'Judge introductions',            body: 'Guest judges + the OnlyWorks panel. Each reveals their personal weird north star.', tag: 'live' },
       { pt: '07:30', title: 'Team formation',                 body: 'Discord channels by track. Solos welcome. Matchmaking bot deployed.', tag: 'optional' },
       { pt: '09:00', title: 'Office hours · OnlyWorks API',   body: 'How to wire your build to OnlyWorks for verification. Demo + Q&A.', tag: 'sponsor' },
       { pt: '17:00', title: 'Late-shift radio',               body: 'Lo-fi stream from a stranger in a basement. Opt-in for night-builders.', tag: 'optional' },
@@ -56,7 +56,7 @@ const DAYS: Day[] = [
     events: [
       { pt: '07:00', title: 'Sync-down',                       body: '15 min checkin stream. Show your scaffold, your first crime.', tag: 'live' },
       { pt: '09:00', title: 'Office hours · vibes (open)',     body: 'Open mentor desk. Drop a question. Someone will answer. It may even help.', tag: 'optional' },
-      { pt: '11:00', title: 'Craft talk · 30 min',             body: 'Guest: an engineer who builds joke games that ship to real app stores.', tag: 'sponsor' },
+      { pt: '11:00', title: 'Craft talk · 30 min',             body: "Guest TBA — we're courting an engineer who builds joke games that ship to real app stores.", tag: 'sponsor' },
       { pt: '14:00', title: 'Office hours · design crit',      body: 'Screenshare your UI. Receive opinions. The opinions are correct.', tag: 'sponsor' },
       { pt: '18:00', title: 'Happy half-hour',                 body: 'Tea/beer/club-mate of your choosing. A brief, warm reminder you are nearly through.', tag: 'optional' },
       { pt: '20:00', title: 'Overnight IRC',                   body: 'A real (text-only) IRC channel opens for the all-nighter people.', tag: 'optional' },
@@ -70,7 +70,7 @@ const DAYS: Day[] = [
       { pt: '06:00', title: 'Submissions close (HARD)',        body: '48 hours up (09:00 ET). Anything pushed after this is for posterity, not points.', tag: 'async' },
       { pt: '10:00', title: 'Finalists announced',             body: 'Eight (8) projects. Emails sent at 13:00 ET — get to NYC if you can.', tag: 'live' },
       { pt: '12:00', title: 'Finalist call · briefing',        body: 'Finalists hop on a private call to walk through the order, the room, the rules.', tag: 'live' },
-      { pt: '14:00', title: 'Doors open · NYC finals venue',   body: 'An unmarked door in NYC. Address shared with attendees at 09:00 ET on 20 Jun.', tag: 'finals' },
+      { pt: '14:00', title: 'Doors open · NYC finals venue',   body: "An unmarked door in NYC. Address shared with finalists and RSVP'd attendees alongside the 13:00 ET announcement.", tag: 'finals' },
       { pt: '15:00', title: 'Demos · round 1',                 body: 'Four projects, three minutes each, ruthless Q&A. Snack budget is generous.', tag: 'finals' },
       { pt: '16:00', title: 'Intermission · weird tribute',    body: 'A short film honouring the projects that did not make finals. They were good.', tag: 'finals' },
       { pt: '16:30', title: 'Demos · round 2',                 body: 'The other four. The judges look tired but exhilarated. So do you.', tag: 'finals' },
@@ -223,7 +223,7 @@ export default function SchedulePage() {
         <div className="ow-container" style={{ display: 'grid', gap: 36 }}>
           {DAYS.map((day, idx) => {
             const visible = filter === 'all' ? day.events : day.events.filter(e => e.tag === filter)
-            const isFinals = day.id === 'tue-23'
+            const isFinals = day.id === 'sat-20'
             return (
               <article
                 key={day.id}
@@ -382,7 +382,7 @@ export default function SchedulePage() {
                 <span style={{ color: 'var(--ow-red)' }}>to your calendar.</span>
               </h2>
               <p style={{ color: 'rgba(241,236,226,0.8)', marginTop: 12, maxWidth: 640 }}>
-                We email .ics invites for everything tagged <strong style={{ color: 'var(--ow-paper)' }}>live</strong> and <strong style={{ color: 'var(--ow-red)' }}>finals</strong>. <strong style={{ color: 'var(--ow-paper)' }}>Optional</strong> items stay off your calendar — opt in from the dashboard.
+                Calendar invites for everything tagged <strong style={{ color: 'var(--ow-paper)' }}>live</strong> and <strong style={{ color: 'var(--ow-red)' }}>finals</strong> land by email before kickoff. <strong style={{ color: 'var(--ow-paper)' }}>Optional</strong> items stay off your calendar unless you ask.
               </p>
             </div>
             <Link href="/hackathon/register" className="ow-btn ow-btn-primary no-underline" style={{ alignSelf: 'center' }}>

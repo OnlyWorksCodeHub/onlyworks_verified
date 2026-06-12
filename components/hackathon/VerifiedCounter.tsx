@@ -3,28 +3,47 @@
 import { useEffect, useRef, useState } from 'react'
 
 interface VerifiedCounterProps {
-  base?: number
   label?: string
 }
 
+const POLL_MS = 60_000
+
+// Real count from /api/hackathon/stats (the hackathon_registrations table).
+// Shows a placeholder until the first fetch lands; pulses only when the
+// number actually changes.
 export function VerifiedCounter({
-  base = 273,
   label = 'Registered weird builders',
 }: VerifiedCounterProps) {
-  const [n, setN] = useState(base)
+  const [n, setN] = useState<number | null>(null)
   const [pulse, setPulse] = useState(false)
-  const t = useRef<ReturnType<typeof setInterval> | null>(null)
+  const prev = useRef<number | null>(null)
 
   useEffect(() => {
-    t.current = setInterval(() => {
-      setN(prev => Math.max(base, prev + (Math.random() > 0.6 ? 1 : 0)))
-      setPulse(true)
-      setTimeout(() => setPulse(false), 240)
-    }, 4400)
-    return () => {
-      if (t.current) clearInterval(t.current)
+    let cancelled = false
+
+    async function load() {
+      try {
+        const res = await fetch('/api/hackathon/stats')
+        const data = await res.json().catch(() => ({}))
+        if (cancelled || typeof data.registered !== 'number') return
+        setN(data.registered)
+        if (prev.current !== null && data.registered !== prev.current) {
+          setPulse(true)
+          setTimeout(() => setPulse(false), 240)
+        }
+        prev.current = data.registered
+      } catch {
+        // keep last known value
+      }
     }
-  }, [base])
+
+    load()
+    const id = setInterval(load, POLL_MS)
+    return () => {
+      cancelled = true
+      clearInterval(id)
+    }
+  }, [])
 
   return (
     <div
@@ -49,14 +68,14 @@ export function VerifiedCounter({
           transform: pulse ? 'translateY(-2px)' : 'none',
         }}
       >
-        {String(n).padStart(3, '0')}
+        {n === null ? '···' : String(n).padStart(3, '0')}
       </span>
       <div>
         <div className="ow-label" style={{ marginBottom: 6 }}>
           {label}
         </div>
         <div style={{ fontSize: '0.8125rem', color: 'var(--ow-ink-2)', lineHeight: 1.4 }}>
-          Updated every few seconds. The plural noun &ldquo;weirds&rdquo; is grammatically suspect and we are doing it anyway.
+          Counted live from the registration ledger. The plural noun &ldquo;weirds&rdquo; is grammatically suspect and we are doing it anyway.
         </div>
       </div>
     </div>

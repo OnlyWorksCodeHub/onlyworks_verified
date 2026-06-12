@@ -8,7 +8,7 @@ import Link from 'next/link'
    - Print-friendly: @media print hides chrome and shows only the cert.
    - Demonstrates the OnlyWorks verification flow (QR + hash + URL) since
      the cert is the conversion surface: any holder can be verified by
-     visiting onlyworks.com/verify/<hash>, which is the wedge that pulls
+     visiting only-works.com/verify/<hash>, which is the wedge that pulls
      non-OW users into the OW product.
    ───────────────────────────────────────────────────────────────────── */
 
@@ -16,14 +16,14 @@ const SAMPLE = {
   recipient:   'REN M. ORTEGA',
   project:     'KETTLE.SH',
   blurb:       'A bash script that boils water by curling a smart kettle.',
-  award:       'The Maya Reyes Award for Cursed Elegance',
-  judge:       'Maya Reyes',
+  award:       'The [Guest Judge] Award for Cursed Elegance',
+  judge:       '[Guest Judge]',
   category:    'Cursed Technology',
   date:        '20 JUNE 2026',
   location:    'New York City · ◌',
   serial:      'OW-WEIRD-3F2A',
-  hash:        '2f8a91c4d3e7b56a',
-  verifyUrl:   'onlyworks.com/verify/2f8a91c4d3e7b56a',
+  hash:        '[hash]',
+  verifyUrl:   'only-works.com/verify/[hash]',
 }
 
 /* Fake QR — a checkered SVG, not a real code. Wireframe only.
@@ -89,7 +89,7 @@ export default function CertificatePage() {
           <hr className="ow-rule-fat" style={{ marginTop: 8 }} />
 
           <p className="lede" style={{ marginTop: 24, maxWidth: 720 }}>
-            Every ONLYHACKS for the ONLYWEIRD &apos;26 finalist gets a verifiable digital certificate, signed by OnlyWorks. Below is the sample — same layout, your name. The QR resolves to <strong style={{ color: 'var(--ow-ink)' }}>onlyworks.com/verify/&lt;hash&gt;</strong>, which proves the cert is real and that the project ran on your machine, on your hands, in the build window.
+            Every ONLYHACKS for the ONLYWEIRD &apos;26 finalist gets a verifiable digital certificate, signed by OnlyWorks. Below is the sample — same layout, your name. The QR resolves to <strong style={{ color: 'var(--ow-ink)' }}>only-works.com/verify/&lt;hash&gt;</strong>, which proves the cert is real and that the project ran on your machine, on your hands, in the build window.
           </p>
 
           <div style={{ marginTop: 28, display: 'flex', flexWrap: 'wrap', gap: 14 }}>
@@ -117,7 +117,7 @@ export default function CertificatePage() {
                 </div>
                 <div className="cert-top-r">
                   <div className="cert-top-mark" style={{ color: 'var(--ow-red)' }}>◆ Verified Weird</div>
-                  <div className="cert-top-sub">Signed by OnlyWorks · onlyworks.com</div>
+                  <div className="cert-top-sub">Signed by OnlyWorks · only-works.com</div>
                 </div>
               </header>
 
@@ -193,7 +193,7 @@ export default function CertificatePage() {
                 <div className="cert-foot">
                   <div className="cert-sigs">
                     {[
-                      { who: 'OnlyWorks',          role: 'On behalf of OnlyWorks Inc.', name: 'N. Khanh' },
+                      { who: 'OnlyWorks',          role: 'On behalf of OnlyWorks Inc.', name: 'N. T. Oedzer' },
                       { who: SAMPLE.judge,         role: 'Lead judge for this award',   name: SAMPLE.judge },
                       { who: SAMPLE.recipient,     role: 'Recipient (and witness)',     name: SAMPLE.recipient },
                     ].map(s => (
@@ -219,7 +219,7 @@ export default function CertificatePage() {
 
               {/* bottom strip */}
               <footer className="cert-bottom">
-                <span>onlyworks.com/verify/{SAMPLE.hash}</span>
+                <span>only-works.com/verify/{SAMPLE.hash}</span>
                 <span>◆ ◌ ○</span>
                 <span>This certificate stays valid as long as the project does.</span>
               </footer>

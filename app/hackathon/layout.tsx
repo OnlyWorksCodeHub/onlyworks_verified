@@ -6,18 +6,18 @@ import { HackathonFooter } from '@/components/hackathon/HackathonFooter'
 export const metadata: Metadata = {
   title: "ONLYHACKS for the ONLYWEIRD '26.",
   description:
-    "ONLYHACKS for the ONLYWEIRD '26 is OnlyWorks' first hackathon: 48 hours async + in-person finals in NYC. Build the thing you'd never put on a resume. Prove it ran (at least once). Demo it to a stranger. June 18 — 20, 2026.",
+    "ONLYHACKS for the ONLYWEIRD '26 is OnlyWorks' first hackathon, co-hosted with Orbis: 48 hours async + in-person finals in NYC. Build the thing you'd never put on a resume. Prove it ran (at least once). Demo it to a stranger. June 18 — 20, 2026.",
   openGraph: {
     title: "ONLYHACKS for the ONLYWEIRD '26.",
     description:
-      "Build the thing you'd never put on a resume. Prove it ran (at least once). Demo it to a stranger. June 18 — 20, 2026.",
+      "Hosted by OnlyWorks × Orbis. Build the thing you'd never put on a resume. Prove it ran (at least once). Demo it to a stranger. June 18 — 20, 2026.",
     siteName: "ONLYHACKS for the ONLYWEIRD '26",
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: "ONLYHACKS for the ONLYWEIRD '26.",
-    description: 'Hosted by OnlyWorks. June 18 — 20, 2026. NYC.',
+    description: 'Hosted by OnlyWorks × Orbis. June 18 — 20, 2026. NYC.',
   },
 }
 
