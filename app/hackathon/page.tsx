@@ -53,7 +53,7 @@ const COMMANDMENTS = [
   {
     n: '03',
     head: 'Demo it to a stranger.',
-    body: 'Live, on the 23rd, to a real human who did not sign an NDA. If it survives explanation by a sleep-deprived founder, it ships into the verified-weird hall of fame.',
+    body: 'Live, on the 20th, to a real human who did not sign an NDA. If it survives explanation by a sleep-deprived founder, it ships into the verified-weird hall of fame.',
   },
 ]
 
@@ -61,7 +61,7 @@ const TIMELINE = [
   { n: '01', date: 'Thu · 18 Jun', time: '09:00 ET', head: 'Kickoff stream',     body: 'Theme reveal, sponsor toast, judges introduced. 48-hour clock starts.' },
   { n: '02', date: 'Thu → Sat',    time: 'Async',    head: 'Build window',       body: '48 hours. Ship something. Anything. Preferably weird.' },
   { n: '03', date: 'Fri · 19 Jun', time: '10:00 ET', head: 'Mid-build sync',     body: 'Live check-in stream. Show your scaffold, your first crime.' },
-  { n: '04', date: 'Sat · 20 Jun', time: '11:00 ET', head: 'Submissions close',  body: 'The door is locked from the outside. 48 hours up.' },
+  { n: '04', date: 'Sat · 20 Jun', time: '09:00 ET', head: 'Submissions close',  body: 'The door is locked from the outside. 48 hours up.' },
   { n: '05', date: 'Sat · 20 Jun', time: '13:00 ET', head: 'Finalists announced', body: 'Eight (8) projects called up. Get to NYC if you can.' },
   { n: '06', date: 'Sat · 20 Jun', time: '17:00 ET', head: 'In-person finals',   body: 'An unmarked door in NYC. Demos. Judging. Trophies. Weeping.' },
 ]
@@ -120,7 +120,7 @@ export default function HackathonLanding() {
             alignItems: 'center', gap: 16, marginBottom: 36,
           }}>
             <span className="ow-stamp ow-stamp-wobble">◆ Verified Weird</span>
-            <span className="ow-label ow-label-mute">§ 00 — Edition One · One Week · One Door</span>
+            <span className="ow-label ow-label-mute">§ 00 — Edition One · One Weekend · One Door</span>
           </div>
 
           {/* huge wordmark */}
@@ -156,6 +156,19 @@ export default function HackathonLanding() {
             color: 'var(--ow-ink-3)',
           }}>
             for the <span style={{ color: 'var(--ow-red)', fontWeight: 600 }}>onlyweird.</span>
+          </div>
+
+          {/* imprint line — co-host credit */}
+          <div style={{
+            marginTop: 12,
+            fontFamily: "'Big Shoulders Display', sans-serif",
+            fontWeight: 700,
+            fontSize: '0.75rem',
+            letterSpacing: '0.22em',
+            textTransform: 'uppercase',
+            color: 'var(--ow-ink-2)',
+          }}>
+            Hosted by OnlyWorks <span style={{ color: 'var(--ow-red)' }}>×</span> Orbis
           </div>
 
           {/* fat rule */}
@@ -350,10 +363,9 @@ export default function HackathonLanding() {
                 ['Finals',       <span key="f">New York City — <span style={{ color: 'var(--ow-red)' }}>door reveal 20 Jun</span></span>],
                 ['Team size',    '1 – 4 humans'],
                 ['Cost',         '$0 to enter · Pro accounts comped'],
-                ['Cap',          '512 builders'],
-                ['Judges',       '5 (3 in-house, 2 guests)'],
-                ['Stream',       'YouTube · Twitch · Discord'],
-                ['Presented by', 'OnlyWorks · est. 2024'],
+                ['Judges',       'Announced at kickoff'],
+                ['Stream',       'Links at kickoff'],
+                ['Presented by', 'OnlyWorks × Orbis'],
               ].map(([k, v], i, a) => (
                 <div
                   key={i}
@@ -851,6 +863,7 @@ export default function HackathonLanding() {
           >
             {[
               { role: 'Presented by', name: 'OnlyWorks', placeholder: false, feature: true },
+              { role: 'Co-hosted by', name: 'Orbis', placeholder: false, feature: true },
               { role: 'Platinum',     name: '[ your logo ]', placeholder: true },
               { role: 'Gold',         name: '[ your logo ]', placeholder: true },
               { role: 'Silver',       name: '[ your logo ]', placeholder: true },
@@ -917,7 +930,7 @@ export default function HackathonLanding() {
             <span style={{ color: 'var(--ow-red)' }}>verified weird?</span>
           </h2>
           <p className="lede" style={{ maxWidth: 580, margin: '32px auto 0' }}>
-            Registration is one form, one minute, zero cost. You can drop out the moment things get uncomfortable. You will not. We&apos;ll see you on the 16th.
+            Registration is one form, one minute, zero cost. You can drop out the moment things get uncomfortable. You will not. We&apos;ll see you on the 18th.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, justifyContent: 'center', marginTop: 36 }}>
             <Link href="/hackathon/register" className="ow-btn ow-btn-primary no-underline" style={{ padding: '20px 28px', fontSize: '0.9375rem' }}>

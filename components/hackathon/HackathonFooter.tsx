@@ -63,7 +63,20 @@ export function HackathonFooter() {
               lineHeight: 1.55,
               margin: 0,
             }}>
-              ONLYHACKS for the ONLYWEIRD ’26 is a 48-hour hackathon hosted by OnlyWorks for builders who would rather ship the joke. 18 — 20 June 2026. An unmarked door in NYC.
+              ONLYHACKS for the ONLYWEIRD ’26 is a 48-hour hackathon hosted by OnlyWorks, co-hosted with{' '}
+              <a
+                href="https://auto-pm-theta.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="no-underline"
+                style={{
+                  color: 'var(--ow-paper)',
+                  backgroundImage: 'linear-gradient(rgba(241,236,226,0.85), rgba(241,236,226,0.85))',
+                  backgroundSize: '100% 1px',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: '0 100%',
+                }}
+              >Orbis, by Gryffin</a>, for builders who would rather ship the joke. 18 — 20 June 2026. An unmarked door in NYC.
             </p>
           </div>
         </div>
@@ -91,7 +104,7 @@ export function HackathonFooter() {
               kicker: 'Contact',
               items: [
                 ['mailto:weird@only-works.com', 'weird@only-works.com'],
-                ['#', 'Discord — invite sent on register'],
+                ['#', 'Discord — invite emailed before kickoff'],
                 ['#', 'Twitter — @OnlyWorksAI'],
               ],
             },
@@ -176,7 +189,7 @@ export function HackathonFooter() {
             color: 'rgba(241,236,226,0.5)',
           }}
         >
-          <span>© 2026 ONLYWORKS INC. · ISSUE 00026 · PRESS PROOF</span>
+          <span>© 2026 ONLYWORKS INC. × ORBIS · ISSUE 00026 · PRESS PROOF</span>
           <span>Printed on the internet — please dispose responsibly</span>
         </div>
       </div>

@@ -206,7 +206,7 @@ export default function RegisterPage() {
             letterSpacing: '0.22em', textTransform: 'uppercase',
             color: 'var(--ow-ink-3)',
           }}>↩ Index</Link>
-          <span className="ow-stamp ow-stamp-tilt-r">Cap 512 · Registration open</span>
+          <span className="ow-stamp ow-stamp-tilt-r">Registration open</span>
         </div>
 
         <div style={{
@@ -228,7 +228,7 @@ export default function RegisterPage() {
         <hr className="ow-rule-fat" style={{ marginTop: 8 }} />
 
         <p className="lede" style={{ marginTop: 24, maxWidth: 660 }}>
-          One form. Zero cost. Registration is binding to the calendar invites — not to your project. You can show up, no-show, or rage-quit. All valid. Only the rage-quit gets a sticker.
+          One form. Zero cost. Registration binds you to the calendar — not to your project. You can show up, no-show, or rage-quit. All valid. Only the rage-quit gets a sticker.
         </p>
 
         <div style={{
@@ -661,7 +661,7 @@ function IntroGate({ onContinue }: { onContinue: () => void }) {
             {
               n: '03',
               head: 'You get a verifiable cert',
-              body: 'Every finalist gets a digital certificate, signed by OnlyWorks, resolvable at onlyworks.com/verify/<hash>. Recruiters, judges, future-you: anyone can confirm.',
+              body: 'Every finalist gets a digital certificate, signed by OnlyWorks, resolvable at only-works.com/verify/<hash>. Recruiters, judges, future-you: anyone can confirm.',
             },
           ].map(step => (
             <li
@@ -944,7 +944,7 @@ function AdmittedView({ serial, name, onAnother }: { serial: string; name: strin
         <hr className="ow-rule-fat" style={{ marginTop: 8 }} />
 
         <p className="lede" style={{ marginTop: 24, maxWidth: 660 }}>
-          {name || 'Friend'}, your seat is reserved. We&apos;ll email a confirmation to the address you provided. A Discord invite + calendar drops will follow within 24 hours. If neither shows, check spam — and tell us at <a href="mailto:weird@only-works.com" className="no-underline" style={{ color: 'var(--ow-ink)', backgroundImage: 'linear-gradient(var(--ow-ink), var(--ow-ink))', backgroundSize: '100% 2px', backgroundRepeat: 'no-repeat', backgroundPosition: '0 100%' }}>weird@only-works.com</a>.
+          {name || 'Friend'}, your seat is reserved. A confirmation with your serial is on its way to the address you provided. Discord + calendar details land by email before kickoff. If nothing shows, check spam — and tell us at <a href="mailto:weird@only-works.com" className="no-underline" style={{ color: 'var(--ow-ink)', backgroundImage: 'linear-gradient(var(--ow-ink), var(--ow-ink))', backgroundSize: '100% 2px', backgroundRepeat: 'no-repeat', backgroundPosition: '0 100%' }}>weird@only-works.com</a>.
         </p>
 
         {/* big serial card */}
@@ -989,8 +989,8 @@ function AdmittedView({ serial, name, onAnother }: { serial: string; name: strin
           gap: 16,
         }}>
           {[
-            ['Check inbox',     'Confirmation email + .ics invites'],
-            ['Join Discord',    'Invite link in the email'],
+            ['Check inbox',     'Confirmation email with your serial'],
+            ['Join Discord',    'Invite lands by email before kickoff'],
             ['Start thinking',  'Weird thoughts. Many of them.'],
           ].map(([head, body]) => (
             <div key={head} style={{ border: '2px solid var(--ow-ink)', padding: 22, background: 'var(--ow-paper)' }}>

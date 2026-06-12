@@ -9,7 +9,6 @@ type Track = 'useless' | 'cursed' | 'beautiful' | 'theatre'
 interface Exemplar {
   id: string
   title: string
-  by: string
   track: Track
   verdict: string
   description: string
@@ -22,7 +21,6 @@ const EXEMPLARS: Exemplar[] = [
   {
     id: '001',
     title: 'kettle.sh',
-    by: '@cordelia',
     track: 'useless',
     verdict: 'A bash script that boils water by curling a smart kettle. Takes 14 minutes. You cannot stop it. It returns exit code 0.',
     description: 'Small, complete, beautifully documented. Installs in one line. Boils water through six different async transports.',
@@ -31,7 +29,6 @@ const EXEMPLARS: Exemplar[] = [
   {
     id: '002',
     title: 'regret.osc',
-    by: '@jules + @kim',
     track: 'beautiful',
     verdict: 'An oscilloscope visualisation of your terminal history weighted by `git revert` frequency. Drawn on a CRT. A real one.',
     description: 'Maps the rhythm of your commit graveyard to a sine wave on an analog scope. Ships with photos of the rig and a 30-second Loom.',
@@ -40,7 +37,6 @@ const EXEMPLARS: Exemplar[] = [
   {
     id: '003',
     title: 'auth-by-vibe',
-    by: '@maple',
     track: 'cursed',
     verdict: 'Logs you in if your webcam picture has the right vibe. Trained on 4 images of the developer. 81% accurate.',
     description: 'Unironically functional. Terrifyingly accurate at recognising "early morning" vs "post-lunch" you. Ships with a confession.',
@@ -49,7 +45,6 @@ const EXEMPLARS: Exemplar[] = [
   {
     id: '004',
     title: 'haiku-shell',
-    by: '@orson',
     track: 'beautiful',
     verdict: 'A shell that responds in 5-7-5 haiku. Every command. Every error. Every man page.',
     description: 'The haiku for `rm -rf /` is genuinely upsetting. So are the haiku for `ls`. So are the haiku for everything. It is good.',
@@ -58,25 +53,22 @@ const EXEMPLARS: Exemplar[] = [
   {
     id: '005',
     title: 'demo-only',
-    by: '@petra + @ruth',
     track: 'theatre',
     verdict: 'The entire project is a 3-minute live demo. There is no repository. You cannot install it. You had to be there.',
-    description: 'Won a category last year despite (because of) shipping precisely zero source code. The demo IS the artefact.',
+    description: 'Could win a category despite (because of) shipping precisely zero source code. The demo IS the artefact.',
     stack: ['breath', 'lights', 'a smoke machine'],
   },
   {
     id: '006',
     title: 'vending-oracle',
-    by: '@s.ash',
     track: 'theatre',
-    verdict: 'A real vending machine dispensing real snacks AND unsolicited career advice via a thermal printer. Demoed live at the NYC finals.',
-    description: 'Finalists could insert $1.25 and receive a granola bar and a sentence such as "your refactor will not save you, only joy will".',
+    verdict: 'A real vending machine dispensing real snacks AND unsolicited career advice via a thermal printer. Built to be demoed live at the NYC finals.',
+    description: 'Picture it: insert $1.25, receive a granola bar and a sentence such as "your refactor will not save you, only joy will".',
     stack: ['esp32', 'thermal printer', 'gpt-4o-mini', 'a tired vending machine'],
   },
   {
     id: '007',
     title: 'cron-confess',
-    by: '@meow',
     track: 'cursed',
     verdict: "A cron job that, once a week, posts a short confession to your team's Slack from a generic bot account. The confessions are real.",
     description: 'Features a moderation step where you approve each one. You usually approve them at 1am. They are weird.',
@@ -85,7 +77,6 @@ const EXEMPLARS: Exemplar[] = [
   {
     id: '008',
     title: 'static-radio',
-    by: '@klee',
     track: 'beautiful',
     verdict: 'A one-page site that plays the static between FM stations as ambient audio. The static cycles. You can leave it open.',
     description: 'It is just a webpage that plays static. It is genuinely calming. CSS is perfect. Type is perfect. Footer: "i am sorry, this is the project."',
@@ -94,7 +85,6 @@ const EXEMPLARS: Exemplar[] = [
   {
     id: '009',
     title: 'css-barometer',
-    by: '@rho',
     track: 'useless',
     verdict: 'A webpage that visualises atmospheric pressure as a slowly heaving div. No JS. CSS gradient driven off geolocation + remote feed.',
     description: 'Opens to a perfectly still page. You do not notice it is breathing until you go away and come back.',
@@ -128,7 +118,7 @@ export default function ProjectsPage() {
               letterSpacing: '0.22em', textTransform: 'uppercase',
               color: 'var(--ow-ink-3)',
             }}>↩ Index</Link>
-            <span className="ow-stamp ow-stamp-tilt-l">◆ Submissions feed</span>
+            <span className="ow-stamp ow-stamp-tilt-l">◆ Inspiration board</span>
           </div>
 
           <div style={{
@@ -177,8 +167,8 @@ export default function ProjectsPage() {
                 marginTop: 10,
                 lineHeight: 0.9,
               }}>
-                20 JUN ’26<br />
-                <span style={{ color: 'var(--ow-red)' }}>17:00 PT</span>
+                19 JUN ’26<br />
+                <span style={{ color: 'var(--ow-red)' }}>17:00 ET</span>
               </div>
               <p style={{ marginTop: 14, fontSize: '0.9375rem', maxWidth: 520 }}>
                 Soft close 20 Jun 08:30 ET. <strong style={{ color: 'var(--ow-red)' }}>Hard close 20 Jun 09:00 ET.</strong> The door does not negotiate.
@@ -306,7 +296,7 @@ export default function ProjectsPage() {
                     {e.title}
                   </h3>
                   <div className="ow-label ow-label-mute" style={{ marginTop: 6 }}>
-                    By {e.by} · inspiration · not a submission
+                    Dreamt up by the organizers · not a submission
                   </div>
                 </div>
 
@@ -362,7 +352,7 @@ export default function ProjectsPage() {
                 Your project<br />here.
               </h3>
               <p style={{ marginTop: 12, fontSize: '0.875rem' }}>
-                We&apos;ll fill this card the moment you push your first commit on a registered repo. The slot is yours.
+                When submissions open, real projects take over this wall. The slot is yours.
               </p>
             </div>
             <Link href="/hackathon/register" className="ow-btn no-underline" style={{ alignSelf: 'flex-start', marginTop: 18 }}>
