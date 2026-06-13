@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OnlyWorks Hire · Hire on verified work</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="nav-mount"></div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="section page-top" style="padding-bottom: 3.5rem;">
+    <div class="deco deco-dots" style="right: 0; top: 0; width: 320px; height: 100%;"></div>
+    <div class="deco deco-hatch" style="left: 0; bottom: 0; width: 40%; height: 200px;"></div>
+    <div class="shell" style="position: relative; z-index: 1;">
+      <span class="eyebrow" data-rise="1">The platform for verified talent</span>
+
+      <h1 class="display-1" style="max-width: 13ch; margin-top: 1.5rem;" data-rise="2">
+        Hire on proof,<br />not <em class="accent-italic">promises</em>.
+      </h1>
+
+      <div style="display: grid; grid-template-columns: 1fr; gap: 2rem; margin-top: 2.5rem; max-width: 1100px;">
+        <p class="lede" style="max-width: 46ch;" data-rise="3">
+          AI resumes waste your time. Every candidate here has verified hours,
+          AI-summarized work history, and a portfolio you can actually inspect —
+          captured during real work, not written after it.
+        </p>
+      </div>
+
+      <form class="search-pill" style="margin-top: 2.5rem;" data-rise="4"
+        onsubmit="event.preventDefault(); const q = document.getElementById('q').value; location.href = 'search.html?q=' + encodeURIComponent(q);">
+        <div class="search-pill-field">
+          <span id="search-icon-mount"></span>
+          <input id="q" type="text" placeholder="Search by skills — React, Go, Design systems..." autocomplete="off" />
+        </div>
+        <button type="submit" class="btn btn-primary">Search talent <span class="arr">→</span></button>
+      </form>
+
+      <div class="chip-row" style="margin-top: 1.25rem;" data-rise="5">
+        <a class="chip" href="search.html?q=React%20engineer">React engineer</a>
+        <a class="chip" href="search.html?q=Product%20designer">Product designer</a>
+        <a class="chip" href="search.html?q=Data%20engineer">Data engineer</a>
+        <a class="chip" href="search.html?q=ML%20engineer">ML engineer</a>
+        <a class="chip" href="search.html?q=iOS">iOS engineer</a>
+        <a class="chip" href="search.html?q=DevOps">DevOps</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ METRICS — hairline grid ═══ -->
+  <section style="position: relative;">
+    <div class="shell" data-rise="6">
+      <div class="hairline-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="metric-cell">
+          <div class="metric-value">12.4k</div>
+          <div class="metric-label">Verified candidates</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-value">2.1M</div>
+          <div class="metric-label">Hours of verified work</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-value">94%</div>
+          <div class="metric-label">Interest-to-reply rate</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DIFFERENTIATORS — numbered rows ═══ -->
+  <section class="section">
+    <span class="watermark" style="right: -2rem; top: 1rem;">PROOF</span>
+    <div class="shell" style="position: relative; z-index: 1;">
+      <div style="margin-bottom: 2.5rem;">
+        <span class="eyebrow">Why OnlyWorks</span>
+        <h2 class="display-2" style="max-width: 16ch; margin-top: 1rem;">
+          Resumes are claims.<br /><span class="dim">This is evidence.</span>
+        </h2>
+      </div>
+
+      <div class="num-row">
+        <span class="num">01</span>
+        <div>
+          <h3>Time at the keyboard, not on the résumé</h3>
+          <p>Hours are captured by the OnlyWorks desktop app during real work sessions. Tampering is detectable. What you see is what they did.</p>
+        </div>
+        <div class="row-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </div>
+      </div>
+
+      <div class="num-row">
+        <span class="num">02</span>
+        <div>
+          <h3>A real portfolio, summarized by AI</h3>
+          <p>Every session becomes a plain-English report — what was shipped, refactored, debugged, designed. Read the work before you ever book a call.</p>
+        </div>
+        <div class="row-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg>
+        </div>
+      </div>
+
+      <div class="num-row">
+        <span class="num">03</span>
+        <div>
+          <h3>Per-skill depth, not a checkbox list</h3>
+          <p>Every skill is ranked by depth and verified hours. No more guessing how "advanced" someone actually is at TypeScript.</p>
+        </div>
+        <div class="row-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 20h18M7 16v-5M12 16V8M17 16v-9"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PROCESS — dark section ═══ -->
+  <section class="section section-dark">
+    <div class="deco deco-hatch" style="inset: 0;"></div>
+    <span class="watermark" style="left: -2rem; bottom: -2rem;">HIRE</span>
+    <div class="shell" style="position: relative; z-index: 1;">
+      <div style="margin-bottom: 2.5rem;">
+        <span class="eyebrow on-dark">Process</span>
+        <h2 class="display-2" style="margin-top: 1rem; color: var(--on-dark);">
+          Three steps.<br /><span style="color: var(--on-dark-40);">Zero screening calls.</span>
+        </h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;" class="process-grid">
+        <div>
+          <div class="step-row">
+            <span class="numeral">I</span>
+            <div>
+              <h3>Search the index</h3>
+              <p>Describe who you need in plain language. Filter by field, verified hours, and skill depth — free, no account needed.</p>
+            </div>
+          </div>
+          <div class="step-row">
+            <span class="numeral">II</span>
+            <div>
+              <h3>Inspect the work</h3>
+              <p>Open any profile and read AI-summarized session reports. See what they actually built, measured to the hour.</p>
+            </div>
+          </div>
+          <div class="step-row" style="border-bottom: 0;">
+            <span class="numeral">III</span>
+            <div>
+              <h3>Express interest</h3>
+              <p>One click sends a branded email to the candidate. 94% reply — because they know you've already seen their proof.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mini candidate-card preview in a window frame -->
+        <div style="border: 1px solid var(--on-dark-line); border-radius: 12px; overflow: hidden;">
+          <div style="display: flex; align-items: center; gap: 6px; padding: 12px 16px; background: var(--dark-2); border-bottom: 1px solid var(--on-dark-line);">
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(250,250,249,0.2);"></span>
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(250,250,249,0.2);"></span>
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: rgba(250,250,249,0.2);"></span>
+            <span class="mono-sm" style="margin-left: auto; color: var(--on-dark-40);">candidate_profile</span>
+          </div>
+          <div style="padding: 1.75rem; background: var(--bg); color: var(--ink);">
+            <div class="candidate-name-row" style="margin-bottom: 6px;">
+              <span class="candidate-name">Maya Chen</span>
+              <span class="badge-verified" id="badge-demo">Verified</span>
+            </div>
+            <div class="candidate-meta" style="margin-bottom: 14px;">Senior Frontend Engineer · 6 yrs · San Francisco</div>
+            <div class="skill-chips" style="margin-bottom: 1.5rem;">
+              <span class="skill-chip">React</span>
+              <span class="skill-chip">TypeScript</span>
+              <span class="skill-chip">Next.js</span>
+              <span class="skill-chip">Node.js</span>
+            </div>
+            <div class="hairline-grid on-card" style="grid-template-columns: repeat(3, 1fr);">
+              <div style="padding: 1rem 1.25rem;">
+                <div class="font-display" style="font-size: 1.75rem; line-height: 1;">1,247</div>
+                <div class="mono-label" style="margin-top: 6px;">verified hrs</div>
+              </div>
+              <div style="padding: 1rem 1.25rem;">
+                <div class="font-display" style="font-size: 1.75rem; line-height: 1;">312</div>
+                <div class="mono-label" style="margin-top: 6px;">sessions</div>
+              </div>
+              <div style="padding: 1rem 1.25rem;">
+                <div class="font-display" style="font-size: 1.75rem; line-height: 1;">96</div>
+                <div class="mono-label" style="margin-top: 6px;">react depth</div>
+              </div>
+            </div>
+            <div class="report-item" style="margin-top: 1.25rem;">
+              <div class="report-title">Rebuilt design system component library</div>
+              <div class="report-date">Jun 4, 2026 · AI summary of 38 sessions</div>
+              <div class="report-summary">Refactored 38 components into a tokenized system. Migrated 4 product surfaces. 0 visual regressions.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA — framed box ═══ -->
+  <section class="section">
+    <div class="deco deco-hatch" style="inset: 0;"></div>
+    <div class="shell" style="position: relative; z-index: 1;">
+      <div class="frame" style="padding: clamp(2.5rem, 6vw, 5rem);">
+        <h2 class="display-2" style="max-width: 14ch; margin-bottom: 1.25rem;">
+          Ready to hire<br /><span class="dim">with proof?</span>
+        </h2>
+        <p class="lede" style="max-width: 42ch; margin-bottom: 2rem;">
+          Stop wasting time on unverified resumes. Search the index free — upgrade when you're ready to reach out.
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+          <a href="search.html" class="btn btn-primary btn-lg">Start searching <span class="arr">→</span></a>
+          <a href="pricing.html" class="btn btn-secondary btn-lg">See pricing</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-mount"></div>
+
+  <script src="assets/app.js"></script>
+  <script>
+    renderNav('home');
+    renderFooter();
+    document.getElementById('search-icon-mount').innerHTML = icons.search();
+    document.getElementById('badge-demo').innerHTML = icons.shield() + ' Verified';
+  </script>
+  <style>
+    @media (max-width: 920px) {
+      .process-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard · OnlyWorks Hire</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="nav-mount"></div>
+
+  <main class="shell page-top page-bottom" style="position: relative;">
+    <div class="deco deco-dots" style="right: 0; top: 2.5rem; width: 280px; height: 160px;"></div>
+
+    <div class="dash-layout" style="position: relative; z-index: 1;">
+      <aside class="sidebar" data-rise="1">
+        <div class="sidebar-link active">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Overview
+        </div>
+        <a class="sidebar-link" href="search.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          Search candidates
+        </a>
+        <a class="sidebar-link" href="post-job.html">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          Post a job
+        </a>
+        <div class="sidebar-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          Shortlists
+        </div>
+        <div class="sidebar-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Conversations
+        </div>
+
+        <div class="sidebar-section-label">Settings</div>
+        <div class="sidebar-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Team & billing
+        </div>
+      </aside>
+
+      <section class="dash-main">
+        <div class="dash-header" data-rise="1">
+          <div>
+            <div class="dash-title" id="welcome">Welcome back</div>
+            <div class="dash-sub" id="company-line">Acme Robotics · Free plan</div>
+          </div>
+          <a href="post-job.html" class="btn btn-primary">Post a job <span class="arr">→</span></a>
+        </div>
+
+        <div class="hairline-grid" id="kpi-grid" data-rise="2" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 2rem;"></div>
+
+        <div class="dash-grid-2">
+          <div class="card static" data-rise="3">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 1rem;">
+              <div class="card-title" style="margin: 0;">Active jobs</div>
+              <a class="btn btn-ghost btn-sm" href="post-job.html">Post new <span class="arr">→</span></a>
+            </div>
+            <div id="jobs-list"></div>
+          </div>
+
+          <div class="card static" data-rise="4">
+            <div class="card-title">Recent activity</div>
+            <div id="activity-list"></div>
+          </div>
+        </div>
+
+        <div class="card static" data-rise="5" style="margin-top: 20px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 1rem;">
+            <div class="card-title" style="margin: 0;">Suggested candidates</div>
+            <span class="mono-sm" style="color: var(--muted);">matched to your active jobs</span>
+          </div>
+          <div id="suggested" class="candidate-grid"></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="assets/mock-data.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    if (!app.isAuthed()) location.href = 'signup.html';
+    renderNav('dashboard');
+    renderFooter();
+
+    document.getElementById('welcome').textContent = `Welcome back${app.email() ? ', ' + app.email().split('@')[0] : ''}`;
+    document.getElementById('company-line').textContent = `${app.company()} · ${app.isPaid() ? 'Pro plan' : 'Free plan'}`;
+
+    const posted = app.postedJobs();
+    const allJobs = [...posted, ...JOBS];
+
+    const totalMatches = allJobs.reduce((sum, j) => sum + (j.matches || 0), 0);
+    const interest = app.interestedCount();
+
+    document.getElementById('kpi-grid').innerHTML = `
+      <div class="kpi-cell">
+        <div class="kpi-label">Posted jobs</div>
+        <div class="kpi-value">${allJobs.length}</div>
+        <div class="kpi-delta">+${posted.length} this week</div>
+      </div>
+      <div class="kpi-cell">
+        <div class="kpi-label">Total matches</div>
+        <div class="kpi-value">${totalMatches}</div>
+        <div class="kpi-delta">+14 since yesterday</div>
+      </div>
+      <div class="kpi-cell">
+        <div class="kpi-label">Interest sent</div>
+        <div class="kpi-value">${interest + 13}</div>
+        <div class="kpi-delta">+${interest} new</div>
+      </div>
+      <div class="kpi-cell">
+        <div class="kpi-label">Reply rate</div>
+        <div class="kpi-value">94%</div>
+        <div class="kpi-delta neutral">last 30 days</div>
+      </div>
+    `;
+
+    document.getElementById('jobs-list').innerHTML = allJobs.map(j => `
+      <div class="job-item">
+        <div>
+          <div class="job-title">${j.title}</div>
+          <div class="job-meta">${j.company || app.company()} · ${j.location} · ${j.posted}</div>
+        </div>
+        <a class="job-matches" href="matches.html?id=${j.id}">${j.matches || 0} matches →</a>
+      </div>
+    `).join('') || `<div class="empty"><div class="empty-title">No jobs yet</div>Post your first job to start matching.</div>`;
+
+    document.getElementById('activity-list').innerHTML = [
+      { text: '<strong>Maya Chen</strong> replied to your interest', time: '12m ago' },
+      { text: '<strong>3 new candidates</strong> matched <em>Senior Frontend Engineer</em>', time: '2h ago' },
+      { text: 'Interest sent to <strong>Diego Alvarez</strong>', time: '6h ago' },
+      { text: '<strong>Priya Iyer</strong> added a new verified report', time: 'yesterday' },
+      { text: 'Weekly digest delivered', time: '2 days ago' },
+    ].map(a => `
+      <div class="activity-item">
+        <div class="activity-dot"></div>
+        <div>
+          <div class="activity-text">${a.text}</div>
+          <div class="activity-time">${a.time}</div>
+        </div>
+      </div>
+    `).join('');
+
+    document.getElementById('suggested').innerHTML = CANDIDATES.slice(0, 3).map(c => `
+      <div class="candidate-card" onclick="location.href='profile.html?id=${c.id}'">
+        <div class="candidate-avatar"><img src="${c.avatar}" alt="" /></div>
+        <div class="candidate-main">
+          <div class="candidate-name-row">
+            <span class="candidate-name">${c.name}</span>
+            <span class="badge-verified">${icons.shield()} Verified</span>
+          </div>
+          <div class="candidate-meta"><strong>${c.field}</strong> · ${c.experience} yrs · ${c.location}</div>
+          <div class="skill-chips">${c.topSkills.slice(0, 4).map(s => `<span class="skill-chip">${s}</span>`).join('')}</div>
+        </div>
+        <div class="candidate-side">
+          <div>
+            <div class="hours-num">${c.verifiedHours.toLocaleString()}</div>
+            <div class="hours-label">verified hrs</div>
+          </div>
+          <button class="btn btn-secondary btn-sm">View <span class="arr">→</span></button>
+        </div>
+      </div>
+    `).join('');
+  </script>
+</body>
+</html>
