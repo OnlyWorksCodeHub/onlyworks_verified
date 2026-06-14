@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useAuth } from '@/components/AuthProvider'
 import { Loader2, ArrowRight, ArrowLeft, SkipForward } from 'lucide-react'
-import { ShimmerButton } from '@/components/ui/shimmer-button'
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://onlyworks-backend-server.onrender.com'
 
@@ -118,101 +118,101 @@ export default function ProfileSetupPage() {
 
   if (authLoading || checkingProfile) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <Loader2 className="w-6 h-6 text-violet-600 animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="border-b border-neutral-200">
-        <div className="max-w-[1400px] mx-auto px-5 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <img src="/images/logo.png" alt="OnlyWorks" className="h-8 w-8 grayscale brightness-0" />
-            <span className="font-semibold text-neutral-900">OnlyWorks</span>
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Minimal header (consistent with login) */}
+      <header className="border-b border-foreground/10">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-6 flex items-center justify-between">
+          <Link href="/" className="inline-flex items-center">
+            <Image src="/images/logo.png" alt="OnlyWorks" width={36} height={36} />
           </Link>
-          <span className="text-sm text-neutral-400">
+          <span className="text-sm font-mono text-muted-foreground">
             {user?.email}
           </span>
         </div>
       </header>
 
       {/* Main */}
-      <main className="max-w-[500px] mx-auto px-4 py-12">
+      <main className="max-w-[480px] mx-auto px-6 py-12">
         <div className="text-center mb-8">
-          <h1 className="text-[1.75rem] font-semibold text-neutral-900 mb-2 tracking-tight">
+          <h1 className="font-display text-3xl lg:text-4xl tracking-tight mb-2">
             Set up your profile
           </h1>
-          <p className="text-neutral-500 text-[0.9375rem]">
+          <p className="text-base text-muted-foreground">
             This will create your public OnlyWorks profile and OW ID.
           </p>
         </div>
 
         {/* Step Indicator */}
-        <div className="profile-step-indicator">
+        <div className="flex gap-2 mb-8">
           {Array.from({ length: TOTAL_STEPS }, (_, i) => (
             <div
               key={i}
-              className={`profile-step ${i < step ? 'active' : ''}`}
+              className={`h-1 rounded-full flex-1 transition-colors ${i < step ? 'bg-[#8b5cf6]' : 'bg-foreground/10'}`}
             />
           ))}
         </div>
 
         {error && (
-          <div className="px-4 py-3 rounded-xl bg-red-50 text-red-600 text-sm mb-6">
+          <div className="px-4 py-3 mb-6 text-sm border border-[#e40014]/30 bg-[#e40014]/[0.04] text-[#e40014]">
             {error}
           </div>
         )}
 
-        <div className="profile-setup-form">
+        <div>
           {/* Step 1: Basic Info */}
           {step === 1 && (
             <div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-neutral-900 mb-1.5">
+                <label className="block text-sm font-medium text-foreground mb-1.5">
                   Full name
                 </label>
                 <input
                   type="text"
-                  className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-violet-500 focus:bg-white focus:ring-1 focus:ring-violet-500 outline-none transition-all"
+                  className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background text-foreground placeholder:text-muted-foreground outline-none transition-all focus:border-foreground/40"
                   placeholder="Your full name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-sm font-medium text-neutral-900 mb-1.5">
+                <label className="block text-sm font-medium text-foreground mb-1.5">
                   Job title
                 </label>
                 <input
                   type="text"
-                  className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-violet-500 focus:bg-white focus:ring-1 focus:ring-violet-500 outline-none transition-all"
+                  className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background text-foreground placeholder:text-muted-foreground outline-none transition-all focus:border-foreground/40"
                   placeholder="e.g. Software Engineer"
                   value={jobTitle}
                   onChange={(e) => setJobTitle(e.target.value)}
                 />
               </div>
               <div className="mb-6">
-                <label className="block text-sm font-medium text-neutral-900 mb-1.5">
+                <label className="block text-sm font-medium text-foreground mb-1.5">
                   Company
                 </label>
                 <input
                   type="text"
-                  className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-2.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-violet-500 focus:bg-white focus:ring-1 focus:ring-violet-500 outline-none transition-all"
+                  className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background text-foreground placeholder:text-muted-foreground outline-none transition-all focus:border-foreground/40"
                   placeholder="e.g. Acme Inc"
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
                 />
               </div>
-              <ShimmerButton
+              <button
                 onClick={() => setStep(2)}
-                className="w-full h-12 text-[0.9375rem]"
+                className="w-full inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium text-white transition-all hover:opacity-90 disabled:opacity-50"
+                style={{ background: '#8b5cf6' }}
               >
                 Continue
                 <ArrowRight className="w-[18px] h-[18px]" />
-              </ShimmerButton>
+              </button>
             </div>
           )}
 
@@ -220,11 +220,11 @@ export default function ProfileSetupPage() {
           {step === 2 && (
             <div>
               <div className="mb-6">
-                <label className="block text-sm font-medium text-neutral-900 mb-1.5">
+                <label className="block text-sm font-medium text-foreground mb-1.5">
                   Bio
                 </label>
                 <textarea
-                  className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-900 placeholder:text-neutral-400 focus:border-violet-500 focus:bg-white focus:ring-1 focus:ring-violet-500 outline-none transition-all h-[120px] resize-y font-[inherit]"
+                  className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background text-foreground placeholder:text-muted-foreground outline-none transition-all focus:border-foreground/40 min-h-[120px] resize-y"
                   placeholder="Tell others about yourself..."
                   value={bio}
                   onChange={(e) => {
@@ -233,25 +233,26 @@ export default function ProfileSetupPage() {
                     }
                   }}
                 />
-                <div className={`text-right text-xs mt-1 ${bio.length > 260 ? 'text-red-600' : 'text-neutral-400'}`}>
+                <div className={`text-right text-xs mt-1 ${bio.length > 260 ? 'text-[#e40014]' : 'text-muted-foreground'}`}>
                   {bio.length}/280
                 </div>
               </div>
               <div className="flex gap-3">
                 <button
                   onClick={() => setStep(1)}
-                  className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl border border-neutral-200 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors h-12 flex-1 gap-1.5"
+                  className="flex-1 inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
                 >
                   <ArrowLeft className="w-[18px] h-[18px]" />
                   Back
                 </button>
-                <ShimmerButton
+                <button
                   onClick={() => setStep(3)}
-                  className="h-12 flex-[2]"
+                  className="flex-[2] inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium text-white transition-all hover:opacity-90 disabled:opacity-50"
+                  style={{ background: '#8b5cf6' }}
                 >
                   Continue
                   <ArrowRight className="w-[18px] h-[18px]" />
-                </ShimmerButton>
+                </button>
               </div>
             </div>
           )}
@@ -259,7 +260,7 @@ export default function ProfileSetupPage() {
           {/* Step 3: Privacy */}
           {step === 3 && (
             <div>
-              <p className="text-[0.9375rem] text-neutral-500 mb-6">
+              <p className="text-base text-muted-foreground mb-6">
                 Choose what appears on your public profile.
               </p>
               {[
@@ -271,7 +272,7 @@ export default function ProfileSetupPage() {
               ].map(({ key, label }) => (
                 <label
                   key={key}
-                  className="flex items-center gap-3 py-3 cursor-pointer border-b border-neutral-200"
+                  className="flex items-center gap-3 py-3 border-b border-foreground/10 cursor-pointer"
                 >
                   <input
                     type="checkbox"
@@ -282,9 +283,9 @@ export default function ProfileSetupPage() {
                         [key]: e.target.checked,
                       }))
                     }
-                    className="w-[18px] h-[18px] accent-violet-600"
+                    className="w-[18px] h-[18px] accent-[#8b5cf6]"
                   />
-                  <span className="text-[0.9375rem] text-neutral-900">
+                  <span className="text-sm text-foreground">
                     {label}
                   </span>
                 </label>
@@ -293,15 +294,16 @@ export default function ProfileSetupPage() {
               <div className="mt-6 flex gap-3">
                 <button
                   onClick={() => setStep(2)}
-                  className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl border border-neutral-200 text-sm font-medium text-neutral-700 hover:bg-neutral-50 transition-colors h-12 flex-1 gap-1.5"
+                  className="flex-1 inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
                 >
                   <ArrowLeft className="w-[18px] h-[18px]" />
                   Back
                 </button>
-                <ShimmerButton
+                <button
                   onClick={() => handleSubmit()}
                   disabled={saving}
-                  className={`h-12 flex-[2] ${saving ? 'opacity-60 cursor-not-allowed' : ''}`}
+                  className="flex-[2] inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium text-white transition-all hover:opacity-90 disabled:opacity-50"
+                  style={{ background: '#8b5cf6' }}
                 >
                   {saving ? (
                     <>
@@ -311,7 +313,7 @@ export default function ProfileSetupPage() {
                   ) : (
                     'Create Profile'
                   )}
-                </ShimmerButton>
+                </button>
               </div>
             </div>
           )}
@@ -321,7 +323,7 @@ export default function ProfileSetupPage() {
             <button
               onClick={() => handleSubmit(true)}
               disabled={saving}
-              className={`inline-flex items-center gap-1 text-sm text-neutral-400 bg-transparent border-none px-2 py-1 ${saving ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors disabled:cursor-not-allowed"
             >
               <SkipForward className="w-3.5 h-3.5" />
               Skip for now

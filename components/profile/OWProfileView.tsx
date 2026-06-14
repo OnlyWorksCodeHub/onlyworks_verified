@@ -26,34 +26,34 @@ export default function OWProfileView({ owProfile }: Props) {
   return (
     <>
       {/* Summary Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3" style={{ marginBottom: '1rem' }}>
-        <div className="card p-4 text-center">
-          <div className="text-2xl font-bold" style={{ color: 'var(--accent)' }}>{owProfile.summary.total_skills}</div>
-          <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Skills</div>
+      <div className="profile-stats-grid">
+        <div className="profile-stat-card">
+          <div className="profile-stat-value" style={{ color: 'var(--accent)' }}>{owProfile.summary.total_skills}</div>
+          <div className="profile-stat-label">Skills</div>
         </div>
-        <div className="card p-4 text-center">
-          <div className="text-2xl font-bold" style={{ color: 'var(--accent)' }}>{owProfile.summary.top_proficiency_count}</div>
-          <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Advanced</div>
+        <div className="profile-stat-card">
+          <div className="profile-stat-value" style={{ color: 'var(--accent)' }}>{owProfile.summary.top_proficiency_count}</div>
+          <div className="profile-stat-label">Advanced</div>
         </div>
-        <div className="card p-4 text-center">
-          <div className="text-2xl font-bold" style={{ color: 'var(--accent)' }}>{owProfile.summary.total_reports}</div>
-          <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Reports</div>
+        <div className="profile-stat-card">
+          <div className="profile-stat-value" style={{ color: 'var(--accent)' }}>{owProfile.summary.total_reports}</div>
+          <div className="profile-stat-label">Reports</div>
         </div>
-        <div className="card p-4 text-center">
-          <div className="text-2xl font-bold" style={{ color: 'var(--accent)', fontSize: strongestCategoryLabel.length > 12 ? '1rem' : undefined }}>{strongestCategoryLabel}</div>
-          <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Top Category</div>
+        <div className="profile-stat-card">
+          <div className="profile-stat-value" style={{ color: 'var(--accent)', fontSize: strongestCategoryLabel.length > 12 ? '1rem' : undefined }}>{strongestCategoryLabel}</div>
+          <div className="profile-stat-label">Top Category</div>
         </div>
       </div>
 
       {/* Verified Skills — collapsible rows with evidence */}
       {owProfile.skills.length > 0 && (
-        <div className="card p-5" style={{ marginBottom: '1rem' }}>
-          <h3 className="font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+        <div className="profile-card p-6" style={{ marginBottom: '1rem' }}>
+          <h3 className="font-display text-xl tracking-tight mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
             <Zap className="w-4 h-4" style={{ color: 'var(--accent)' }} /> Verified Skills
           </h3>
           {groupSkillsByCategory(owProfile.skills).map(({ key, label, skills: catSkills }) => (
             <div key={key} className="mb-6 last:mb-0">
-              <div className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>{label}</div>
+              <div className="font-mono text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>{label}</div>
               <div className="border-t" style={{ borderColor: 'var(--border)' }}>
                 {catSkills.map((s, idx) => {
                   const skillId = `${key}-${idx}`
@@ -150,8 +150,8 @@ export default function OWProfileView({ owProfile }: Props) {
 
       {/* Top Strengths */}
       {owProfile.top_strengths.length > 0 && (
-        <div className="card p-5" style={{ marginBottom: '1rem' }}>
-          <h3 className="font-semibold mb-3 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+        <div className="profile-card p-6" style={{ marginBottom: '1rem' }}>
+          <h3 className="font-display text-xl tracking-tight mb-3 flex items-center gap-2" style={{ color: 'var(--text)' }}>
             <Star className="w-4 h-4 text-green-500" /> Top Strengths
           </h3>
           <div className="space-y-2">
@@ -170,8 +170,8 @@ export default function OWProfileView({ owProfile }: Props) {
 
       {/* Highlights */}
       {owProfile.highlights.length > 0 && (
-        <div className="card p-5" style={{ marginBottom: '1rem' }}>
-          <h3 className="font-semibold mb-3 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+        <div className="profile-card p-6" style={{ marginBottom: '1rem' }}>
+          <h3 className="font-display text-xl tracking-tight mb-3 flex items-center gap-2" style={{ color: 'var(--text)' }}>
             <Award className="w-4 h-4 text-amber-500" /> Highlights
           </h3>
           <ul className="space-y-2">
@@ -189,8 +189,8 @@ export default function OWProfileView({ owProfile }: Props) {
 
       {/* Growth Journey */}
       {owProfile.growth_journey.length > 0 && (
-        <div className="card p-5" style={{ marginBottom: '1rem' }}>
-          <h3 className="font-semibold mb-3 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+        <div className="profile-card p-6" style={{ marginBottom: '1rem' }}>
+          <h3 className="font-display text-xl tracking-tight mb-3 flex items-center gap-2" style={{ color: 'var(--text)' }}>
             <TrendingUp className="w-4 h-4 text-amber-500" /> Growth Journey
           </h3>
           <div className="space-y-2">

@@ -19,10 +19,8 @@ export default function AppBreakdown({ apps, limited }: AppBreakdownProps) {
   }))
 
   return (
-    <div className="card" style={{ padding: '1.5rem' }}>
-      <h3 style={{
-        fontSize: '1rem',
-        fontWeight: 600,
+    <div className="profile-card" style={{ padding: '1.5rem' }}>
+      <h3 className="font-display text-xl tracking-tight" style={{
         color: 'var(--text)',
         marginBottom: '1rem',
       }}>
@@ -44,13 +42,13 @@ export default function AppBreakdown({ apps, limited }: AppBreakdownProps) {
             <Tooltip
               formatter={(value: number) => [`${value}h`, 'Hours']}
               contentStyle={{
-                background: 'white',
+                background: 'var(--card)',
                 border: '1px solid var(--border)',
-                borderRadius: '8px',
+                borderRadius: '0',
                 fontSize: '0.875rem',
               }}
             />
-            <Bar dataKey="hours" fill="var(--accent)" radius={[0, 4, 4, 0]} barSize={24} />
+            <Bar dataKey="hours" fill="var(--accent)" radius={0} barSize={24} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -59,7 +57,8 @@ export default function AppBreakdown({ apps, limited }: AppBreakdownProps) {
         <div style={{
           marginTop: '1rem',
           padding: '1rem',
-          borderRadius: '8px',
+          borderRadius: '0',
+          border: '1px solid var(--border)',
           background: 'var(--bg-alt)',
           textAlign: 'center',
         }}>

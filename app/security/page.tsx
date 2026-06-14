@@ -14,7 +14,7 @@ export default function SecurityPage() {
       <Navigation />
 
       {/* Hero */}
-      <section className="relative py-32 lg:py-40 overflow-hidden">
+      <section className="relative pt-24 lg:pt-28 pb-12 lg:pb-20 overflow-hidden">
         <GeometricPattern className="right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] opacity-50" />
         <BinaryRain />
         <ScanLines />
@@ -36,7 +36,7 @@ export default function SecurityPage() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display tracking-tight text-[clamp(3.5rem,8vw,7rem)] leading-[0.9]"
+            className="font-display tracking-tight text-[clamp(2.5rem,5.5vw,5rem)] leading-[0.95]"
           >
             Your data,<br />
             <span className="text-muted-foreground">your control.</span>
@@ -46,15 +46,15 @@ export default function SecurityPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-8 max-w-md text-xl lg:text-2xl text-muted-foreground leading-relaxed"
+            className="mt-8 max-w-md text-lg lg:text-lg lg:text-xl text-muted-foreground leading-relaxed"
           >
-            OnlyWorks is built around one principle: you own your data and you decide who sees it.
+OnlyWorks turns your captured work into a report — and you decide who sees it. Here’s exactly what we collect, who processes it, and how to delete it.
           </motion.p>
         </div>
       </section>
 
       {/* Features */}
-      <section className="relative py-16 lg:py-24 overflow-hidden">
+      <section className="relative py-10 lg:py-14 overflow-hidden">
         <FloatingParticles count={8} />
         <PulsingRings className="left-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] opacity-20" />
         <WatermarkText text="SECURE" />
@@ -71,10 +71,10 @@ export default function SecurityPage() {
           </div>
 
           {[
-            { num: '01', icon: Lock, title: 'End-to-End Encryption', desc: 'Your data is encrypted in transit and at rest. Screenshots never leave your device unencrypted.' },
-            { num: '02', icon: Shield, title: 'Privacy by Design', desc: 'You choose what gets captured, what goes into reports, and what to exclude. Nothing is shared without your explicit permission.' },
-            { num: '03', icon: Server, title: 'Secure Infrastructure', desc: 'Hosted on trusted cloud providers with automated safeguards. Your personal data is isolated and protected.' },
-            { num: '04', icon: Key, title: 'Full Control', desc: 'Export or delete your data anytime. No lock-in, no hidden retention. When you say delete, we delete.' },
+            { num: '01', icon: Lock, title: 'Encrypted in transit and at rest', desc: 'Your data is encrypted in transit (HTTPS/TLS) and at rest on our providers’ infrastructure. OnlyWorks is not end-to-end encrypted: to generate your reports, screenshots and OCR text are uploaded to our backend and processed by Google Gemini.' },
+            { num: '02', icon: Shield, title: 'Session-based capture', desc: 'Capture only runs during sessions you start and stop — it is not always-on. During a session, OnlyWorks captures screenshots, on-screen text (OCR), active app and window titles, and click/keystroke counts, then sends them to OnlyWorks and our sub-processors to produce your report. Screenshots may also be used to improve our AI.' },
+            { num: '03', icon: Server, title: 'Sub-processors', desc: 'Your data is processed by a small set of providers: Google Gemini (AI report generation), Supabase (database and storage), Render (backend hosting), and Resend (email). Each handles only the data needed for its function.' },
+            { num: '04', icon: Key, title: 'Deletion and retention', desc: 'You can purge the screenshots used to train our AI at any time, and delete your account from the app. There is no automatic time-based deletion: after account deletion, account data is removed within 30 days, session data is kept up to 90 days, and full deletion can take up to 90 days due to backups. Aggregated, de-identified analytics may be retained indefinitely.' },
           ].map((item, i) => (
             <motion.div key={item.num} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }} transition={{ duration: 0.6, delay: i * 0.1 }}
               className="grid grid-cols-12 gap-6 py-8 md:py-12 border-t border-foreground/10 items-start">
@@ -96,7 +96,7 @@ export default function SecurityPage() {
       </section>
 
       {/* Report Vulnerability */}
-      <section className="relative py-16 lg:py-24 overflow-hidden">
+      <section className="relative py-10 lg:py-14 overflow-hidden">
         <GeometricPattern className="right-0 top-0 w-[350px] h-[350px] opacity-25" />
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
           <motion.div

@@ -100,35 +100,35 @@ export default function TalentCommunityPage() {
       <Navigation />
 
       {/* HERO + FORM */}
-      <section className="relative pt-28 lg:pt-36 pb-20 lg:pb-32 overflow-hidden">
+      <section className="relative pt-24 lg:pt-28 pb-12 lg:pb-16 overflow-hidden">
         <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             {/* Left — copy */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
-              <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
+              <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-5">
                 <span className="w-8 h-px bg-foreground/30" />
                 Talent Community
               </span>
-              <h1 className="text-5xl lg:text-7xl font-display tracking-tight leading-[1.0] mb-6">
-                Get found by<br />hiring managers.
+              <h1 className="text-4xl lg:text-6xl font-display tracking-tight leading-[0.95] mb-6">
+                Be findable for<br />the work you<br />actually did.
               </h1>
-              <p className="text-xl lg:text-2xl text-muted-foreground leading-relaxed mb-10 max-w-md">
-                No app required. <span className="text-foreground/70">(yet.)</span>
+              <p className="text-lg lg:text-lg lg:text-xl text-muted-foreground leading-relaxed mb-5 max-w-md">
+                Search is the new screen. Recruiters type skills into a box and a ranked list comes back — built from resumes anyone can exaggerate, embellish, now fake by the thousand with AI. The best writer surfaces. The best worker gets buried on page nine.
               </p>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-12 max-w-md">
-                Join the OnlyWorks Talent Community — hiring teams actively search this pool for verified skills and reach out via email when they match.
+              <p className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-md">
+                Put your name in the Talent Community and be searchable for the roles you want. Then back your skills with proof from real work — so you turn up because of what you&apos;ve done, not because of who wrote the slickest bullet.
               </p>
 
               {/* How it works — 3 steps */}
-              <div className="space-y-5 max-w-md">
+              <div className="space-y-4 max-w-md">
                 {[
-                  { n: 'I', title: 'Hiring managers search', desc: 'They look for candidates with verified skills and proven work.' },
-                  { n: 'II', title: 'Your profile appears', desc: 'You show up in their results, ranked by skill match.' },
-                  { n: 'III', title: 'They reach out', desc: 'When you match a role, they email you directly.' },
+                  { n: 'I', title: 'Get in the pool', desc: 'The roles you want, the skills you bring. No resume to game, no fee.' },
+                  { n: 'II', title: 'Make your skills provable', desc: 'Run the free desktop app on real work. An AI corroborates each skill against what you actually did — self-reported tags become "Verified ×N".' },
+                  { n: 'III', title: 'Turn up in the search', desc: 'As hiring teams come on board, we match you to roles that fit and email you. You surface on the work, not the wording.' },
                 ].map((s, i) => (
                   <div key={i} className="flex items-start gap-4">
                     <span className="font-display text-2xl text-muted-foreground/50 shrink-0 w-8">{s.n}</span>
@@ -146,7 +146,7 @@ export default function TalentCommunityPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:sticky lg:top-32 self-start"
+              className="lg:sticky lg:top-28 self-start"
             >
               {submitted ? (
                 <div className="border border-foreground/10 p-10 lg:p-12">
@@ -343,30 +343,30 @@ export default function TalentCommunityPage() {
         </div>
       </section>
 
-      {/* WANT TO STAND OUT — DOWNLOAD UPSELL */}
-      <section className="relative py-20 lg:py-28 border-t border-foreground/10" style={{ background: '#1c1b18', color: '#fafaf9' }}>
+      {/* CLAIMS VS. PROOF — DOWNLOAD UPSELL */}
+      <section className="relative py-12 lg:py-16 border-t border-foreground/10" style={{ background: '#1c1b18', color: '#fafaf9' }}>
         <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
-              <span className="inline-flex items-center gap-3 text-sm font-mono mb-6" style={{ color: 'rgba(250,250,249,0.5)' }}>
+              <span className="inline-flex items-center gap-3 text-sm font-mono mb-5" style={{ color: 'rgba(250,250,249,0.5)' }}>
                 <span className="w-8 h-px" style={{ background: 'rgba(250,250,249,0.3)' }} />
-                Want to stand out more?
+                A claim vs. a proof
               </span>
-              <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-6" style={{ color: '#fafaf9' }}>
-                Verified candidates<br /><span style={{ color: 'rgba(250,250,249,0.5)' }}>get 3x more views.</span>
+              <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-5" style={{ color: '#fafaf9' }}>
+                Anyone can type a skill.<br /><span style={{ color: 'rgba(250,250,249,0.5)' }}>You can prove yours.</span>
               </h2>
               <p className="text-lg leading-relaxed" style={{ color: 'rgba(250,250,249,0.7)' }}>
-                Connect real work via the OnlyWorks desktop app. Hiring managers see your verified skills with evidence — not just self-reported tags.
+                The tags you add above are self-reported — useful for a match, but exactly what a resume offers, and just as easy to inflate. Run the OnlyWorks desktop app (free, macOS &amp; Windows) on real work and an AI corroborates each skill against what you actually did. Self-reported becomes verified. You can&apos;t fake having done the work, so a proof outranks a claim every time.
               </p>
             </div>
-            <div className="space-y-5">
+            <div className="space-y-4">
               {[
-                { icon: Check, label: 'Tamper-proof verified work history' },
-                { icon: Eye, label: 'Rank higher in hiring-manager searches' },
-                { icon: Search, label: 'Skills with evidence, not just claims' },
+                { icon: Check, label: 'Skills shown "Verified ×N", corroborated from your own captured work' },
+                { icon: Eye, label: 'One AI-written report on your OW Profile — a single link to share' },
+                { icon: Search, label: 'You surface in the search on evidence, not on who wrote the slickest bullet' },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-4 pb-4 border-b" style={{ borderColor: 'rgba(250,250,249,0.1)' }}>
-                  <div className="w-10 h-10 flex items-center justify-center border" style={{ borderColor: 'rgba(250,250,249,0.2)' }}>
+                  <div className="w-10 h-10 flex items-center justify-center border shrink-0" style={{ borderColor: 'rgba(250,250,249,0.2)' }}>
                     <item.icon className="w-5 h-5" />
                   </div>
                   <div className="text-base" style={{ color: 'rgba(250,250,249,0.85)' }}>{item.label}</div>
@@ -374,10 +374,10 @@ export default function TalentCommunityPage() {
               ))}
               <Link
                 href="/downloads"
-                className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base font-medium rounded-full mt-8 hover:opacity-90 transition-all"
+                className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base font-medium rounded-full mt-6 hover:opacity-90 transition-all"
                 style={{ background: '#fafaf9', color: '#080503' }}
               >
-                Get the desktop app
+                Get the desktop app — free
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

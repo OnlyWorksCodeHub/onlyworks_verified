@@ -4,12 +4,13 @@ import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 
 const faqs = [
-  { q: "How does work verification work?", a: "You control what gets verified. OnlyWorks verifies your work activity and turns it into a report with your skills, accomplishments and impact. You decide what goes into each report and who can see it." },
-  { q: "Do you record my screen?", a: "OnlyWorks takes periodic screenshots to understand what you're working on, but you control when this happens and can exclude any apps. Screenshots are never shared. Only the insights make it into your reports." },
-  { q: "What happens to my personal data?", a: "You own it. Your personal data is encrypted and never shared without your permission. Export your verified reports anytime. If you cancel, your personal data is deleted after 30 days, or immediately if you prefer. For full details, see our Terms of Service and Privacy Policy." },
-  { q: "Is it free?", a: "Yes. For job seekers, OnlyWorks is free to verify your work. Generate reports, build your OW Profile and share verified proof at no cost. If you're a business looking for talent, visit our hiring page for more information." },
-  { q: "Is there a desktop app?", a: "Yes. Available for macOS (Apple Silicon and Intel) and Windows. Download it from our downloads page to start building your verified work portfolio." },
-  { q: "What tools does OnlyWorks work with?", a: "OnlyWorks runs in the background and verifies your work across whatever tools you use: VS Code, Figma, Chrome, Slack, Terminal and more. No integrations needed. It fits into your natural workflow." },
+  { q: "Is it really just an app I download?", a: "Yes. OnlyWorks is a free desktop app for macOS (Apple Silicon and Intel) and Windows. Sign in with Google, LinkedIn or email to get started." },
+  { q: "What does OnlyWorks capture?", a: "While a session is running, it captures your on-screen work to build your report — and it only runs during sessions you start and stop. For exactly what's captured, who processes it, and how it's handled, see our Privacy Policy and Security page." },
+  { q: "Is this spyware?", a: "No. It only runs during sessions you start, it's a tool you use on your own work to build your own portfolio, and you decide what to share. The full picture of what's captured and how it's handled is on our Privacy and Security pages." },
+  { q: "What does “verified” mean?", a: "Your report is built from your real work during sessions, and an AI corroborates each skill against that work — so it's backed by evidence, not a self-reported claim. It isn't cryptographic or identity verification." },
+  { q: "How is this different from a resume or LinkedIn?", a: "Those are self-reported claims. OnlyWorks reports are built from your real work sessions — actual skills, accomplishments and impact — and you decide what's shown and who can see it." },
+  { q: "Is it free?", a: "Yes, for job seekers. Generate reports, build your OW Profile and share verified proof at no cost. Hiring teams have paid plans — see our hiring page." },
+  { q: "What tools does OnlyWorks work with?", a: "OnlyWorks runs alongside whatever you already use — VS Code, Figma, Chrome, Slack, Terminal and more. No integrations to set up; it fits into your normal workflow." },
   { q: "How do I get support?", a: "Email us at contact@only-works.com or use the contact form on our website. We respond within 24-48 hours." },
 ]
 
@@ -18,14 +19,14 @@ export function FAQ() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
 
   return (
-    <section className="py-20 md:py-28 px-6 border-t border-foreground/10 bg-background">
+    <section className="py-12 md:py-16 px-6 border-t border-foreground/10 bg-background">
       <div className="max-w-2xl mx-auto">
         <button
           onClick={() => setOpen(!open)}
           className="w-full flex items-center justify-between gap-4 px-6 py-4 border border-foreground/10 cursor-pointer transition-colors hover:bg-foreground/[0.02]"
         >
           <h2 className="text-xl md:text-2xl font-display">
-            Questions? Answers.
+            Still skeptical? Fair.
           </h2>
           <ChevronDown
             className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${open ? 'rotate-180' : ''}`}

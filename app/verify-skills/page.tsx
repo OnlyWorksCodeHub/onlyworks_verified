@@ -32,7 +32,7 @@ export default function VerifySkillsPage() {
       <Navigation />
 
       {/* Hero */}
-      <section className="relative py-32 lg:py-40 px-6 md:px-12 lg:px-20 overflow-hidden">
+      <section className="relative pt-24 lg:pt-28 pb-12 lg:pb-20 px-6 md:px-12 lg:px-20 overflow-hidden">
         <GeometricPattern className="right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] opacity-50" />
         <div className="relative z-10 max-w-[1400px] mx-auto">
           <motion.p
@@ -50,7 +50,7 @@ export default function VerifySkillsPage() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display tracking-tight text-[clamp(3.5rem,8vw,7rem)]"
+            className="font-display tracking-tight text-[clamp(2.5rem,5.5vw,5rem)]"
             style={{ lineHeight: 0.9, color: '#080503' }}
           >
             This role wasn&apos;t a fit,<br />
@@ -61,7 +61,7 @@ export default function VerifySkillsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-8 max-w-lg text-xl lg:text-2xl leading-relaxed"
+            className="mt-8 max-w-lg text-lg lg:text-xl leading-relaxed"
             style={{ color: '#57554f' }}
           >
             Verify your projects, skills, and decisions so employers can see what you&apos;ve actually done. Build credible proof that stands out.
@@ -84,7 +84,7 @@ export default function VerifySkillsPage() {
       </section>
 
       {/* Future Opt-in */}
-      <section className="relative px-6 md:px-12 lg:px-20 py-24 lg:py-32 overflow-hidden" style={{ background: '#f5f5f4' }}>
+      <section className="relative px-6 md:px-12 lg:px-20 py-12 lg:py-16 overflow-hidden" style={{ background: '#f5f5f4' }}>
         <FloatingParticles count={6} />
         <GeometricPattern className="left-0 bottom-0 w-[300px] h-[300px] opacity-20" />
         <div className="relative z-10 max-w-[1400px] mx-auto">

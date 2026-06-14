@@ -124,13 +124,13 @@ export default function SearchPage() {
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
 
-      <main className="pt-28 pb-20">
+      <main className="pt-24 pb-20">
         <div className="max-w-[1200px] mx-auto px-6">
 
           {/* Search Header */}
           <div className="mb-12">
             <h1 className="text-4xl font-display tracking-tight mb-3">Find verified talent</h1>
-            <p className="text-muted-foreground text-lg">Search candidates by skills proven through real work, not just listed on a resume.</p>
+            <p className="text-muted-foreground text-lg">Search candidates by skill. A <span className="inline-flex items-center gap-1"><Shield className="w-4 h-4 inline" /> verified</span> skill is one OnlyWorks corroborated against the candidate&apos;s own captured work; others are self-reported.</p>
           </div>
 
           {/* Search Bar */}
@@ -188,7 +188,7 @@ export default function SearchPage() {
                     <div className="flex flex-col gap-1 justify-end">
                       <label className="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" checked={verifiedOnly} onChange={(e) => setVerifiedOnly(e.target.checked)} className="rounded" />
-                        <span className="text-sm">Verified skills only</span>
+                        <span className="text-sm">Only match on verified skills</span>
                       </label>
                     </div>
                   </div>
@@ -211,7 +211,7 @@ export default function SearchPage() {
                   ))}
                 </div>
               ) : !loading ? (
-                <div className="text-center py-20">
+                <div className="text-center py-12">
                   <p className="text-xl font-medium mb-2">No candidates found</p>
                   <p className="text-muted-foreground">Try different skills or broaden your filters.</p>
                 </div>
@@ -259,10 +259,10 @@ export default function SearchPage() {
 
           {/* Empty state before search */}
           {!searched && (
-            <div className="text-center py-20">
+            <div className="text-center py-12">
               <Search className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
               <p className="text-xl font-medium mb-2">Search for verified talent</p>
-              <p className="text-muted-foreground max-w-md mx-auto">Enter skills above to find candidates with work-verified abilities. Every skill is backed by real project data, not self-reported claims.</p>
+              <p className="text-muted-foreground max-w-md mx-auto">Enter skills above to find candidates. Skills marked with a shield were verified by OnlyWorks against the candidate&apos;s own captured work; unmarked skills are self-reported.</p>
             </div>
           )}
         </div>

@@ -62,7 +62,7 @@ export default function ContactPage() {
       <Navigation />
 
       {/* ═══ HERO — left-aligned, v0 hero pattern ═══ */}
-      <section className="relative py-32 lg:py-40 overflow-hidden">
+      <section className="relative pt-24 lg:pt-28 pb-12 lg:pb-16 overflow-hidden">
         <GridLines />
         <GeometricPattern className="right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] opacity-50" />
         <BinaryRain />
@@ -84,7 +84,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-[clamp(3.5rem,8vw,7rem)] font-display leading-[0.9] tracking-tight mb-12"
+            className="text-[clamp(2.5rem,5.5vw,5rem)] font-display leading-[0.95] tracking-tight mb-12"
           >
             <span className="block">Get in</span>
             <span className="block text-muted-foreground">touch</span>
@@ -94,7 +94,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-xl lg:text-2xl text-muted-foreground leading-relaxed max-w-xl"
+            className="text-lg lg:text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-xl"
           >
             Questions, feedback, or just want to say hi? We respond within 24 hours.
           </motion.p>
@@ -102,7 +102,7 @@ export default function ContactPage() {
       </section>
 
       {/* ═══ CONTACT INFO — v0 Metrics 2x2 grid ═══ */}
-      <section className="relative py-24 lg:py-32 overflow-hidden">
+      <section className="relative py-12 lg:py-16 overflow-hidden">
         <FloatingParticles count={8} />
         <WatermarkText text="CONTACT" />
         <ConnectionLines className="opacity-30" />
@@ -130,7 +130,7 @@ export default function ContactPage() {
       </section>
 
       {/* ═══ FORM — v0 testimonial pattern (asymmetric 3/5 + 2/5 split) ═══ */}
-      <section className="relative overflow-hidden py-24 lg:py-32">
+      <section className="relative overflow-hidden py-12 lg:py-16">
         <GridBackground />
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
@@ -235,7 +235,7 @@ export default function ContactPage() {
       </section>
 
       {/* ═══ CTA — v0 CTA pattern ═══ */}
-      <section className="relative py-24 lg:py-32 overflow-hidden">
+      <section className="relative py-12 lg:py-16 overflow-hidden">
         <GeometricPattern className="left-0 top-1/2 -translate-y-1/2 w-[300px] h-[300px] opacity-20" />
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <motion.div
@@ -245,12 +245,12 @@ export default function ContactPage() {
             transition={{ duration: 1 }}
             className="relative border border-foreground"
           >
-            <div className="relative z-10 px-8 lg:px-16 py-16 lg:py-24">
+            <div className="relative z-10 px-8 lg:px-16 py-10 lg:py-14">
               <div className="flex-1">
-                <h2 className="text-4xl lg:text-7xl font-display tracking-tight mb-8 leading-[0.95]">
+                <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-8 leading-[0.95]">
                   Ready to prove<br />your work?
                 </h2>
-                <p className="text-xl text-muted-foreground mb-12 leading-relaxed max-w-xl">
+                <p className="text-lg lg:text-xl text-muted-foreground mb-12 leading-relaxed max-w-xl">
                   Download OnlyWorks free. Start building your verified profile today.
                 </p>
                 <div className="flex flex-col sm:flex-row items-start gap-4">

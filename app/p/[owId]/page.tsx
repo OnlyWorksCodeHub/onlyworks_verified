@@ -6,6 +6,7 @@ import ProfileCard from '@/components/profile/ProfileCard'
 import PublicReportsList from '@/components/profile/PublicReportsList'
 import ProfileViewToggle from '@/components/profile/ProfileViewToggle'
 import { Navigation } from '@/components/Navigation'
+import { Footer } from '@/components/Footer'
 import { Lock } from 'lucide-react'
 import { BACKEND_URL } from '@/lib/config'
 import type { ProfileData, ReportData, UnifiedProfileData } from '@/lib/types/profile'
@@ -69,29 +70,29 @@ export default async function ProfilePage({ params }: { params: { owId: string }
   // Private profile
   if (!profile.is_profile_public) {
     return (
-      <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+      <div className="min-h-screen bg-background flex flex-col">
         <Navigation />
-        <main style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          minHeight: 'calc(100vh - 65px)', padding: '2rem 1rem',
-        }}>
-          <div style={{ textAlign: 'center', maxWidth: '400px' }}>
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              width: '64px', height: '64px', borderRadius: '50%',
-              background: 'var(--bg-alt)', marginBottom: '1.5rem',
-            }}>
-              <Lock style={{ width: '28px', height: '28px', color: 'var(--text-muted)' }} />
+        <main className="flex-1 flex items-center justify-center px-6 pt-28 pb-20">
+          <div className="text-center max-w-[400px]">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full border border-foreground/10 mb-6">
+              <Lock className="w-7 h-7 text-muted-foreground" />
             </div>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--text)', marginBottom: '0.75rem' }}>
+            <h1 className="font-display text-3xl lg:text-4xl tracking-tight text-foreground mb-3">
               This profile is private
             </h1>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+            <p className="text-base text-muted-foreground mb-6">
               The owner of this profile has chosen to keep it private.
             </p>
-            <Link href="/" className="btn btn-primary">Go to Homepage</Link>
+            <Link
+              href="/"
+              className="inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium text-white transition-all hover:opacity-90"
+              style={{ background: '#8b5cf6' }}
+            >
+              Go to Homepage
+            </Link>
           </div>
         </main>
+        <Footer />
       </div>
     )
   }
@@ -105,7 +106,7 @@ export default async function ProfilePage({ params }: { params: { owId: string }
   const hasProfileData = unifiedProfile?.ow_profile && unifiedProfile.ow_profile.summary.total_reports > 0
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+    <div className="min-h-screen bg-background">
       <Navigation />
 
       <main className="profile-page">
@@ -128,16 +129,21 @@ export default async function ProfilePage({ params }: { params: { owId: string }
           </div>
         )}
 
-        {/* Footer */}
-        <div style={{ textAlign: 'center', padding: '2rem 0 1rem' }}>
-          <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+        {/* Attribution */}
+        <div className="text-center py-8">
+          <p className="text-sm text-muted-foreground mb-4">
             Profile powered by OnlyWorks
           </p>
-          <Link href="/downloads" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+          <Link
+            href="/downloads"
+            className="inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
+          >
             Get OnlyWorks
           </Link>
         </div>
       </main>
+
+      <Footer />
     </div>
   )
 }

@@ -37,7 +37,7 @@ export default function ProfileCard({ profile, badgeStatus }: ProfileCardProps) 
                 width: '80px',
                 height: '80px',
                 borderRadius: '50%',
-                border: '3px solid white',
+                border: '1px solid var(--border)',
                 objectFit: 'cover',
               }}
             />
@@ -46,38 +46,41 @@ export default function ProfileCard({ profile, badgeStatus }: ProfileCardProps) 
               width: '80px',
               height: '80px',
               borderRadius: '50%',
-              border: '3px solid white',
-              background: 'rgba(255,255,255,0.2)',
+              border: '1px solid var(--border)',
+              background: 'var(--bg)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: '1.5rem',
               fontWeight: 700,
-              color: 'white',
+              color: 'var(--text)',
               flexShrink: 0,
             }}>
               {initials}
             </div>
           )}
-          <div style={{ color: 'white', paddingBottom: '4px' }}>
+          <div style={{ paddingBottom: '4px' }}>
             <div style={{
               display: 'flex',
               alignItems: 'center',
               gap: '0.625rem',
               flexWrap: 'wrap',
             }}>
-              <h1 style={{
-                fontSize: '1.5rem',
-                fontWeight: 700,
-                lineHeight: 1.2,
-                margin: 0,
-                color: 'white',
-              }}>
+              <h1
+                className="font-display tracking-tight"
+                style={{
+                  fontSize: '1.875rem',
+                  fontWeight: 400,
+                  lineHeight: 1.1,
+                  margin: 0,
+                  color: 'var(--text)',
+                }}
+              >
                 {displayName}
               </h1>
               <VerificationBadge status={badgeStatus} />
             </div>
-            <div className="ow-id-display" style={{ color: 'rgba(255,255,255,0.9)', marginTop: '2px' }}>
+            <div className="ow-id-display" style={{ color: 'var(--text-muted)', marginTop: '4px' }}>
               {profile.ow_id}
             </div>
           </div>

@@ -30,7 +30,7 @@ export default function VerificationBadge({ status }: VerificationBadgeProps) {
 
   return (
     <span className={className}>
-      {showIcon && <ShieldCheck style={{ width: '14px', height: '14px' }} />}
+      {showIcon && <ShieldCheck style={{ width: '14px', height: '14px', flexShrink: 0 }} />}
       {label}
     </span>
   )

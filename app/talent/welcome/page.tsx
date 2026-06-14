@@ -18,7 +18,7 @@ function WelcomeInner() {
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
 
-      <main className="pt-32 lg:pt-40 pb-20">
+      <main className="pt-24 lg:pt-28 pb-20">
         <div className="max-w-2xl mx-auto px-6 lg:px-12 text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -45,7 +45,7 @@ function WelcomeInner() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-xl text-muted-foreground leading-relaxed mb-3"
           >
-            Hiring managers can now find you when they search for verified skills.
+            Your profile is live. Connect real work to back your skills with evidence.
           </motion.p>
 
           {owId && (
@@ -88,7 +88,7 @@ function WelcomeInner() {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="text-sm text-muted-foreground mt-12 max-w-md mx-auto leading-relaxed"
           >
-            Want to stand out more? Connect real work via the desktop app — verified candidates rank higher in hiring-manager searches and show real evidence of skills.
+            Want to stand out more? Run a session in the desktop app and OnlyWorks turns what you did into a report — each skill is backed by your own real captured work, not just a claim.
           </motion.p>
         </div>
       </main>

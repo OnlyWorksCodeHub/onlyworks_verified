@@ -10,10 +10,8 @@ export default function PublicReportsList({ reports }: PublicReportsListProps) {
   if (!reports || reports.length === 0) return null
 
   return (
-    <div className="card" style={{ padding: '1.5rem' }}>
-      <h3 style={{
-        fontSize: '1rem',
-        fontWeight: 600,
+    <div className="profile-card" style={{ padding: '1.5rem' }}>
+      <h3 className="font-display text-xl tracking-tight" style={{
         color: 'var(--text)',
         marginBottom: '1rem',
       }}>
@@ -29,7 +27,7 @@ export default function PublicReportsList({ reports }: PublicReportsListProps) {
               alignItems: 'center',
               gap: '0.75rem',
               padding: '0.75rem',
-              borderRadius: '8px',
+              borderRadius: '0',
               border: '1px solid var(--border)',
               transition: 'border-color 0.15s, background 0.15s',
               textDecoration: 'none',
