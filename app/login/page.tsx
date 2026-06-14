@@ -7,7 +7,6 @@ import { createClient } from '@/lib/supabase/client'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { PulsingRings, FloatingParticles } from '@/components/ui/grid-background'
-import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 
 // Friendly messages for errors propagated here either by the callback route
 // (query string) or by Supabase's implicit-flow error response (hash fragment).
@@ -112,9 +111,7 @@ export default function LoginPage() {
                 <Link href="/" className="inline-block mb-8">
                   <Image src="/images/logo.png" alt="OnlyWorks" width={44} height={44} />
                 </Link>
-                <AnimatedGradientText className="text-3xl lg:text-4xl font-display tracking-tight mb-3 !max-w-none !bg-transparent !shadow-none !px-0 !py-0">
-                  Welcome back
-                </AnimatedGradientText>
+                <h1 className="font-display text-3xl lg:text-4xl tracking-tight mb-3">Welcome back</h1>
                 <p className="text-sm text-muted-foreground font-mono">Sign in to continue to OnlyWorks</p>
               </div>
 
@@ -123,7 +120,7 @@ export default function LoginPage() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="px-4 py-3 mb-6 text-sm text-center border border-foreground/10 bg-foreground/[0.02]"
+                  className="px-4 py-3 mb-6 text-sm text-center border border-[#e40014]/30 bg-[#e40014]/[0.04] text-[#e40014]"
                 >
                   {error}
                 </motion.div>
@@ -158,15 +155,14 @@ export default function LoginPage() {
               {/* Download CTA + Talent Community */}
               <Link
                 href="/downloads"
-                className="w-full flex items-center justify-center gap-2 h-14 px-6 text-sm font-medium text-white rounded-full transition-all hover:opacity-90"
+                className="w-full inline-flex items-center justify-center gap-2 h-12 px-6 text-sm font-medium text-white rounded-full transition-all hover:opacity-90"
                 style={{ background: '#8b5cf6' }}
               >
                 Download the desktop app
               </Link>
               <Link
                 href="/talent"
-                className="w-full flex items-center justify-center gap-2 h-14 px-6 mt-3 text-sm font-medium rounded-full transition-all hover:bg-[#8b5cf6]/10"
-                style={{ border: '1.5px solid #8b5cf6', color: '#8b5cf6' }}
+                className="w-full inline-flex items-center justify-center gap-2 h-12 px-6 mt-3 text-sm font-medium rounded-full border border-[#8b5cf6]/40 text-[#8b5cf6] hover:bg-[#8b5cf6]/10 transition-all"
               >
                 Join Talent Community
               </Link>

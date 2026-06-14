@@ -39,11 +39,11 @@ function shiftTime(hhmm: string, tz: TZ) {
 
 const DAYS: Day[] = [
   {
-    id: 'fri-19', weekday: 'Friday', date: '19 Jun 2026', mood: 'Kickoff · clock starts · one-day sprint',
+    id: 'thu-18', weekday: 'Thursday', date: '18 Jun 2026', mood: 'Kickoff · clock starts · 48-hour sprint',
     events: [
       { pt: '05:30', title: 'Pre-show',                       body: 'Discord opens. Coffee opens. The stream waiting room is the lobby track.', tag: 'live' },
       { pt: '06:00', title: 'Kickoff stream',                 body: "OnlyWorks × Orbis read the manifesto. An Orbis demo. One (1) accidental swear word.", tag: 'live' },
-      { pt: '06:00', title: 'Build window begins',            body: '24-hour clock starts (09:00 ET). Commit hashes after this point count. Previous ones do not.', tag: 'async' },
+      { pt: '06:00', title: 'Build window begins',            body: '48-hour clock starts (09:00 ET). Commit hashes after this point count. Previous ones do not.', tag: 'async' },
       { pt: '06:30', title: 'Theme reveal',                   body: 'This year there is no theme. You are the theme. It has been verified.', tag: 'live' },
       { pt: '07:00', title: 'Judge introductions',            body: 'Guest judges + the OnlyWorks panel. Each reveals their personal weird north star.', tag: 'live' },
       { pt: '07:30', title: 'Team formation',                 body: 'Discord channels by track. Solos welcome. Matchmaking bot deployed.', tag: 'optional' },
@@ -51,16 +51,25 @@ const DAYS: Day[] = [
       { pt: '11:00', title: 'Craft talk · 30 min',             body: "Guest TBA — we're courting an engineer who builds joke games that ship to real app stores.", tag: 'sponsor' },
       { pt: '12:00', title: 'Office hours · design crit',      body: 'Screenshare your UI. Receive opinions. The opinions are correct.', tag: 'sponsor' },
       { pt: '14:00', title: 'Submissions open',                body: 'Publish early to lock in (17:00 ET). You may keep building right up to the close.', tag: 'async' },
-      { pt: '18:00', title: 'Mid-build sync',                  body: '15 min checkin stream (21:00 ET). Show your scaffold, your first crime.', tag: 'live' },
-      { pt: '20:00', title: 'Overnight IRC',                   body: 'A real (text-only) IRC channel opens for the all-nighter people.', tag: 'optional' },
+      { pt: '20:00', title: 'Overnight IRC · night one',       body: 'A real (text-only) IRC channel opens for the all-nighter people.', tag: 'optional' },
+    ],
+  },
+  {
+    id: 'fri-19', weekday: 'Friday', date: '19 Jun 2026', mood: 'Deep build · the long middle',
+    events: [
+      { pt: '06:00', title: 'Office hours · open',            body: 'Drop into the stream with a question, a bug, or proof that you are still awake.', tag: 'sponsor' },
+      { pt: '09:00', title: 'Office hours · OnlyWorks API',   body: 'Second pass for the late starters. Wire your build to OnlyWorks for verification.', tag: 'sponsor' },
+      { pt: '12:00', title: 'Craft talk · 30 min',            body: 'A short talk to break the grind. Topic dropped in Discord that morning.', tag: 'optional' },
+      { pt: '18:00', title: 'Mid-build sync',                 body: '15 min checkin stream (21:00 ET) — the night before the close. Show your scaffold, your first crime.', tag: 'live' },
+      { pt: '20:00', title: 'Overnight IRC · night two',      body: 'The text-only channel reopens for the final all-nighter.', tag: 'optional' },
     ],
   },
   {
     id: 'sat-20', weekday: 'Saturday', date: '20 Jun 2026', mood: 'Submissions close · online finals · the URL reveal',
     events: [
       { pt: '04:00', title: 'Last sync-down',                  body: 'Last one. Short. Brace.', tag: 'live' },
-      { pt: '05:30', title: 'Submissions soft close',          body: 'Judges begin watching. You may keep editing your README. Nobody else may.', tag: 'async' },
-      { pt: '06:00', title: 'Submissions close (HARD)',        body: '24 hours up (09:00 ET). Anything pushed after this is for posterity, not points.', tag: 'async' },
+      { pt: '08:30', title: 'Submissions soft close',          body: 'Judges begin watching. You may keep editing your README. Nobody else may.', tag: 'async' },
+      { pt: '09:00', title: 'Submissions close (HARD)',        body: 'Build window closes (12:00 ET). Anything pushed after this is for posterity, not points.', tag: 'async' },
       { pt: '10:00', title: 'Finalists announced',             body: 'Eight (8) projects. Emails sent at 13:00 ET — demo from wherever you are.', tag: 'live' },
       { pt: '12:00', title: 'Finalist call · briefing',        body: 'Finalists hop on a private call to walk through the order, the stream, the rules.', tag: 'live' },
       { pt: '14:00', title: 'Stream opens · live finals',      body: 'An unmarked URL. Link shared with finalists and registered builders alongside the 13:00 ET announcement.', tag: 'finals' },
@@ -119,7 +128,7 @@ export default function SchedulePage() {
           <hr className="ow-rule-fat" style={{ marginTop: 8 }} />
 
           <p className="lede" style={{ marginTop: 24, maxWidth: 720 }}>
-            24 hours, one unmarked URL. All times in ET by default — switch zones below. <strong style={{ color: 'var(--ow-ink)' }}>Live</strong> items stream; <strong style={{ color: 'var(--ow-red)' }}>finals</strong> items happen on the finals stream on 20 Jun; <strong style={{ color: 'var(--ow-ink)' }}>optional</strong> items are explicitly opt-in.
+            48 hours, one unmarked URL. All times in ET by default — switch zones below. <strong style={{ color: 'var(--ow-ink)' }}>Live</strong> items stream; <strong style={{ color: 'var(--ow-red)' }}>finals</strong> items happen on the finals stream on 20 Jun; <strong style={{ color: 'var(--ow-ink)' }}>optional</strong> items are explicitly opt-in.
           </p>
 
           {/* control bar */}

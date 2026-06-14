@@ -13,15 +13,14 @@ We may update these Terms from time to time, and your continued use of the Servi
   {
     id: 'description',
     title: 'Description of Service',
-    content: `OnlyWorks provides a productivity verification platform that includes:
+    content: `OnlyWorks is a free desktop application for macOS and Windows, with an accompanying web profile, that turns your real work into a shareable report. The Service includes:
 
-• **Screenshot Capture**: Periodic screenshots during active work sessions
-• **Activity Insights**: Understanding of application usage and work patterns
-• **AI Analysis**: Automated recognition of productivity patterns and potential fraud
-• **Report Generation**: Verifiable productivity reports for employers or clients
-• **Data Storage**: Secure storage of work session data
+• **Work Sessions**: A session that you manually start and stop. While a session is running, the app captures full-screen screenshots (on a timer and on actions such as clicks, Enter, and copy), the on-screen text read from those screenshots (OCR), the active application and window titles, counts of clicks and keystrokes (never the content of what you type), and the list of running processes.
+• **AI Reports**: Screenshots and OCR text are uploaded to the OnlyWorks backend and processed by a third-party AI service (Google Gemini) to generate a written report — an executive summary, key accomplishments, skills used, strengths, growth areas, next steps, and a productivity score.
+• **Verified Skills**: The AI corroborates each claimed skill against your own captured work across sessions and labels it "Verified" with a count. "Verified" reflects this AI cross-checking only. It is not a cryptographic proof, a digital signature, identity verification, or human review.
+• **Your Profile**: Reports live on your OnlyWorks profile, which you can share through a single link or by email. There is no local file export.
 
-The Service is designed for professionals who need to verify their work to employers, clients, or other authorized parties.`
+The Service is intended for individuals who want to document and share evidence of their own work. You start and stop every session; the app does not run on its own.`
   },
   {
     id: 'eligibility',
@@ -31,6 +30,8 @@ The Service is designed for professionals who need to verify their work to emplo
 • Be at least 18 years of age
 • Have the legal capacity to enter into a binding agreement
 • Not be prohibited from using the Service under applicable laws
+
+**Account Required**: An account is required to use OnlyWorks. You sign in with Google, LinkedIn, or an email address (email sign-up requires verification). You may not use the Service without signing in.
 
 **Account Responsibilities**:
 • You are responsible for maintaining the confidentiality of your account credentials
@@ -44,10 +45,11 @@ The Service is designed for professionals who need to verify their work to emplo
     content: `You agree NOT to:
 
 • Use the Service for any illegal purpose or in violation of any laws
-• Attempt to circumvent, disable, or interfere with the verification functionality
-• Use automation, bots, or artificial means to simulate productivity
+• Use the Service to capture another person's screen or activity, or to capture content you do not have the right to record
+• Run sessions on devices or accounts you are not authorized to use
+• Use automation, bots, or artificial means to fake the work captured during a session
 • Upload malware, viruses, or other harmful code
-• Falsify or misrepresent your work activity
+• Misrepresent the report or your "Verified" skills as something other than an AI-generated summary of your captured sessions
 • Access or attempt to access other users' accounts or data
 • Reverse engineer, decompile, or disassemble the Service
 • Use the Service to infringe on intellectual property rights
@@ -58,22 +60,24 @@ Violation of these terms may result in immediate termination of your account.`
   {
     id: 'payment',
     title: 'Payment Terms',
-    content: `**Subscription Plans**: The Service offers various subscription plans with different features and pricing.
+    content: `**Free for Job Seekers**: Running sessions, generating reports, your profile, and sharing your report are free. You do not need a paid plan to create or share a report.
 
-**Billing**: All payments are processed securely through Stripe. By subscribing, you authorize us to charge your payment method on a recurring basis.
+**Paid Plans**: Paid plans apply to hiring features (such as posting jobs, candidate matching, and candidate search) and to an optional verified-badge upsell on a profile. Paid plans start with a 14-day trial.
 
-**Auto-Renewal**: Subscriptions automatically renew unless cancelled before the renewal date. You can cancel at any time through your account settings.
+**Billing**: Paid plans are processed through Stripe. By starting a paid plan, you authorize us to charge your payment method on a recurring basis after any applicable trial.
 
-**Refunds**: We offer a 14-day refund window for new subscriptions. After this period, fees are non-refundable. Refunds are processed to the original payment method.
+**Auto-Renewal**: Paid plans automatically renew unless cancelled before the renewal date. You can cancel at any time through your account settings.
 
-**Price Changes**: We may change subscription prices with 30 days' notice. Existing subscriptions will be honored until renewal.`
+**Refunds**: Refund eligibility and any applicable refund window are described at the point of purchase. Where a refund is issued, it is processed to the original payment method.
+
+**Price Changes**: We may change paid-plan prices with 30 days' notice. Existing plans will be honored until renewal.`
   },
   {
     id: 'intellectual-property',
     title: 'Intellectual Property',
     content: `**Our IP**: The Service, including all software, designs, text, graphics, and other content, is owned by OnlyWorks Inc. and protected by intellectual property laws. You may not copy, modify, or distribute our content without permission.
 
-**Your Content**: You retain ownership of the work session data and screenshots captured through the Service. By using the Service, you grant us a limited license to process and store this data as necessary to provide the Service.
+**Your Content**: You retain ownership of the work session data and screenshots captured through the Service. By using the Service, you grant us a license to upload, process, and store this data as necessary to provide the Service — including processing screenshots and OCR text with our AI sub-processor to generate reports. We also store screenshots to train and improve our AI. See the Privacy Policy for details on how to purge training screenshots.
 
 **Feedback**: Any feedback, suggestions, or ideas you provide may be used by us without obligation or compensation to you.`
   },
@@ -82,11 +86,15 @@ Violation of these terms may result in immediate termination of your account.`
     title: 'Privacy & Data',
     content: `Your use of the Service is subject to our Privacy Policy, which describes how we collect, use, and share your information.
 
-**Data Processing**: By using the Service, you consent to the processing of your work session data, including screenshots and activity information.
+**Data Processing**: By using the Service, you consent to the capture of your work session data — full-screen screenshots, OCR'd on-screen text, active app and window titles, click and keystroke counts, and running processes — and to its upload to and processing on the OnlyWorks backend. OCR runs on your device; reports are generated server-side. Screenshots are also stored to train and improve our AI.
 
-**Data Sharing**: Work session data may be shared with authorized parties (employers, clients) based on your settings and consent.
+**Sub-processors**: We use third-party services to operate the Service, including Google Gemini (AI processing), Supabase (database and storage), Render (backend hosting), and Resend (email). Each has its own terms and privacy practices.
 
-**Data Security**: We implement industry-standard security measures to protect your data. However, no system is completely secure.`
+**Data Sharing**: Your report is private until you choose to share it. You control what appears on your profile and who receives your share link. Share links default to expiring after about 30 days.
+
+**Data Security**: Data is encrypted in transit (HTTPS/TLS) and at rest on our providers' infrastructure. This is not end-to-end or client-side encryption: screenshots and OCR text are decrypted server-side so they can be processed into reports. No system is completely secure.
+
+**Your Controls**: You start and stop every session, choose what is on your profile and who can see your share link, and can request a purge of screenshots stored for AI training.`
   },
   {
     id: 'disclaimers',
@@ -123,7 +131,9 @@ These limitations apply regardless of the theory of liability and even if we hav
 • Fail to pay applicable fees
 • Pose a security risk to the Service
 
-Upon termination, your right to use the Service ceases immediately. We may retain certain data as required by law or for legitimate business purposes.`
+Upon termination, your right to use the Service ceases immediately.
+
+**Retention on Deletion**: When you delete your account, your data is deleted within 30 days, except that session data may be kept for up to an additional 90 days and aggregated, non-identifying analytics may be retained indefinitely. Completing full deletion may take up to 90 days. We may also retain certain data where required by law. See the Privacy Policy for details.`
   },
   {
     id: 'governing-law',
@@ -148,5 +158,5 @@ Upon termination, your right to use the Service ceases immediately. We may retai
 ]
 
 export default function TermsPage() {
-  return <LegalPage title="Terms of Service" lastUpdated="January 2025" sections={sections} activeLink="terms" />
+  return <LegalPage title="Terms of Service" lastUpdated="June 2026" sections={sections} activeLink="terms" />
 }

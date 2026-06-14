@@ -14,6 +14,8 @@ import {
   TrendingUp,
   ListChecks,
 } from 'lucide-react'
+import { Navigation } from '@/components/Navigation'
+import { Footer } from '@/components/Footer'
 import { BACKEND_URL } from '@/lib/config'
 
 interface ReportData {
@@ -199,32 +201,19 @@ export default async function SharedReportPage({ params }: { params: { id: strin
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      {/* Header brand bar */}
-      <header className="border-b" style={{ borderColor: 'var(--border)' }}>
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <img src="/images/logo.png" alt="OnlyWorks" className="h-8 w-8" />
-            <span className="font-semibold" style={{ color: 'var(--text)' }}>
-              OnlyWorks
-            </span>
-          </Link>
-          <div className="text-sm" style={{ color: 'var(--text-muted)' }}>
-            Shared Report
-          </div>
-        </div>
-      </header>
+      <Navigation />
 
       {/* Hero — title + meta + productivity score */}
-      <section className="border-b" style={{ borderColor: 'var(--border)' }}>
-        <div className="max-w-4xl mx-auto px-4 py-12 lg:py-16">
-          <span className="inline-flex items-center gap-3 text-xs font-mono mb-4 uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
-            <span className="w-8 h-px" style={{ background: 'var(--text-muted)' }} />
+      <section className="border-b pt-24 lg:pt-28" style={{ borderColor: 'var(--border)' }}>
+        <div className="max-w-4xl mx-auto px-6 py-12 lg:py-16">
+          <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-4">
+            <span className="w-8 h-px bg-foreground/30" />
             Verified Work Report
           </span>
 
           <div className="grid grid-cols-1 lg:grid-cols-[2fr,1fr] gap-10 items-end">
             <div>
-              <h1 className="font-display tracking-tight leading-[1.05] mb-6 text-4xl md:text-5xl lg:text-6xl" style={{ color: 'var(--text)' }}>
+              <h1 className="font-display tracking-tight leading-[0.95] mb-6 text-4xl lg:text-6xl" style={{ color: 'var(--text)' }}>
                 {title}
               </h1>
               <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm" style={{ color: 'var(--text-muted)' }}>
@@ -281,11 +270,11 @@ export default async function SharedReportPage({ params }: { params: { id: strin
         </div>
       </section>
 
-      <main className="max-w-4xl mx-auto px-4 py-10 space-y-6">
+      <main className="max-w-4xl mx-auto px-6 py-10 space-y-6">
         {/* Executive Summary — only render if non-templated */}
         {summaryIsReal && (
-          <section className="card p-6">
-            <h2 className="text-lg font-semibold mb-3 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+          <section className="border border-foreground/10 bg-background p-6 lg:p-8">
+            <h2 className="font-display text-xl tracking-tight mb-3 flex items-center gap-2" style={{ color: 'var(--text)' }}>
               <Target className="w-5 h-5" style={{ color: 'var(--accent)' }} />
               Summary
             </h2>
@@ -297,8 +286,8 @@ export default async function SharedReportPage({ params }: { params: { id: strin
 
         {/* Skills used — chips with proficiency dot */}
         {skills.length > 0 && (
-          <section className="card p-6">
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+          <section className="border border-foreground/10 bg-background p-6 lg:p-8">
+            <h2 className="font-display text-xl tracking-tight mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
               <Zap className="w-5 h-5" style={{ color: 'var(--accent)' }} />
               Skills Used
             </h2>
@@ -325,8 +314,8 @@ export default async function SharedReportPage({ params }: { params: { id: strin
 
         {/* Tasks split */}
         {(tasksDone.length > 0 || tasksRemaining.length > 0) && (
-          <section className="card p-6">
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+          <section className="border border-foreground/10 bg-background p-6 lg:p-8">
+            <h2 className="font-display text-xl tracking-tight mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
               <ListChecks className="w-5 h-5" style={{ color: 'var(--accent)' }} />
               Tasks
             </h2>
@@ -386,8 +375,8 @@ export default async function SharedReportPage({ params }: { params: { id: strin
 
         {/* Accomplishments */}
         {accomplishments.length > 0 && (
-          <section className="card p-6">
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+          <section className="border border-foreground/10 bg-background p-6 lg:p-8">
+            <h2 className="font-display text-xl tracking-tight mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
               <CheckCircle className="w-5 h-5 text-green-500" />
               Accomplishments
             </h2>
@@ -411,8 +400,8 @@ export default async function SharedReportPage({ params }: { params: { id: strin
 
         {/* Blockers */}
         {blockers.length > 0 && (
-          <section className="card p-6">
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+          <section className="border border-foreground/10 bg-background p-6 lg:p-8">
+            <h2 className="font-display text-xl tracking-tight mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
               <AlertTriangle className="w-5 h-5 text-amber-500" />
               Challenges
             </h2>
@@ -436,8 +425,8 @@ export default async function SharedReportPage({ params }: { params: { id: strin
 
         {/* Strengths Demonstrated */}
         {strengths.length > 0 && (
-          <section className="card p-6">
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+          <section className="border border-foreground/10 bg-background p-6 lg:p-8">
+            <h2 className="font-display text-xl tracking-tight mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
               <Zap className="w-5 h-5 text-green-500" />
               Strengths Demonstrated
             </h2>
@@ -464,8 +453,8 @@ export default async function SharedReportPage({ params }: { params: { id: strin
 
         {/* Growth Areas */}
         {growth.length > 0 && (
-          <section className="card p-6">
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+          <section className="border border-foreground/10 bg-background p-6 lg:p-8">
+            <h2 className="font-display text-xl tracking-tight mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
               <TrendingUp className="w-5 h-5 text-amber-500" />
               Growth Areas
             </h2>
@@ -499,8 +488,8 @@ export default async function SharedReportPage({ params }: { params: { id: strin
 
         {/* Next Steps */}
         {nextSteps.length > 0 && (
-          <section className="card p-6">
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+          <section className="border border-foreground/10 bg-background p-6 lg:p-8">
+            <h2 className="font-display text-xl tracking-tight mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
               <Lightbulb className="w-5 h-5 text-blue-500" />
               Next Steps
             </h2>
@@ -524,8 +513,8 @@ export default async function SharedReportPage({ params }: { params: { id: strin
 
         {/* App Usage — only render if normalized data has real entries */}
         {appUsage.length > 0 && (
-          <section className="card p-6">
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
+          <section className="border border-foreground/10 bg-background p-6 lg:p-8">
+            <h2 className="font-display text-xl tracking-tight mb-4 flex items-center gap-2" style={{ color: 'var(--text)' }}>
               <BarChart3 className="w-5 h-5" style={{ color: 'var(--accent)' }} />
               App Usage
             </h2>
@@ -558,11 +547,17 @@ export default async function SharedReportPage({ params }: { params: { id: strin
           <p className="text-sm mb-4" style={{ color: 'var(--text-muted)' }}>
             This report was generated with OnlyWorks
           </p>
-          <Link href="/downloads" className="btn btn-primary">
+          <Link
+            href="/downloads"
+            className="inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium text-white transition-all hover:opacity-90"
+            style={{ background: '#8b5cf6' }}
+          >
             Try OnlyWorks Free
           </Link>
         </div>
       </main>
+
+      <Footer />
     </div>
   )
 }

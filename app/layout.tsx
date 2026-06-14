@@ -16,7 +16,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.only-works.com'),
   title: 'OnlyWorks | AI-Powered Work Verification Platform',
-  description: 'Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.',
+  description: 'Build verified proof of your work with OnlyWorks — a desktop app that turns your real work sessions into AI-written reports of your skills and accomplishments, shared as one link instead of a resume. Free for job seekers; built for students and professionals building a portfolio.',
   keywords: [
     'AI platform',
     'work verification',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     'AI analysis',
     'work authentication',
     'productivity verification',
-    'tamper-proof reports',
+    'verified work reports',
     'career portfolio',
     'OnlyWorks',
     'student experience',
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     url: 'https://www.only-works.com',
     siteName: 'OnlyWorks',
     title: 'OnlyWorks | AI-Powered Work Verification Platform',
-    description: 'Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.',
+    description: 'Build verified proof of your work with OnlyWorks — a desktop app that turns your real work sessions into AI-written reports of your skills and accomplishments, shared as one link instead of a resume. Free for job seekers; built for students and professionals building a portfolio.',
     images: [
       {
         url: '/images/og-image.png',
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     site: '@OnlyWorksAI',
     creator: '@OnlyWorksAI',
     title: 'OnlyWorks | AI-Powered Work Verification Platform',
-    description: 'Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.',
+    description: 'Build verified proof of your work with OnlyWorks — a desktop app that turns your real work sessions into AI-written reports of your skills and accomplishments, shared as one link instead of a resume. Free for job seekers; built for students and professionals building a portfolio.',
     images: ['/images/twitter-image.png'],
   },
   alternates: {
@@ -93,12 +93,12 @@ export const metadata: Metadata = {
     'preconnect': 'https://fonts.gstatic.com',
     // LinkedIn meta tags
     'linkedin:title': 'OnlyWorks | AI-Powered Work Verification Platform',
-    'linkedin:description': 'Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.',
+    'linkedin:description': 'Build verified proof of your work with OnlyWorks — a desktop app that turns your real work sessions into AI-written reports of your skills and accomplishments, shared as one link instead of a resume. Free for job seekers; built for students and professionals building a portfolio.',
     'linkedin:image': '/images/linkedin-image.png',
     'linkedin:url': 'https://www.only-works.com',
     // YouTube meta tags
     'youtube:title': 'OnlyWorks | AI-Powered Work Verification Platform',
-    'youtube:description': 'Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.',
+    'youtube:description': 'Build verified proof of your work with OnlyWorks — a desktop app that turns your real work sessions into AI-written reports of your skills and accomplishments, shared as one link instead of a resume. Free for job seekers; built for students and professionals building a portfolio.',
     'youtube:image': '/images/youtube-image.png',
     'youtube:url': 'https://www.only-works.com',
   },
@@ -154,7 +154,7 @@ export default function RootLayout({
                 "height": 108,
                 "caption": "OnlyWorks Logo"
               },
-              "description": "Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.",
+              "description": "Build verified proof of your work with OnlyWorks — a desktop app that turns your real work sessions into AI-written reports of your skills and accomplishments, shared as one link instead of a resume. Free for job seekers; built for students and professionals building a portfolio.",
               "email": "contact@only-works.com",
               "sameAs": [
                 "https://twitter.com/OnlyWorksAI",
@@ -179,10 +179,10 @@ export default function RootLayout({
               "@type": "SoftwareApplication",
               "name": "OnlyWorks",
               "alternateName": "OnlyWorks AI Platform",
-              "description": "Build verified proof of your work with OnlyWorks. Our AI helps you create tamper-proof reports that prove your skills and productivity. Perfect for students, job seekers, and professionals building their portfolio.",
+              "description": "Build verified proof of your work with OnlyWorks — a desktop app that turns your real work sessions into AI-written reports of your skills and accomplishments, shared as one link instead of a resume. Free for job seekers; built for students and professionals building a portfolio.",
               "url": "https://www.only-works.com",
               "applicationCategory": "BusinessApplication",
-              "operatingSystem": "Cross-platform",
+              "operatingSystem": "macOS, Windows",
               "logo": "https://www.only-works.com/images/logo.png",
               "image": "https://www.only-works.com/images/og-image.png",
               "offers": {
@@ -235,7 +235,7 @@ export default function RootLayout({
                   "name": "What is OnlyWorks?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "OnlyWorks is an AI-powered work verification platform that helps professionals, students, and early career job seekers prove their work is authentic. You control what gets verified and build tamper-proof reports that demonstrate your real skills and productivity. OnlyWorks is the best place for students and early career professionals to stand out in their job search by creating credible proof of their capabilities."
+                    "text": "OnlyWorks is a desktop app that turns your real work sessions into AI-written, verified reports of your skills and accomplishments. You run a session while you work, OnlyWorks generates the report, and you share it as one OW Profile link instead of a resume. It's a way for students and early-career professionals to stand out with credible proof of what they actually did."
                   }
                 },
                 {
@@ -251,7 +251,7 @@ export default function RootLayout({
                   "name": "How does OnlyWorks help job seekers stand out?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "OnlyWorks helps job seekers stand out by providing verified, tamper-proof proof of their work and productivity. Instead of just listing projects on your resume, you can share verified reports that prove you did the work yourself. This is especially valuable for students and early career professionals looking to gain experience and differentiate themselves from other candidates."
+                    "text": "OnlyWorks helps job seekers stand out by turning real work sessions into verified reports. Instead of just listing projects on your resume, you can share reports built from what you actually did — corroborated by AI against your real work, not self-reported. This is especially valuable for students and early career professionals looking to differentiate themselves from other candidates."
                   }
                 },
                 {
@@ -275,7 +275,7 @@ export default function RootLayout({
                   "name": "What happens to my personal data on OnlyWorks?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Your personal data is encrypted and never shared without your permission. You decide what gets verified, what goes into reports, and who can see it. Your data belongs to you and you can delete it anytime."
+                    "text": "Capture only runs during sessions you start and stop. To generate your report, your work data is processed by OnlyWorks and its AI provider; it is encrypted in transit and at rest, and never sold. You choose what goes on your profile and who can see it. See our Privacy Policy for what is collected, who processes it, and how to request deletion."
                   }
                 }
               ]
@@ -302,13 +302,13 @@ export default function RootLayout({
                 {
                   "@type": "HowToStep",
                   "name": "Build Your Portfolio",
-                  "text": "Work on your projects while OnlyWorks helps you build verified proof of your work. You control what gets recorded and verified.",
+                  "text": "Start a session and do your normal work. You start and stop each session, and OnlyWorks builds verified proof from what you actually did.",
                   "position": 2
                 },
                 {
                   "@type": "HowToStep",
                   "name": "Generate Reports",
-                  "text": "Create tamper-proof verification reports that prove your work is genuine. Share these with employers, clients, or add them to your portfolio.",
+                  "text": "Generate verified reports built from your real work sessions. Share them with employers, clients, or add them to your portfolio as one link.",
                   "position": 3
                 }
               ]

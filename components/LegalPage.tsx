@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { Navigation } from '@/components/Navigation'
+import { Footer } from '@/components/Footer'
 
 interface Section {
   id: string
@@ -27,47 +29,67 @@ export function LegalPage({ title, lastUpdated, sections, activeLink }: LegalPag
     }
   }
 
+  const tabs: { href: string; label: string; key: 'privacy' | 'terms' }[] = [
+    { href: '/privacy', label: 'Privacy Policy', key: 'privacy' },
+    { href: '/terms', label: 'Terms of Service', key: 'terms' },
+  ]
+
   return (
-    <div className="min-h-screen bg-white">
-      {/* Simple header */}
-      <header className="border-b border-neutral-200 bg-white">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="text-sm font-medium text-neutral-900">
-            &larr; Back to OnlyWorks
-          </Link>
-          <div className="flex gap-6">
-            <Link
-              href="/privacy"
-              className={`text-sm ${activeLink === 'privacy' ? 'text-violet-600 font-medium' : 'text-neutral-500'}`}
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="/terms"
-              className={`text-sm ${activeLink === 'terms' ? 'text-violet-600 font-medium' : 'text-neutral-500'}`}
-            >
-              Terms of Service
-            </Link>
+    <div className="min-h-screen bg-background text-foreground">
+      <Navigation />
+
+      {/* ═══ HERO ═══ */}
+      <section className="relative pt-24 lg:pt-28 pb-8 lg:pb-10 overflow-hidden border-b border-foreground/10">
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+          <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-5">
+            <span className="w-8 h-px bg-foreground/30" />
+            Legal
+          </span>
+
+          <h1 className="text-[clamp(2.5rem,6vw,4.5rem)] font-display leading-[0.95] tracking-tight">
+            {title}
+          </h1>
+
+          <p className="mt-5 text-sm font-mono text-muted-foreground">
+            Effective Date: January 1, 2025 · Last Updated: {lastUpdated}
+          </p>
+
+          {/* privacy / terms switch */}
+          <div className="mt-7 inline-flex items-center rounded-full border border-foreground/20 p-1">
+            {tabs.map((tab) => (
+              <Link
+                key={tab.key}
+                href={tab.href}
+                className={`px-5 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
+                  activeLink === tab.key
+                    ? 'bg-foreground text-background'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {tab.label}
+              </Link>
+            ))}
           </div>
         </div>
-      </header>
+      </section>
 
-      <div className="max-w-7xl mx-auto flex">
-        {/* Sidebar */}
-        <aside className="w-64 shrink-0 border-r border-neutral-200 sticky top-0 h-screen overflow-y-auto hidden lg:block">
-          <nav className="p-6">
-            <h2 className="text-xs font-semibold uppercase tracking-wider mb-4 text-neutral-500">
-              {title}
+      {/* ═══ BODY — TOC + content ═══ */}
+      <section className="relative py-10 lg:py-14">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 grid lg:grid-cols-[240px_minmax(0,1fr)] gap-10 lg:gap-16 items-start">
+          {/* Sidebar TOC — sticky below the fixed nav */}
+          <aside className="hidden lg:block sticky top-28 self-start">
+            <h2 className="text-xs font-mono uppercase tracking-widest mb-4 text-muted-foreground">
+              On this page
             </h2>
-            <ul className="space-y-1">
+            <ul className="space-y-1 border-l border-foreground/10">
               {sections.map((section, index) => (
                 <li key={section.id}>
                   <button
                     onClick={() => scrollToSection(section.id)}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
+                    className={`w-full text-left -ml-px pl-4 py-1.5 border-l text-sm transition-colors ${
                       activeSection === section.id
-                        ? 'text-violet-600 bg-violet-50 font-medium'
-                        : 'text-neutral-500 hover:bg-neutral-50'
+                        ? 'border-[#8b5cf6] text-foreground font-medium'
+                        : 'border-transparent text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     {index + 1}. {section.title}
@@ -75,32 +97,25 @@ export function LegalPage({ title, lastUpdated, sections, activeLink }: LegalPag
                 </li>
               ))}
             </ul>
-          </nav>
-        </aside>
+          </aside>
 
-        {/* Main content */}
-        <main className="flex-1 min-w-0">
-          <div className="max-w-3xl mx-auto px-6 py-12">
-            <div className="mb-12">
-              <h1 className="text-4xl font-semibold mb-4 text-neutral-900 tracking-tight">
-                {title}
-              </h1>
-              <p className="text-sm text-neutral-500">
-                Effective Date: January 1, 2025 &middot; Last Updated: {lastUpdated}
-              </p>
-            </div>
-
-            <div className="space-y-16">
+          {/* Main content */}
+          <main className="min-w-0 max-w-3xl">
+            <div className="space-y-12">
               {sections.map((section, index) => (
-                <section key={section.id} id={section.id} className="scroll-mt-8">
-                  <h2 className="text-xl font-semibold mb-4 text-neutral-900">
+                <section key={section.id} id={section.id} className="scroll-mt-28">
+                  <h2 className="font-display text-2xl lg:text-3xl tracking-tight mb-4">
                     {index + 1}. {section.title}
                   </h2>
-                  <div className="prose prose-sm text-neutral-600 leading-7 text-[0.9375rem]">
+                  <div className="text-[0.9375rem] text-muted-foreground leading-7">
                     {section.content.split('\n\n').map((paragraph, i) => (
                       <p key={i} className="mb-4 whitespace-pre-line">
                         {paragraph.split('**').map((part, j) =>
-                          j % 2 === 1 ? <strong key={j}>{part}</strong> : part
+                          j % 2 === 1 ? (
+                            <strong key={j} className="text-foreground font-medium">{part}</strong>
+                          ) : (
+                            part
+                          )
                         )}
                       </p>
                     ))}
@@ -109,15 +124,16 @@ export function LegalPage({ title, lastUpdated, sections, activeLink }: LegalPag
               ))}
             </div>
 
-            {/* Footer */}
-            <div className="mt-16 pt-8 border-t border-neutral-200">
-              <p className="text-sm text-neutral-500">
-                &copy; {new Date().getFullYear()} OnlyWorks Inc. All rights reserved.
+            <div className="mt-14 pt-8 border-t border-foreground/10">
+              <p className="text-sm font-mono text-muted-foreground">
+                © {new Date().getFullYear()} OnlyWorks Inc. All rights reserved.
               </p>
             </div>
-          </div>
-        </main>
-      </div>
+          </main>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   )
 }

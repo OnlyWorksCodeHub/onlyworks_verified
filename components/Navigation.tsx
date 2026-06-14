@@ -53,8 +53,8 @@ export function Navigation() {
       <nav
         className="mx-auto transition-all duration-500"
         style={scrolled
-          ? { background: 'rgba(250,250,249,0.8)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid rgba(8,5,3,0.1)', borderRadius: 16, boxShadow: '0 4px 30px rgba(0,0,0,0.05)', maxWidth: 1200 }
-          : { background: 'transparent', borderBottom: '1px solid rgba(8,5,3,0.06)' }
+          ? { background: '#fafaf9', border: '1px solid rgba(8,5,3,0.1)', borderRadius: 16, boxShadow: '0 4px 30px rgba(0,0,0,0.08)', maxWidth: 1200 }
+          : { background: '#fafaf9', borderBottom: '1px solid rgba(8,5,3,0.08)' }
         }
       >
         <div className="nav-inner">

@@ -5,6 +5,7 @@ import { Suspense } from 'react'
 import ProfileCard from '@/components/profile/ProfileCard'
 import ProfileViewToggle from '@/components/profile/ProfileViewToggle'
 import { Navigation } from '@/components/Navigation'
+import { Footer } from '@/components/Footer'
 import { BACKEND_URL } from '@/lib/config'
 import { displayOwId } from '@/lib/skills'
 import type { UnifiedProfileData, ProfileData, BadgeStatus } from '@/lib/types/profile'
@@ -68,7 +69,7 @@ export default async function SharedOWProfilePage({ params }: { params: { token:
   const hasProfileData = owp && owp.summary && owp.summary.total_reports > 0
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+    <div className="min-h-screen bg-background flex flex-col">
       <Navigation />
 
       <main className="profile-page">
@@ -80,16 +81,21 @@ export default async function SharedOWProfilePage({ params }: { params: { token:
           </Suspense>
         )}
 
-        {/* Footer */}
-        <div style={{ textAlign: 'center', padding: '2rem 0 1rem' }}>
-          <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginBottom: '1rem' }}>
+        {/* Attribution */}
+        <div className="text-center py-8">
+          <p className="text-sm text-muted-foreground mb-4">
             Profile powered by OnlyWorks
           </p>
-          <Link href="/downloads" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+          <Link
+            href="/downloads"
+            className="inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
+          >
             Get OnlyWorks
           </Link>
         </div>
       </main>
+
+      <Footer />
     </div>
   )
 }

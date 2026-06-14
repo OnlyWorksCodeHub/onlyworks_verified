@@ -11,7 +11,7 @@ export default function CareersPage() {
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Navigation />
 
-      <main className="flex-1 flex items-center justify-center px-6 lg:px-12 pt-32 pb-20">
+      <main className="flex-1 flex items-center justify-center px-6 lg:px-12 pt-24 pb-20">
         <div className="max-w-2xl w-full">
           <motion.div
             initial={{ opacity: 0, y: 16 }}

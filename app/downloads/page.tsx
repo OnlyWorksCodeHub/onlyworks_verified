@@ -2,15 +2,14 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { ArrowRight, Apple, Monitor, Download, CheckCircle, Shield, Zap, RefreshCw } from 'lucide-react'
+import { ArrowRight, Apple, Monitor, Download } from 'lucide-react'
 import toast, { Toaster } from 'react-hot-toast'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 import { motion } from 'framer-motion'
-import { GridBackground, GeometricPattern, FloatingParticles, PulsingRings } from '@/components/ui/grid-background'
+import { GridBackground } from '@/components/ui/grid-background'
 import { ShimmerButton } from '@/components/ui/shimmer-button'
-import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
-import { BinaryRain, CodeDecoration, WatermarkText, ASCIIBlock, ScanLines, ConnectionLines } from '@/components/ui/decorative-fills'
+import { ScanLines } from '@/components/ui/decorative-fills'
 
 type MacArch = 'arm64' | 'intel' | 'unknown'
 
@@ -88,450 +87,193 @@ export default function DownloadsPage() {
     : { label: 'Download for Mac', platform: 'mac', arch: 'arm64' }
 
   const macSecondary = macArch === 'intel'
-    ? [{ label: 'Apple Silicon (M1 / M2 / M3 / M4)', platform: 'mac', arch: 'arm64' }]
-    : [{ label: 'Intel Mac', platform: 'mac', arch: 'intel' }]
+    ? { label: 'Apple Silicon instead', platform: 'mac', arch: 'arm64' }
+    : { label: 'Intel Mac instead', platform: 'mac', arch: 'intel' }
 
   const macSubtitle = macArch === 'arm64'
     ? 'Apple Silicon detected · M1 / M2 / M3 / M4'
     : macArch === 'intel'
     ? 'Intel Mac detected'
-    : 'Apple Silicon (M1 / M2 / M3 / M4) or Intel'
-
-  const platforms: Array<{
-    num: string
-    icon: typeof Apple
-    title: string
-    subtitle: string
-    requirement: string
-    primary: { label: string; platform: string; arch: string }
-    links: Array<{ label: string; platform: string; arch: string }>
-  }> = [
-    {
-      num: '01',
-      icon: Apple,
-      title: 'macOS',
-      subtitle: macSubtitle,
-      requirement: 'macOS 10.15+ · Apple Silicon or Intel',
-      primary: macPrimary,
-      links: macSecondary,
-    },
-    {
-      num: '02',
-      icon: Monitor,
-      title: 'Windows',
-      subtitle: '64-bit',
-      requirement: 'Windows 10+',
-      primary: { label: 'Download for Windows', platform: 'windows', arch: 'x64' },
-      links: [],
-    },
-  ]
-
-  const features = [
-    { icon: Shield, title: 'Privacy-first', desc: 'You control what gets captured. End-to-end encrypted.' },
-    { icon: Zap, title: 'Instant insights', desc: 'Reports generated on-device. Your data stays yours.' },
-    { icon: RefreshCw, title: 'Auto-updates', desc: 'Always on the latest version. Zero effort.' },
-    { icon: CheckCircle, title: 'Ready in seconds', desc: 'No account required to start. Install and go.' },
-  ]
+    : 'Apple Silicon (M1–M4) or Intel'
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Toaster position="top-center" />
       <Navigation />
 
-      {/* ═══ HERO ═══ */}
-      <section className="relative py-28 lg:py-36 overflow-hidden">
+      {/* ═══ ONE SCREEN: narrative + download, no void ═══ */}
+      <section className="relative overflow-hidden border-b border-foreground/10">
         <GridBackground />
-        <BinaryRain />
-        <CodeDecoration side="right" />
         <ScanLines />
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="mb-6"
-          >
-            <AnimatedGradientText className="text-sm font-mono">
-              <span className="w-8 h-px bg-foreground/30 mr-3 inline-block" />
-              Download
-            </AnimatedGradientText>
-          </motion.div>
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12 pt-24 lg:pt-28 pb-12 lg:pb-16">
+          <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-10 lg:gap-16 items-start">
 
-          <motion.h1
-            initial={{ opacity: 0, y: 32 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-[clamp(3.5rem,8vw,7rem)] font-display leading-[0.9] tracking-tight mb-8"
-          >
-            <span className="block">Get</span>
-            <span className="block">OnlyWorks</span>
-          </motion.h1>
+            {/* LEFT — the pitch, hard */}
+            <div>
+              <motion.span
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-5"
+              >
+                <span className="w-8 h-px bg-foreground/30" />
+                Get the new resume
+              </motion.span>
 
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-end">
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="max-w-md text-xl lg:text-2xl leading-relaxed"
-              style={{ color: '#57554f' }}
-            >
-              Available for macOS and Windows. Set up in under a minute. Start proving your work today.
-            </motion.p>
+              <motion.h1
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="text-[clamp(2.5rem,5.5vw,5rem)] font-display leading-[0.95] tracking-tight"
+              >
+                The resume is<br />
+                <span className="text-muted-foreground">a story anyone</span><br />
+                can fake.
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.15 }}
+                className="mt-6 max-w-md text-lg lg:text-xl leading-relaxed"
+                style={{ color: '#57554f' }}
+              >
+                Anyone can write anything. The best storyteller gets hired; the person who
+                did the work gets skipped. OnlyWorks replaces the resume with proof built
+                from your real work — the part you can&apos;t fake.
+              </motion.p>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-5 text-sm font-mono text-muted-foreground"
+              >
+                Free for job seekers · macOS &amp; Windows · sign in with Google, LinkedIn or email
+              </motion.p>
+            </div>
+
+            {/* RIGHT — the download box, the whole point */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-start gap-3 lg:justify-end"
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="border border-foreground/15"
             >
-              <ShimmerButton
-                shimmerColor="#a78bfa"
-                background="rgba(139, 92, 246, 1)"
-                borderRadius="1.75rem"
-                onClick={() => document.getElementById('platforms')?.scrollIntoView({ behavior: 'smooth' })}
-                className="h-14 px-8 text-base font-medium"
-              >
-                Download
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </ShimmerButton>
-              <Link
-                href="/talent"
-                className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium transition-all hover:bg-[#8b5cf6]/10 group"
-                style={{ border: '1.5px solid #8b5cf6', color: '#8b5cf6' }}
-              >
-                Join Talent Community
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </Link>
+              <div className="px-6 py-3 border-b border-foreground/10 flex items-center justify-between">
+                <span className="text-xs font-mono text-muted-foreground">OnlyWorks · desktop app</span>
+                <span className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
+                  <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" /> Free
+                </span>
+              </div>
+
+              {/* macOS */}
+              <div className="px-6 py-6 border-b border-foreground/10">
+                <div className="flex items-center gap-3 mb-3">
+                  <Apple className="w-5 h-5" />
+                  <span className="font-display text-2xl">macOS</span>
+                  <span className="ml-auto text-xs font-mono text-muted-foreground">{macSubtitle}</span>
+                </div>
+
+                {macArch === 'unknown' ? (
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <ShimmerButton
+                      shimmerColor="#a78bfa"
+                      background="rgba(139, 92, 246, 1)"
+                      borderRadius="1.5rem"
+                      onClick={() => handleDownload('mac', 'arm64')}
+                      disabled={downloading !== null}
+                      className="h-12 px-5 text-sm font-medium disabled:opacity-50 whitespace-nowrap flex-1"
+                    >
+                      {downloading === 'mac-arm64' ? 'Downloading…' : 'Apple Silicon (M1–M4)'}
+                    </ShimmerButton>
+                    <ShimmerButton
+                      shimmerColor="#a78bfa"
+                      background="rgba(139, 92, 246, 1)"
+                      borderRadius="1.5rem"
+                      onClick={() => handleDownload('mac', 'intel')}
+                      disabled={downloading !== null}
+                      className="h-12 px-5 text-sm font-medium disabled:opacity-50 whitespace-nowrap flex-1"
+                    >
+                      {downloading === 'mac-intel' ? 'Downloading…' : 'Intel Mac'}
+                    </ShimmerButton>
+                  </div>
+                ) : (
+                  <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                    <ShimmerButton
+                      shimmerColor="#a78bfa"
+                      background="rgba(139, 92, 246, 1)"
+                      borderRadius="1.5rem"
+                      onClick={() => handleDownload(macPrimary.platform, macPrimary.arch)}
+                      disabled={downloading !== null}
+                      className="h-12 px-6 text-sm font-medium disabled:opacity-50"
+                    >
+                      {downloading === `mac-${macPrimary.arch}` ? 'Downloading…' : macPrimary.label}
+                      {downloading !== `mac-${macPrimary.arch}` && <ArrowRight className="w-4 h-4 ml-2" />}
+                    </ShimmerButton>
+                    <button
+                      onClick={() => handleDownload(macSecondary.platform, macSecondary.arch)}
+                      disabled={downloading !== null}
+                      className="text-sm text-muted-foreground hover:text-foreground underline underline-offset-4 transition-colors disabled:opacity-50"
+                    >
+                      {macSecondary.label}
+                    </button>
+                  </div>
+                )}
+                <p className="mt-3 text-xs text-muted-foreground">
+                  macOS 10.15+. Not sure which chip? Apple menu → About This Mac.
+                </p>
+              </div>
+
+              {/* Windows */}
+              <div className="px-6 py-6 border-b border-foreground/10">
+                <div className="flex items-center gap-3 mb-3">
+                  <Monitor className="w-5 h-5" />
+                  <span className="font-display text-2xl">Windows</span>
+                  <span className="ml-auto text-xs font-mono text-muted-foreground">64-bit · Windows 10+</span>
+                </div>
+                <ShimmerButton
+                  shimmerColor="#a78bfa"
+                  background="rgba(139, 92, 246, 1)"
+                  borderRadius="1.5rem"
+                  onClick={() => handleDownload('windows', 'x64')}
+                  disabled={downloading !== null}
+                  className="h-12 px-6 text-sm font-medium disabled:opacity-50"
+                >
+                  {downloading === 'windows-x64' ? 'Downloading…' : 'Download for Windows'}
+                  {downloading !== 'windows-x64' && <ArrowRight className="w-4 h-4 ml-2" />}
+                </ShimmerButton>
+              </div>
+
+              {/* The one note that actually matters */}
+              <div className="px-6 py-4">
+                <p className="text-xs font-mono text-muted-foreground leading-relaxed">
+                  On first launch you&apos;ll grant Screen Recording &amp; Accessibility
+                  permissions. Capture runs only during sessions you start and stop.
+                </p>
+              </div>
             </motion.div>
           </div>
-        </div>
-      </section>
 
-      {/* ═══ PLATFORMS ═══ */}
-      <section id="platforms" className="relative py-16 lg:py-20 overflow-hidden">
-        <GeometricPattern className="right-0 top-0 w-[400px] h-[400px] opacity-30" />
-        <FloatingParticles count={6} />
-        <WatermarkText text="DOWNLOAD" />
-        <ASCIIBlock variant="logo" className="absolute right-12 top-16" />
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="mb-10">
-            <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-4">
-              <span className="w-8 h-px bg-foreground/30" />
-              Platforms
-            </span>
-            <motion.h2
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="text-4xl lg:text-6xl font-display tracking-tight"
+          {/* tight footer row — uninstall + next step, no big CTA block */}
+          <div className="mt-10 pt-6 border-t border-foreground/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <Link
+              href="/talent"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[#8b5cf6] hover:underline underline-offset-4"
             >
-              Choose your<br /><span className="text-muted-foreground">platform.</span>
-            </motion.h2>
-          </div>
-
-          <div>
-            {platforms.map((p, i) => (
-              <motion.div
-                key={p.num}
-                initial={{ opacity: 0, y: 48 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: i * 0.1 }}
-                className="group"
-              >
-                <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 py-10 lg:py-14 border-b border-foreground/10">
-                  <div className="shrink-0">
-                    <span className="font-mono text-sm text-muted-foreground">{p.num}</span>
-                  </div>
-                  <div className="flex-1 grid lg:grid-cols-2 gap-8 items-center">
-                    <div>
-                      <div className="flex items-center gap-4 mb-3">
-                        <div className="w-12 h-12 flex items-center justify-center border border-foreground/10 group-hover:bg-foreground group-hover:text-background transition-colors duration-300">
-                          <p.icon className="w-6 h-6" />
-                        </div>
-                        <div>
-                          <h3 className="text-3xl lg:text-4xl font-display group-hover:translate-x-2 transition-transform duration-500">{p.title}</h3>
-                        </div>
-                      </div>
-                      <p className="text-lg text-muted-foreground leading-relaxed mb-1">{p.subtitle}</p>
-                      <p className="text-sm font-mono text-muted-foreground">{p.requirement}</p>
-                    </div>
-                    <div className="flex flex-col items-start lg:items-end gap-4">
-                      {p.title === 'macOS' && macArch === 'unknown' ? (
-                        <>
-                          <p className="text-xs font-mono text-muted-foreground self-start lg:self-end">Choose your Mac:</p>
-                          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-                            <ShimmerButton
-                              shimmerColor="#a78bfa"
-                              background="rgba(139, 92, 246, 1)"
-                              borderRadius="1.75rem"
-                              onClick={() => handleDownload('mac', 'arm64')}
-                              disabled={downloading !== null}
-                              className="h-14 px-6 text-sm font-medium disabled:opacity-50 whitespace-nowrap"
-                            >
-                              {downloading === 'mac-arm64' ? 'Downloading...' : 'Apple Silicon (M1–M4)'}
-                            </ShimmerButton>
-                            <ShimmerButton
-                              shimmerColor="#a78bfa"
-                              background="rgba(139, 92, 246, 1)"
-                              borderRadius="1.75rem"
-                              onClick={() => handleDownload('mac', 'intel')}
-                              disabled={downloading !== null}
-                              className="h-14 px-6 text-sm font-medium disabled:opacity-50 whitespace-nowrap"
-                            >
-                              {downloading === 'mac-intel' ? 'Downloading...' : 'Intel Mac'}
-                            </ShimmerButton>
-                          </div>
-                          <p className="text-xs text-muted-foreground self-start lg:self-end">
-                            Not sure? Apple menu → About This Mac
-                          </p>
-                        </>
-                      ) : (
-                        <>
-                          <ShimmerButton
-                            shimmerColor="#a78bfa"
-                            background="rgba(139, 92, 246, 1)"
-                            borderRadius="1.75rem"
-                            onClick={() => handleDownload(p.primary.platform, p.primary.arch)}
-                            disabled={downloading !== null}
-                            className="h-14 px-8 text-base font-medium disabled:opacity-50"
-                          >
-                            {downloading === `${p.primary.platform}-${p.primary.arch}` ? 'Downloading...' : p.primary.label}
-                            {downloading !== `${p.primary.platform}-${p.primary.arch}` && (
-                              <ArrowRight className="w-4 h-4 ml-2" />
-                            )}
-                          </ShimmerButton>
-                        </>
-                      )}
-                      {p.title !== 'macOS' || macArch !== 'unknown' ? (
-                        p.links.length > 0 ? (
-                          <div className="flex gap-4 text-sm">
-                            {p.links.map((link) => (
-                              <button
-                                key={link.arch}
-                                onClick={() => handleDownload(link.platform, link.arch)}
-                                className="text-muted-foreground hover:text-foreground underline underline-offset-4 transition-colors"
-                              >
-                                {link.label}
-                              </button>
-                            ))}
-                          </div>
-                        ) : null
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ FEATURES — 2x2 grid ═══ */}
-      <section className="relative py-16 lg:py-20 overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none opacity-[0.04]" aria-hidden="true" style={{ backgroundImage: `radial-gradient(circle, #080503 1px, transparent 1px)`, backgroundSize: '24px 24px' }} />
-        <PulsingRings className="right-0 bottom-0 w-[350px] h-[350px] opacity-20" />
-        <ConnectionLines className="opacity-40" />
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="mb-10">
-            <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-4">
-              <span className="w-8 h-px bg-foreground/30" />
-              What you get
-            </span>
-            <motion.h2
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="text-4xl lg:text-6xl font-display tracking-tight"
-            >
-              Built for<br /><span className="text-muted-foreground">privacy.</span>
-            </motion.h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-foreground/10">
-            {features.map((f, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: i * 0.1 }}
-                className="bg-background p-8 lg:p-10 group"
-              >
-                <div className="w-10 h-10 flex items-center justify-center border border-foreground/10 mb-4 group-hover:bg-foreground group-hover:text-background transition-colors duration-300">
-                  <f.icon className="w-5 h-5" />
-                </div>
-                <h3 className="text-2xl lg:text-3xl font-display tracking-tight mb-2">{f.title}</h3>
-                <p className="text-lg text-muted-foreground leading-relaxed">{f.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ DARK SECTION — System requirements ═══ */}
-      <section className="relative py-16 lg:py-24" style={{ background: '#1c1b18', color: '#fafaf9' }}>
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-          <div className="absolute inset-0" style={{ backgroundImage: `repeating-linear-gradient(-45deg, transparent, transparent 40px, currentColor 40px, currentColor 41px)` }} />
-        </div>
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="mb-10">
-            <span className="inline-flex items-center gap-3 text-sm font-mono mb-4" style={{ color: 'rgba(250,250,249,0.5)' }}>
-              <span className="w-8 h-px" style={{ background: 'rgba(250,250,249,0.3)' }} />
-              Requirements
-            </span>
-            <motion.h2
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="text-4xl lg:text-6xl font-display tracking-tight"
-              style={{ color: '#fafaf9' }}
-            >
-              System<br /><span style={{ color: 'rgba(250,250,249,0.5)' }}>requirements.</span>
-            </motion.h2>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-            <div className="space-y-0">
-              {[
-                { num: 'I', title: 'macOS', items: ['macOS 10.15 (Catalina) or later', 'Apple Silicon (M1, M2, M3, M4) or Intel', '200MB disk space', 'Screen Recording & Accessibility permissions'] },
-                { num: 'II', title: 'Windows', items: ['Windows 10 or later', '64-bit processor', '200MB disk space', 'Administrator access for installation'] },
-              ].map((req, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="py-6 border-b transition-all duration-500 group"
-                  style={{ borderColor: 'rgba(250,250,249,0.1)' }}
-                >
-                  <div className="flex items-start gap-6">
-                    <span className="font-display text-3xl" style={{ color: 'rgba(250,250,249,0.3)' }}>{req.num}</span>
-                    <div className="flex-1">
-                      <h3 className="text-2xl lg:text-3xl font-display mb-3 group-hover:translate-x-2 transition-transform duration-300" style={{ color: '#fafaf9' }}>{req.title}</h3>
-                      <ul className="space-y-1.5">
-                        {req.items.map((item, j) => (
-                          <li key={j} className="text-base leading-relaxed" style={{ color: 'rgba(250,250,249,0.6)' }}>
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="lg:sticky lg:top-32 self-start">
-              <div className="border overflow-hidden" style={{ borderColor: 'rgba(250,250,249,0.1)' }}>
-                <div className="px-6 py-3 border-b flex items-center justify-between" style={{ borderColor: 'rgba(250,250,249,0.1)' }}>
-                  <div className="flex gap-2">
-                    <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(250,250,249,0.2)' }} />
-                    <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(250,250,249,0.2)' }} />
-                    <div className="w-3 h-3 rounded-full" style={{ background: 'rgba(250,250,249,0.2)' }} />
-                  </div>
-                  <span className="text-xs font-mono" style={{ color: 'rgba(250,250,249,0.4)' }}>quick-start.sh</span>
-                </div>
-                <div className="p-6 font-mono text-sm" style={{ color: 'rgba(250,250,249,0.7)' }}>
-                  <div className="leading-loose">
-                    <span style={{ color: 'rgba(250,250,249,0.2)' }}>1 </span>
-                    # Download and install
-                  </div>
-                  <div className="leading-loose">
-                    <span style={{ color: 'rgba(250,250,249,0.2)' }}>2 </span>
-                    open OnlyWorks.dmg
-                  </div>
-                  <div className="leading-loose">
-                    <span style={{ color: 'rgba(250,250,249,0.2)' }}>3 </span>
-                    &nbsp;
-                  </div>
-                  <div className="leading-loose">
-                    <span style={{ color: 'rgba(250,250,249,0.2)' }}>4 </span>
-                    # Grant permissions
-                  </div>
-                  <div className="leading-loose">
-                    <span style={{ color: 'rgba(250,250,249,0.2)' }}>5 </span>
-                    # Screen Recording + Accessibility
-                  </div>
-                  <div className="leading-loose">
-                    <span style={{ color: 'rgba(250,250,249,0.2)' }}>6 </span>
-                    &nbsp;
-                  </div>
-                  <div className="leading-loose">
-                    <span style={{ color: 'rgba(250,250,249,0.2)' }}>7 </span>
-                    # Start working. That&apos;s it.
-                  </div>
-                </div>
-                <div className="px-6 py-3 border-t flex items-center gap-3" style={{ borderColor: 'rgba(250,250,249,0.1)' }}>
-                  <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                  <span className="text-xs font-mono" style={{ color: 'rgba(250,250,249,0.4)' }}>Ready</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ CTA ═══ */}
-      <section className="relative py-16 lg:py-24 overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none opacity-[0.025]" aria-hidden="true" style={{ backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 30px, #080503 30px, #080503 31px)` }} />
-        <GeometricPattern className="left-0 top-1/2 -translate-y-1/2 w-[300px] h-[300px] opacity-30" />
-        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            className="relative border border-foreground"
-          >
-            <div className="relative z-10 px-8 lg:px-16 py-12 lg:py-16">
-              <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-                <div className="flex-1">
-                  <h2 className="text-4xl lg:text-7xl font-display tracking-tight mb-6 leading-[0.95]">
-                    Ready to prove<br />your work?
-                  </h2>
-                  <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-xl">
-                    Download OnlyWorks. No account required to start.
-                  </p>
-                  <div className="flex flex-col sm:flex-row items-start gap-4">
-                    <button
-                      onClick={() => document.getElementById('platforms')?.scrollIntoView({ behavior: 'smooth' })}
-                      className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium text-white transition-all hover:opacity-90 group"
-                      style={{ background: '#8b5cf6' }}
-                    >
-                      Download
-                      <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                    </button>
-                    <Link
-                      href="/"
-                      className="inline-flex items-center justify-center h-14 px-8 text-base rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
-                    >
-                      Back to home
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="absolute top-0 right-0 w-32 h-32 border-b border-l border-foreground/10" />
-            <div className="absolute bottom-0 left-0 w-32 h-32 border-t border-r border-foreground/10" />
-          </motion.div>
-
-          {/* Uninstall links */}
-          <div className="mt-8 text-center">
-            <p className="text-xs font-mono text-muted-foreground mb-2">Need a fresh start?</p>
-            <div className="flex items-center justify-center gap-6">
+              See how proof beats a resume
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <div className="flex items-center gap-5">
               <a
                 href="https://github.com/Namkha-yolo/ONLYWORKS_UNINSTALLER/releases/download/v1/UninstallOnlyWorks.dmg"
-                className="inline-flex items-center gap-1.5 text-sm font-medium hover:underline underline-offset-4"
+                className="inline-flex items-center gap-1.5 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Download className="w-3.5 h-3.5" /> Uninstaller (Mac)
               </a>
               <a
                 href="https://github.com/Namkha-yolo/ONLYWORKS_UNINSTALLER_WINDOWS/releases/download/v1/UninstallOnlyWorks-Windows.zip"
-                className="inline-flex items-center gap-1.5 text-sm font-medium hover:underline underline-offset-4"
+                className="inline-flex items-center gap-1.5 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"
               >
                 <Download className="w-3.5 h-3.5" /> Uninstaller (Windows)
               </a>

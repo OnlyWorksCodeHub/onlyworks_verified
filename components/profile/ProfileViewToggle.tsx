@@ -20,7 +20,8 @@ export default function ProfileViewToggle({ owProfile, resume }: Props) {
     <>
       <div style={{
         display: 'flex',
-        background: 'var(--bg-alt, rgba(128,128,128,0.08))',
+        background: 'var(--bg-alt)',
+        border: '1px solid var(--border)',
         borderRadius: '999px',
         padding: '3px',
         marginBottom: '1rem',
@@ -33,7 +34,7 @@ export default function ProfileViewToggle({ owProfile, resume }: Props) {
             fontSize: '0.8125rem',
             fontWeight: 600,
             color: view === 'ow-profile' ? '#fff' : 'var(--text-muted)',
-            background: view === 'ow-profile' ? 'var(--accent, #8b5cf6)' : 'transparent',
+            background: view === 'ow-profile' ? 'var(--accent)' : 'transparent',
             border: 'none',
             borderRadius: '999px',
             cursor: 'pointer',
@@ -49,7 +50,7 @@ export default function ProfileViewToggle({ owProfile, resume }: Props) {
             fontSize: '0.8125rem',
             fontWeight: 600,
             color: view === 'resume' ? '#fff' : 'var(--text-muted)',
-            background: view === 'resume' ? 'var(--accent, #8b5cf6)' : 'transparent',
+            background: view === 'resume' ? 'var(--accent)' : 'transparent',
             border: 'none',
             borderRadius: '999px',
             cursor: 'pointer',

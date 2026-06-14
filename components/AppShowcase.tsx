@@ -8,37 +8,37 @@ const slides = [
   {
     id: 'overview',
     title: 'Overview',
-    description: 'Get a bird\'s eye view of your productivity with real-time stats and insights.',
+    description: 'See your recent sessions and what you accomplished, at a glance.',
     image: '/images/overview.png'
   },
   {
     id: 'sessions',
     title: 'Sessions',
-    description: 'Track your work sessions with detailed activity logs and timestamps.',
+    description: 'Each session you run, with the work it captured and the report it produced.',
     image: '/images/sessions.png'
   },
   {
     id: 'workspace',
     title: 'Workspace',
-    description: 'Organize your projects and manage your workflow in one place.',
+    description: 'Keep your projects and reports organized in one place.',
     image: '/images/workspace.png'
   },
   {
     id: 'analytics',
     title: 'Analytics',
-    description: 'Dive deep into your productivity patterns with detailed analytics and trends.',
+    description: 'A view of your skills and accomplishments as they build up over time.',
     image: '/images/analytics.png'
   },
   {
     id: 'reports',
     title: 'Reports',
-    description: 'Generate comprehensive reports to document and verify your work.',
+    description: 'AI-written reports of your real work — your skills, accomplishments and impact.',
     image: '/images/reports.png'
   },
   {
     id: 'shared-reports',
     title: 'Shared Reports',
-    description: 'Share verified productivity reports with clients or employers.',
+    description: 'Send a verified report to a client or employer as one link.',
     image: '/images/shared-reports.png'
   }
 ]
@@ -85,14 +85,14 @@ export function AppShowcase() {
         <button
           onClick={goToPrevious}
           className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
-          style={{ background: 'rgba(255,255,255,0.9)', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}
+          style={{ background: 'var(--bg)', border: '1px solid var(--border)' }}
         >
           <ChevronLeft className="w-5 h-5" style={{ color: 'var(--text)' }} />
         </button>
         <button
           onClick={goToNext}
           className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
-          style={{ background: 'rgba(255,255,255,0.9)', boxShadow: '0 4px 20px rgba(0,0,0,0.1)' }}
+          style={{ background: 'var(--bg)', border: '1px solid var(--border)' }}
         >
           <ChevronRight className="w-5 h-5" style={{ color: 'var(--text)' }} />
         </button>

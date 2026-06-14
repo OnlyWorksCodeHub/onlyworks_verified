@@ -7,10 +7,10 @@ interface UpgradePromptProps {
 
 export default function UpgradePrompt({ previouslyVerified }: UpgradePromptProps) {
   return (
-    <div className="card" style={{
+    <div className="profile-card" style={{
       padding: '2rem',
       textAlign: 'center',
-      background: previouslyVerified ? 'var(--bg-alt)' : 'white',
+      background: previouslyVerified ? 'var(--bg-alt)' : 'var(--card)',
     }}>
       {previouslyVerified ? (
         <>
@@ -20,9 +20,7 @@ export default function UpgradePrompt({ previouslyVerified }: UpgradePromptProps
             color: 'var(--text-muted)',
             margin: '0 auto 1rem',
           }} />
-          <h3 style={{
-            fontSize: '1.125rem',
-            fontWeight: 600,
+          <h3 className="font-display text-xl tracking-tight" style={{
             color: 'var(--text)',
             marginBottom: '0.5rem',
           }}>
@@ -47,9 +45,7 @@ export default function UpgradePrompt({ previouslyVerified }: UpgradePromptProps
             color: 'var(--accent)',
             margin: '0 auto 1rem',
           }} />
-          <h3 style={{
-            fontSize: '1.125rem',
-            fontWeight: 600,
+          <h3 className="font-display text-xl tracking-tight" style={{
             color: 'var(--text)',
             marginBottom: '0.5rem',
           }}>

@@ -13,11 +13,11 @@ export default function ResumeView({ resume, skills, strengths }: Props) {
     <>
       {/* Professional Summary */}
       {resume.professional_summary && (
-        <div className="card p-5" style={{ marginBottom: '1rem' }}>
-          <h3 className="font-semibold mb-2 text-sm uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+        <div className="profile-card p-6" style={{ marginBottom: '1rem' }}>
+          <h3 className="font-mono text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>
             Professional Summary
           </h3>
-          <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary, var(--text-muted))' }}>
+          <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
             {resume.professional_summary}
           </p>
         </div>
@@ -25,13 +25,13 @@ export default function ResumeView({ resume, skills, strengths }: Props) {
 
       {/* Skills — compact chips */}
       {skills.length > 0 && (
-        <div className="card p-5" style={{ marginBottom: '1rem' }}>
-          <h3 className="font-semibold mb-3 text-sm uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+        <div className="profile-card p-6" style={{ marginBottom: '1rem' }}>
+          <h3 className="font-mono text-xs uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
             Skills
           </h3>
           {groupSkillsByCategory(skills).map(({ key, label, skills: catSkills }) => (
             <div key={key} style={{ marginBottom: '0.75rem' }}>
-              <div className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>{label}</div>
+              <div className="font-mono text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>{label}</div>
               <div className="flex flex-wrap gap-1.5">
                 {catSkills.map((s, i) => (
                   <span key={i} className="inline-block px-2.5 py-1 text-xs font-medium border" style={{
@@ -51,14 +51,14 @@ export default function ResumeView({ resume, skills, strengths }: Props) {
 
       {/* Key Strengths */}
       {strengths.length > 0 && (
-        <div className="card p-5" style={{ marginBottom: '1rem' }}>
-          <h3 className="font-semibold mb-3 text-sm uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+        <div className="profile-card p-6" style={{ marginBottom: '1rem' }}>
+          <h3 className="font-mono text-xs uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
             Key Strengths
           </h3>
           <ul className="space-y-2" style={{ listStyle: 'disc', paddingLeft: '1.25rem' }}>
             {strengths.slice(0, 8).map((s, i) => (
-              <li key={i} className="text-sm" style={{ color: 'var(--text)' }}>
-                <strong>{s.strength}</strong>
+              <li key={i} className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                <strong style={{ color: 'var(--text)' }}>{s.strength}</strong>
                 {s.latest_evidence && <span style={{ color: 'var(--text-muted)' }}> — {s.latest_evidence}</span>}
               </li>
             ))}
@@ -68,8 +68,8 @@ export default function ResumeView({ resume, skills, strengths }: Props) {
 
       {/* Work Activity Timeline */}
       {resume.work_activity.length > 0 && (
-        <div className="card p-5" style={{ marginBottom: '1rem' }}>
-          <h3 className="font-semibold mb-3 text-sm uppercase tracking-wider flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
+        <div className="profile-card p-6" style={{ marginBottom: '1rem' }}>
+          <h3 className="font-mono text-xs uppercase tracking-wider mb-3 flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
             <Briefcase className="w-4 h-4" /> Work Activity
           </h3>
           <div className="space-y-4">
@@ -78,7 +78,7 @@ export default function ResumeView({ resume, skills, strengths }: Props) {
                 <div className="flex items-baseline gap-2 mb-1">
                   <span className="font-bold text-sm" style={{ color: 'var(--text)' }}>{w.period}</span>
                   {w.title && (
-                    <span className="text-sm" style={{ color: 'var(--text-secondary, var(--text-muted))' }}>
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                       {w.title}{w.company ? ` at ${w.company}` : ''}
                     </span>
                   )}
@@ -86,7 +86,7 @@ export default function ResumeView({ resume, skills, strengths }: Props) {
                 {w.accomplishments.length > 0 && (
                   <ul style={{ listStyle: 'disc', paddingLeft: '1.25rem', margin: '0.25rem 0 0' }}>
                     {w.accomplishments.map((a, j) => (
-                      <li key={j} className="text-xs" style={{ color: 'var(--text-secondary, var(--text-muted))', marginBottom: '0.125rem' }}>{a}</li>
+                      <li key={j} className="text-xs" style={{ color: 'var(--text-secondary)', marginBottom: '0.125rem' }}>{a}</li>
                     ))}
                   </ul>
                 )}
@@ -105,8 +105,8 @@ export default function ResumeView({ resume, skills, strengths }: Props) {
 
       {/* Accomplishments */}
       {resume.all_accomplishments.length > 0 && (
-        <div className="card p-5" style={{ marginBottom: '1rem' }}>
-          <h3 className="font-semibold mb-3 text-sm uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+        <div className="profile-card p-6" style={{ marginBottom: '1rem' }}>
+          <h3 className="font-mono text-xs uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
             Accomplishments
           </h3>
           <ul className="space-y-2">
@@ -132,35 +132,35 @@ export default function ResumeView({ resume, skills, strengths }: Props) {
 
       {/* Stats Footer */}
       {(resume.total_verified_hours > 0 || resume.total_sessions > 0) && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3" style={{ marginBottom: '1rem' }}>
+        <div className="profile-stats-grid">
           {resume.total_verified_hours > 0 && (
-            <div className="card p-4 text-center">
+            <div className="profile-stat-card">
               <Clock className="w-4 h-4 mx-auto mb-1" style={{ color: 'var(--accent)' }} />
-              <div className="text-xl font-bold" style={{ color: 'var(--text)' }}>{resume.total_verified_hours}</div>
-              <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Verified Hours</div>
+              <div className="profile-stat-value">{resume.total_verified_hours}</div>
+              <div className="profile-stat-label">Verified Hours</div>
             </div>
           )}
           {resume.total_sessions > 0 && (
-            <div className="card p-4 text-center">
+            <div className="profile-stat-card">
               <Briefcase className="w-4 h-4 mx-auto mb-1" style={{ color: 'var(--accent)' }} />
-              <div className="text-xl font-bold" style={{ color: 'var(--text)' }}>{resume.total_sessions}</div>
-              <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Sessions</div>
+              <div className="profile-stat-value">{resume.total_sessions}</div>
+              <div className="profile-stat-label">Sessions</div>
             </div>
           )}
           {resume.current_streak > 0 && (
-            <div className="card p-4 text-center">
+            <div className="profile-stat-card">
               <Flame className="w-4 h-4 mx-auto mb-1" style={{ color: 'var(--accent)' }} />
-              <div className="text-xl font-bold" style={{ color: 'var(--text)' }}>{resume.current_streak}</div>
-              <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Day Streak</div>
+              <div className="profile-stat-value">{resume.current_streak}</div>
+              <div className="profile-stat-label">Day Streak</div>
             </div>
           )}
           {resume.active_since && (
-            <div className="card p-4 text-center">
+            <div className="profile-stat-card">
               <Calendar className="w-4 h-4 mx-auto mb-1" style={{ color: 'var(--accent)' }} />
-              <div className="text-xl font-bold" style={{ color: 'var(--text)' }}>
+              <div className="profile-stat-value">
                 {new Date(resume.active_since).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
               </div>
-              <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Active Since</div>
+              <div className="profile-stat-label">Active Since</div>
             </div>
           )}
         </div>
@@ -168,8 +168,8 @@ export default function ResumeView({ resume, skills, strengths }: Props) {
 
       {/* Top Tools */}
       {resume.top_tools.length > 0 && (
-        <div className="card p-5" style={{ marginBottom: '1rem' }}>
-          <h3 className="font-semibold mb-3 text-sm uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+        <div className="profile-card p-6" style={{ marginBottom: '1rem' }}>
+          <h3 className="font-mono text-xs uppercase tracking-wider mb-3" style={{ color: 'var(--text-muted)' }}>
             Top Tools
           </h3>
           <div className="flex flex-wrap gap-1.5">

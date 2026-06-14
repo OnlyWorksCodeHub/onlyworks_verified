@@ -58,10 +58,10 @@ const COMMANDMENTS = [
 ]
 
 const TIMELINE = [
-  { n: '01', date: 'Fri · 19 Jun', time: '09:00 ET', head: 'Kickoff stream',     body: 'Theme reveal, sponsor toast, judges introduced. 24-hour clock starts.' },
-  { n: '02', date: 'Fri → Sat',    time: 'Async',    head: 'Build window',       body: '24 hours. Ship something. Anything. Preferably weird.' },
+  { n: '01', date: 'Thu · 18 Jun', time: '09:00 ET', head: 'Kickoff stream',     body: 'Theme reveal, sponsor toast, judges introduced. 48-hour clock starts.' },
+  { n: '02', date: 'Thu → Sat',    time: 'Async',    head: 'Build window',       body: '48 hours. Ship something. Anything. Preferably weird.' },
   { n: '03', date: 'Fri · 19 Jun', time: '21:00 ET', head: 'Mid-build sync',     body: 'Live check-in stream. Show your scaffold, your first crime.' },
-  { n: '04', date: 'Sat · 20 Jun', time: '09:00 ET', head: 'Submissions close',  body: 'The door is locked from the outside. 24 hours up.' },
+  { n: '04', date: 'Sat · 20 Jun', time: '12:00 ET', head: 'Submissions close',  body: 'The door is locked from the outside. Time’s up.' },
   { n: '05', date: 'Sat · 20 Jun', time: '13:00 ET', head: 'Finalists announced', body: 'Eight (8) projects called up. Demo from wherever you are.' },
   { n: '06', date: 'Sat · 20 Jun', time: '17:00 ET', head: 'Live finals',        body: 'An unmarked URL. Demos. Judging. Trophies. Weeping.' },
 ]
@@ -95,7 +95,7 @@ const TRACKS = [
 
 const RULES_PEEK = [
   'Solo builders welcome. Teams of up to four (4) humans.',
-  'Build window opens 19 Jun 09:00 ET. Nothing made before that counts. 24 hours, hard.',
+  'Build window opens 18 Jun 09:00 ET. Nothing made before that counts. 48 hours, hard.',
   'AI assistance: fine. AI submitted on its own behalf: not fine.',
   'No harassment. No harm. No shock-value-as-substance.',
   'Open source everything you ship (license your choice).',
@@ -120,7 +120,7 @@ export default function HackathonLanding() {
             alignItems: 'center', gap: 16, marginBottom: 36,
           }}>
             <span className="ow-stamp ow-stamp-wobble">◆ Verified Weird</span>
-            <span className="ow-label ow-label-mute">§ 00 — Edition One · One Day · One URL</span>
+            <span className="ow-label ow-label-mute">§ 00 — Edition One · Two Days · One URL</span>
           </div>
 
           {/* huge wordmark */}
@@ -187,7 +187,7 @@ export default function HackathonLanding() {
           >
             <div>
               <p className="lede" style={{ maxWidth: 620 }}>
-                An OnlyWorks hackathon for builders who would rather <span className="ow-ink-underline">ship the joke</span> than slide-deck the empire. <strong>24 hours</strong>, async, on your own machine. Then on June 20th the finalists step through an unmarked URL and demo live to a stream full of strangers. Fully online — <strong>present from wherever the weird happens</strong>.
+                An OnlyWorks hackathon for builders who would rather <span className="ow-ink-underline">ship the joke</span> than slide-deck the empire. <strong>48 hours</strong>, async, on your own machine. Then on June 20th the finalists step through an unmarked URL and demo live to a stream full of strangers. Fully online — <strong>present from wherever the weird happens</strong>.
               </p>
 
               <div style={{
@@ -198,9 +198,9 @@ export default function HackathonLanding() {
                 letterSpacing: '0.16em', textTransform: 'uppercase',
                 color: 'var(--ow-ink)',
               }}>
-                <span>Fri 19 — Sat 20 Jun ’26</span>
+                <span>Thu 18 — Sat 20 Jun ’26</span>
                 <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
-                <span>24 hours async</span>
+                <span>48 hours async</span>
                 <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
                 <span>Live finals · fully online</span>
                 <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
@@ -230,7 +230,7 @@ export default function HackathonLanding() {
                 fontSize: '0.875rem', color: 'var(--ow-ink-2)',
                 paddingTop: 14, borderTop: '1px solid var(--ow-ink)',
               }}>
-                Anchored to <strong style={{ color: 'var(--ow-ink)' }}>19 Jun · 09:00 ET</strong>. Your local clock may drift; that is your problem and also a beautiful weakness.
+                Anchored to <strong style={{ color: 'var(--ow-ink)' }}>18 Jun · 09:00 ET</strong>. Your local clock may drift; that is your problem and also a beautiful weakness.
               </p>
             </aside>
           </div>
@@ -358,8 +358,8 @@ export default function HackathonLanding() {
               <hr className="ow-rule" style={{ marginBottom: 18 }} />
 
               {[
-                ['Window',       <span key="w"><strong>19 Jun</strong> → <strong>20 Jun ’26</strong></span>],
-                ['Format',       '24-hour build + live online finals'],
+                ['Window',       <span key="w"><strong>18 Jun</strong> → <strong>20 Jun ’26</strong></span>],
+                ['Format',       '48-hour build + live online finals'],
                 ['Finals',       <span key="f">Fully online — <span style={{ color: 'var(--ow-red)' }}>URL reveal 20 Jun</span></span>],
                 ['Team size',    '1 – 4 humans'],
                 ['Cost',         '$0 to enter'],
@@ -398,7 +398,7 @@ export default function HackathonLanding() {
         <div className="ow-container">
           <SectionMark index="03" kicker="The 24" />
           <h2 style={{ marginTop: 18 }}>
-            24 hours.<br />
+            48 hours.<br />
             <span style={{ color: 'var(--ow-red)' }}>One weird.</span>
           </h2>
 

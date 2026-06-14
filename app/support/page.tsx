@@ -6,9 +6,9 @@ import { Mail, Shield, Monitor, Zap, BarChart3, ChevronDown, AlertTriangle, Down
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 import { motion } from 'framer-motion'
-import { FloatingParticles, GridBackground, GeometricPattern, PulsingRings } from '@/components/ui/grid-background'
+import { FloatingParticles, GeometricPattern, PulsingRings } from '@/components/ui/grid-background'
 import { ShimmerButton } from '@/components/ui/shimmer-button'
-import { BinaryRain, WatermarkText, ConnectionLines, ASCIIBlock, ScanLines } from '@/components/ui/decorative-fills'
+import { WatermarkText, ConnectionLines, ASCIIBlock, ScanLines } from '@/components/ui/decorative-fills'
 
 interface FAQItem {
   question: string
@@ -114,12 +114,7 @@ export default function SupportPage() {
     {
       question: 'Is my data private and secure?',
       answer: (
-        <ul className="list-disc list-inside space-y-1.5">
-          <li>Screenshots processed locally when possible</li>
-          <li>Data encrypted in transit and at rest</li>
-          <li>Never sold to third parties</li>
-          <li>Delete your account and data anytime</li>
-        </ul>
+        <p>Capture only runs during the sessions you start and stop &mdash; nothing happens when there is no session. You can delete your account and data anytime. For the full picture of what is collected and where it goes, see our <Link href="/privacy" className="font-medium hover:underline underline-offset-4 text-foreground">Privacy</Link> and <Link href="/security" className="font-medium hover:underline underline-offset-4 text-foreground">Security</Link> pages.</p>
       ),
     },
     { question: 'What macOS version do I need?', answer: 'macOS 10.15 (Catalina) or later. Both Apple Silicon (M1, M2, M3, M4) and Intel Macs are supported.' },
@@ -143,9 +138,9 @@ export default function SupportPage() {
   ]
 
   const features = [
-    { icon: Zap, title: 'AI-Powered Analysis', desc: 'Understands what you\'re working on from screen activity.' },
+    { icon: Zap, title: 'AI-Powered Analysis', desc: 'Turns the work you capture in a session into a report.' },
     { icon: BarChart3, title: 'Productivity Insights', desc: 'Sessions, time, focus — see where your time goes.' },
-    { icon: Monitor, title: 'Work Sessions', desc: 'Recognizes when you start and stop working.' },
+    { icon: Monitor, title: 'Work Sessions', desc: 'You start and stop each session; capture runs only while it\'s on.' },
     { icon: Mail, title: 'Verified Reports', desc: 'AI-generated proof of your skills and accomplishments.' },
   ]
 
@@ -153,79 +148,62 @@ export default function SupportPage() {
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
 
-      {/* ═══ HERO — left-aligned, v0 hero pattern ═══ */}
-      <section className="relative pt-28 lg:pt-32 pb-12 lg:pb-16 overflow-hidden">
+      {/* ═══ HERO — compact help-desk masthead, narrative-led, jump-links inline (zero void) ═══ */}
+      <section className="relative pt-24 lg:pt-28 pb-0 overflow-hidden border-b border-foreground/10">
         <GridLines />
-        <FloatingParticles count={12} />
-        <BinaryRain />
         <ScanLines />
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="mb-8"
+            transition={{ duration: 0.5 }}
+            className="pb-8 lg:pb-10"
           >
-            <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground">
+            <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-3">
               <span className="w-8 h-px bg-foreground/30" />
               Help center
             </span>
+            <h1 className="text-[clamp(2.5rem,5.5vw,5rem)] font-display leading-[0.95] tracking-tight mb-3 max-w-3xl">
+              The resume is broken. The app that replaces it shouldn&apos;t be.
+            </h1>
+            <p className="text-base text-muted-foreground leading-relaxed max-w-2xl">
+              Anyone can type anything onto a resume. The best storyteller gets hired; the person who did the work gets skipped. OnlyWorks throws out the resume and builds proof from your real work instead. This is the help center that keeps your proof running. Pick a topic, get the fix, get back to work.
+            </p>
           </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 32 }}
+          {/* jump-link bar — full-width, flush against the section border, no gap */}
+          <motion.nav
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-[clamp(3.5rem,8vw,7rem)] font-display leading-[0.9] tracking-tight mb-12"
+            transition={{ duration: 0.5, delay: 0.08 }}
+            className="grid sm:grid-cols-2 lg:grid-cols-4 border-t border-foreground/10 divide-y sm:divide-y-0 divide-foreground/10"
+            aria-label="Help topics"
           >
-            <span className="block">Help</span>
-            <span className="block text-muted-foreground">Center</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-xl lg:text-2xl text-muted-foreground leading-relaxed max-w-xl"
-          >
-            Everything you need to get started with OnlyWorks.
-          </motion.p>
-        </div>
-      </section>
-
-      {/* ═══ QUICK LINKS — v0 Metrics 2x2 grid ═══ */}
-      <section className="relative py-12 lg:py-16">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-foreground/10">
             {[
-              { icon: Download, label: 'Installation', href: '#installation', desc: 'Get up and running' },
-              { icon: Shield, label: 'Permissions', href: '#permissions', desc: 'macOS setup guide' },
-              { icon: Zap, label: 'Features', href: '#features', desc: 'What\'s included' },
-              { icon: HelpCircle, label: 'FAQ', href: '#faq', desc: 'Common questions' },
-            ].map((item, i) => (
-              <motion.a
-                key={i}
+              { icon: Download, label: 'Install', href: '#installation', desc: 'Download, set up, sign in' },
+              { icon: Shield, label: 'Permissions', href: '#permissions', desc: 'macOS screen + accessibility' },
+              { icon: Zap, label: 'What it does', href: '#features', desc: 'Sessions, reports, profile' },
+              { icon: HelpCircle, label: 'FAQ', href: '#faq', desc: 'Uninstall, billing, fixes' },
+            ].map((item) => (
+              <a
+                key={item.href}
                 href={item.href}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 + i * 0.1 }}
-                className="bg-background flex flex-col items-center gap-4 py-12 lg:py-16 hover:bg-foreground/[0.03] transition-all duration-300 group"
+                className="flex items-center gap-3 px-5 py-4 hover:bg-foreground/[0.03] transition-colors group sm:border-l sm:first:border-l-0 lg:border-l border-foreground/10"
               >
-                <div className="w-20 h-20 rounded-2xl flex items-center justify-center border border-foreground/10 group-hover:bg-foreground group-hover:text-background group-hover:scale-110 transition-all duration-300" style={{ background: '#f5f5f4' }}>
-                  <item.icon className="w-9 h-9" strokeWidth={1.5} />
-                </div>
-                <div className="text-center">
-                  <span className="block text-sm font-medium mb-1">{item.label}</span>
-                  <span className="block text-xs text-muted-foreground">{item.desc}</span>
-                </div>
-              </motion.a>
+                <item.icon className="w-4 h-4 text-muted-foreground shrink-0" strokeWidth={1.5} />
+                <span className="min-w-0">
+                  <span className="block text-sm font-medium group-hover:translate-x-0.5 transition-transform">{item.label}</span>
+                  <span className="block text-xs text-muted-foreground truncate">{item.desc}</span>
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 text-muted-foreground ml-auto shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
             ))}
-          </div>
+          </motion.nav>
         </div>
       </section>
 
       {/* ═══ INSTALLATION — v0 Process section (dark, numbered steps with roman numerals) ═══ */}
-      <section id="installation" className="relative py-24 lg:py-32 text-white" style={{ background: '#1c1b18' }}>
+      <section id="installation" className="relative py-12 lg:py-16 text-white" style={{ background: '#1c1b18' }}>
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
           <div
             className="absolute inset-0"
@@ -235,10 +213,10 @@ export default function SupportPage() {
           />
         </div>
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="mb-16 lg:mb-24">
-            <span className="inline-flex items-center gap-3 text-sm font-mono mb-6" style={{ color: 'rgba(250,250,249,0.5)' }}>
+          <div className="mb-10 lg:mb-12 max-w-2xl">
+            <span className="inline-flex items-center gap-3 text-sm font-mono mb-4" style={{ color: 'rgba(250,250,249,0.5)' }}>
               <span className="w-8 h-px" style={{ background: 'rgba(250,250,249,0.3)' }} />
-              Getting started
+              Install &middot; macOS + Windows
             </span>
             <motion.h2
               initial={{ opacity: 0, y: 16 }}
@@ -247,11 +225,11 @@ export default function SupportPage() {
               transition={{ duration: 0.7 }}
               className="text-4xl lg:text-6xl font-display tracking-tight"
             >
-              Five steps.<br /><span style={{ color: 'rgba(250,250,249,0.5)' }}>That&apos;s it.</span>
+              Five steps to your first proof.
             </motion.h2>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
             <div className="space-y-0">
               {installSteps.map((step, i) => (
                 <motion.div
@@ -259,24 +237,24 @@ export default function SupportPage() {
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.08 }}
-                  className="py-8 border-b transition-all duration-500 group"
+                  transition={{ duration: 0.5, delay: i * 0.06 }}
+                  className="py-5 border-b transition-all duration-500 group"
                   style={{ borderColor: 'rgba(250,250,249,0.1)' }}
                 >
-                  <div className="flex items-start gap-6">
-                    <span className="font-display text-3xl" style={{ color: 'rgba(250,250,249,0.3)' }}>
+                  <div className="flex items-start gap-5">
+                    <span className="font-display text-2xl shrink-0" style={{ color: 'rgba(250,250,249,0.3)' }}>
                       {['I', 'II', 'III', 'IV', 'V'][i]}
                     </span>
                     <div className="flex-1">
-                      <h3 className="text-2xl lg:text-3xl font-display mb-3 group-hover:translate-x-2 transition-transform duration-300">{step.title}</h3>
-                      <p className="leading-relaxed" style={{ color: 'rgba(250,250,249,0.6)' }}>{step.desc}</p>
+                      <h3 className="text-lg lg:text-xl font-display mb-1.5 group-hover:translate-x-1 transition-transform duration-300">{step.title}</h3>
+                      <p className="text-sm leading-relaxed" style={{ color: 'rgba(250,250,249,0.6)' }}>{step.desc}</p>
                     </div>
                   </div>
                 </motion.div>
               ))}
             </div>
 
-            <div className="lg:sticky lg:top-32 self-start">
+            <div className="lg:sticky lg:top-28 self-start">
               <div className="border overflow-hidden" style={{ borderColor: 'rgba(250,250,249,0.1)' }}>
                 <div className="px-6 py-4 border-b flex items-center justify-between" style={{ borderColor: 'rgba(250,250,249,0.1)' }}>
                   <div className="flex gap-2">
@@ -307,28 +285,28 @@ export default function SupportPage() {
       </section>
 
       {/* ═══ PERMISSIONS — v0 Security pattern (2-col grid with icon cards) ═══ */}
-      <section id="permissions" className="relative py-24 lg:py-32 overflow-hidden">
+      <section id="permissions" className="relative py-12 lg:py-16 overflow-hidden">
         <GeometricPattern className="right-0 top-0 w-[350px] h-[350px] opacity-25" />
         <FloatingParticles count={6} />
         <WatermarkText text="SETUP" />
         <ASCIIBlock variant="verify" className="absolute left-12 bottom-16" />
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
             <motion.div
-              initial={{ opacity: 0, y: 32 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.6 }}
             >
-              <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
+              <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-4">
                 <span className="w-8 h-px bg-foreground/30" />
-                Setup
+                Setup &middot; macOS
               </span>
-              <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-8">
-                Permissions<br /><span className="text-muted-foreground">(macOS).</span>
+              <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-4">
+                Two permissions, then it works.
               </h2>
-              <p className="text-xl text-muted-foreground leading-relaxed mb-12">
-                OnlyWorks needs two permissions. The app will prompt you on first launch.
+              <p className="text-base text-muted-foreground leading-relaxed mb-6 max-w-md">
+                The app reads your real work so the proof is real. It needs two macOS permissions to do that, and it prompts you for both on first launch.
               </p>
               <div className="flex flex-wrap gap-3">
                 {['Screen Recording', 'Accessibility'].map((tag, i) => (
@@ -379,13 +357,8 @@ export default function SupportPage() {
         </div>
       </section>
 
-      {/* ═══ GRID BACKGROUND DIVIDER ═══ */}
-      <section className="relative overflow-hidden py-16">
-        <GridBackground />
-      </section>
-
       {/* ═══ FEATURES — DARK SECTION (v0 Process pattern) ═══ */}
-      <section id="features" className="relative py-24 lg:py-32 text-white" style={{ background: '#1c1b18' }}>
+      <section id="features" className="relative py-12 lg:py-16 text-white" style={{ background: '#1c1b18' }}>
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
           <div
             className="absolute inset-0"
@@ -395,19 +368,19 @@ export default function SupportPage() {
           />
         </div>
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="mb-16 lg:mb-24">
-            <span className="inline-flex items-center gap-3 text-sm font-mono mb-6" style={{ color: 'rgba(250,250,249,0.5)' }}>
+          <div className="mb-10 lg:mb-12 max-w-2xl">
+            <span className="inline-flex items-center gap-3 text-sm font-mono mb-4" style={{ color: 'rgba(250,250,249,0.5)' }}>
               <span className="w-8 h-px" style={{ background: 'rgba(250,250,249,0.3)' }} />
-              Features
+              What it does
             </span>
             <motion.h2
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.6 }}
               className="text-4xl lg:text-6xl font-display tracking-tight"
             >
-              What&apos;s<br /><span style={{ color: 'rgba(250,250,249,0.5)' }}>included.</span>
+              It turns work you did into proof you can send.
             </motion.h2>
           </div>
 
@@ -418,8 +391,8 @@ export default function SupportPage() {
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="py-8 border-b transition-all duration-500 group"
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="py-6 border-b transition-all duration-500 group"
                 style={{ borderColor: 'rgba(250,250,249,0.1)' }}
               >
                 <div className="flex items-start gap-6">
@@ -438,13 +411,13 @@ export default function SupportPage() {
       </section>
 
       {/* ═══ FAQ — accordion ═══ */}
-      <section id="faq" className="relative py-24 lg:py-32 overflow-hidden">
+      <section id="faq" className="relative py-12 lg:py-16 overflow-hidden">
         <PulsingRings className="left-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] opacity-20" />
         <ConnectionLines className="opacity-30" />
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
-            <div>
-              <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-6">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
+            <div className="lg:sticky lg:top-28 self-start">
+              <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-4">
                 <span className="w-8 h-px bg-foreground/30" />
                 Common questions
               </span>
@@ -452,13 +425,13 @@ export default function SupportPage() {
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.7 }}
-                className="text-4xl lg:text-6xl font-display tracking-tight mb-8"
+                transition={{ duration: 0.6 }}
+                className="text-4xl lg:text-6xl font-display tracking-tight mb-4"
               >
                 FAQ
               </motion.h2>
-              <p className="text-xl text-muted-foreground leading-relaxed">
-                Can&apos;t find what you need? Reach out to our support team.
+              <p className="text-base text-muted-foreground leading-relaxed max-w-sm">
+                Install, billing, uninstall, fixes. If the answer isn&apos;t here, email <a href="mailto:support@only-works.com" className="font-medium hover:underline underline-offset-4 text-foreground">support@only-works.com</a>.
               </p>
             </div>
 
@@ -470,7 +443,7 @@ export default function SupportPage() {
       </section>
 
       {/* ═══ CTA — v0 CTA pattern ═══ */}
-      <section className="relative py-24 lg:py-32">
+      <section className="relative py-12 lg:py-16">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
           <motion.div
             initial={{ opacity: 0, y: 32 }}
@@ -479,13 +452,13 @@ export default function SupportPage() {
             transition={{ duration: 1 }}
             className="relative border border-foreground"
           >
-            <div className="relative z-10 px-8 lg:px-16 py-16 lg:py-24">
+            <div className="relative z-10 px-8 lg:px-16 py-10 lg:py-12">
               <div className="flex-1">
-                <h2 className="text-4xl lg:text-7xl font-display tracking-tight mb-8 leading-[0.95]">
-                  Still need<br />help?
+                <h2 className="text-4xl lg:text-6xl font-display tracking-tight mb-4 leading-[0.95]">
+                  Still stuck?
                 </h2>
-                <p className="text-xl text-muted-foreground mb-12 leading-relaxed max-w-xl">
-                  We usually respond within a few hours. Our team is here to help.
+                <p className="text-base text-muted-foreground mb-6 leading-relaxed max-w-xl">
+                  A real person reads every email, usually within 24&ndash;48 hours. Tell us what broke and we&apos;ll get your proof running again.
                 </p>
                 <div className="flex flex-col sm:flex-row items-start gap-4">
                   <ShimmerButton

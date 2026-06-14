@@ -44,6 +44,8 @@
         "uuid": "^9.0.1"
     },
     "devDependencies": {
+        "@remotion/cli": "^4.0.477",
+        "@remotion/google-fonts": "^4.0.477",
         "@types/crypto-js": "^4.2.1",
         "@types/node": "^20.10.5",
         "@types/react": "^18.2.45",
@@ -53,6 +55,7 @@
         "eslint": "^8.56.0",
         "eslint-config-next": "14.0.4",
         "postcss": "^8.4.32",
+        "remotion": "^4.0.477",
         "tailwindcss": "^3.4.0",
         "typescript": "^5.3.3"
     }
