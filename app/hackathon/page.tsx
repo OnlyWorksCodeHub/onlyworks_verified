@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Countdown } from '@/components/hackathon/Countdown'
 import { VerifiedCounter } from '@/components/hackathon/VerifiedCounter'
 import { WeirdMarquee } from '@/components/hackathon/WeirdMarquee'
+import { RSVP_LINKS } from '@/lib/hackathon/links'
 
 /* ─────────────────────────────────────────────────────────────────────────
    small section helpers — kept local so the landing reads top-to-bottom
@@ -204,6 +205,8 @@ export default function HackathonLanding() {
                 <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
                 <span>Live finals · fully online</span>
                 <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
+                <span style={{ color: 'var(--ow-red)' }}>FAANG judges</span>
+                <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
                 <span style={{ color: 'var(--ow-red)' }}>door reveal 20 Jun</span>
               </div>
 
@@ -363,7 +366,7 @@ export default function HackathonLanding() {
                 ['Finals',       <span key="f">Fully online — <span style={{ color: 'var(--ow-red)' }}>URL reveal 20 Jun</span></span>],
                 ['Team size',    '1 – 4 humans'],
                 ['Cost',         '$0 to enter'],
-                ['Judges',       'Announced at kickoff'],
+                ['Judges',       <span key="j">FAANG engineers · <span style={{ color: 'var(--ow-red)' }}>named at kickoff</span></span>],
                 ['Stream',       'Links at kickoff'],
                 ['Presented by', 'OnlyWorks × Orbis'],
               ].map(([k, v], i, a) => (
@@ -382,6 +385,28 @@ export default function HackathonLanding() {
                   <span style={{ fontSize: '0.9375rem', color: 'var(--ow-ink)', textAlign: 'right' }}>{v}</span>
                 </div>
               ))}
+
+              {/* supplementary RSVP channels — register link stays the headline act */}
+              <hr className="ow-rule" style={{ margin: '20px 0 16px' }} />
+              <div className="ow-label ow-label-mute" style={{ marginBottom: 12 }}>Also RSVP on</div>
+              <div style={{ display: 'grid', gap: 10 }}>
+                {RSVP_LINKS.map(l => (
+                  <a
+                    key={l.platform}
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ow-btn ow-btn-ghost no-underline"
+                    style={{ justifyContent: 'space-between' }}
+                  >
+                    <span>{l.label}</span>
+                    <span aria-hidden>↗</span>
+                  </a>
+                ))}
+              </div>
+              <p style={{ marginTop: 12, fontSize: '0.75rem', color: 'var(--ow-ink-3)', lineHeight: 1.5 }}>
+                Optional. <Link href="/hackathon/register" className="no-underline" style={{ color: 'var(--ow-ink)', backgroundImage: 'linear-gradient(var(--ow-ink), var(--ow-ink))', backgroundSize: '100% 2px', backgroundRepeat: 'no-repeat', backgroundPosition: '0 100%' }}>Registering</Link> is what gets you a builder serial + verification.
+              </p>
             </aside>
           </div>
         </div>
@@ -630,7 +655,7 @@ export default function HackathonLanding() {
 
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 12 }}>
                 {[
-                  'Mentorship from the judging panel · details confirmed at kickoff',
+                  'Mentorship from the judging panel — engineers from FAANG companies · details confirmed at kickoff',
                   'Feature on OnlyWorks.com homepage',
                   'Permanent "Verified Weird ’26" badge on your OnlyWorks profile',
                   'Trophy: a literal rubber duck on a plinth',
@@ -752,7 +777,7 @@ export default function HackathonLanding() {
                 color: 'rgba(241,236,226,0.78)', fontSize: '0.9375rem',
                 marginTop: 8, maxWidth: 640,
               }}>
-                Each guest judge sponsors a named award — &ldquo;The [Judge] Award for [their pick of weirdness].&rdquo; No cash attached: winners receive a signed certificate and the mentorship slot that comes with it. Names + categories announced at kickoff.
+                This year&apos;s guest judges are engineers from FAANG companies. Each sponsors a named award — &ldquo;The [Judge] Award for [their pick of weirdness].&rdquo; No cash attached: winners receive a signed certificate and the mentorship slot that comes with it. Names + categories announced at kickoff.
               </p>
             </div>
             <Link

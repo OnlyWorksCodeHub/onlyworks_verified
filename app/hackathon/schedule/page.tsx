@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { Countdown } from '@/components/hackathon/Countdown'
+import { RSVP_LINKS } from '@/lib/hackathon/links'
 
 type TZ = 'PT' | 'ET' | 'UTC'
 
@@ -45,7 +46,7 @@ const DAYS: Day[] = [
       { pt: '06:00', title: 'Kickoff stream',                 body: "OnlyWorks × Orbis read the manifesto. An Orbis demo. One (1) accidental swear word.", tag: 'live' },
       { pt: '06:00', title: 'Build window begins',            body: '48-hour clock starts (09:00 ET). Commit hashes after this point count. Previous ones do not.', tag: 'async' },
       { pt: '06:30', title: 'Theme reveal',                   body: 'This year there is no theme. You are the theme. It has been verified.', tag: 'live' },
-      { pt: '07:00', title: 'Judge introductions',            body: 'Guest judges + the OnlyWorks panel. Each reveals their personal weird north star.', tag: 'live' },
+      { pt: '07:00', title: 'Judge introductions',            body: 'The FAANG-engineer guest judges + the OnlyWorks panel, unmasked at last. Each reveals their personal weird north star.', tag: 'live' },
       { pt: '07:30', title: 'Team formation',                 body: 'Discord channels by track. Solos welcome. Matchmaking bot deployed.', tag: 'optional' },
       { pt: '09:00', title: 'Office hours · OnlyWorks API',   body: 'How to wire your build to OnlyWorks for verification. Demo + Q&A.', tag: 'sponsor' },
       { pt: '11:00', title: 'Craft talk · 30 min',             body: "Guest TBA — we're courting an engineer who builds joke games that ship to real app stores.", tag: 'sponsor' },
@@ -384,12 +385,26 @@ export default function SchedulePage() {
                 <span style={{ color: 'var(--ow-red)' }}>to your calendar.</span>
               </h2>
               <p style={{ color: 'rgba(241,236,226,0.8)', marginTop: 12, maxWidth: 640 }}>
-                Calendar invites for everything tagged <strong style={{ color: 'var(--ow-paper)' }}>live</strong> and <strong style={{ color: 'var(--ow-red)' }}>finals</strong> land by email before kickoff. <strong style={{ color: 'var(--ow-paper)' }}>Optional</strong> items stay off your calendar unless you ask.
+                Calendar invites for everything tagged <strong style={{ color: 'var(--ow-paper)' }}>live</strong> and <strong style={{ color: 'var(--ow-red)' }}>finals</strong> land by email before kickoff. <strong style={{ color: 'var(--ow-paper)' }}>Optional</strong> items stay off your calendar unless you ask. Prefer a familiar flow? RSVP on Luma or Eventbrite too.
               </p>
             </div>
-            <Link href="/hackathon/register" className="ow-btn ow-btn-primary no-underline" style={{ alignSelf: 'center' }}>
-              Register →
-            </Link>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 240, alignSelf: 'center' }}>
+              <Link href="/hackathon/register" className="ow-btn ow-btn-primary no-underline" style={{ width: '100%', justifyContent: 'space-between' }}>
+                <span>Register</span><span aria-hidden>→</span>
+              </Link>
+              {RSVP_LINKS.map(l => (
+                <a
+                  key={l.platform}
+                  href={l.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ow-btn ow-btn-ghost no-underline"
+                  style={{ width: '100%', justifyContent: 'space-between', borderColor: 'var(--ow-paper)', color: 'var(--ow-paper)' }}
+                >
+                  <span>{l.label}</span><span aria-hidden>↗</span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 

@@ -149,12 +149,18 @@ export default function RegisterPage() {
   async function onSubmit(e: FormEvent) {
     e.preventDefault()
     setSubmitError('')
-    if (!form.agree || !form.email || !form.name || !form.owId) {
+    if (!form.agree || !form.email || !form.name) {
       setSubmitError('Fill out the required fields before submitting.')
       return
     }
     if (emailStatus.kind !== 'verified' || emailStatus.verifiedEmail !== form.email.trim().toLowerCase()) {
       setSubmitError('Verify your email with the 6-digit code before submitting.')
+      return
+    }
+    // OW ID is optional, but if one was entered it must be a valid OW ID —
+    // a wrong ID would fail server verification anyway.
+    if (form.owId.trim() && owStatus.kind === 'invalid') {
+      setSubmitError('Fix your OW ID or clear the field — it’s optional, so you can leave it blank.')
       return
     }
     setMode('submitting')
@@ -194,8 +200,9 @@ export default function RegisterPage() {
     el.focus({ preventScroll: true })
   }
 
-  // The four stamps that unlock the submit button. Single source of truth
-  // for both the stamp card and the button's disabled state.
+  // The stamps that unlock the submit button. Single source of truth for both
+  // the stamp card and the button's disabled state. OW ID is optional, so it is
+  // not a gate here — it's verified live in its own field when supplied.
   const emailVerified = emailStatus.kind === 'verified' && emailStatus.verifiedEmail === form.email.trim().toLowerCase()
   const stamps = [
     {
@@ -203,12 +210,6 @@ export default function RegisterPage() {
       done: !!form.name.trim(),
       hint: 'add your name',
       target: 'reg-field-name',
-    },
-    {
-      key: 'owid', label: 'OW ID',
-      done: !!form.owId.trim() && owStatus.kind !== 'invalid' && owStatus.kind !== 'checking',
-      hint: owStatus.kind === 'checking' ? 'checking…' : owStatus.kind === 'invalid' ? 'fix your OW ID' : 'paste your OW ID',
-      target: 'reg-field-owid',
     },
     {
       key: 'email', label: 'Email verified',
@@ -337,8 +338,8 @@ export default function RegisterPage() {
             </Row>
 
             <Row
-              label="OnlyWorks ID"
-              hint={<>Required. Create a free account + download the desktop app at <Link href="/" className="no-underline" style={{ color: 'var(--ow-ink)', backgroundImage: 'linear-gradient(var(--ow-ink), var(--ow-ink))', backgroundSize: '100% 2px', backgroundRepeat: 'no-repeat', backgroundPosition: '0 100%' }}>onlyworks.com</Link>, then paste your OW ID here. We verify it against OnlyWorks before accepting your registration.</>}
+              label="OnlyWorks ID · optional"
+              hint={<>Optional — but it&apos;s how your build gets verified and how you earn a cert anyone can check. Create a free account + download the desktop app at <Link href="/" className="no-underline" style={{ color: 'var(--ow-ink)', backgroundImage: 'linear-gradient(var(--ow-ink), var(--ow-ink))', backgroundSize: '100% 2px', backgroundRepeat: 'no-repeat', backgroundPosition: '0 100%' }}>onlyworks.com</Link>, then paste your OW ID here — we verify it before accepting it. Skip it and you&apos;re still in; you just won&apos;t be verified-weird (yet).</>}
             >
               <div style={{
                 display: 'flex', alignItems: 'baseline', gap: 10,
@@ -357,10 +358,9 @@ export default function RegisterPage() {
                 <input
                   id="reg-field-owid"
                   type="text"
-                  required
                   className="ow-input"
                   style={{ border: 'none', padding: '14px 0', flex: 1 }}
-                  placeholder="A1B2C3D4"
+                  placeholder="A1B2C3D4 (optional)"
                   value={form.owId}
                   onChange={e => update('owId', e.target.value.replace(/^OW-?/i, '').toUpperCase())}
                   pattern="[A-Z0-9]{4,12}"
@@ -726,7 +726,7 @@ function IntroGate({ onContinue }: { onContinue: () => void }) {
         <hr className="ow-rule-fat" style={{ marginTop: 8 }} />
 
         <p className="lede" style={{ marginTop: 24, maxWidth: 720 }}>
-          ONLYHACKS for the ONLYWEIRD &apos;26 runs on <strong style={{ color: 'var(--ow-ink)' }}>OnlyWorks</strong> — a verification engine that turns your real work into a credential anyone can verify with one link. To register you <strong style={{ color: 'var(--ow-red)' }}>must</strong>: (1) create a free OnlyWorks account, (2) download the desktop app, (3) put your OW ID in the form on the next page. No OW ID, no entry.
+          ONLYHACKS for the ONLYWEIRD &apos;26 runs on <strong style={{ color: 'var(--ow-ink)' }}>OnlyWorks</strong> — a verification engine that turns your real work into a credential anyone can verify with one link. Registration is open to everyone, but linking an OnlyWorks account is <strong style={{ color: 'var(--ow-red)' }}>strongly recommended</strong>: (1) create a free OnlyWorks account, (2) download the desktop app, (3) drop your OW ID into the form on the next page. It&apos;s how your build gets verified and how you earn a cert anyone can check — skip it and you&apos;re still in, just not verified-weird.
         </p>
 
         {/* the three-card mini-explainer */}

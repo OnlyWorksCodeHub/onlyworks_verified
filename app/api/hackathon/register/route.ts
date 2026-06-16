@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
     const email = String(body.email ?? '').trim().toLowerCase()
     const rawOwId = String(body.owId ?? '').trim()
 
-    if (!name || !EMAIL_PATTERN.test(email) || !rawOwId || body.agree !== true) {
+    if (!name || !EMAIL_PATTERN.test(email) || body.agree !== true) {
       return NextResponse.json({ ok: false, error: 'Fill out the required fields before submitting.' }, { status: 400 })
     }
 
@@ -95,20 +95,28 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const normalised = normaliseOwId(rawOwId)
-    if (!normalised) {
-      return NextResponse.json({ ok: false, error: 'Not a valid OW ID format' }, { status: 400 })
-    }
+    // OW ID is optional. If the builder supplied one, validate its format and
+    // re-check it server-side; if they left it blank, the row is stored without
+    // a linked OnlyWorks profile (and so without the verified-weird stamp).
+    let normalised: string | null = null
+    let owVerified = false
+    if (rawOwId) {
+      normalised = normaliseOwId(rawOwId)
+      if (!normalised) {
+        return NextResponse.json({ ok: false, error: 'Not a valid OW ID format' }, { status: 400 })
+      }
 
-    // Re-check the OW ID server-side. If OnlyWorks is reachable and says the
-    // account doesn't exist, reject; if unreachable, accept and flag the row
-    // for a later backcheck — the form promises "we'll re-check on submit".
-    const lookup = await lookupOwId(normalised)
-    if (lookup.reachable && !lookup.found) {
-      return NextResponse.json(
-        { ok: false, error: 'That OW ID could not be verified. Check your OnlyWorks dashboard and try again.' },
-        { status: 400 },
-      )
+      // If OnlyWorks is reachable and says the account doesn't exist, reject;
+      // if unreachable, accept and flag the row for a later backcheck — the
+      // form promises "we'll re-check on submit".
+      const lookup = await lookupOwId(normalised)
+      if (lookup.reachable && !lookup.found) {
+        return NextResponse.json(
+          { ok: false, error: 'That OW ID could not be verified. Check your OnlyWorks dashboard and try again.' },
+          { status: 400 },
+        )
+      }
+      owVerified = lookup.found
     }
 
     const supabase = getSupabaseAdmin()
@@ -129,8 +137,8 @@ export async function POST(request: NextRequest) {
     const row: Record<string, unknown> = {
       name,
       email,
-      ow_id: `OW-${normalised}`,
-      ow_verified: lookup.found,
+      ow_id: normalised ? `OW-${normalised}` : null,
+      ow_verified: owVerified,
       github: String(body.github ?? '').trim().replace(/^@+/, '').slice(0, 64) || null,
       discord: String(body.discord ?? '').trim().replace(/^@+/, '').slice(0, 64) || null,
       blurb: String(body.blurb ?? '').trim().slice(0, 280) || null,
