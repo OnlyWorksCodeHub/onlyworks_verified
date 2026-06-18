@@ -105,7 +105,7 @@ export function HackathonFooter() {
               items: [
                 ['mailto:weird@only-works.com', 'weird@only-works.com'],
                 ['#', 'Discord — invite emailed before kickoff'],
-                ['#', 'Twitter — @OnlyWorksAI'],
+                ['https://twitter.com/OnlyWorksAI', 'Twitter — @OnlyWorksAI'],
               ],
             },
             {
@@ -128,24 +128,41 @@ export function HackathonFooter() {
                 {col.kicker}
               </div>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 8 }}>
-                {col.items.map(([href, label]) => (
-                  <li key={label}>
-                    <Link
-                      href={href}
-                      className="no-underline"
-                      style={{
-                        color: 'rgba(241,236,226,0.85)',
-                        fontSize: '0.9375rem',
-                        backgroundImage: 'linear-gradient(rgba(241,236,226,0.85), rgba(241,236,226,0.85))',
-                        backgroundSize: '100% 1px',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: '0 100%',
-                      }}
-                    >
-                      {label}
-                    </Link>
-                  </li>
-                ))}
+                {col.items.map(([href, label]) => {
+                  const linkStyle = {
+                    color: 'rgba(241,236,226,0.85)',
+                    fontSize: '0.9375rem',
+                    backgroundImage: 'linear-gradient(rgba(241,236,226,0.85), rgba(241,236,226,0.85))',
+                    backgroundSize: '100% 1px',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: '0 100%',
+                  }
+                  const isExternal = /^(https?:|mailto:)/.test(href)
+                  const isStatic = href === '#'
+                  return (
+                    <li key={label}>
+                      {isStatic ? (
+                        // No real destination yet (e.g. Discord invite is emailed) —
+                        // render as plain text so it isn't a link to nowhere.
+                        <span style={{ color: 'rgba(241,236,226,0.55)', fontSize: '0.9375rem' }}>{label}</span>
+                      ) : isExternal ? (
+                        <a
+                          href={href}
+                          className="no-underline"
+                          target={href.startsWith('mailto:') ? undefined : '_blank'}
+                          rel={href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                          style={linkStyle}
+                        >
+                          {label}
+                        </a>
+                      ) : (
+                        <Link href={href} className="no-underline" style={linkStyle}>
+                          {label}
+                        </Link>
+                      )}
+                    </li>
+                  )
+                })}
               </ul>
             </div>
           ))}

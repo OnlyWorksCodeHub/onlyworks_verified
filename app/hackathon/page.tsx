@@ -59,12 +59,12 @@ const COMMANDMENTS = [
 ]
 
 const TIMELINE = [
-  { n: '01', date: 'Thu · 18 Jun', time: '09:00 ET', head: 'Kickoff stream',     body: 'Theme reveal, sponsor toast, judges introduced. 48-hour clock starts.' },
+  { n: '01', date: 'Thu · 18 Jun', time: '17:00 ET', head: 'Kickoff stream',     body: 'Theme reveal, sponsor toast, judges introduced. 48-hour clock starts.' },
   { n: '02', date: 'Thu → Sat',    time: 'Async',    head: 'Build window',       body: '48 hours. Ship something. Anything. Preferably weird.' },
   { n: '03', date: 'Fri · 19 Jun', time: '21:00 ET', head: 'Mid-build sync',     body: 'Live check-in stream. Show your scaffold, your first crime.' },
-  { n: '04', date: 'Sat · 20 Jun', time: '12:00 ET', head: 'Submissions close',  body: 'The door is locked from the outside. Time’s up.' },
-  { n: '05', date: 'Sat · 20 Jun', time: '13:00 ET', head: 'Finalists announced', body: 'Eight (8) projects called up. Demo from wherever you are.' },
-  { n: '06', date: 'Sat · 20 Jun', time: '17:00 ET', head: 'Live finals',        body: 'An unmarked URL. Demos. Judging. Trophies. Weeping.' },
+  { n: '04', date: 'Sat · 20 Jun', time: '17:00 ET', head: 'Submissions close',  body: 'The door is locked from the outside. Time’s up.' },
+  { n: '05', date: 'Sat · 20 Jun', time: '18:00 ET', head: 'Finalists announced', body: 'Eight (8) projects called up. Demo from wherever you are.' },
+  { n: '06', date: 'Sat · 20 Jun', time: '19:30 ET', head: 'Live finals',        body: 'An unmarked URL. Demos. Judging. Trophies. Weeping.' },
 ]
 
 const TRACKS = [
@@ -96,7 +96,7 @@ const TRACKS = [
 
 const RULES_PEEK = [
   'Solo builders welcome. Teams of up to four (4) humans.',
-  'Build window opens 18 Jun 09:00 ET. Nothing made before that counts. 48 hours, hard.',
+  'Build window opens 18 Jun 17:00 ET. Nothing made before that counts. 48 hours, hard.',
   'AI assistance: fine. AI submitted on its own behalf: not fine.',
   'No harassment. No harm. No shock-value-as-substance.',
   'Open source everything you ship (license your choice).',
@@ -233,7 +233,7 @@ export default function HackathonLanding() {
                 fontSize: '0.875rem', color: 'var(--ow-ink-2)',
                 paddingTop: 14, borderTop: '1px solid var(--ow-ink)',
               }}>
-                Anchored to <strong style={{ color: 'var(--ow-ink)' }}>18 Jun · 09:00 ET</strong>. Your local clock may drift; that is your problem and also a beautiful weakness.
+                Anchored to <strong style={{ color: 'var(--ow-ink)' }}>18 Jun · 17:00 ET</strong>. Your local clock may drift; that is your problem and also a beautiful weakness.
               </p>
             </aside>
           </div>
@@ -418,10 +418,10 @@ export default function HackathonLanding() {
         `}</style>
       </section>
 
-      {/* ═══════════ §03 — the 24 ═══════════ */}
+      {/* ═══════════ §03 — the 48 ═══════════ */}
       <section className="ow-section">
         <div className="ow-container">
-          <SectionMark index="03" kicker="The 24" />
+          <SectionMark index="03" kicker="The 48" />
           <h2 style={{ marginTop: 18 }}>
             48 hours.<br />
             <span style={{ color: 'var(--ow-red)' }}>One weird.</span>
@@ -953,7 +953,7 @@ export default function HackathonLanding() {
             <span style={{ color: 'var(--ow-red)' }}>verified weird?</span>
           </h2>
           <p className="lede" style={{ maxWidth: 580, margin: '32px auto 0' }}>
-            Registration is one form, one minute, zero cost. You can drop out the moment things get uncomfortable. You will not. We&apos;ll see you on the 19th.
+            Registration is one form, one minute, zero cost. You can drop out the moment things get uncomfortable. You will not. We&apos;ll see you on the 18th.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, justifyContent: 'center', marginTop: 36 }}>
             <Link href="/hackathon/register" className="ow-btn ow-btn-primary no-underline" style={{ padding: '20px 28px', fontSize: '0.9375rem' }}>

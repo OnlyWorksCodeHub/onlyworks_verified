@@ -171,7 +171,7 @@ export default function ProjectsPage() {
                 <span style={{ color: 'var(--ow-red)' }}>17:00 ET</span>
               </div>
               <p style={{ marginTop: 14, fontSize: '0.9375rem', maxWidth: 520 }}>
-                Soft close 20 Jun 11:30 ET. <strong style={{ color: 'var(--ow-red)' }}>Hard close 20 Jun 12:00 ET.</strong> The door does not negotiate.
+                Soft close 20 Jun 16:30 ET. <strong style={{ color: 'var(--ow-red)' }}>Hard close 20 Jun 17:00 ET.</strong> The door does not negotiate.
               </p>
             </div>
             <div>
@@ -405,7 +405,7 @@ export default function ProjectsPage() {
               { title: 'Wire to OnlyWorks',     body: 'One-time hook. Drops a small file in your repo so OW can verify the build is real. Takes 30 seconds.' },
               { title: 'Record a ≤ 3min Loom',  body: 'The most important deliverable. Demo the artefact actually running. One take is fine. One take is, in fact, recommended.' },
               { title: 'Write a tiny README',   body: 'What is it, how do you run it, what made it weird. One paragraph minimum. One page maximum.' },
-              { title: 'Push the submit button', body: 'Before 20 Jun 12:00 ET. The button will, at that exact moment, become unclickable.' },
+              { title: 'Push the submit button', body: 'Before 20 Jun 17:00 ET. The button will, at that exact moment, become unclickable.' },
             ].map((step, i) => (
               <li key={i} style={{
                 padding: 26,

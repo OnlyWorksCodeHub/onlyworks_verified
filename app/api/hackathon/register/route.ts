@@ -2,6 +2,7 @@ import { randomInt } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
+import { EVENT } from '@/lib/hackathon/event'
 import {
   VERIFIED_COOKIE,
   isEmailVerified,
@@ -36,8 +37,8 @@ function confirmationEmailHtml(name: string, serial: string): string {
       <p style="margin: 6px 0 0; font-size: 34px; font-weight: 800; letter-spacing: 0.06em; color: #e63a13;">${serial}</p>
       <p style="margin: 24px 0 0; font-size: 14px; line-height: 1.6; color: #4a4842;">
         Keep this serial — it goes on your badge, your submission, and your trophy if you somehow win.
-        The 24-hour build window opens <strong style="color: #1c1b18;">Friday 19 June &middot; 09:00 ET</strong>
-        and closes <strong style="color: #1c1b18;">Saturday 20 June &middot; 09:00 ET</strong>, with live online finals that evening.
+        The ${EVENT.durationLabel} build window opens <strong style="color: #1c1b18;">${EVENT.opensLong}</strong>
+        and submissions hard-close <strong style="color: #1c1b18;">${EVENT.hardCloseLong}</strong>, with ${EVENT.finalsPhrase}.
         Discord and calendar details land in this inbox before kickoff.
       </p>
       <p style="margin: 20px 0 0; font-size: 14px; line-height: 1.6; color: #4a4842;">
@@ -133,8 +134,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: true, serial: existing[0].serial, already: true })
     }
 
-    const serial = makeSerial()
-    const row: Record<string, unknown> = {
+    const baseRow: Record<string, unknown> = {
       name,
       email,
       ow_id: normalised ? `OW-${normalised}` : null,
@@ -146,15 +146,48 @@ export async function POST(request: NextRequest) {
       team_name: String(body.teamName ?? '').trim() || null,
       attending: ['in-person', 'maybe', 'remote'].includes(body.attending) ? body.attending : 'maybe',
       referrer: String(body.referrer ?? '').trim() || null,
-      serial,
     }
-    let { error: insertError } = await supabase.from('hackathon_registrations').insert(row)
-    if (insertError && /discord/i.test(insertError.message)) {
-      // Column migration not applied yet — register anyway, drop the handle.
-      console.error('discord column missing, inserting without it:', insertError.message)
-      const { discord: _dropped, ...withoutDiscord } = row
-      ;({ error: insertError } = await supabase.from('hackathon_registrations').insert(withoutDiscord))
+
+    // Insert with a few retries. The builder serial is only 4 chars (~923k
+    // combos), so at hundreds of sign-ups a birthday collision is likely —
+    // regenerate and retry on a serial-unique violation. Also: drop the
+    // discord column if this DB doesn't have it yet, and gracefully recover
+    // if a double-submit raced past the email pre-check above.
+    let serial = ''
+    let insertError: { code?: string; message?: string; details?: string } | null = null
+    let dropDiscord = false
+    for (let attempt = 0; attempt < 6; attempt++) {
+      serial = makeSerial()
+      const row: Record<string, unknown> = { ...baseRow, serial }
+      if (dropDiscord) delete row.discord
+
+      const { error } = await supabase.from('hackathon_registrations').insert(row)
+      insertError = error
+      if (!error) break
+
+      const haystack = `${error.code ?? ''} ${error.message ?? ''} ${error.details ?? ''}`
+      // discord column not in this DB yet → drop it once and retry
+      if (!dropDiscord && (error.code === '42703' || error.code === 'PGRST204' || /discord/i.test(haystack))) {
+        console.error('discord column missing, inserting without it:', error.message)
+        dropDiscord = true
+        continue
+      }
+      if (error.code === '23505') {
+        // serial collision → regenerate and retry
+        if (/serial/i.test(haystack)) continue
+        // email already registered (double-submit raced the pre-check) →
+        // recover the existing serial instead of erroring
+        const { data: dup } = await supabase
+          .from('hackathon_registrations')
+          .select('serial').eq('email', email).limit(1)
+        if (dup && dup.length > 0) {
+          await sendConfirmationEmail(email, name, dup[0].serial)
+          return NextResponse.json({ ok: true, serial: dup[0].serial, already: true })
+        }
+      }
+      break // unknown / unrecoverable error
     }
+
     if (insertError) {
       console.error('Hackathon registration insert failed:', insertError)
       return NextResponse.json(
