@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { Countdown } from '@/components/hackathon/Countdown'
+import { RSVP_LINKS } from '@/lib/hackathon/links'
 
 type TZ = 'PT' | 'ET' | 'UTC'
 
@@ -41,17 +42,17 @@ const DAYS: Day[] = [
   {
     id: 'thu-18', weekday: 'Thursday', date: '18 Jun 2026', mood: 'Kickoff · clock starts · 48-hour sprint',
     events: [
-      { pt: '05:30', title: 'Pre-show',                       body: 'Discord opens. Coffee opens. The stream waiting room is the lobby track.', tag: 'live' },
-      { pt: '06:00', title: 'Kickoff stream',                 body: "OnlyWorks × Orbis read the manifesto. An Orbis demo. One (1) accidental swear word.", tag: 'live' },
-      { pt: '06:00', title: 'Build window begins',            body: '48-hour clock starts (09:00 ET). Commit hashes after this point count. Previous ones do not.', tag: 'async' },
-      { pt: '06:30', title: 'Theme reveal',                   body: 'This year there is no theme. You are the theme. It has been verified.', tag: 'live' },
-      { pt: '07:00', title: 'Judge introductions',            body: 'Guest judges + the OnlyWorks panel. Each reveals their personal weird north star.', tag: 'live' },
-      { pt: '07:30', title: 'Team formation',                 body: 'Discord channels by track. Solos welcome. Matchmaking bot deployed.', tag: 'optional' },
-      { pt: '09:00', title: 'Office hours · OnlyWorks API',   body: 'How to wire your build to OnlyWorks for verification. Demo + Q&A.', tag: 'sponsor' },
-      { pt: '11:00', title: 'Craft talk · 30 min',             body: "Guest TBA — we're courting an engineer who builds joke games that ship to real app stores.", tag: 'sponsor' },
-      { pt: '12:00', title: 'Office hours · design crit',      body: 'Screenshare your UI. Receive opinions. The opinions are correct.', tag: 'sponsor' },
+      { pt: '13:30', title: 'Pre-show',                       body: 'Discord opens. Coffee opens. The stream waiting room is the lobby track.', tag: 'live' },
+      { pt: '14:00', title: 'Kickoff stream',                 body: "OnlyWorks × Orbis read the manifesto. An Orbis demo. One (1) accidental swear word.", tag: 'live' },
+      { pt: '14:00', title: 'Build window begins',            body: '48-hour clock starts (17:00 ET). Commit hashes after this point count. Previous ones do not.', tag: 'async' },
       { pt: '14:00', title: 'Submissions open',                body: 'Publish early to lock in (17:00 ET). You may keep building right up to the close.', tag: 'async' },
-      { pt: '20:00', title: 'Overnight IRC · night one',       body: 'A real (text-only) IRC channel opens for the all-nighter people.', tag: 'optional' },
+      { pt: '14:30', title: 'Theme reveal',                   body: 'This year there is no theme. You are the theme. It has been verified.', tag: 'live' },
+      { pt: '15:00', title: 'Judge introductions',            body: 'The FAANG-engineer guest judges + the OnlyWorks panel, unmasked at last. Each reveals their personal weird north star.', tag: 'live' },
+      { pt: '15:30', title: 'Team formation',                 body: 'Discord channels by track. Solos welcome. Matchmaking bot deployed.', tag: 'optional' },
+      { pt: '16:30', title: 'Office hours · OnlyWorks API',   body: 'How to wire your build to OnlyWorks for verification. Demo + Q&A.', tag: 'sponsor' },
+      { pt: '18:00', title: 'Craft talk · 30 min',             body: "Guest TBA — we're courting an engineer who builds joke games that ship to real app stores.", tag: 'sponsor' },
+      { pt: '19:00', title: 'Office hours · design crit',      body: 'Screenshare your UI. Receive opinions. The opinions are correct.', tag: 'sponsor' },
+      { pt: '21:00', title: 'Overnight IRC · night one',       body: 'A real (text-only) IRC channel opens for the all-nighter people.', tag: 'optional' },
     ],
   },
   {
@@ -67,18 +68,18 @@ const DAYS: Day[] = [
   {
     id: 'sat-20', weekday: 'Saturday', date: '20 Jun 2026', mood: 'Submissions close · online finals · the URL reveal',
     events: [
-      { pt: '04:00', title: 'Last sync-down',                  body: 'Last one. Short. Brace.', tag: 'live' },
-      { pt: '08:30', title: 'Submissions soft close',          body: 'Judges begin watching. You may keep editing your README. Nobody else may.', tag: 'async' },
-      { pt: '09:00', title: 'Submissions close (HARD)',        body: 'Build window closes (12:00 ET). Anything pushed after this is for posterity, not points.', tag: 'async' },
-      { pt: '10:00', title: 'Finalists announced',             body: 'Eight (8) projects. Emails sent at 13:00 ET — demo from wherever you are.', tag: 'live' },
-      { pt: '12:00', title: 'Finalist call · briefing',        body: 'Finalists hop on a private call to walk through the order, the stream, the rules.', tag: 'live' },
-      { pt: '14:00', title: 'Stream opens · live finals',      body: 'An unmarked URL. Link shared with finalists and registered builders alongside the 13:00 ET announcement.', tag: 'finals' },
-      { pt: '15:00', title: 'Demos · round 1',                 body: 'Four projects, three minutes each, ruthless Q&A. Bring your own snacks.', tag: 'finals' },
-      { pt: '16:00', title: 'Intermission · weird tribute',    body: 'A short film honouring the projects that did not make finals. They were good.', tag: 'finals' },
-      { pt: '16:30', title: 'Demos · round 2',                 body: 'The other four. The judges look tired but exhilarated. So do you.', tag: 'finals' },
-      { pt: '17:45', title: 'Judges deliberate',               body: 'The chat stays open. Your mic does not. That is for the audience.', tag: 'finals' },
-      { pt: '18:30', title: 'Awards ceremony',                 body: 'Track + secondary prizes announced; grand prize winner revealed end of July. Trophies mailed. The trophies are themselves a joke.', tag: 'finals' },
-      { pt: '19:30', title: 'After-hours weirdtape',           body: 'Open jam · open mic · open mind. Recording strongly discouraged.', tag: 'finals' },
+      { pt: '06:00', title: 'Last sync-down',                  body: 'Last one. Short. Brace.', tag: 'live' },
+      { pt: '13:30', title: 'Submissions soft close',          body: 'Judges begin watching. You may keep editing your README. Nobody else may.', tag: 'async' },
+      { pt: '14:00', title: 'Submissions close (HARD)',        body: 'Build window closes (17:00 ET). Anything pushed after this is for posterity, not points.', tag: 'async' },
+      { pt: '15:00', title: 'Finalists announced',             body: 'Eight (8) projects. Emails sent at 18:00 ET — demo from wherever you are.', tag: 'live' },
+      { pt: '16:00', title: 'Finalist call · briefing',        body: 'Finalists hop on a private call to walk through the order, the stream, the rules.', tag: 'live' },
+      { pt: '16:30', title: 'Stream opens · live finals',      body: 'An unmarked URL. Link shared with finalists and registered builders alongside the 18:00 ET announcement.', tag: 'finals' },
+      { pt: '16:45', title: 'Demos · round 1',                 body: 'Four projects, three minutes each, ruthless Q&A. Bring your own snacks.', tag: 'finals' },
+      { pt: '17:30', title: 'Intermission · weird tribute',    body: 'A short film honouring the projects that did not make finals. They were good.', tag: 'finals' },
+      { pt: '17:45', title: 'Demos · round 2',                 body: 'The other four. The judges look tired but exhilarated. So do you.', tag: 'finals' },
+      { pt: '18:45', title: 'Judges deliberate',               body: 'The chat stays open. Your mic does not. That is for the audience.', tag: 'finals' },
+      { pt: '19:15', title: 'Awards ceremony',                 body: 'Track + secondary prizes announced; grand prize winner revealed end of July. Trophies mailed. The trophies are themselves a joke.', tag: 'finals' },
+      { pt: '20:00', title: 'After-hours weirdtape',           body: 'Open jam · open mic · open mind. Recording strongly discouraged.', tag: 'finals' },
     ],
   },
 ]
@@ -384,12 +385,26 @@ export default function SchedulePage() {
                 <span style={{ color: 'var(--ow-red)' }}>to your calendar.</span>
               </h2>
               <p style={{ color: 'rgba(241,236,226,0.8)', marginTop: 12, maxWidth: 640 }}>
-                Calendar invites for everything tagged <strong style={{ color: 'var(--ow-paper)' }}>live</strong> and <strong style={{ color: 'var(--ow-red)' }}>finals</strong> land by email before kickoff. <strong style={{ color: 'var(--ow-paper)' }}>Optional</strong> items stay off your calendar unless you ask.
+                Calendar invites for everything tagged <strong style={{ color: 'var(--ow-paper)' }}>live</strong> and <strong style={{ color: 'var(--ow-red)' }}>finals</strong> land by email before kickoff. <strong style={{ color: 'var(--ow-paper)' }}>Optional</strong> items stay off your calendar unless you ask. Prefer a familiar flow? RSVP on Luma or Eventbrite too.
               </p>
             </div>
-            <Link href="/hackathon/register" className="ow-btn ow-btn-primary no-underline" style={{ alignSelf: 'center' }}>
-              Register →
-            </Link>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 240, alignSelf: 'center' }}>
+              <Link href="/hackathon/register" className="ow-btn ow-btn-primary no-underline" style={{ width: '100%', justifyContent: 'space-between' }}>
+                <span>Register</span><span aria-hidden>→</span>
+              </Link>
+              {RSVP_LINKS.map(l => (
+                <a
+                  key={l.platform}
+                  href={l.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ow-btn ow-btn-ghost no-underline"
+                  style={{ width: '100%', justifyContent: 'space-between', borderColor: 'var(--ow-paper)', color: 'var(--ow-paper)' }}
+                >
+                  <span>{l.label}</span><span aria-hidden>↗</span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Countdown } from '@/components/hackathon/Countdown'
 import { VerifiedCounter } from '@/components/hackathon/VerifiedCounter'
 import { WeirdMarquee } from '@/components/hackathon/WeirdMarquee'
+import { RSVP_LINKS } from '@/lib/hackathon/links'
 
 /* ─────────────────────────────────────────────────────────────────────────
    small section helpers — kept local so the landing reads top-to-bottom
@@ -58,12 +59,12 @@ const COMMANDMENTS = [
 ]
 
 const TIMELINE = [
-  { n: '01', date: 'Thu · 18 Jun', time: '09:00 ET', head: 'Kickoff stream',     body: 'Theme reveal, sponsor toast, judges introduced. 48-hour clock starts.' },
+  { n: '01', date: 'Thu · 18 Jun', time: '17:00 ET', head: 'Kickoff stream',     body: 'Theme reveal, sponsor toast, judges introduced. 48-hour clock starts.' },
   { n: '02', date: 'Thu → Sat',    time: 'Async',    head: 'Build window',       body: '48 hours. Ship something. Anything. Preferably weird.' },
   { n: '03', date: 'Fri · 19 Jun', time: '21:00 ET', head: 'Mid-build sync',     body: 'Live check-in stream. Show your scaffold, your first crime.' },
-  { n: '04', date: 'Sat · 20 Jun', time: '12:00 ET', head: 'Submissions close',  body: 'The door is locked from the outside. Time’s up.' },
-  { n: '05', date: 'Sat · 20 Jun', time: '13:00 ET', head: 'Finalists announced', body: 'Eight (8) projects called up. Demo from wherever you are.' },
-  { n: '06', date: 'Sat · 20 Jun', time: '17:00 ET', head: 'Live finals',        body: 'An unmarked URL. Demos. Judging. Trophies. Weeping.' },
+  { n: '04', date: 'Sat · 20 Jun', time: '17:00 ET', head: 'Submissions close',  body: 'The door is locked from the outside. Time’s up.' },
+  { n: '05', date: 'Sat · 20 Jun', time: '18:00 ET', head: 'Finalists announced', body: 'Eight (8) projects called up. Demo from wherever you are.' },
+  { n: '06', date: 'Sat · 20 Jun', time: '19:30 ET', head: 'Live finals',        body: 'An unmarked URL. Demos. Judging. Trophies. Weeping.' },
 ]
 
 const TRACKS = [
@@ -95,7 +96,7 @@ const TRACKS = [
 
 const RULES_PEEK = [
   'Solo builders welcome. Teams of up to four (4) humans.',
-  'Build window opens 18 Jun 09:00 ET. Nothing made before that counts. 48 hours, hard.',
+  'Build window opens 18 Jun 17:00 ET. Nothing made before that counts. 48 hours, hard.',
   'AI assistance: fine. AI submitted on its own behalf: not fine.',
   'No harassment. No harm. No shock-value-as-substance.',
   'Open source everything you ship (license your choice).',
@@ -204,6 +205,8 @@ export default function HackathonLanding() {
                 <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
                 <span>Live finals · fully online</span>
                 <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
+                <span style={{ color: 'var(--ow-red)' }}>FAANG judges</span>
+                <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
                 <span style={{ color: 'var(--ow-red)' }}>door reveal 20 Jun</span>
               </div>
 
@@ -230,7 +233,7 @@ export default function HackathonLanding() {
                 fontSize: '0.875rem', color: 'var(--ow-ink-2)',
                 paddingTop: 14, borderTop: '1px solid var(--ow-ink)',
               }}>
-                Anchored to <strong style={{ color: 'var(--ow-ink)' }}>18 Jun · 09:00 ET</strong>. Your local clock may drift; that is your problem and also a beautiful weakness.
+                Anchored to <strong style={{ color: 'var(--ow-ink)' }}>18 Jun · 17:00 ET</strong>. Your local clock may drift; that is your problem and also a beautiful weakness.
               </p>
             </aside>
           </div>
@@ -363,7 +366,7 @@ export default function HackathonLanding() {
                 ['Finals',       <span key="f">Fully online — <span style={{ color: 'var(--ow-red)' }}>URL reveal 20 Jun</span></span>],
                 ['Team size',    '1 – 4 humans'],
                 ['Cost',         '$0 to enter'],
-                ['Judges',       'Announced at kickoff'],
+                ['Judges',       <span key="j">FAANG engineers · <span style={{ color: 'var(--ow-red)' }}>named at kickoff</span></span>],
                 ['Stream',       'Links at kickoff'],
                 ['Presented by', 'OnlyWorks × Orbis'],
               ].map(([k, v], i, a) => (
@@ -382,6 +385,28 @@ export default function HackathonLanding() {
                   <span style={{ fontSize: '0.9375rem', color: 'var(--ow-ink)', textAlign: 'right' }}>{v}</span>
                 </div>
               ))}
+
+              {/* supplementary RSVP channels — register link stays the headline act */}
+              <hr className="ow-rule" style={{ margin: '20px 0 16px' }} />
+              <div className="ow-label ow-label-mute" style={{ marginBottom: 12 }}>Also RSVP on</div>
+              <div style={{ display: 'grid', gap: 10 }}>
+                {RSVP_LINKS.map(l => (
+                  <a
+                    key={l.platform}
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ow-btn ow-btn-ghost no-underline"
+                    style={{ justifyContent: 'space-between' }}
+                  >
+                    <span>{l.label}</span>
+                    <span aria-hidden>↗</span>
+                  </a>
+                ))}
+              </div>
+              <p style={{ marginTop: 12, fontSize: '0.75rem', color: 'var(--ow-ink-3)', lineHeight: 1.5 }}>
+                Optional. <Link href="/hackathon/register" className="no-underline" style={{ color: 'var(--ow-ink)', backgroundImage: 'linear-gradient(var(--ow-ink), var(--ow-ink))', backgroundSize: '100% 2px', backgroundRepeat: 'no-repeat', backgroundPosition: '0 100%' }}>Registering</Link> is what gets you a builder serial + verification.
+              </p>
             </aside>
           </div>
         </div>
@@ -393,10 +418,10 @@ export default function HackathonLanding() {
         `}</style>
       </section>
 
-      {/* ═══════════ §03 — the 24 ═══════════ */}
+      {/* ═══════════ §03 — the 48 ═══════════ */}
       <section className="ow-section">
         <div className="ow-container">
-          <SectionMark index="03" kicker="The 24" />
+          <SectionMark index="03" kicker="The 48" />
           <h2 style={{ marginTop: 18 }}>
             48 hours.<br />
             <span style={{ color: 'var(--ow-red)' }}>One weird.</span>
@@ -630,7 +655,7 @@ export default function HackathonLanding() {
 
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'grid', gap: 12 }}>
                 {[
-                  'Mentorship from the judging panel · details confirmed at kickoff',
+                  'Mentorship from the judging panel — engineers from FAANG companies · details confirmed at kickoff',
                   'Feature on OnlyWorks.com homepage',
                   'Permanent "Verified Weird ’26" badge on your OnlyWorks profile',
                   'Trophy: a literal rubber duck on a plinth',
@@ -752,7 +777,7 @@ export default function HackathonLanding() {
                 color: 'rgba(241,236,226,0.78)', fontSize: '0.9375rem',
                 marginTop: 8, maxWidth: 640,
               }}>
-                Each guest judge sponsors a named award — &ldquo;The [Judge] Award for [their pick of weirdness].&rdquo; No cash attached: winners receive a signed certificate and the mentorship slot that comes with it. Names + categories announced at kickoff.
+                This year&apos;s guest judges are engineers from FAANG companies. Each sponsors a named award — &ldquo;The [Judge] Award for [their pick of weirdness].&rdquo; No cash attached: winners receive a signed certificate and the mentorship slot that comes with it. Names + categories announced at kickoff.
               </p>
             </div>
             <Link
@@ -928,7 +953,7 @@ export default function HackathonLanding() {
             <span style={{ color: 'var(--ow-red)' }}>verified weird?</span>
           </h2>
           <p className="lede" style={{ maxWidth: 580, margin: '32px auto 0' }}>
-            Registration is one form, one minute, zero cost. You can drop out the moment things get uncomfortable. You will not. We&apos;ll see you on the 19th.
+            Registration is one form, one minute, zero cost. You can drop out the moment things get uncomfortable. You will not. We&apos;ll see you on the 18th.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, justifyContent: 'center', marginTop: 36 }}>
             <Link href="/hackathon/register" className="ow-btn ow-btn-primary no-underline" style={{ padding: '20px 28px', fontSize: '0.9375rem' }}>

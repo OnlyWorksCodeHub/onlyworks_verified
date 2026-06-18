@@ -24,10 +24,10 @@ const SECTIONS: Section[] = [
     label: 'Build window',
     title: 'When work counts',
     rules: [
-      { n: 'W.01', text: <>Build window opens at <strong>18 Jun 2026 · 09:00 ET</strong>. Anything committed before that timestamp does not count. 48 hours total — clock does not stop for sleep.</> },
+      { n: 'W.01', text: <>Build window opens at <strong>18 Jun 2026 · 17:00 ET</strong>. Anything committed before that timestamp does not count. 48 hours total — clock does not stop for sleep.</> },
       { n: 'W.02', text: <>Submissions <em style={{ fontStyle: 'normal', color: 'var(--ow-red)' }}>open</em> at 18 Jun · 17:00 ET. You may keep building after this; you may also publish early to lock in.</> },
-      { n: 'W.03', text: <>Submissions <em style={{ fontStyle: 'normal', color: 'var(--ow-red)' }}>soft-close</em> at 20 Jun · 11:30 ET. You can keep editing your README after this. Nothing else.</> },
-      { n: 'W.04', text: <>Submissions <em style={{ fontStyle: 'normal', color: 'var(--ow-red)' }}>hard-close</em> at 20 Jun · 12:00 ET. The submit button stops working. The door, as they say, is locked from the outside.</> },
+      { n: 'W.03', text: <>Submissions <em style={{ fontStyle: 'normal', color: 'var(--ow-red)' }}>soft-close</em> at 20 Jun · 16:30 ET. You can keep editing your README after this. Nothing else.</> },
+      { n: 'W.04', text: <>Submissions <em style={{ fontStyle: 'normal', color: 'var(--ow-red)' }}>hard-close</em> at 20 Jun · 17:00 ET. The submit button stops working. The door, as they say, is locked from the outside.</> },
       { n: 'W.05', text: 'Previously-built side projects are not eligible. Previously-failed side projects you are reviving from the grave — eligible if the resurrection produces ≥ 80% new work.' },
       { n: 'W.06', text: "Pre-existing libraries, frameworks, open-source dependencies — all fine. That's not your project; it's gravity." },
     ],
@@ -62,7 +62,7 @@ const SECTIONS: Section[] = [
     label: 'Judging',
     title: 'How we decide',
     rules: [
-      { n: 'J.01', text: <>The judging panel — OnlyWorks in-house plus guest judges — stays anonymous until kickoff, 18 Jun. <span style={{ color: 'var(--ow-ink-3)' }}>(Builds suspense. Also discourages bribery.)</span></> },
+      { n: 'J.01', text: <>The judging panel — OnlyWorks in-house plus guest judges who are engineers from FAANG companies — stays anonymous until kickoff, 18 Jun. <span style={{ color: 'var(--ow-ink-3)' }}>(Builds suspense. Also discourages bribery.)</span></> },
       { n: 'J.02', text: 'Judging happens in two rounds: (1) async over the Loom + repo; (2) live demo on the finals stream for the eight (8) finalists. Finalists who want to present MUST demo live — no pre-recorded backup.' },
       { n: 'J.03', text: 'Rubric (out of 100): committed weirdness (35), craft (25), demoability (20), narrative (10), surprise (10). The rubric is a guide. The rubric does not vote.' },
       { n: 'J.04', text: 'Judges may dock points for: shock-value-as-substance, copying a previous ONLYHACKS for the ONLYWEIRD project, projects that punch down, or projects whose only weird is "I used an LLM".' },
@@ -79,7 +79,7 @@ const SECTIONS: Section[] = [
       { n: 'C.02', text: 'No shock-value-as-substance: gratuitous gore, fake violence, sexual content, self-harm content. Weird is one thing; ugly is another.' },
       { n: 'C.03', text: 'Projects that target individuals, harass real people, scrape private data, or deepfake identifiable humans are ineligible.' },
       { n: 'C.04', text: 'Discord is moderated. Moderators are friendly. They will also boot you, swiftly and without ceremony, for any of the above.' },
-      { n: 'C.05', text: 'Finals stream link shared with finalists and registered builders alongside the 13:00 ET announcement on 20 Jun.' },
+      { n: 'C.05', text: 'Finals stream link shared with finalists and registered builders alongside the 18:00 ET announcement on 20 Jun.' },
       { n: 'C.06', text: 'Captioning on the finals stream is available on request — email weird@only-works.com.' },
     ],
   },
@@ -119,8 +119,12 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
     a: 'Yes — the whole event is online, build window and finals both. Build from wherever you live; demo from the same chair.',
   },
   {
+    q: 'Who are the judges?',
+    a: 'The panel pairs the OnlyWorks + Orbis crew with guest judges who are engineers from FAANG companies. We keep the names sealed until kickoff (18 Jun) — partly for suspense, partly because anonymous judging is harder to game. They’re unmasked live on the kickoff stream, and each sponsors a named award for their pick of weirdness.',
+  },
+  {
     q: 'Do I need an OnlyWorks account?',
-    a: <>Yes — required. The account is free, but you must (1) sign up at <Link href="/" className="no-underline" style={{ color: 'var(--ow-ink)', backgroundImage: 'linear-gradient(var(--ow-ink), var(--ow-ink))', backgroundSize: '100% 2px', backgroundRepeat: 'no-repeat', backgroundPosition: '0 100%' }}>OnlyWorks.com</Link>, (2) download the desktop app, and (3) put your OW ID into the registration form. The registration form will reject submissions without a valid OW ID. OnlyWorks is the platform we use to verify your build belongs to you.</>,
+    a: <>No — it&apos;s optional, but strongly recommended. The account is free, and it&apos;s how we verify your build belongs to you and issue a certificate anyone can check. To link it: (1) sign up at <Link href="/" className="no-underline" style={{ color: 'var(--ow-ink)', backgroundImage: 'linear-gradient(var(--ow-ink), var(--ow-ink))', backgroundSize: '100% 2px', backgroundRepeat: 'no-repeat', backgroundPosition: '0 100%' }}>OnlyWorks.com</Link>, (2) download the desktop app, and (3) put your OW ID into the registration form. You can register without one and add it later — but only verified builds get the verified-weird stamp and the resolvable cert.</>,
   },
   {
     q: 'What counts as "weird"?',

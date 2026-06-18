@@ -433,7 +433,7 @@ export default function AboutPage() {
               {
                 n: '04',
                 title: 'Build during the window',
-                body: 'Fri 19 Jun 09:00 ET → Sat 20 Jun 09:00 ET — a 24-hour window. Build whatever weird thing you want, fully online.',
+                body: 'Thu 18 Jun 17:00 ET → Sat 20 Jun 17:00 ET — a 48-hour window. Build whatever weird thing you want, fully online.',
                 href: '/hackathon/schedule',
                 cta: 'See schedule →',
               },
