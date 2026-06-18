@@ -54,17 +54,16 @@ const COMMANDMENTS = [
   {
     n: '03',
     head: 'Demo it to a stranger.',
-    body: 'Live, on the 20th, to a real human who did not sign an NDA. If it survives explanation by a sleep-deprived founder, it ships into the verified-weird hall of fame.',
+    body: 'In a ≤3-min pitch video, to real humans who did not sign an NDA. If it survives explanation by a sleep-deprived founder, it ships into the verified-weird hall of fame.',
   },
 ]
 
 const TIMELINE = [
   { n: '01', date: 'Thu · 18 Jun', time: '17:00 ET', head: 'Kickoff stream',     body: 'Theme reveal, sponsor toast, judges introduced. 48-hour clock starts.' },
   { n: '02', date: 'Thu → Sat',    time: 'Async',    head: 'Build window',       body: '48 hours. Ship something. Anything. Preferably weird.' },
-  { n: '03', date: 'Fri · 19 Jun', time: '21:00 ET', head: 'Mid-build sync',     body: 'Live check-in stream. Show your scaffold, your first crime.' },
-  { n: '04', date: 'Sat · 20 Jun', time: '17:00 ET', head: 'Submissions close',  body: 'The door is locked from the outside. Time’s up.' },
-  { n: '05', date: 'Sat · 20 Jun', time: '18:00 ET', head: 'Finalists announced', body: 'Eight (8) projects called up. Demo from wherever you are.' },
-  { n: '06', date: 'Sat · 20 Jun', time: '19:30 ET', head: 'Live finals',        body: 'An unmarked URL. Demos. Judging. Trophies. Weeping.' },
+  { n: '03', date: 'Sat · 20 Jun', time: '17:00 ET', head: 'Submissions close',  body: 'The door is locked from the outside. Time’s up.' },
+  { n: '04', date: 'After close', time: 'Async',    head: 'Judging',          body: 'Judges score the pitch videos + repos. No live demo night.' },
+  { n: '05', date: 'July ’26',    time: '—',        head: 'Winners + awards', body: 'Winners announced and trophies/awards sent in July.' },
 ]
 
 const TRACKS = [
@@ -101,7 +100,7 @@ const RULES_PEEK = [
   'No harassment. No harm. No shock-value-as-substance.',
   'Open source everything you ship (license your choice).',
   'One (1) Loom-style demo, three minutes max, mandatory.',
-  'Finalists demo live on the finals stream, 20 Jun. No pre-recorded backup.',
+  'Judging is on your pitch video — no live demo. Winners + awards land in July.',
   "Judges' decisions are final. Unless funny — then extra-final.",
 ]
 
@@ -121,7 +120,7 @@ export default function HackathonLanding() {
             alignItems: 'center', gap: 16, marginBottom: 36,
           }}>
             <span className="ow-stamp ow-stamp-wobble">◆ Verified Weird</span>
-            <span className="ow-label ow-label-mute">§ 00 — Edition One · Two Days · One URL</span>
+            <span className="ow-label ow-label-mute">§ 00 — Edition One · Two Days · One Video</span>
           </div>
 
           {/* huge wordmark */}
@@ -188,7 +187,7 @@ export default function HackathonLanding() {
           >
             <div>
               <p className="lede" style={{ maxWidth: 620 }}>
-                An OnlyWorks hackathon for builders who would rather <span className="ow-ink-underline">ship the joke</span> than slide-deck the empire. <strong>48 hours</strong>, async, on your own machine. Then on June 20th the finalists step through an unmarked URL and demo live to a stream full of strangers. Fully online — <strong>present from wherever the weird happens</strong>.
+                An OnlyWorks hackathon for builders who would rather <span className="ow-ink-underline">ship the joke</span> than slide-deck the empire. <strong>48 hours</strong>, async, on your own machine. The window closes June 20th at 17:00 ET; you submit your repo and a ≤3-min pitch video. Judges score them after — winners and awards land in July. Fully online — <strong>present from wherever the weird happens</strong>.
               </p>
 
               <div style={{
@@ -203,11 +202,11 @@ export default function HackathonLanding() {
                 <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
                 <span>48 hours async</span>
                 <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
-                <span>Live finals · fully online</span>
+                <span>Pitch-video judging · fully online</span>
                 <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
                 <span style={{ color: 'var(--ow-red)' }}>FAANG judges</span>
                 <span style={{ color: 'var(--ow-ink-3)' }}>·</span>
-                <span style={{ color: 'var(--ow-red)' }}>door reveal 20 Jun</span>
+                <span style={{ color: 'var(--ow-red)' }}>winners in July</span>
               </div>
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, marginTop: 36 }}>
@@ -362,12 +361,12 @@ export default function HackathonLanding() {
 
               {[
                 ['Window',       <span key="w"><strong>18 Jun</strong> → <strong>20 Jun ’26</strong></span>],
-                ['Format',       '48-hour build + live online finals'],
-                ['Finals',       <span key="f">Fully online — <span style={{ color: 'var(--ow-red)' }}>URL reveal 20 Jun</span></span>],
+                ['Format',       '48-hour build + pitch-video judging'],
+                ['Judging',      <span key="f">Async — <span style={{ color: 'var(--ow-red)' }}>winners in July</span></span>],
                 ['Team size',    '1 – 4 humans'],
                 ['Cost',         '$0 to enter'],
                 ['Judges',       <span key="j">FAANG engineers · <span style={{ color: 'var(--ow-red)' }}>named at kickoff</span></span>],
-                ['Stream',       'Links at kickoff'],
+                ['Results',      <span key="r">Winners + awards in <span style={{ color: 'var(--ow-red)' }}>July</span></span>],
                 ['Presented by', 'OnlyWorks × Orbis'],
               ].map(([k, v], i, a) => (
                 <div
@@ -796,7 +795,7 @@ export default function HackathonLanding() {
             fontFamily: "'Big Shoulders Display', sans-serif",
             fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase',
           }}>
-            * Grand prize winner announced end of July; cash paid in USD via Stripe within 30 days of the announcement. Trophies hand-mailed worldwide. Mentorship sessions scheduled by the OnlyWorks team in the two weeks after finals.
+            * Grand prize winner announced end of July; cash paid in USD via Stripe within 30 days of the announcement. Trophies hand-mailed worldwide. Mentorship sessions scheduled by the OnlyWorks team in the two weeks after winners are announced.
           </p>
         </div>
 

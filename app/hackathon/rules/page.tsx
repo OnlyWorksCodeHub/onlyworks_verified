@@ -38,7 +38,7 @@ const SECTIONS: Section[] = [
     title: 'About your robot co-author',
     rules: [
       { n: 'A.01', text: 'AI assistance is allowed and encouraged. Use Claude, Codex, Copilot, an evil oracle made of dice, whatever helps.' },
-      { n: 'A.02', text: <>AI as <em style={{ fontStyle: 'normal', color: 'var(--ow-ink)' }}>collaborator</em> = good. AI as <em style={{ fontStyle: 'normal', color: 'var(--ow-red)' }}>sole author</em> = ineligible. You must be able to explain your project, live on the finals stream, without it.</> },
+      { n: 'A.02', text: <>AI as <em style={{ fontStyle: 'normal', color: 'var(--ow-ink)' }}>collaborator</em> = good. AI as <em style={{ fontStyle: 'normal', color: 'var(--ow-red)' }}>sole author</em> = ineligible. You must be able to explain your project — in your pitch video and on request — without it.</> },
       { n: 'A.03', text: 'Projects whose entire premise is "what if an LLM did the thing" are eligible only in the Cursed and Theatre tracks.' },
       { n: 'A.04', text: 'Disclose AI usage in your README. One short paragraph. Judges enjoy honesty more than they enjoy purity.' },
       { n: 'A.05', text: 'We will not run AI detectors on your code. We trust you. We will, however, ask you to explain it.' },
@@ -49,7 +49,7 @@ const SECTIONS: Section[] = [
     label: 'Submissions',
     title: 'What you must ship',
     rules: [
-      { n: 'S.01', text: <>One (1) Loom-style demo, <strong style={{ color: 'var(--ow-red)' }}>≤ 3 minutes</strong>. Show the artefact running. One-take preferred but not required.</> },
+      { n: 'S.01', text: <>One (1) <strong style={{ color: 'var(--ow-red)' }}>pitch video</strong> (Loom-style), ≤ 3 minutes. Show the artefact running — this is the thing judges score. One-take preferred but not required.</> },
       { n: 'S.02', text: 'One (1) public repository or hosted artefact. Open source license of your choice (or none, if your project is "demo theatre").' },
       { n: 'S.03', text: <>One (1) README with: what is this, how to run it, what made it weird. <span style={{ color: 'var(--ow-ink-3)' }}>~ 200–600 words.</span></> },
       { n: 'S.04', text: 'Category tag: pick one. You can change it once before submissions close. Cross-category not allowed — pick the track that best describes you, even if it hurts.' },
@@ -63,10 +63,10 @@ const SECTIONS: Section[] = [
     title: 'How we decide',
     rules: [
       { n: 'J.01', text: <>The judging panel — OnlyWorks in-house plus guest judges who are engineers from FAANG companies — stays anonymous until kickoff, 18 Jun. <span style={{ color: 'var(--ow-ink-3)' }}>(Builds suspense. Also discourages bribery.)</span></> },
-      { n: 'J.02', text: 'Judging happens in two rounds: (1) async over the Loom + repo; (2) live demo on the finals stream for the eight (8) finalists. Finalists who want to present MUST demo live — no pre-recorded backup.' },
+      { n: 'J.02', text: 'Judging is async: judges score your submitted pitch video + repo. There is no live demo round — your pitch video is your demo. Winners are announced in July.' },
       { n: 'J.03', text: 'Rubric (out of 100): committed weirdness (35), craft (25), demoability (20), narrative (10), surprise (10). The rubric is a guide. The rubric does not vote.' },
       { n: 'J.04', text: 'Judges may dock points for: shock-value-as-substance, copying a previous ONLYHACKS for the ONLYWEIRD project, projects that punch down, or projects whose only weird is "I used an LLM".' },
-      { n: 'J.05', text: "People's Choice is decided by public vote on submissions during the day of finals. One vote per Discord-verified attendee. Ballot stuffing is detected, mocked, and discarded." },
+      { n: 'J.05', text: "People's Choice is decided by public vote on submissions after the close. One vote per Discord-verified attendee. Ballot stuffing is detected, mocked, and discarded." },
       { n: 'J.06', text: "Judges' decisions are final. And, occasionally, dramatic. They will not be re-litigated in public." },
     ],
   },
@@ -75,12 +75,12 @@ const SECTIONS: Section[] = [
     label: 'Conduct',
     title: 'How to be a person',
     rules: [
-      { n: 'C.01', text: 'No harassment of any kind. No slurs, no targeted abuse, no "ironic" cruelty. This includes chat, DMs, demos, and the finals stream.' },
+      { n: 'C.01', text: 'No harassment of any kind. No slurs, no targeted abuse, no "ironic" cruelty. This includes chat, DMs, pitch videos, and the kickoff stream.' },
       { n: 'C.02', text: 'No shock-value-as-substance: gratuitous gore, fake violence, sexual content, self-harm content. Weird is one thing; ugly is another.' },
       { n: 'C.03', text: 'Projects that target individuals, harass real people, scrape private data, or deepfake identifiable humans are ineligible.' },
       { n: 'C.04', text: 'Discord is moderated. Moderators are friendly. They will also boot you, swiftly and without ceremony, for any of the above.' },
-      { n: 'C.05', text: 'Finals stream link shared with finalists and registered builders alongside the 18:00 ET announcement on 20 Jun.' },
-      { n: 'C.06', text: 'Captioning on the finals stream is available on request — email weird@only-works.com.' },
+      { n: 'C.05', text: 'Results are announced by email to all registered builders in July; winners + awards are sent then. There is no live finals stream.' },
+      { n: 'C.06', text: 'Captioning on the kickoff stream is available on request — email weird@only-works.com.' },
     ],
   },
   {
@@ -112,11 +112,11 @@ const SECTIONS: Section[] = [
 const FAQ: { q: string; a: React.ReactNode }[] = [
   {
     q: 'How much does it cost to enter?',
-    a: "Zero dollars to enter. We cover Discord, video hosting, and the finals stream. The whole thing happens online — no travel, no lodging, no excuses.",
+    a: "Zero dollars to enter. We cover Discord and video hosting. The whole thing happens online — no travel, no lodging, no excuses.",
   },
   {
     q: 'Can I enter from outside the US?',
-    a: 'Yes — the whole event is online, build window and finals both. Build from wherever you live; demo from the same chair.',
+    a: 'Yes — the whole event is online. Build from wherever you live; record your pitch video from the same chair.',
   },
   {
     q: 'Who are the judges?',

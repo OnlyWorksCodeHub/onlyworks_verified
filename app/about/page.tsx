@@ -447,7 +447,7 @@ export default function AboutPage() {
               {
                 n: '06',
                 title: 'Generate your report',
-                body: 'OnlyWorks turns your sessions into an AI-written report on your profile. Share the link with judges and recruiters. Finals are live-streamed.',
+                body: 'OnlyWorks turns your sessions into an AI-written report on your profile. Share the link with judges and recruiters. Judges score your pitch video; winners in July.',
                 href: '/hackathon/certificate',
                 cta: 'See a sample →',
               },

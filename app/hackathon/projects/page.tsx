@@ -62,7 +62,7 @@ const EXEMPLARS: Exemplar[] = [
     id: '006',
     title: 'vending-oracle',
     track: 'theatre',
-    verdict: 'A real vending machine dispensing real snacks AND unsolicited career advice via a thermal printer. Built to be demoed live on the finals stream.',
+    verdict: 'A real vending machine dispensing real snacks AND unsolicited career advice via a thermal printer. Built to be shown off in a ≤3-min pitch video.',
     description: 'Picture it: insert $1.25, receive a granola bar and a sentence such as "your refactor will not save you, only joy will".',
     stack: ['esp32', 'thermal printer', 'gpt-4o-mini', 'a tired vending machine'],
   },
@@ -403,7 +403,7 @@ export default function ProjectsPage() {
             {[
               { title: 'Register your project', body: 'From your dashboard, hit "new submission". The form is two fields: title and category. You can rename later.' },
               { title: 'Wire to OnlyWorks',     body: 'One-time hook. Drops a small file in your repo so OW can verify the build is real. Takes 30 seconds.' },
-              { title: 'Record a ≤ 3min Loom',  body: 'The most important deliverable. Demo the artefact actually running. One take is fine. One take is, in fact, recommended.' },
+              { title: 'Record your pitch video', body: 'The deliverable judges actually score — ≤3 min. Demo the artefact actually running. One take is fine. One take is, in fact, recommended.' },
               { title: 'Write a tiny README',   body: 'What is it, how do you run it, what made it weird. One paragraph minimum. One page maximum.' },
               { title: 'Push the submit button', body: 'Before 20 Jun 17:00 ET. The button will, at that exact moment, become unclickable.' },
             ].map((step, i) => (
