@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Mail, Shield, Monitor, Zap, BarChart3, ChevronDown, AlertTriangle, Download, ArrowRight, HelpCircle } from 'lucide-react'
+import { Mail, Shield, Monitor, Zap, BarChart3, ChevronDown, AlertTriangle, Download, ArrowRight, HelpCircle, LifeBuoy } from 'lucide-react'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 import { motion } from 'framer-motion'
@@ -431,7 +431,7 @@ export default function SupportPage() {
                 FAQ
               </motion.h2>
               <p className="text-base text-muted-foreground leading-relaxed max-w-sm">
-                Install, billing, uninstall, fixes. If the answer isn&apos;t here, email <a href="mailto:support@only-works.com" className="font-medium hover:underline underline-offset-4 text-foreground">support@only-works.com</a>.
+                Install, billing, uninstall, fixes. If the answer isn&apos;t here, <Link href="/support/tickets" className="font-medium hover:underline underline-offset-4 text-foreground">open a support ticket</Link> or email <a href="mailto:support@only-works.com" className="font-medium hover:underline underline-offset-4 text-foreground">support@only-works.com</a>.
               </p>
             </div>
 
@@ -458,7 +458,7 @@ export default function SupportPage() {
                   Still stuck?
                 </h2>
                 <p className="text-base text-muted-foreground mb-6 leading-relaxed max-w-xl">
-                  A real person reads every email, usually within 24&ndash;48 hours. Tell us what broke and we&apos;ll get your proof running again.
+                  A real person reads every ticket, usually within 24&ndash;48 hours. Open one with a screenshot or screen recording and we&apos;ll get your proof running again.
                 </p>
                 <div className="flex flex-col sm:flex-row items-start gap-4">
                   <ShimmerButton
@@ -466,18 +466,18 @@ export default function SupportPage() {
                     background="rgba(139, 92, 246, 1)"
                     borderRadius="1.75rem"
                     className="h-14 px-8 text-base font-medium"
-                    onClick={() => window.location.href = 'mailto:support@only-works.com'}
+                    onClick={() => { window.location.href = '/support/tickets' }}
                   >
-                    <Mail className="w-4 h-4 mr-2" />
-                    Email support
+                    <LifeBuoy className="w-4 h-4 mr-2" />
+                    Open a support ticket
                   </ShimmerButton>
-                  <Link
-                    href="/contact"
+                  <a
+                    href="mailto:support@only-works.com"
                     className="inline-flex items-center justify-center gap-2 h-14 px-8 text-base rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
                   >
-                    Contact us
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
+                    <Mail className="w-4 h-4" />
+                    Email support
+                  </a>
                 </div>
               </div>
             </div>
