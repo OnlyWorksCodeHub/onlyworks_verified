@@ -76,7 +76,7 @@ export function HackathonFooter() {
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: '0 100%',
                 }}
-              >Orbis, by Gryffin</a>, for builders who would rather ship the joke. 18 — 20 June 2026. Fully online, behind an unmarked URL.
+              >Orbis, by Gryffin</a>, for builders who would rather ship the joke. 18 — 20 June 2026. Fully online. Winners + awards in July.
             </p>
           </div>
         </div>

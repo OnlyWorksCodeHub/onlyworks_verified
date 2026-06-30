@@ -30,6 +30,7 @@ export function Footer() {
             <div className="space-y-2">
               <Link href="/careers" className="footer-link block">Careers</Link>
               <Link href="/support" className="footer-link block">Support</Link>
+              <Link href="/support/tickets" className="footer-link block">Support tickets</Link>
               <Link href="/contact" className="footer-link block">Contact</Link>
             </div>
           </div>

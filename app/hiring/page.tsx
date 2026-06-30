@@ -10,38 +10,32 @@ import { motion } from 'framer-motion'
 import { GridBackground, GeometricPattern, PulsingRings } from '@/components/ui/grid-background'
 import { ShimmerButton } from '@/components/ui/shimmer-button'
 import { BinaryRain, WatermarkText, ConnectionLines, CodeDecoration } from '@/components/ui/decorative-fills'
-import { useAuth } from '@/components/AuthProvider'
-import { NEXT_PUBLIC_BACKEND_URL } from '@/lib/config'
 
 export default function HiringPage() {
-  const { backendToken, user } = useAuth()
-  const [formData, setFormData] = useState({ company: '', job_title: '' })
+  const [formData, setFormData] = useState({ name: '', email: '', company: '', job_title: '', team_size: '' })
   const [isLoading, setIsLoading] = useState(false)
-  const [isRegistered, setIsRegistered] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleWaitlist = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!backendToken) {
-      toast.error('Please sign in first to create a hiring manager account.')
-      return
-    }
-    if (!formData.company.trim()) {
-      toast.error('Company name is required.')
+    if (isLoading) return
+    if (!formData.name.trim() || !formData.email.trim()) {
+      toast.error('Name and work email are required.')
       return
     }
 
     setIsLoading(true)
     try {
-      const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/hiring/register`, {
+      const res = await fetch('/api/hiring-waitlist', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${backendToken}` },
-        body: JSON.stringify(formData)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.message || 'Registration failed')
-      setIsRegistered(true)
-      toast.success('Hiring manager account created!')
+      if (!res.ok) throw new Error(data.error || 'Failed to join the waitlist')
+      setIsSubmitted(true)
+      toast.success("You're on the list!")
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Something went wrong')
     } finally {
@@ -141,7 +135,11 @@ export default function HiringPage() {
             transition={{ duration: 0.7, delay: 0.35 }}
             className="mt-3 text-sm font-mono text-muted-foreground"
           >
-            Searching is free. You only pay to post jobs and auto-match.
+            Searching is free and open now.{' '}
+            <a href="#register" className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground transition-colors">
+              Join the waitlist
+            </a>{' '}
+            for the full hiring toolkit — post jobs and auto-match proven candidates.
           </motion.p>
         </div>
       </section>
@@ -209,7 +207,7 @@ export default function HiringPage() {
         </div>
       </section>
 
-      {/* ═══ REGISTRATION ═══ */}
+      {/* ═══ WAITLIST ═══ */}
       <section id="register" className="relative py-12 lg:py-16 overflow-hidden">
         <PulsingRings className="left-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] opacity-20" />
         <ConnectionLines className="opacity-30" />
@@ -218,7 +216,7 @@ export default function HiringPage() {
             <div>
               <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-5">
                 <span className="w-8 h-px bg-foreground/30" />
-                What it costs you
+                Early access
               </span>
               <motion.h2
                 initial={{ opacity: 0, y: 16 }}
@@ -227,18 +225,18 @@ export default function HiringPage() {
                 transition={{ duration: 0.7 }}
                 className="text-4xl lg:text-6xl font-display tracking-tight mb-5"
               >
-                Free to search.<br />Paid to hire faster.
+                Search today.<br />Hire on proof next.
               </motion.h2>
               <p className="text-lg text-muted-foreground leading-snug mb-8 max-w-md">
-                Searching proven candidates and reading their full profiles costs nothing. You only pay Pro when you want to post jobs and let OnlyWorks auto-match the people who already proved the skill. A bad hire costs months. This costs a card and a trial.
+                Searching proven candidates and reading their full profiles is open and free right now. The full hiring toolkit — post jobs and let OnlyWorks auto-match the people who already proved the skill — is rolling out next. Join the waitlist and you&apos;re first in line.
               </p>
 
               <div className="space-y-3">
                 {[
-                  'Search verified candidates — free',
+                  'Search verified candidates — open & free today',
                   'Read full profiles and real work history — free',
-                  'Save candidates to shortlists — free',
-                  'Post jobs + auto-match — Pro, 14-day trial',
+                  'Post jobs + auto-match — early access via the waitlist',
+                  'Founding hiring managers hear from us first',
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 text-[15px]">
                     <Check className="w-4 h-4 shrink-0 text-[#8b5cf6]" />
@@ -249,7 +247,7 @@ export default function HiringPage() {
             </div>
 
             <div>
-              {isRegistered ? (
+              {isSubmitted ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -258,75 +256,103 @@ export default function HiringPage() {
                   <div className="w-14 h-14 flex items-center justify-center border border-foreground/10 mx-auto mb-5">
                     <CheckCircle className="w-7 h-7" />
                   </div>
-                  <h3 className="text-2xl font-display mb-2">You&apos;re all set.</h3>
-                  <p className="text-muted-foreground mb-6">Your hiring manager account is ready. Go read some real work.</p>
+                  <h3 className="text-2xl font-display mb-2">You&apos;re on the list.</h3>
+                  <p className="text-muted-foreground mb-6">We&apos;ll email you the moment the full hiring toolkit opens up. In the meantime, candidate search is already free.</p>
                   <Link
                     href="/search"
                     className="inline-flex items-center gap-2 h-12 px-6 rounded-full font-medium text-white hover:opacity-90 transition-all"
                     style={{ background: '#8b5cf6' }}
                   >
-                    Search candidates
+                    Search candidates now
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </motion.div>
               ) : (
-                <motion.div
+                <motion.form
                   initial={{ opacity: 0, x: 32 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.7 }}
+                  onSubmit={handleWaitlist}
+                  className="border border-foreground/10 p-8 lg:p-10 space-y-6"
                 >
-                  {!user ? (
-                    <div className="border border-foreground/10 p-8 lg:p-10 text-center">
-                      <h3 className="text-xl font-display mb-3">Sign in to get started</h3>
-                      <p className="text-muted-foreground mb-6">Sign in with your account to register as a hiring manager.</p>
-                      <Link
-                        href="/login"
-                        className="inline-flex items-center gap-2 h-12 px-6 rounded-full font-medium text-white hover:opacity-90 transition-all"
-                        style={{ background: '#8b5cf6' }}
-                      >
-                        Sign in
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    </div>
-                  ) : (
-                    <form onSubmit={handleRegister} className="border border-foreground/10 p-8 lg:p-10 space-y-6">
-                      <div>
-                        <label className="block text-xs font-mono text-muted-foreground mb-2">Company *</label>
-                        <input
-                          type="text"
-                          value={formData.company}
-                          onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                          placeholder="Acme Inc."
-                          required
-                          className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background outline-none transition-all focus:border-foreground/30"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-mono text-muted-foreground mb-2">Your title</label>
-                        <input
-                          type="text"
-                          value={formData.job_title}
-                          onChange={(e) => setFormData({ ...formData, job_title: e.target.value })}
-                          placeholder="Engineering Manager"
-                          className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background outline-none transition-all focus:border-foreground/30"
-                        />
-                      </div>
-                      <ShimmerButton
-                        shimmerColor="#a78bfa"
-                        background="rgba(139, 92, 246, 1)"
-                        borderRadius="1.75rem"
-                        type="submit"
-                        disabled={isLoading}
-                        className="w-full h-14 px-8 text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {isLoading ? 'Creating account...' : 'Create free account'}
-                        {!isLoading && <ArrowRight className="w-4 h-4 ml-2" />}
-                      </ShimmerButton>
-                      <p className="text-center text-xs text-muted-foreground font-mono">Free forever. Upgrade anytime for job posting.</p>
-                    </form>
-                  )}
-                </motion.div>
+                  <div>
+                    <label htmlFor="wl-name" className="block text-xs font-mono text-muted-foreground mb-2">Full name *</label>
+                    <input
+                      id="wl-name"
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="Jane Doe"
+                      required
+                      aria-required="true"
+                      className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background outline-none transition-all focus:border-foreground/30"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="wl-email" className="block text-xs font-mono text-muted-foreground mb-2">Work email *</label>
+                    <input
+                      id="wl-email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="jane@acme.com"
+                      required
+                      aria-required="true"
+                      className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background outline-none transition-all focus:border-foreground/30"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="wl-company" className="block text-xs font-mono text-muted-foreground mb-2">Company</label>
+                    <input
+                      id="wl-company"
+                      type="text"
+                      value={formData.company}
+                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      placeholder="Acme Inc."
+                      className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background outline-none transition-all focus:border-foreground/30"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="wl-title" className="block text-xs font-mono text-muted-foreground mb-2">Your title</label>
+                    <input
+                      id="wl-title"
+                      type="text"
+                      value={formData.job_title}
+                      onChange={(e) => setFormData({ ...formData, job_title: e.target.value })}
+                      placeholder="Engineering Manager"
+                      className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background outline-none transition-all focus:border-foreground/30"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="wl-team-size" className="block text-xs font-mono text-muted-foreground mb-2">Team size</label>
+                    <select
+                      id="wl-team-size"
+                      value={formData.team_size}
+                      onChange={(e) => setFormData({ ...formData, team_size: e.target.value })}
+                      className="w-full px-4 py-3 text-sm border border-foreground/10 bg-background outline-none transition-all focus:border-foreground/30"
+                    >
+                      <option value="">Select…</option>
+                      <option value="1-10">1–10</option>
+                      <option value="11-50">11–50</option>
+                      <option value="51-200">51–200</option>
+                      <option value="201-1000">201–1000</option>
+                      <option value="1000+">1000+</option>
+                    </select>
+                  </div>
+                  <ShimmerButton
+                    shimmerColor="#a78bfa"
+                    background="rgba(139, 92, 246, 1)"
+                    borderRadius="1.75rem"
+                    type="submit"
+                    disabled={isLoading}
+                    className="w-full h-14 px-8 text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isLoading ? 'Joining…' : 'Join the waitlist'}
+                    {!isLoading && <ArrowRight className="w-4 h-4 ml-2" />}
+                  </ShimmerButton>
+                  <p className="text-center text-xs text-muted-foreground font-mono">No spam. We&apos;ll only email you when hiring access is ready.</p>
+                </motion.form>
               )}
             </div>
           </div>
@@ -361,7 +387,7 @@ export default function HiringPage() {
                 className="inline-flex items-center justify-center h-14 px-8 text-base rounded-full font-medium border transition-all hover:bg-white/5"
                 style={{ borderColor: 'rgba(250,250,249,0.25)' }}
               >
-                Create a free account
+                Join the waitlist
               </a>
             </div>
           </div>

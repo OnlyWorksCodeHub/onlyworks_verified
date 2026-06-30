@@ -10,5 +10,5 @@ export const EVENT = {
   durationLabel: '48-hour',
   opensLong: 'Thursday 18 June · 17:00 ET',
   hardCloseLong: 'Saturday 20 June · 17:00 ET',
-  finalsPhrase: 'live online finals that evening',
+  finalsPhrase: 'winners and awards announced in July',
 }

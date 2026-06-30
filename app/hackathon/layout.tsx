@@ -6,7 +6,7 @@ import { HackathonFooter } from '@/components/hackathon/HackathonFooter'
 export const metadata: Metadata = {
   title: "ONLYHACKS for the ONLYWEIRD '26.",
   description:
-    "ONLYHACKS for the ONLYWEIRD '26 is OnlyWorks' first hackathon, co-hosted with Orbis: a 48-hour online sprint + live-streamed finals. Build the thing you'd never put on a resume. Prove it ran (at least once). Demo it to a stranger. June 18 — 20, 2026.",
+    "ONLYHACKS for the ONLYWEIRD '26 is OnlyWorks' first hackathon, co-hosted with Orbis: a 48-hour online sprint, judged on a short pitch video. Build the thing you'd never put on a resume. Prove it ran (at least once). Demo it to a stranger. June 18 — 20, 2026.",
   openGraph: {
     title: "ONLYHACKS for the ONLYWEIRD '26.",
     description:

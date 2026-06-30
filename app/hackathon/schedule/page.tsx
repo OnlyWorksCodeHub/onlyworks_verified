@@ -11,7 +11,7 @@ interface Event {
   pt: string
   title: string
   body: string
-  tag?: 'live' | 'async' | 'finals' | 'optional' | 'sponsor'
+  tag?: 'live' | 'async' | 'optional' | 'sponsor'
 }
 
 interface Day {
@@ -60,35 +60,23 @@ const DAYS: Day[] = [
     events: [
       { pt: '06:00', title: 'Office hours · open',            body: 'Drop into the stream with a question, a bug, or proof that you are still awake.', tag: 'sponsor' },
       { pt: '09:00', title: 'Office hours · OnlyWorks API',   body: 'Second pass for the late starters. Wire your build to OnlyWorks for verification.', tag: 'sponsor' },
-      { pt: '12:00', title: 'Craft talk · 30 min',            body: 'A short talk to break the grind. Topic dropped in Discord that morning.', tag: 'optional' },
-      { pt: '18:00', title: 'Mid-build sync',                 body: '15 min checkin stream (21:00 ET) — the night before the close. Show your scaffold, your first crime.', tag: 'live' },
-      { pt: '20:00', title: 'Overnight IRC · night two',      body: 'The text-only channel reopens for the final all-nighter.', tag: 'optional' },
+      { pt: '12:00', title: 'Craft talk · 30 min',            body: 'A short talk to break the grind. Topic dropped in Discord that morning.', tag: 'optional' },      { pt: '20:00', title: 'Overnight IRC · night two',      body: 'The text-only channel reopens for the final all-nighter.', tag: 'optional' },
     ],
   },
   {
-    id: 'sat-20', weekday: 'Saturday', date: '20 Jun 2026', mood: 'Submissions close · online finals · the URL reveal',
+    id: 'sat-20', weekday: 'Saturday', date: '20 Jun 2026', mood: 'Submissions close · pitch videos in · async judging',
     events: [
-      { pt: '06:00', title: 'Last sync-down',                  body: 'Last one. Short. Brace.', tag: 'live' },
       { pt: '13:30', title: 'Submissions soft close',          body: 'Judges begin watching. You may keep editing your README. Nobody else may.', tag: 'async' },
-      { pt: '14:00', title: 'Submissions close (HARD)',        body: 'Build window closes (17:00 ET). Anything pushed after this is for posterity, not points.', tag: 'async' },
-      { pt: '15:00', title: 'Finalists announced',             body: 'Eight (8) projects. Emails sent at 18:00 ET — demo from wherever you are.', tag: 'live' },
-      { pt: '16:00', title: 'Finalist call · briefing',        body: 'Finalists hop on a private call to walk through the order, the stream, the rules.', tag: 'live' },
-      { pt: '16:30', title: 'Stream opens · live finals',      body: 'An unmarked URL. Link shared with finalists and registered builders alongside the 18:00 ET announcement.', tag: 'finals' },
-      { pt: '16:45', title: 'Demos · round 1',                 body: 'Four projects, three minutes each, ruthless Q&A. Bring your own snacks.', tag: 'finals' },
-      { pt: '17:30', title: 'Intermission · weird tribute',    body: 'A short film honouring the projects that did not make finals. They were good.', tag: 'finals' },
-      { pt: '17:45', title: 'Demos · round 2',                 body: 'The other four. The judges look tired but exhilarated. So do you.', tag: 'finals' },
-      { pt: '18:45', title: 'Judges deliberate',               body: 'The chat stays open. Your mic does not. That is for the audience.', tag: 'finals' },
-      { pt: '19:15', title: 'Awards ceremony',                 body: 'Track + secondary prizes announced; grand prize winner revealed end of July. Trophies mailed. The trophies are themselves a joke.', tag: 'finals' },
-      { pt: '20:00', title: 'After-hours weirdtape',           body: 'Open jam · open mic · open mind. Recording strongly discouraged.', tag: 'finals' },
+      { pt: '14:00', title: 'Submissions close (HARD)',        body: 'Build window closes (17:00 ET). Repo + your ≤3-min pitch video must be in. Anything pushed after this is for posterity, not points.', tag: 'async' },
+      { pt: '14:00', title: 'Pitch video is the demo',         body: 'No live demo night — your ≤3-min pitch video is what the judges score. Make it count.', tag: 'async' },
+      { pt: '14:30', title: 'Async judging begins',            body: 'Judges work through the repos + pitch videos over the days that follow. Go outside. Touch grass. You earned it.', tag: 'async' },
     ],
   },
 ]
 
 const TAG_META: Record<string, { label: string; fg: string; bg: string }> = {
   'live':       { label: 'Live',       fg: 'var(--ow-paper)', bg: 'var(--ow-ink)' },
-  'async':      { label: 'Async',      fg: 'var(--ow-ink)',   bg: 'transparent'   },
-  'finals':     { label: 'Finals',     fg: 'var(--ow-paper)', bg: 'var(--ow-red)' },
-  'optional':   { label: 'Optional',   fg: 'var(--ow-ink)',   bg: 'var(--ow-paper-deep)' },
+  'async':      { label: 'Async',      fg: 'var(--ow-ink)',   bg: 'transparent'   },  'optional':   { label: 'Optional',   fg: 'var(--ow-ink)',   bg: 'var(--ow-paper-deep)' },
   'sponsor':    { label: 'Sponsor',    fg: 'var(--ow-ink)',   bg: 'var(--ow-paper-warm)' },
 }
 
@@ -129,7 +117,7 @@ export default function SchedulePage() {
           <hr className="ow-rule-fat" style={{ marginTop: 8 }} />
 
           <p className="lede" style={{ marginTop: 24, maxWidth: 720 }}>
-            48 hours, one unmarked URL. All times in ET by default — switch zones below. <strong style={{ color: 'var(--ow-ink)' }}>Live</strong> items stream; <strong style={{ color: 'var(--ow-red)' }}>finals</strong> items happen on the finals stream on 20 Jun; <strong style={{ color: 'var(--ow-ink)' }}>optional</strong> items are explicitly opt-in.
+            48 hours, one hard deadline. All times in ET by default — switch zones below. <strong style={{ color: 'var(--ow-ink)' }}>Live</strong> items stream (kickoff); <strong style={{ color: 'var(--ow-ink)' }}>async</strong> items are deadlines + judging; <strong style={{ color: 'var(--ow-ink)' }}>optional</strong> items are explicitly opt-in. Winners + awards land in <strong style={{ color: 'var(--ow-red)' }}>July</strong>.
           </p>
 
           {/* control bar */}
@@ -285,7 +273,7 @@ export default function SchedulePage() {
                       background: 'transparent',
                       boxShadow: '1.5px 1.5px 0 rgba(241,236,226,0.25)',
                     }}>
-                      ◆ Final Door
+                      ◆ Hard Close
                     </span>
                   )}
                 </header>
@@ -385,7 +373,7 @@ export default function SchedulePage() {
                 <span style={{ color: 'var(--ow-red)' }}>to your calendar.</span>
               </h2>
               <p style={{ color: 'rgba(241,236,226,0.8)', marginTop: 12, maxWidth: 640 }}>
-                Calendar invites for everything tagged <strong style={{ color: 'var(--ow-paper)' }}>live</strong> and <strong style={{ color: 'var(--ow-red)' }}>finals</strong> land by email before kickoff. <strong style={{ color: 'var(--ow-paper)' }}>Optional</strong> items stay off your calendar unless you ask. Prefer a familiar flow? RSVP on Luma or Eventbrite too.
+                Calendar invites for everything tagged <strong style={{ color: 'var(--ow-paper)' }}>live</strong> land by email before kickoff. <strong style={{ color: 'var(--ow-paper)' }}>Optional</strong> items stay off your calendar unless you ask. Prefer a familiar flow? RSVP on Luma or Eventbrite too.
               </p>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 240, alignSelf: 'center' }}>

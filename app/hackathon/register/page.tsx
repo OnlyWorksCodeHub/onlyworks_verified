@@ -387,7 +387,7 @@ export default function RegisterPage() {
               )}
             </Row>
 
-            <Row label="Email" hint="Required + verified. We send invites + the finals stream link here.">
+            <Row label="Email" hint="Required + verified. We send invites + your results here.">
               <input
                 id="reg-field-email"
                 type="email"

@@ -3,8 +3,28 @@ import { getSupabaseAdmin } from '@/lib/supabase/admin'
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { name, email, company, job_title, team_size } = body
+    let body: {
+      name?: string
+      email?: string
+      company?: string
+      job_title?: string
+      team_size?: string
+    }
+    try {
+      body = await request.json()
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid request body' },
+        { status: 400 }
+      )
+    }
+
+    // Trim first, then validate — never trust the client to have done it.
+    const name = (body.name || '').trim()
+    const email = (body.email || '').toLowerCase().trim()
+    const company = body.company?.trim() || null
+    const job_title = body.job_title?.trim() || null
+    const team_size = body.team_size?.trim() || null
 
     if (!name || !email) {
       return NextResponse.json(
@@ -25,13 +45,7 @@ export async function POST(request: NextRequest) {
 
     const { data, error } = await supabase
       .from('hiring_manager_waitlist')
-      .insert({
-        name: name.trim(),
-        email: email.toLowerCase().trim(),
-        company: company?.trim() || null,
-        job_title: job_title?.trim() || null,
-        team_size: team_size?.trim() || null,
-      })
+      .insert({ name, email, company, job_title, team_size })
       .select()
       .single()
 
