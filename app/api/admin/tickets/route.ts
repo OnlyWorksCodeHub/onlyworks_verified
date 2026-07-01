@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabaseAdmin } from '@/lib/supabase/admin'
-import { requireAdmin } from '@/lib/auth'
+import { requireAuth } from '@/lib/auth'
 import {
   SUPPORT_BUCKET,
   TICKET_STATUSES,
@@ -16,7 +16,8 @@ const SIGNED_URL_TTL = 60 * 60 // 1 hour
 
 export async function GET(req: NextRequest) {
   try {
-    const { error: authError } = await requireAdmin()
+    // Any signed-in user may triage tickets (not just ADMIN_EMAILS).
+    const { error: authError } = await requireAuth()
     if (authError) return authError
 
     const supabase = getSupabaseAdmin()

@@ -5,10 +5,10 @@ import {
   Loader2, Paperclip, ChevronDown, Mail, Clock, RefreshCw, AlertCircle,
 } from 'lucide-react'
 import toast from 'react-hot-toast'
+import Link from 'next/link'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 import { useAuth } from '@/components/AuthProvider'
-import { ADMIN_EMAILS } from '@/lib/config'
 import {
   TICKET_STATUSES, TICKET_STATUS_LABELS, TICKET_PRIORITIES, ticketCategoryLabel,
   type SupportTicketWithSignedUrls, type TicketStatus,
@@ -26,7 +26,8 @@ interface Draft { status: string; priority: string; admin_notes: string }
 
 export default function AdminTicketsPage() {
   const { user, loading: authLoading } = useAuth()
-  const isAdmin = !!user?.email && ADMIN_EMAILS.includes(user.email)
+  // Any signed-in account may triage tickets (not just ADMIN_EMAILS).
+  const signedIn = !!user?.email
 
   const [tickets, setTickets] = useState<SupportTicketWithSignedUrls[]>([])
   const [loading, setLoading] = useState(true)
@@ -61,8 +62,8 @@ export default function AdminTicketsPage() {
   }, [filter])
 
   useEffect(() => {
-    if (isAdmin) fetchTickets()
-  }, [isAdmin, fetchTickets])
+    if (signedIn) fetchTickets()
+  }, [signedIn, fetchTickets])
 
   const setDraft = (id: string, patch: Partial<Draft>) =>
     setDrafts((prev) => ({ ...prev, [id]: { ...prev[id], ...patch } }))
@@ -114,7 +115,7 @@ export default function AdminTicketsPage() {
               </span>
               <h1 className="text-4xl lg:text-5xl font-display tracking-tight">Support tickets</h1>
             </div>
-            {isAdmin && (
+            {signedIn && (
               <button
                 onClick={fetchTickets}
                 className="inline-flex items-center gap-2 h-10 px-4 text-sm rounded-full border border-foreground/15 hover:bg-foreground/5 transition-all"
@@ -128,11 +129,18 @@ export default function AdminTicketsPage() {
             <div className="flex items-center gap-3 text-muted-foreground py-16">
               <Loader2 className="w-5 h-5 animate-spin" /> Checking access…
             </div>
-          ) : !isAdmin ? (
+          ) : !signedIn ? (
             <div className="border border-foreground/10 p-10 text-center">
               <AlertCircle className="w-7 h-7 mx-auto mb-3 text-muted-foreground" />
-              <h2 className="text-xl font-display mb-2">Not authorized</h2>
-              <p className="text-muted-foreground text-sm">This page is for the OnlyWorks support team. Sign in with a team account.</p>
+              <h2 className="text-xl font-display mb-2">Sign in to continue</h2>
+              <p className="text-muted-foreground text-sm mb-5">Sign in with any OnlyWorks account to view and respond to support tickets.</p>
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-2 h-10 px-5 text-sm rounded-full font-medium text-white hover:opacity-90 transition-all"
+                style={{ background: '#8b5cf6' }}
+              >
+                Sign in
+              </Link>
             </div>
           ) : (
             <>

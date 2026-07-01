@@ -18,3 +18,17 @@ export async function requireAdmin() {
 
   return { error: null, user }
 }
+
+// Requires any signed-in, verified user (any email) — NO admin allowlist. Use
+// this where any authenticated account may act (e.g. support-ticket triage).
+// Keep it separate from requireAdmin so admin-only surfaces (payouts) stay locked.
+export async function requireAuth() {
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user?.email) {
+    return { error: NextResponse.json({ error: 'Authentication required' }, { status: 401 }), user: null }
+  }
+
+  return { error: null, user }
+}
