@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
-import { requireAdmin } from '@/lib/auth'
+import { requireAuth } from '@/lib/auth'
 import { TICKET_STATUSES, TICKET_PRIORITIES } from '@/lib/support/tickets'
 
 export const runtime = 'nodejs'
@@ -9,7 +9,8 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const { error: authError } = await requireAdmin()
+    // Any signed-in user may triage tickets (not just ADMIN_EMAILS).
+    const { error: authError } = await requireAuth()
     if (authError) return authError
 
     const id = params.id
