@@ -22,6 +22,11 @@ export default function ProfileSetupPage() {
   // otherwise returning users see this page flash on screen before they get
   // redirected to /p/edit.
   const [checkingProfile, setCheckingProfile] = useState(true)
+  // A safe same-origin `next` means the user arrived here from another flow
+  // (e.g. a hiring manager sent through /login?next=/search). Give them a
+  // visible way out so "Skip" isn't the only exit — skipping silently creates
+  // a public profile + OW ID they may not want.
+  const [exitPath, setExitPath] = useState<string | null>(null)
 
   // Form state
   const [fullName, setFullName] = useState('')
@@ -35,6 +40,13 @@ export default function ProfileSetupPage() {
     show_reports: true,
     is_profile_public: true,
   })
+
+  useEffect(() => {
+    const raw = new URLSearchParams(window.location.search).get('next')
+    if (raw && raw.startsWith('/') && !raw.startsWith('//') && !raw.startsWith('/\\')) {
+      setExitPath(raw)
+    }
+  }, [])
 
   // If the user has already completed their profile, send them straight to
   // /p/edit. This catches the case where a returning user signs in and the
@@ -329,6 +341,20 @@ export default function ProfileSetupPage() {
               Skip for now
             </button>
           </div>
+
+          {/* Non-destructive exit for users who didn't come here to build a
+              portfolio (e.g. a hiring manager). Unlike Skip, this does not
+              create a public profile or OW ID. */}
+          {exitPath && (
+            <div className="text-center mt-3">
+              <Link
+                href={exitPath}
+                className="text-sm text-muted-foreground hover:text-foreground underline underline-offset-4 transition-colors"
+              >
+                Not creating a portfolio? Back to search
+              </Link>
+            </div>
+          )}
         </div>
       </main>
     </div>

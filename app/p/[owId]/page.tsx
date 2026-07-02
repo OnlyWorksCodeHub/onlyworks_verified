@@ -129,17 +129,28 @@ export default async function ProfilePage({ params }: { params: { owId: string }
           </div>
         )}
 
-        {/* Attribution */}
+        {/* Attribution + next steps for both audiences */}
         <div className="text-center py-8">
           <p className="text-sm text-muted-foreground mb-4">
             Profile powered by OnlyWorks
           </p>
-          <Link
-            href="/downloads"
-            className="inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
-          >
-            Get OnlyWorks
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              href="/downloads"
+              className="inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
+            >
+              Get OnlyWorks
+            </Link>
+            {/* Hiring managers can search + read profiles for free today; proof-based
+                reach-out is on the waitlist, so point them there instead of a dead end. */}
+            <Link
+              href="/hiring#register"
+              className="inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium text-white hover:opacity-90 transition-all"
+              style={{ background: '#8b5cf6' }}
+            >
+              Hiring? Get notified when reach-out opens
+            </Link>
+          </div>
         </div>
       </main>
 

@@ -2,11 +2,12 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { ArrowLeft, CreditCard, Download, ExternalLink, Loader2 } from 'lucide-react'
+import { ArrowLeft, CreditCard, Download, ExternalLink, Loader2, LogOut, Search, User } from 'lucide-react'
 import toast, { Toaster } from 'react-hot-toast'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 import { useAuth } from '@/components/AuthProvider'
+import { PRO_ENABLED } from '@/lib/config'
 
 interface SubscriptionInfo {
   status?: string
@@ -31,13 +32,14 @@ function StatusBadge({ status }: { status?: string }) {
 }
 
 export default function AccountPage() {
-  const { user, session, loading: authLoading } = useAuth()
+  const { user, session, loading: authLoading, signOut } = useAuth()
   const [subscriptionInfo, setSubscriptionInfo] = useState<SubscriptionInfo | null>(null)
   const [loading, setLoading] = useState(false)
   const [portalLoading, setPortalLoading] = useState(false)
 
   useEffect(() => {
-    if (!user?.email) return
+    // Pro plan deferred — don't fetch/show subscription state.
+    if (!PRO_ENABLED || !user?.email) return
 
     setLoading(true)
     fetch('/api/subscriptions/verify', {
@@ -61,6 +63,11 @@ export default function AccountPage() {
       })
       .finally(() => setLoading(false))
   }, [user?.email])
+
+  const handleSignOut = async () => {
+    await signOut()
+    window.location.href = '/'
+  }
 
   const handleManageSubscription = async () => {
     if (!user?.email) return
@@ -112,7 +119,7 @@ export default function AccountPage() {
               <CreditCard className="w-10 h-10 mx-auto mb-4 text-muted-foreground" />
               <h1 className="font-display text-3xl lg:text-4xl tracking-tight mb-2">Account</h1>
               <p className="mb-6 text-sm text-muted-foreground">
-                Sign in to manage your subscription.
+                {PRO_ENABLED ? 'Sign in to manage your subscription.' : 'Sign in to your account.'}
               </p>
               <Link
                 href="/login"
@@ -148,7 +155,8 @@ export default function AccountPage() {
         <div className="max-w-[600px] mx-auto px-6">
           <h1 className="font-display text-3xl lg:text-4xl tracking-tight mb-8">Account</h1>
 
-          {/* Subscription Card */}
+          {/* Subscription Card — Pro plan deferred (hidden behind PRO_ENABLED). */}
+          {PRO_ENABLED && (
           <div className="border border-foreground/10 bg-background p-6 lg:p-8 mb-6">
             <h2 className="text-base font-medium text-foreground mb-4">Subscription</h2>
 
@@ -193,18 +201,39 @@ export default function AccountPage() {
               </div>
             )}
           </div>
+          )}
 
-          {/* Links */}
+          {/* Account details — always shown so the page is useful with Pro off */}
+          <div className="border border-foreground/10 bg-background p-6 lg:p-8 mb-6">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-muted-foreground">Signed in as</span>
+              <span className="text-sm font-medium text-foreground">{user?.email}</span>
+            </div>
+          </div>
+
+          {/* Links available to any signed-in visitor */}
           <div className="space-y-3">
-            {!hasActiveSub && !loading && (
-              <Link
-                href="/downloads"
-                className="border border-foreground/10 bg-background p-4 flex items-center justify-between hover:border-foreground/30 transition-colors"
-              >
-                <span className="text-sm font-medium text-foreground">Get started with OnlyWorks</span>
-                <span className="text-sm text-[#8b5cf6]">Download free</span>
-              </Link>
-            )}
+            <Link
+              href="/p/edit"
+              className="border border-foreground/10 bg-background p-4 flex items-center justify-between hover:border-foreground/30 transition-colors"
+            >
+              <span className="text-sm font-medium text-foreground">
+                <User className="w-4 h-4 inline mr-2 text-muted-foreground" />
+                Edit profile
+              </span>
+              <span className="text-sm text-[#8b5cf6]">Profile</span>
+            </Link>
+
+            <Link
+              href="/search"
+              className="border border-foreground/10 bg-background p-4 flex items-center justify-between hover:border-foreground/30 transition-colors"
+            >
+              <span className="text-sm font-medium text-foreground">
+                <Search className="w-4 h-4 inline mr-2 text-muted-foreground" />
+                Browse candidates
+              </span>
+              <span className="text-sm text-[#8b5cf6]">Search</span>
+            </Link>
 
             <Link
               href="/downloads"
@@ -217,6 +246,15 @@ export default function AccountPage() {
               <span className="text-sm text-[#8b5cf6]">Downloads</span>
             </Link>
           </div>
+
+          {/* Sign out */}
+          <button
+            onClick={handleSignOut}
+            className="mt-6 w-full inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium border border-foreground/20 text-[#e40014] hover:bg-[#e40014]/[0.04] transition-all"
+          >
+            <LogOut className="w-4 h-4" />
+            Sign out
+          </button>
 
           <div className="mt-8 text-center">
             <Link

@@ -8,7 +8,7 @@ import { Loader2, Save } from 'lucide-react'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 import { useAuth } from '@/components/AuthProvider'
-import { NEXT_PUBLIC_BACKEND_URL } from '@/lib/config'
+import { NEXT_PUBLIC_BACKEND_URL, HIRING_TOOLKIT_ENABLED } from '@/lib/config'
 
 type TeamSize = '1-10' | '11-50' | '51-200' | '201-500' | '500+'
 
@@ -141,6 +141,9 @@ export default function HiringProfilePage() {
   )
 
   useEffect(() => {
+    // Paid hiring toolkit is deferred — don't run the auth/fetch flow (which
+    // would 404-bounce logged-in users) while the feature is turned off.
+    if (!HIRING_TOOLKIT_ENABLED) return
     if (authLoading) return
 
     // 1) No authenticated user => login
@@ -240,6 +243,48 @@ export default function HiringProfilePage() {
     } finally {
       setSaving(false)
     }
+  }
+
+  // Deferred like billing (see HIRING_TOOLKIT_ENABLED in lib/config.ts): show a
+  // deliberate "coming soon" state instead of an orphaned form whose backend
+  // hiring-manager record no flow ever creates.
+  if (!HIRING_TOOLKIT_ENABLED) {
+    return (
+      <div className="min-h-screen bg-background text-foreground">
+        <Navigation />
+        <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-16">
+          <div className="border border-foreground/10 p-8 lg:p-10 text-center">
+            <span className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground mb-4">
+              <span className="w-8 h-px bg-foreground/30" />
+              Early access
+            </span>
+            <h1 className="font-display text-3xl lg:text-4xl tracking-tight mb-3">
+              Company profiles are coming soon
+            </h1>
+            <p className="text-base text-muted-foreground mb-6 max-w-md mx-auto">
+              Searching proven candidates and reading their full profiles is open and free today.
+              Company profiles and the full hiring toolkit are rolling out next — join the waitlist to be first in line.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link
+                href="/hiring#register"
+                className="inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium text-white hover:opacity-90 transition-all"
+                style={{ background: '#8b5cf6' }}
+              >
+                Join the waitlist
+              </Link>
+              <Link
+                href="/search"
+                className="inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
+              >
+                Search candidates now
+              </Link>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    )
   }
 
   if (authLoading || loading) {

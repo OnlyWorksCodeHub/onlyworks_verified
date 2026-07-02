@@ -58,8 +58,8 @@ export default function HiringPage() {
   ]
 
   const newWay = [
-    { icon: CheckCircle, title: 'You read the work, not the claim.', desc: 'A profile is built from what the candidate actually did — captured from real sessions, not typed into a box.' },
-    { icon: Shield, title: 'Skills come with receipts.', desc: 'Each skill is marked "Verified ×N" when an AI corroborates it against the candidate\'s own captured work. They can\'t fake having done it.' },
+    { icon: CheckCircle, title: 'You read the work, not the claim.', desc: 'A profile is built from what the candidate actually did — drawn from real work sessions, not typed into a box.' },
+    { icon: Shield, title: 'Skills come with receipts.', desc: 'Each skill is marked "Verified ×N" when an AI corroborates it against the candidate\'s own real work. They can\'t fake having done it.' },
     { icon: BarChart3, title: 'You hire on evidence.', desc: 'See the real output behind a skill before you interview. Screen on proof, not on who writes the best paragraph.' },
   ]
 

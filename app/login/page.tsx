@@ -64,9 +64,15 @@ export default function LoginPage() {
     setLoading(true)
     try {
       const supabase = createClient()
+      // Preserve a safe same-origin return path (e.g. the search a hiring
+      // manager came from) through the OAuth round-trip. The callback route
+      // re-validates before redirecting, so this is defence-in-depth.
+      const rawNext = new URLSearchParams(window.location.search).get('next')
+      const next = rawNext && rawNext.startsWith('/') && !rawNext.startsWith('//') && !rawNext.startsWith('/\\') ? rawNext : null
+      const callbackUrl = window.location.origin + '/auth/callback' + (next ? '?next=' + encodeURIComponent(next) : '')
       const { error: authError } = await supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: window.location.origin + '/auth/callback' },
+        options: { redirectTo: callbackUrl },
       })
       if (authError) { setError(authError.message); setLoading(false) }
     } catch {

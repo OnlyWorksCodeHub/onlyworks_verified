@@ -248,8 +248,9 @@ export default function DownloadsPage() {
               {/* The one note that actually matters */}
               <div className="px-6 py-4">
                 <p className="text-xs font-mono text-muted-foreground leading-relaxed">
-                  On first launch you&apos;ll grant Screen Recording &amp; Accessibility
-                  permissions. Capture runs only during sessions you start and stop.
+                  On first launch you&apos;ll grant the Screen Recording and Accessibility
+                  permissions macOS requires. OnlyWorks only builds your portfolio during
+                  sessions you start and stop — nothing runs in between.
                 </p>
               </div>
             </motion.div>

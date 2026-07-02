@@ -43,9 +43,17 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  // Logged-in users: redirect /login to profile (they're already authenticated)
+  // Logged-in users: redirect /login to their intended destination if a safe
+  // same-origin `next` is present (e.g. a hiring manager returning to /search),
+  // otherwise fall back to the worker profile editor.
   if (session && request.nextUrl.pathname === '/login') {
-    return NextResponse.redirect(new URL('/p/edit', request.url))
+    const rawNext = request.nextUrl.searchParams.get('next')
+    const safeNext =
+      rawNext && rawNext.startsWith('/') && !rawNext.startsWith('//') &&
+      !rawNext.startsWith('/\\') && !rawNext.toLowerCase().includes('://')
+        ? rawNext
+        : null
+    return NextResponse.redirect(new URL(safeNext || '/p/edit', request.url))
   }
 
   return response

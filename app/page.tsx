@@ -371,12 +371,12 @@ export default function HomePage() {
             { num: '01', icon: Cpu, title: 'Get past the AI-resume wall', desc: 'Hiring managers are drowning in AI-written resumes that all say the same thing. A verified report built from your real sessions is something they can actually check — so you get read, not skipped.' },
             { num: '02', icon: Shield, title: 'Stop telling employers what you did. Show them.', desc: 'Every report is built from real work sessions: actual skills, actual accomplishments, actual impact. Not bullet points you wrote about yourself.' },
             { num: '03', icon: Eye, title: 'One link, the full picture', desc: 'Your OW Profile is a single link that grows with every session. Share it with an employer or a client — it speaks for itself.' },
-            { num: '04', icon: Lock, title: 'You’re in control of your proof', desc: 'Capture only runs during sessions you start and stop. You choose exactly what goes on your profile and who can open the link.' },
+            { num: '04', icon: Lock, title: 'You’re in control of your proof', desc: 'Sessions only run when you start and stop them. You choose exactly what goes on your profile and who can open the link.' },
           ] : [
             { num: '01', icon: Search, title: 'Search skills people actually demonstrated', desc: 'Filter candidates by skills shown in real work sessions — not by who stuffed the right words into a resume.' },
-            { num: '02', icon: FileCheck, title: 'Proof, not self-reporting', desc: 'Every OnlyWorks profile is built from real work sessions: real skills, real output, real impact you can read before you reach out.' },
+            { num: '02', icon: FileCheck, title: 'Proof, not self-reporting', desc: 'Every OnlyWorks profile is built from real work sessions: real skills, real output, real impact you can read for yourself before you decide.' },
             { num: '03', icon: BarChart3, title: 'Screen with proof, not guesswork', desc: 'See what a candidate actually built before the first conversation, and spend your time on the people you already know can deliver.' },
-            { num: '04', icon: Users, title: 'A shortlist that’s already proven', desc: 'Browse people whose skills are backed by real work, and reach out with confidence instead of a hunch.' },
+            { num: '04', icon: Users, title: 'A shortlist that’s already proven', desc: 'Search is free and open today. Browse people whose skills are backed by real work and build a shortlist you can trust — proof-based reach-out is rolling out next.' },
           ]).map((item, i) => (
             <motion.div key={item.num} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-50px' }} transition={{ duration: 0.6, delay: i * 0.1 }}
               className="grid grid-cols-12 gap-6 py-8 md:py-12 border-t border-foreground/10 items-start">

@@ -10,6 +10,17 @@ const ERROR_CODE_MAP: Record<string, string> = {
   unexpected_failure: 'signup_failed',
 }
 
+// Only allow same-origin relative return paths. Reject protocol-relative
+// URLs (//host), absolute URLs (http://…), and backslash tricks so a crafted
+// `next` can't turn the callback into an open redirect.
+function sanitizeNext(raw: string | null): string | null {
+  if (!raw) return null
+  if (!raw.startsWith('/')) return null
+  if (raw.startsWith('//') || raw.startsWith('/\\')) return null
+  if (raw.toLowerCase().includes('://')) return null
+  return raw
+}
+
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
@@ -50,10 +61,15 @@ export async function GET(request: Request) {
   // others see; new users go to /p/setup. The /p/setup page is also gated
   // client-side as a safety net, but doing it server-side avoids the visible
   // flash through the onboarding form for returning users.
+  // A validated `next` (e.g. the /search a hiring manager came from) takes
+  // precedence over both the new-user /p/setup default and the returning-user
+  // /p/[owId] branch — a user who didn't ask to build a portfolio is returned
+  // where they started instead of being pushed into worker onboarding.
+  const next = sanitizeNext(searchParams.get('next'))
   const accessToken = sessionData?.session?.access_token
-  let nextPath = '/p/setup'
+  let nextPath = next || '/p/setup'
 
-  if (accessToken) {
+  if (accessToken && !next) {
     try {
       const backendUrl = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || 'https://onlyworks-backend-server.onrender.com'
 

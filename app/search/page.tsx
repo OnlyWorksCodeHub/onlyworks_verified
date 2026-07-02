@@ -69,6 +69,7 @@ export default function SearchPage() {
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
   const [searched, setSearched] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const isAuthenticated = !!backendToken
 
@@ -77,6 +78,7 @@ export default function SearchPage() {
 
     setLoading(true)
     setSearched(true)
+    setError(null)
 
     try {
       const params = new URLSearchParams({ q: searchQuery.trim(), page: String(searchPage) })
@@ -90,15 +92,18 @@ export default function SearchPage() {
       }
 
       const res = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/hiring/search?${params}`, { headers })
+      if (!res.ok) throw new Error(`Request failed (${res.status})`)
       const data = await res.json()
+      if (!data.success) throw new Error(data.error || 'Search failed')
 
-      if (data.success) {
-        setResults(data.data.candidates || [])
-        setTotal(data.data.total || 0)
-        setPage(searchPage)
-      }
+      setResults(data.data.candidates || [])
+      setTotal(data.data.total || 0)
+      setPage(searchPage)
     } catch (err) {
       console.error('Search failed:', err)
+      setError('Something went wrong while searching. Please try again.')
+      setResults([])
+      setTotal(0)
     } finally {
       setLoading(false)
     }
@@ -130,7 +135,7 @@ export default function SearchPage() {
           {/* Search Header */}
           <div className="mb-12">
             <h1 className="text-4xl font-display tracking-tight mb-3">Find verified talent</h1>
-            <p className="text-muted-foreground text-lg">Search candidates by skill. A <span className="inline-flex items-center gap-1"><Shield className="w-4 h-4 inline" /> verified</span> skill is one OnlyWorks corroborated against the candidate&apos;s own captured work; others are self-reported.</p>
+            <p className="text-muted-foreground text-lg">Search candidates by skill. A <span className="inline-flex items-center gap-1"><Shield className="w-4 h-4 inline" /> verified</span> skill is one OnlyWorks corroborated against the candidate&apos;s own real work; others are self-reported.</p>
           </div>
 
           {/* Search Bar */}
@@ -200,11 +205,24 @@ export default function SearchPage() {
           {/* Results */}
           {searched && (
             <div>
-              <p className="text-sm text-muted-foreground mb-6">
-                {loading ? 'Searching...' : `${total} candidate${total !== 1 ? 's' : ''} found`}
-              </p>
+              {!error && (
+                <p className="text-sm text-muted-foreground mb-6">
+                  {loading ? 'Searching...' : `${total} candidate${total !== 1 ? 's' : ''} found`}
+                </p>
+              )}
 
-              {results.length > 0 ? (
+              {error ? (
+                <div className="text-center py-12 max-w-md mx-auto">
+                  <p className="text-xl font-medium mb-2">Something went wrong</p>
+                  <p className="text-muted-foreground mb-6">{error}</p>
+                  <button
+                    onClick={() => doSearch(query, page)}
+                    className="px-4 py-2 rounded-full border border-foreground/15 text-sm hover:bg-foreground/5"
+                  >
+                    Retry
+                  </button>
+                </div>
+              ) : results.length > 0 ? (
                 <div className="grid gap-4">
                   {results.map((candidate, i) => (
                     <CandidateCard key={candidate.ow_id || candidate.candidate_id || i} candidate={candidate} authenticated={isAuthenticated} />
@@ -242,14 +260,14 @@ export default function SearchPage() {
                   transition={{ delay: 0.5 }}
                   className="mt-12 p-8 rounded-2xl border border-[#8b5cf6]/20 bg-[#8b5cf6]/5 text-center"
                 >
-                  <h3 className="text-xl font-medium mb-2">Sign up free to see who they are</h3>
-                  <p className="text-muted-foreground mb-6">Create a free hiring manager account to view full profiles, names, and work history.</p>
+                  <h3 className="text-xl font-medium mb-2">Sign in free to see who they are</h3>
+                  <p className="text-muted-foreground mb-6">Sign in with Google to view full profiles, names, and work history.</p>
                   <Link
-                    href="/hiring"
+                    href={`/login?next=${encodeURIComponent(`/search?q=${encodeURIComponent(query.trim())}${field ? `&field=${field}` : ''}${level ? `&level=${level}` : ''}`)}`}
                     className="inline-flex items-center gap-2 h-12 px-6 rounded-full font-medium text-white hover:opacity-90 transition-all"
                     style={{ background: '#8b5cf6' }}
                   >
-                    Get started free
+                    Sign in free
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </motion.div>
@@ -262,7 +280,7 @@ export default function SearchPage() {
             <div className="text-center py-12">
               <Search className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
               <p className="text-xl font-medium mb-2">Search for verified talent</p>
-              <p className="text-muted-foreground max-w-md mx-auto">Enter skills above to find candidates. Skills marked with a shield were verified by OnlyWorks against the candidate&apos;s own captured work; unmarked skills are self-reported.</p>
+              <p className="text-muted-foreground max-w-md mx-auto">Enter skills above to find candidates. Skills marked with a shield were verified by OnlyWorks against the candidate&apos;s own real work; unmarked skills are self-reported.</p>
             </div>
           )}
         </div>
@@ -338,7 +356,7 @@ function CandidateCard({ candidate, authenticated }: { candidate: CandidateTease
           {authenticated && candidate.ow_id && (
             <Link
               href={`/p/${candidate.ow_id}`}
-              className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium border border-foreground/15 hover:bg-foreground/5 transition-all opacity-0 group-hover:opacity-100"
+              className="inline-flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium border border-foreground/15 hover:bg-foreground/5 transition-all"
             >
               View profile
               <ArrowRight className="w-3 h-3" />
