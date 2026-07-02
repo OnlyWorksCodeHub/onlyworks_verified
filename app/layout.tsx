@@ -275,7 +275,7 @@ export default function RootLayout({
                   "name": "What happens to my personal data on OnlyWorks?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Capture only runs during sessions you start and stop. To generate your report, your work data is processed by OnlyWorks and its AI provider; it is encrypted in transit and at rest, and never sold. You choose what goes on your profile and who can see it. See our Privacy Policy for what is collected, who processes it, and how to request deletion."
+                    "text": "Sessions only run when you start and stop them. To generate your report, your work data is processed by OnlyWorks and its AI provider; it is encrypted in transit and at rest, and never sold. You choose what goes on your profile and who can see it. See our Privacy Policy for what is collected, who processes it, and how to request deletion."
                   }
                 }
               ]
