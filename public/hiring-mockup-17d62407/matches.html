@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Matches · OnlyWorks Hire</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="nav-mount"></div>
+
+  <main class="shell page-top page-bottom">
+    <a href="dashboard.html" class="back-link" data-rise="1">← Back to dashboard</a>
+
+    <div id="job-header" data-rise="2"></div>
+
+    <div class="results-header" style="margin-top: 28px;" data-rise="3">
+      <div class="results-count"><strong id="match-count">0</strong> candidates ranked by skill fit × verified hours</div>
+      <div class="sort-tabs">
+        <button class="sort-tab active">Match score</button>
+        <button class="sort-tab">Most hours</button>
+        <button class="sort-tab">Recently active</button>
+      </div>
+    </div>
+
+    <div id="matches-list" data-rise="4"></div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="assets/mock-data.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    if (!app.isAuthed()) location.href = 'signup.html';
+    renderNav('dashboard');
+    renderFooter();
+
+    const id = getQueryParam('id') || 'j1';
+    let job = [...app.postedJobs(), ...JOBS].find(j => j.id === id) || JOBS[0];
+
+    const ranked = CANDIDATES
+      .map(c => ({ candidate: c, score: scoreCandidate(c, job) }))
+      .filter(m => m.score > 30)
+      .sort((a, b) => b.score - a.score);
+
+    document.getElementById('job-header').innerHTML = `
+      <div class="card static match-job-header">
+        <div class="deco deco-dots" style="right: 0; top: 0; width: 260px; height: 100%;"></div>
+        <div style="position: relative; z-index: 1; display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+          <div>
+            <div class="mono-label" style="margin-bottom: 8px;">Active job</div>
+            <h1 class="display-3" style="margin-bottom: 6px;">${job.title}</h1>
+            <div class="mono-sm" style="color: var(--muted); margin-bottom: 16px;">${job.company || app.company()} · ${job.location} · Posted ${job.posted}</div>
+            <div class="skill-chips">${(job.requiredSkills || []).map(s => `<span class="skill-chip hit">${s}</span>`).join('')}</div>
+          </div>
+          <div style="text-align: right;">
+            <div class="match-count-big">${ranked.length}</div>
+            <div class="mono-label" style="margin-top: 6px;">matches</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('match-count').textContent = ranked.length;
+
+    function expressInterestFromList(cid) {
+      const c = CANDIDATES.find(x => x.id === cid);
+      app.markInterested(cid);
+      toast(`Interest sent to ${c.name}`);
+      const btn = document.getElementById('interest-' + cid);
+      if (btn) {
+        btn.className = 'btn is-sent';
+        btn.disabled = true;
+        btn.textContent = '✓ Interest sent';
+      }
+    }
+    window.expressInterestFromList = expressInterestFromList;
+
+    document.getElementById('matches-list').innerHTML = ranked.map((m, i) => {
+      const c = m.candidate;
+      const sent = app.hasInterested(c.id);
+      return `
+        <div class="match-card">
+          <div class="candidate-avatar" style="width:64px;height:64px"><img src="${c.avatar}" alt="" /></div>
+          <div class="candidate-main">
+            <div class="match-rank">Rank ${String(i + 1).padStart(2, '0')}</div>
+            <div class="candidate-name-row">
+              <span class="candidate-name" style="cursor:pointer" onclick="location.href='profile.html?id=${c.id}'">${c.name}</span>
+              <span class="badge-verified">${icons.shield()} Verified</span>
+            </div>
+            <div class="candidate-meta"><strong>${c.field}</strong> · ${c.experience} yrs · ${c.verifiedHours.toLocaleString()} verified hrs · ${c.location}</div>
+            <div class="skill-chips">${c.topSkills.slice(0, 5).map(s => `<span class="skill-chip">${s}</span>`).join('')}</div>
+          </div>
+          <div class="match-score">
+            <div class="match-score-num">${m.score}<small>/100</small></div>
+            <div class="match-score-bar"><div class="match-score-fill" style="width:${m.score}%"></div></div>
+            <div class="mono-label" style="margin-top: 6px;">match fit</div>
+          </div>
+          <div class="match-actions">
+            ${sent
+              ? `<button id="interest-${c.id}" class="btn is-sent" disabled>✓ Interest sent</button>`
+              : `<button id="interest-${c.id}" class="btn btn-primary" onclick="expressInterestFromList('${c.id}')">Express Interest <span class="arr">→</span></button>`}
+            <a href="profile.html?id=${c.id}" class="btn btn-secondary btn-sm">View profile</a>
+          </div>
+        </div>
+      `;
+    }).join('') || `<div class="empty"><div class="empty-title">No matches yet</div>Try broadening the required skills.</div>`;
+  </script>
+</body>
+</html>

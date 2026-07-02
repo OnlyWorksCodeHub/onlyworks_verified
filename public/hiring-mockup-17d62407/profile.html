@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Candidate profile · OnlyWorks Hire</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="nav-mount"></div>
+
+  <main class="shell page-top page-bottom">
+    <a href="search.html" class="back-link" data-rise="1">← Back to search</a>
+    <div id="profile-mount"></div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="assets/mock-data.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    renderNav('search');
+    renderFooter();
+
+    const id = getQueryParam('id') || 'c1';
+    const c = CANDIDATES.find(x => x.id === id) || CANDIDATES[0];
+
+    function expressInterest() {
+      if (!app.isPaid()) {
+        showModal({
+          title: 'Express Interest is a Pro feature',
+          body: `Reaching out directly to candidates is part of OnlyWorks Hire Pro. Upgrade to send a branded outreach email to <strong>${c.name}</strong> and unlock unlimited candidate contacts.`,
+          primaryLabel: 'See pricing',
+          primaryHref: 'pricing.html',
+          secondaryLabel: 'Not now',
+        });
+        return;
+      }
+      app.markInterested(c.id);
+      toast(`Interest sent to ${c.name}`);
+      setTimeout(() => location.href = 'dashboard.html', 1200);
+    }
+    window.expressInterest = expressInterest;
+
+    function shortlist() {
+      toast(`${c.name} saved to shortlist`);
+    }
+    window.shortlist = shortlist;
+
+    document.getElementById('profile-mount').innerHTML = `
+      <section class="profile-hero" data-rise="2">
+        <div class="profile-hero-band">
+          <div class="deco deco-hatch" style="inset:0;"></div>
+        </div>
+        <div class="profile-hero-body">
+          <div class="profile-avatar"><img src="${c.avatar}" alt="${c.name}" /></div>
+          <div class="profile-id-block">
+            <h1 class="profile-name">${c.name}</h1>
+            <div class="profile-headline">${c.headline}</div>
+            <div class="profile-meta-row">
+              <span class="badge-verified">${icons.shield()} Verified</span>
+              <span>${c.location}</span>
+              <span aria-hidden="true">·</span>
+              <span>${c.experience} yrs experience</span>
+              <span aria-hidden="true">·</span>
+              <span>Active ${c.lastActive}</span>
+            </div>
+          </div>
+          <div class="profile-actions">
+            <button class="btn btn-primary" onclick="expressInterest()">Express Interest <span class="arr">→</span></button>
+            <button class="btn btn-secondary" onclick="shortlist()">Save to shortlist</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="profile-grid">
+        <div class="stack" data-rise="3">
+          <div class="card static">
+            <div class="card-title">Recent verified work</div>
+            ${c.reports.map(r => `
+              <div class="report-item">
+                <div class="report-title">${r.title}</div>
+                <div class="report-date">${r.date} · AI-generated summary from ${Math.floor(20 + Math.random()*40)} captured work sessions</div>
+                <div class="report-summary">${r.summary}</div>
+              </div>
+            `).join('')}
+            <button class="btn btn-ghost btn-sm" style="margin-top: 16px;">View full work history <span class="arr">→</span></button>
+          </div>
+
+          <div class="card static">
+            <div class="card-title">Skills</div>
+            ${c.skills.map(s => `
+              <div class="skill-row">
+                <div class="skill-row-name">${s.name}</div>
+                <div class="skill-row-hours">${s.hours} hrs</div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="width:${s.rating}%"></div></div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <aside class="stack" data-rise="4">
+          <div class="card static">
+            <div class="card-title">Verification stats</div>
+            <div class="stat-row"><span class="stat-label">Verified hours</span><span class="stat-value">${c.verifiedHours.toLocaleString()}</span></div>
+            <div class="stat-row"><span class="stat-label">Work sessions</span><span class="stat-value">${c.sessionsCount}</span></div>
+            <div class="stat-row"><span class="stat-label">Avg session rating</span><span class="stat-value">${c.rating} / 5.0</span></div>
+            <div class="stat-row"><span class="stat-label">Field</span><span class="stat-value">${c.field}</span></div>
+            <div class="stat-row"><span class="stat-label">Experience</span><span class="stat-value">${c.experience} years</span></div>
+          </div>
+
+          <div class="panel-accent">
+            <div style="font-weight: 600; font-size: 0.9375rem; color: var(--accent-deep); margin-bottom: 8px;">Why OnlyWorks data is different</div>
+            <p style="font-size: 0.875rem; color: var(--text-2);">Every hour shown was captured by the OnlyWorks desktop app during real work — not self-reported. Skill ratings come from analyzing what was actually written, designed, or shipped, not from quizzes.</p>
+          </div>
+        </aside>
+      </div>
+    `;
+  </script>
+</body>
+</html>

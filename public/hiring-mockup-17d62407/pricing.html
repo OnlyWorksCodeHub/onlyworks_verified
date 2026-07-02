@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pricing · OnlyWorks Hire</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="nav-mount"></div>
+
+  <div style="position: relative; overflow: hidden;">
+    <span class="watermark" style="right: -3rem; top: 5rem;">PRO</span>
+
+    <main class="shell page-top page-bottom" style="position: relative; z-index: 1;">
+      <div style="max-width: 620px; margin: 0 auto; text-align: center;" data-rise="1">
+        <span class="eyebrow">Pricing</span>
+        <h1 class="display-2" style="margin: 1rem 0 0.75rem;">Browse free.<br /><span class="dim">Hire on Pro.</span></h1>
+        <p class="lede">Search and view every verified candidate at no cost. Upgrade when you're ready to post jobs and reach out.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="price-card" data-rise="2">
+          <div class="price-name">Free</div>
+          <div class="price-amount">$0</div>
+          <div class="price-period">/ forever</div>
+          <div class="price-desc">For early-stage teams browsing the talent index.</div>
+          <ul class="price-features">
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Unlimited candidate search</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Full profile views</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Verified work history &amp; reports</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Up to 3 shortlists</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Weekly talent digest email</li>
+          </ul>
+          <a href="dashboard.html" class="btn btn-secondary btn-full btn-lg">Continue on Free</a>
+        </div>
+
+        <div class="price-card featured" data-rise="3">
+          <div class="price-badge">Recommended</div>
+          <div class="price-name">Pro</div>
+          <div class="price-amount">$399</div>
+          <div class="price-period">/ mo · billed annually</div>
+          <div class="price-desc">Everything in Free, plus posting and outreach.</div>
+          <ul class="price-features">
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> <strong>Unlimited job postings</strong></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> <strong>Auto-ranked candidate matching</strong></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> <strong>Unlimited Express Interest emails</strong></li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Saved searches &amp; alerts</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Team seats (up to 5)</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Branded outreach templates</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Priority support</li>
+          </ul>
+          <button class="btn btn-primary btn-full btn-lg" onclick="startTrial()">Start 14-day Pro trial</button>
+          <p class="price-fine">No credit card required to start.</p>
+        </div>
+      </div>
+
+      <div class="mono-sm" style="text-align: center; margin-top: 4rem; color: var(--text-2);" data-rise="4">
+        Need 10+ seats or custom contracts?
+        <a href="#" style="font-weight: 600; color: var(--accent-deep);">Talk to sales →</a>
+      </div>
+    </main>
+  </div>
+
+  <div id="footer-mount"></div>
+
+  <script src="assets/app.js"></script>
+  <script>
+    renderNav('pricing');
+    renderFooter();
+
+    function startTrial() {
+      if (!app.isAuthed()) {
+        location.href = 'signup.html?next=pricing.html';
+        return;
+      }
+      app.upgrade();
+      toast('Pro trial activated · 14 days');
+      setTimeout(() => location.href = 'dashboard.html', 900);
+    }
+    window.startTrial = startTrial;
+  </script>
+</body>
+</html>

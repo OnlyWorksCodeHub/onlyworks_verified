@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Search · OnlyWorks Hire</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="nav-mount"></div>
+
+  <main class="shell page-top page-bottom" style="position: relative;">
+    <div class="deco deco-dots" style="right: 0; top: 4rem; width: 280px; height: 200px;"></div>
+
+    <!-- ═══ SEARCH PILL ═══ -->
+    <div style="position: relative; z-index: 1; margin-bottom: 2rem;">
+      <span class="eyebrow" data-rise="1">Talent index</span>
+      <div class="search-pill" style="margin-top: 1rem;" data-rise="2">
+        <div class="search-pill-field">
+          <span id="search-icon-mount"></span>
+          <input id="q" type="text" placeholder="Search by skills — React, Go, Design systems..." autocomplete="off" />
+        </div>
+        <button type="button" class="btn btn-primary" onclick="rerun()">Search talent <span class="arr">→</span></button>
+      </div>
+    </div>
+
+    <!-- ═══ ANONYMOUS-TEASER BANNER (rendered when signed out) ═══ -->
+    <div id="anon-banner" data-rise="3"></div>
+
+    <!-- ═══ RESULTS HEADER ═══ -->
+    <div class="results-header" data-rise="4">
+      <div class="results-count"><strong id="result-count">0</strong> candidates · sorted by relevance</div>
+      <div class="sort-tabs">
+        <button type="button" class="sort-tab active">Relevance</button>
+        <button type="button" class="sort-tab">Most hours</button>
+        <button type="button" class="sort-tab">Recently active</button>
+      </div>
+    </div>
+
+    <!-- ═══ FILTERS + RESULTS ═══ -->
+    <div class="results-layout" data-rise="5">
+      <aside class="filters">
+        <div class="filter-group">
+          <span class="filter-label">Field</span>
+          <label class="filter-option"><input type="checkbox" checked /> Engineering</label>
+          <label class="filter-option"><input type="checkbox" checked /> Design</label>
+          <label class="filter-option"><input type="checkbox" checked /> Data</label>
+          <label class="filter-option"><input type="checkbox" /> Marketing</label>
+          <label class="filter-option"><input type="checkbox" checked /> AI/ML</label>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">Experience</span>
+          <label class="filter-option"><input type="checkbox" /> 0–2 yrs</label>
+          <label class="filter-option"><input type="checkbox" checked /> 3–5 yrs</label>
+          <label class="filter-option"><input type="checkbox" checked /> 6–10 yrs</label>
+          <label class="filter-option"><input type="checkbox" /> 10+ yrs</label>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">Verified hours</span>
+          <label class="filter-option"><input type="checkbox" /> 100+</label>
+          <label class="filter-option"><input type="checkbox" checked /> 500+</label>
+          <label class="filter-option"><input type="checkbox" /> 1000+</label>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">Verification</span>
+          <label class="filter-option"><input type="checkbox" checked /> Verified only</label>
+        </div>
+      </aside>
+
+      <div id="results" class="candidate-grid"></div>
+    </div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script src="assets/mock-data.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    renderNav('search');
+    renderFooter();
+    document.getElementById('search-icon-mount').innerHTML = icons.search();
+
+    const q = getQueryParam('q') || '';
+    document.getElementById('q').value = q;
+
+    function rerun() {
+      const v = document.getElementById('q').value;
+      location.href = 'search.html?q=' + encodeURIComponent(v);
+    }
+    document.getElementById('q').addEventListener('keydown', e => { if (e.key === 'Enter') rerun(); });
+
+    function renderAnonBanner() {
+      if (app.isAuthed()) return;
+      document.getElementById('anon-banner').innerHTML = `
+        <div class="panel-accent anon-banner">
+          <p class="anon-banner-text">You're browsing anonymized profiles. Create a free account to see names, photos, and full work history.</p>
+          <a href="signup.html" class="btn btn-primary btn-sm">Create free account <span class="arr">→</span></a>
+        </div>
+      `;
+    }
+
+    function relevantCandidates(query) {
+      if (!query.trim()) return CANDIDATES;
+      const q = query.toLowerCase();
+      return CANDIDATES.filter(c => {
+        return c.headline.toLowerCase().includes(q)
+          || c.field.toLowerCase().includes(q)
+          || c.topSkills.some(s => s.toLowerCase().includes(q) || q.includes(s.toLowerCase()));
+      });
+    }
+
+    function renderResults() {
+      const authed = app.isAuthed();
+      const list = relevantCandidates(q);
+      const final = list.length ? list : CANDIDATES;
+      document.getElementById('result-count').textContent = final.length;
+
+      document.getElementById('results').innerHTML = final.map(c => `
+        <div class="candidate-card" onclick="openProfile('${c.id}')">
+          <div class="candidate-avatar ${authed ? '' : 'locked'}">
+            ${authed ? `<img src="${c.avatar}" alt="" />` : ''}
+          </div>
+          <div class="candidate-main">
+            <div class="candidate-name-row">
+              ${authed
+                ? `<span class="candidate-name">${c.name}</span>`
+                : `<span class="candidate-anon">Verified Candidate</span>`}
+              <span class="badge-verified">${icons.shield()} Verified</span>
+            </div>
+            <div class="candidate-meta">
+              <strong>${c.field}</strong> · ${c.experience} yrs exp · ${authed ? c.location : 'Location hidden'} · active ${c.lastActive}
+            </div>
+            <div class="skill-chips">
+              ${c.topSkills.slice(0, 5).map(s => `<span class="skill-chip">${s}</span>`).join('')}
+            </div>
+          </div>
+          <div class="candidate-side">
+            <div>
+              <div class="hours-num">${c.verifiedHours.toLocaleString()}</div>
+              <div class="hours-label">verified hrs</div>
+            </div>
+            <button class="btn btn-secondary btn-sm">${authed ? 'View profile' : 'Unlock profile'}</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openProfile(id) {
+      if (!app.isAuthed()) {
+        location.href = 'signup.html?next=profile.html?id=' + id;
+        return;
+      }
+      location.href = 'profile.html?id=' + id;
+    }
+    window.openProfile = openProfile;
+
+    renderAnonBanner();
+    renderResults();
+  </script>
+  <style>
+    .anon-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px 20px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+    .anon-banner-text {
+      font-size: 0.9063rem;
+      color: var(--text-2);
+      max-width: 62ch;
+    }
+    .anon-banner .btn { flex-shrink: 0; }
+  </style>
+</body>
+</html>

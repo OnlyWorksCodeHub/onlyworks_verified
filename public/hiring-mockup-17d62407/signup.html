@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign up · OnlyWorks Hire</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="nav-mount"></div>
+
+  <main class="auth-wrap">
+    <div class="deco deco-hatch" style="inset: 0;"></div>
+    <span class="watermark" style="right: -3rem; bottom: 0;">HIRE</span>
+
+    <div class="auth-card" data-rise="1">
+      <h1 class="auth-title">Create your hiring account.</h1>
+      <p class="auth-sub">Free forever. View full candidate profiles, build shortlists, and search the verified-talent index.</p>
+
+      <div class="hairline-grid on-card" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 28px;">
+        <div style="padding: 0.875rem 1rem 0.75rem;">
+          <div class="font-display" style="font-size: 1.25rem; line-height: 1;">12.4k</div>
+          <div class="mono-label" style="margin-top: 5px;">candidates</div>
+        </div>
+        <div style="padding: 0.875rem 1rem 0.75rem;">
+          <div class="font-display" style="font-size: 1.25rem; line-height: 1;">2.1M</div>
+          <div class="mono-label" style="margin-top: 5px;">verified hrs</div>
+        </div>
+        <div style="padding: 0.875rem 1rem 0.75rem;">
+          <div class="font-display" style="font-size: 1.25rem; line-height: 1;">94%</div>
+          <div class="mono-label" style="margin-top: 5px;">reply</div>
+        </div>
+      </div>
+
+      <form id="signup-form">
+        <div class="form-group">
+          <label class="form-label" for="email">Work email</label>
+          <input id="email" class="form-input" type="email" required placeholder="you@acmerobotics.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="company">Company</label>
+          <input id="company" class="form-input" type="text" required placeholder="Acme Robotics" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="role">Your role</label>
+          <select id="role" class="form-select">
+            <option>Head of Engineering</option>
+            <option>Recruiter / Talent Lead</option>
+            <option>Founder / CEO</option>
+            <option>Hiring Manager</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full btn-lg">Create free account</button>
+        <p class="mono-sm" style="text-align: center; color: var(--muted); margin-top: 16px;">
+          By signing up you agree to our Terms and Privacy Policy.
+        </p>
+      </form>
+    </div>
+  </main>
+
+  <script src="assets/app.js"></script>
+  <script>
+    renderNav('signup');
+
+    document.getElementById('signup-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const company = document.getElementById('company').value;
+      app.signIn(email, company);
+      toast('Welcome to OnlyWorks Hire');
+      setTimeout(() => {
+        const next = getQueryParam('next');
+        location.href = next ? decodeURIComponent(next) : 'dashboard.html';
+      }, 600);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Post a job · OnlyWorks Hire</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="nav-mount"></div>
+
+  <div style="position: relative; overflow: hidden;">
+    <div class="deco deco-dots" style="right: 0; top: 0; width: 320px; height: 420px;"></div>
+
+    <main class="shell-narrow page-top page-bottom" style="position: relative; z-index: 1;">
+      <a href="dashboard.html" class="back-link" data-rise="1">← Back to dashboard</a>
+
+        <div data-rise="2" style="margin-bottom: 2.5rem;">
+          <span class="eyebrow">Auto-matching</span>
+          <h1 class="display-2" style="margin: 1rem 0 0.75rem;">Post a job.</h1>
+          <p class="lede" style="max-width: 52ch;">Tell us what you're hiring for. We'll rank every candidate in the verified-talent index and surface your top matches in seconds.</p>
+        </div>
+
+        <form id="job-form" class="card static" style="padding: 2rem;" data-rise="3">
+          <div class="form-group">
+            <label class="form-label">Job title</label>
+            <input id="title" class="form-input" type="text" required placeholder="e.g. Senior Backend Engineer" value="Senior Backend Engineer" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Location</label>
+              <input id="location" class="form-input" type="text" required value="Remote · US" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Experience level</label>
+              <select id="level" class="form-select">
+                <option>Junior (0–2 yrs)</option>
+                <option selected>Mid (3–5 yrs)</option>
+                <option>Senior (6–9 yrs)</option>
+                <option>Staff+ (10+ yrs)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Required skills</label>
+            <input id="skills" class="form-input" type="text" required placeholder="e.g. Go, PostgreSQL, Kubernetes" value="Go, PostgreSQL, Docker" />
+            <span class="form-hint">Comma-separated. We'll match candidates by skill rating × hours.</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea id="description" class="form-textarea" required placeholder="What will this person own?">Lead the backend systems behind our fleet telemetry pipeline. You'll own the data ingestion layer, partner with infra on scaling, and lead one mid-level IC.</textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Compensation range</label>
+              <input class="form-input" type="text" value="$180k – $230k + equity" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Employment type</label>
+              <select class="form-select">
+                <option>Full-time</option>
+                <option>Contract</option>
+                <option>Part-time</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px;">
+            <a href="dashboard.html" class="btn btn-ghost">Cancel</a>
+            <button type="submit" class="btn btn-primary btn-lg">Post &amp; find matches <span class="arr">→</span></button>
+          </div>
+        </form>
+    </main>
+  </div>
+
+  <div id="footer-mount"></div>
+
+  <script src="assets/mock-data.js"></script>
+  <script src="assets/app.js"></script>
+  <script>
+    if (!app.isAuthed()) location.href = 'signup.html';
+    renderNav('dashboard');
+    renderFooter();
+
+    document.getElementById('job-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!app.isPaid()) {
+        showModal({
+          title: 'Posting a job is a Pro feature',
+          body: `Browsing and shortlisting candidates is free. Posting jobs and using auto-matching is part of <strong>OnlyWorks Hire Pro</strong>. Start a 14-day trial and post unlimited jobs.`,
+          primaryLabel: 'See Pro pricing',
+          primaryHref: 'pricing.html',
+          secondaryLabel: 'Not now',
+        });
+        return;
+      }
+
+      const skillsRaw = document.getElementById('skills').value;
+      const requiredSkills = skillsRaw.split(',').map(s => s.trim()).filter(Boolean);
+      const job = {
+        id: 'jx-' + Date.now(),
+        title: document.getElementById('title').value,
+        company: app.company(),
+        location: document.getElementById('location').value,
+        posted: 'just now',
+        requiredSkills,
+        description: document.getElementById('description').value,
+      };
+      // Compute matches against the new job
+      const ranked = CANDIDATES
+        .map(c => ({ candidate: c, score: scoreCandidate(c, job) }))
+        .filter(m => m.score > 30)
+        .sort((a, b) => b.score - a.score);
+      job.matches = ranked.length;
+      job.interestSent = 0;
+      app.addPostedJob(job);
+      toast('Job posted · ' + ranked.length + ' matches found');
+      setTimeout(() => location.href = 'matches.html?id=' + job.id, 700);
+    });
+  </script>
+</body>
+</html>
