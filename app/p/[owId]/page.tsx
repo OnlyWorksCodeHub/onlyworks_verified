@@ -50,7 +50,7 @@ async function getReports(owId: string): Promise<ReportData[] | null> {
 export async function generateMetadata({ params }: { params: { owId: string } }): Promise<Metadata> {
   const profile = await getProfile(params.owId)
   if (!profile) {
-    return { title: 'Profile Not Found | OnlyWorks' }
+    return { title: 'Profile Not Found | OnlyWorks', robots: { index: false, follow: true } }
   }
   return {
     title: `${profile.full_name || profile.name} | ${profile.ow_id} | OnlyWorks`,
@@ -60,6 +60,7 @@ export async function generateMetadata({ params }: { params: { owId: string } })
       description: `Verified ${profile.job_title || 'professional'} profile on OnlyWorks`,
       type: 'profile',
     },
+    robots: { index: false, follow: true },
   }
 }
 

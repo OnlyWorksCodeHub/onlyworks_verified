@@ -64,7 +64,7 @@ async function getSharedReport(token: string): Promise<ReportData | null> {
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const report = await getSharedReport(params.id)
-  if (!report) return { title: 'Report Not Found | OnlyWorks' }
+  if (!report) return { title: 'Report Not Found | OnlyWorks', robots: { index: false, follow: true } }
   const title = report.report_name || report.title || 'Work Report'
   const desc = isTemplatedSummary(report.executive_summary)
     ? 'A verified work report from OnlyWorks.'
@@ -73,6 +73,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     title: `${title} | OnlyWorks`,
     description: desc,
     openGraph: { title: `${title} | OnlyWorks`, description: desc, type: 'article' },
+    robots: { index: false, follow: true },
   }
 }
 

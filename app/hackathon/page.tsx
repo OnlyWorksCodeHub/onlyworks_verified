@@ -1,8 +1,13 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Countdown } from '@/components/hackathon/Countdown'
 import { VerifiedCounter } from '@/components/hackathon/VerifiedCounter'
 import { WeirdMarquee } from '@/components/hackathon/WeirdMarquee'
 import { RSVP_LINKS } from '@/lib/hackathon/links'
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: true },
+}
 
 /* ─────────────────────────────────────────────────────────────────────────
    small section helpers — kept local so the landing reads top-to-bottom

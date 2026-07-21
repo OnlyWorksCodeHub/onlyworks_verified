@@ -25,7 +25,7 @@ async function getSharedProfile(token: string): Promise<UnifiedProfileData | nul
 export async function generateMetadata({ params }: { params: { token: string } }): Promise<Metadata> {
   const profile = await getSharedProfile(params.token)
   if (!profile) {
-    return { title: 'OW Profile Not Found | OnlyWorks' }
+    return { title: 'OW Profile Not Found | OnlyWorks', robots: { index: false, follow: true } }
   }
   const owp = profile.ow_profile
   const pi = profile.profile_info
@@ -38,6 +38,7 @@ export async function generateMetadata({ params }: { params: { token: string } }
       description: `${owp?.summary?.total_skills || 0} skills, ${owp?.summary?.top_proficiency_count || 0} at advanced level.`,
       type: 'profile',
     },
+    robots: { index: false, follow: true },
   }
 }
 
