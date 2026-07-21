@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import ClientLayout from '@/components/ClientLayout'
+import { PostHogProvider } from '@/components/PostHogProvider'
 import { Instrument_Sans, Instrument_Serif } from "next/font/google";
 
 const instrumentSans = Instrument_Sans({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
@@ -140,33 +141,35 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <a href="#main" className="skip-to-content">Skip to content</a>
-        <ClientLayout>
-          {children}
-          <Toaster
-            position="top-center"
-            toastOptions={{
-              style: {
-                fontFamily: "'Instrument Sans', system-ui, sans-serif",
-                background: '#080503',
-                color: '#fafaf9',
-                border: '1px solid #44423d'
-              },
-              duration: 4000,
-              success: {
+        <PostHogProvider>
+          <ClientLayout>
+            {children}
+            <Toaster
+              position="top-center"
+              toastOptions={{
                 style: {
-                  background: '#10b981',
-                  color: 'white',
+                  fontFamily: "'Instrument Sans', system-ui, sans-serif",
+                  background: '#080503',
+                  color: '#fafaf9',
+                  border: '1px solid #44423d'
                 },
-              },
-              error: {
-                style: {
-                  background: '#ef4444',
-                  color: 'white',
+                duration: 4000,
+                success: {
+                  style: {
+                    background: '#10b981',
+                    color: 'white',
+                  },
                 },
-              },
-            }}
-          />
-        </ClientLayout>
+                error: {
+                  style: {
+                    background: '#ef4444',
+                    color: 'white',
+                  },
+                },
+              }}
+            />
+          </ClientLayout>
+        </PostHogProvider>
       </body>
     </html>
   )
