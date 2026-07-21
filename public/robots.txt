@@ -1,12 +1,22 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /auth/
 
-# Sitemaps
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
 Sitemap: https://www.only-works.com/sitemap.xml
-
-# Crawl-delay
-Crawl-delay: 1
-
-# Block specific paths (add if needed)
-# Disallow: /admin/
-# Disallow: /private/

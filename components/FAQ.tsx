@@ -24,6 +24,7 @@ export function FAQ() {
         <button
           onClick={() => setOpen(!open)}
           className="w-full flex items-center justify-between gap-4 px-6 py-4 border border-foreground/10 cursor-pointer transition-colors hover:bg-foreground/[0.02]"
+          aria-expanded={open}
         >
           <h2 className="text-xl md:text-2xl font-display">
             Still skeptical? Fair.
@@ -33,8 +34,8 @@ export function FAQ() {
           />
         </button>
 
-        {open && (
-          <div className="mt-2 border border-foreground/10 overflow-hidden divide-y divide-foreground/5">
+        <div className={`grid transition-all duration-300 ${open ? 'grid-rows-[1fr] mt-2' : 'grid-rows-[0fr]'}`}>
+          <div className="overflow-hidden border border-foreground/10 divide-y divide-foreground/5">
             {faqs.map((faq, i) => (
               <div key={i}>
                 <button
@@ -49,15 +50,17 @@ export function FAQ() {
                     }`}
                   />
                 </button>
-                {expandedIndex === i && (
-                  <div className="px-6 pb-4">
-                    <p className="text-sm leading-relaxed text-muted-foreground">{faq.a}</p>
-                  </div>
-                )}
+                <div
+                  className={`px-6 overflow-hidden transition-all duration-200 ${
+                    expandedIndex === i ? 'max-h-96 pb-4' : 'max-h-0'
+                  }`}
+                >
+                  <p className="text-sm leading-relaxed text-muted-foreground">{faq.a}</p>
+                </div>
               </div>
             ))}
           </div>
-        )}
+        </div>
       </div>
     </section>
   )
