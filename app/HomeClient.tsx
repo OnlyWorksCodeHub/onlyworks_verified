@@ -51,6 +51,36 @@ const marketStats = [
 
 const marketSource = 'Express Employment / Harris Poll, 2025 · 1,002 hiring decision-makers'
 
+/* Employer-monitoring software vs OnlyWorks. The distinction is not "we track
+   less" — it is who installs it, who holds the data, and who consented. */
+const bosswareRows = [
+  {
+    dimension: 'Who installs it',
+    them: 'IT or the employer, on a company-managed device.',
+    us: 'The candidate, on their own device, by their own choice.',
+  },
+  {
+    dimension: 'Who owns the data',
+    them: 'The employer’s server. The worker usually can’t see their own record.',
+    us: 'The candidate’s account. They see, edit and approve every report before anyone else can.',
+  },
+  {
+    dimension: 'When it runs',
+    them: 'Continuously, sometimes off the clock — keystrokes, screenshots, idle time.',
+    us: 'Only inside a session they start and stop themselves.',
+  },
+  {
+    dimension: 'Consent',
+    them: 'Buried in an employee handbook or onboarding packet.',
+    us: 'Explicit, every time — nothing publishes until they click publish.',
+  },
+  {
+    dimension: 'What a reader can check',
+    them: 'A score or a dashboard, with the underlying log out of reach.',
+    us: 'The work itself — every claim links back to the session behind it.',
+  },
+]
+
 const controlPoints = [
   {
     icon: Lock,
@@ -349,6 +379,92 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ═══ NOT BOSSWARE — answers the objection the hero stats invite ═══ */}
+      {audience === 'employer' && (
+        <section
+          className="relative py-12 lg:py-16 overflow-hidden"
+          style={{ background: '#1c1b18', color: '#fafaf9' }}
+        >
+          <DiagonalHatch className="opacity-100" />
+          <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+            <div className="mb-10 max-w-3xl">
+              <span className="inline-flex items-center gap-3 text-sm font-mono mb-4" style={{ color: 'rgba(250,250,249,0.5)' }}>
+                <span className="w-8 h-px" style={{ background: 'rgba(250,250,249,0.3)' }} />
+                How this is different
+              </span>
+              <h2 className="text-4xl lg:text-[3.25rem] font-display tracking-tight leading-tight" style={{ color: '#fafaf9' }}>
+                This isn’t bossware.<br />
+                <span style={{ color: 'rgba(250,250,249,0.4)' }}>It’s owned by the person it’s about.</span>
+              </h2>
+              <p className="mt-6 text-base lg:text-[17px] leading-relaxed" style={{ color: 'rgba(250,250,249,0.6)' }}>
+                Employee-monitoring software has earned its bad reputation. The distinction that matters
+                isn’t that OnlyWorks tracks less — it’s who’s holding the data, and who chose to turn it on.
+              </p>
+            </div>
+
+            {/* Column headers — hidden on mobile, where each row is labelled inline */}
+            <div className="hidden md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)_minmax(0,1.35fr)] gap-x-8 pb-3">
+              <div />
+              <div className="font-mono text-[11px] uppercase tracking-[0.08em]" style={{ color: 'rgba(250,250,249,0.45)' }}>
+                Employer monitoring software
+              </div>
+              <div className="font-mono text-[11px] uppercase tracking-[0.08em]" style={{ color: '#c4b5fd' }}>
+                OnlyWorks
+              </div>
+            </div>
+
+            <div className="border-t" style={{ borderColor: 'rgba(250,250,249,0.14)' }}>
+              {bosswareRows.map((r) => (
+                <div
+                  key={r.dimension}
+                  className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)_minmax(0,1.35fr)] gap-x-8 gap-y-2 py-5 border-b"
+                  style={{ borderColor: 'rgba(250,250,249,0.14)' }}
+                >
+                  <div className="text-[15px] font-semibold" style={{ color: '#fafaf9' }}>
+                    {r.dimension}
+                  </div>
+                  <div className="text-[14.5px] leading-snug" style={{ color: 'rgba(250,250,249,0.6)' }}>
+                    <span className="md:hidden font-mono text-[10px] uppercase tracking-[0.08em] block mb-1" style={{ color: 'rgba(250,250,249,0.4)' }}>
+                      Monitoring software
+                    </span>
+                    {r.them}
+                  </div>
+                  <div className="text-[14.5px] leading-snug" style={{ color: 'rgba(250,250,249,0.85)' }}>
+                    <span className="md:hidden font-mono text-[10px] uppercase tracking-[0.08em] block mb-1" style={{ color: '#c4b5fd' }}>
+                      OnlyWorks
+                    </span>
+                    {r.us}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-10 max-w-4xl">
+              <h3 className="text-lg lg:text-xl font-medium mb-4" style={{ color: '#fafaf9' }}>
+                Why the distinction matters for hiring
+              </h3>
+              <p className="text-[15px] lg:text-base leading-relaxed" style={{ color: 'rgba(250,250,249,0.6)' }}>
+                Algorithmic monitoring has a measurable trust problem: a 2024 study in{' '}
+                <em>Communications Psychology</em> found people under algorithmic surveillance perceived less
+                autonomy, criticised it more, and were likelier to resist than people overseen by a human doing
+                the same check. AI hiring tools carry their own record — Workday is defending a nationwide
+                ADEA collective action over its screening algorithm, iTutorGroup paid $365,000 to settle an EEOC
+                suit after its software auto-rejected older applicants, and New York City now requires a
+                published bias audit before an automated hiring tool can be used at all.
+              </p>
+              <p className="mt-4 text-[15px] lg:text-base leading-relaxed" style={{ color: 'rgba(250,250,249,0.85)' }}>
+                OnlyWorks starts from the opposite assumption. The person doing the work owns the evidence,
+                starts and stops every session, and decides what you ever see. There’s no hidden log to
+                distrust — only the work, and a link straight back to it.
+              </p>
+              <p className="mt-5 font-mono text-[11px] leading-relaxed" style={{ color: 'rgba(250,250,249,0.4)' }}>
+                Sources: Communications Psychology (2024) · Mobley v. Workday, N.D. Cal. · EEOC v. iTutorGroup (2023) · NYC Local Law 144
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ═══ YOU'RE ALWAYS IN CONTROL — privacy, before the download ask ═══ */}
       {audience === 'personal' && (
