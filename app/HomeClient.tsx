@@ -41,6 +41,49 @@ const howSteps = [
   { num: '03', title: 'Share one link', desc: 'Your report lands on your OW Profile. Send one link to an employer, a client, anyone. They see proof backed by real work, and you decide who can open it.' },
 ]
 
+/* Market context for the employer hero. Every figure is from a single named,
+   published source so each claim is checkable — see marketSource below. */
+const marketStats = [
+  { stat: '80%', of: 'of hiring managers say resumes don’t match real skills' },
+  { stat: '34%', of: 'say that mismatch happens often, or all the time' },
+  { stat: '86%', of: 'say AI has made skills too easy to exaggerate' },
+]
+
+const marketSource = 'Express Employment / Harris Poll, 2025 · 1,002 hiring decision-makers'
+
+const controlPoints = [
+  {
+    icon: Lock,
+    title: 'You start it, you stop it',
+    body: 'Sessions only run when you choose to run them. Close the app and nothing happens in between.',
+  },
+  {
+    icon: Eye,
+    title: 'You choose what’s shared',
+    body: 'Every report is a draft until you publish it. Edit or remove anything before it ever reaches a link.',
+  },
+  {
+    icon: Shield,
+    title: 'Built to verify, not to snoop',
+    body: 'Only what happens inside a session, and only what you choose to publish, is ever used. Full stop.',
+  },
+]
+
+const audienceCards = [
+  {
+    title: 'Already working',
+    body: 'Freelance gigs, internships, a job — run sessions on what you’re already doing and turn it into proof you can send instead of a resume.',
+  },
+  {
+    title: 'Still building',
+    body: 'Class projects, personal builds, open source, a bootcamp portfolio. If you did the work, it counts — you don’t need a paycheck to have proof.',
+  },
+  {
+    title: 'Between things',
+    body: 'Career pivots, contract work, unpublished research — the stuff that’s real, relevant, and never fit cleanly on a one-page resume.',
+  },
+]
+
 const reportSections = [
   { label: 'Executive summary', desc: 'What you got done this session, in a sentence or two.' },
   { label: 'Key accomplishments', desc: 'The concrete things you shipped, fixed or moved forward.' },
@@ -137,7 +180,11 @@ export default function HomePage() {
             </div>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div
+            className={`grid lg:grid-cols-2 gap-10 lg:gap-16 ${
+              audience === 'employer' ? 'items-start' : 'items-center'
+            }`}
+          >
             {/* ── Left: words ── */}
             <div>
               <motion.div
@@ -249,27 +296,95 @@ export default function HomePage() {
                   </motion.div>
                 )}
               </AnimatePresence>
+
             </div>
 
-            {/* ── Right: the product (swap in a real recording / Higgsfield brand clip) ── */}
-            <motion.div
-              id="demo"
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="scroll-mt-32"
-            >
-              <VideoBlock
-                poster="/images/overview.png"
-                chrome="OnlyWorks"
-                priority
-                label="A look at the OnlyWorks app"
-                caption="Run a session, get a report, share one link."
-              />
-            </motion.div>
+            {/* ── Right: the app preview for job seekers, the market data for
+                 employers — the app view is the seeker's tool, not theirs. ── */}
+            {audience === 'personal' ? (
+              <motion.div
+                id="demo"
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="scroll-mt-32"
+              >
+                <VideoBlock
+                  poster="/images/overview.png"
+                  chrome="OnlyWorks"
+                  priority
+                  label="A look at the OnlyWorks app"
+                  caption="Run a session, get a report, share one link."
+                />
+              </motion.div>
+            ) : (
+              <div>
+                <div className="border-t border-foreground/10">
+                  {marketStats.map((m, i) => (
+                    <div
+                      key={m.stat}
+                      className="flex items-baseline gap-6 py-6 border-b border-foreground/10 ow-stat-row"
+                      style={{ animationDelay: `${0.2 + i * 0.08}s` }}
+                    >
+                      <div
+                        className="font-display text-5xl leading-none shrink-0 w-[5.5rem] tabular-nums"
+                        style={{ color: '#8b5cf6' }}
+                      >
+                        {m.stat}
+                      </div>
+                      <p className="text-[15px] text-muted-foreground leading-snug">
+                        {m.of}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <p
+                  className="mt-4 font-mono text-[11px] text-muted-foreground/70 ow-stat-row"
+                  style={{ animationDelay: `${0.2 + marketStats.length * 0.08}s` }}
+                >
+                  {marketSource}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </section>
+
+      {/* ═══ YOU'RE ALWAYS IN CONTROL — privacy, before the download ask ═══ */}
+      {audience === 'personal' && (
+        <section className="relative py-10 lg:py-14 overflow-hidden border-t border-foreground/10" style={{ background: '#f5f5f4' }}>
+          <DotGrid className="right-0 top-0 w-[220px] h-full" />
+          <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+            <div className="mb-10 max-w-2xl">
+              <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-4">
+                <span className="w-8 h-px bg-foreground/30" />
+                Before you download
+              </span>
+              <h2 className="text-3xl lg:text-[2.75rem] font-display tracking-tight leading-tight">
+                You’re always <span style={{ color: '#8b5cf6' }}>in control.</span>
+              </h2>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6">
+              {controlPoints.map((c) => {
+                const Icon = c.icon
+                return (
+                  <div key={c.title}>
+                    <div
+                      className="w-9 h-9 rounded-lg flex items-center justify-center mb-4"
+                      style={{ background: '#ede9fe' }}
+                    >
+                      <Icon className="w-[18px] h-[18px]" style={{ color: '#8b5cf6' }} />
+                    </div>
+                    <h3 className="text-[17px] font-semibold mb-2">{c.title}</h3>
+                    <p className="text-[14.5px] text-muted-foreground leading-relaxed">{c.body}</p>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ═══ THE FILM — the new résumé, in 30s ═══ */}
       <section className="relative overflow-hidden py-14 lg:py-20" style={{ background: '#1c1b18' }} aria-label="OnlyWorks film">
@@ -396,6 +511,36 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* ═══ WHO IT'S FOR — proof isn't only for people with a job title ═══ */}
+      {audience === 'personal' && (
+        <section className="relative py-10 lg:py-14 overflow-hidden border-t border-foreground/10">
+          <DotGrid className="left-0 top-0 w-[240px] h-full" />
+          <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
+            <div className="mb-10 max-w-2xl">
+              <span className="inline-flex items-center gap-3 text-sm font-mono text-muted-foreground mb-4">
+                <span className="w-8 h-px bg-foreground/30" />
+                Who it’s for
+              </span>
+              <h2 className="text-4xl lg:text-[3.25rem] font-display tracking-tight leading-tight">
+                Real work doesn’t<br />require a job title.
+              </h2>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {audienceCards.map((c) => (
+                <div
+                  key={c.title}
+                  className="rounded-xl border border-foreground/10 bg-background p-8"
+                >
+                  <h3 className="text-[22px] font-bold mb-3">{c.title}</h3>
+                  <p className="text-[15px] text-muted-foreground leading-relaxed">{c.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ═══ PROCESS — dark section ═══ */}
       <section id="how-it-works" className="relative py-10 lg:py-14 overflow-hidden scroll-mt-28" style={{ background: '#1c1b18', color: '#fafaf9' }}>

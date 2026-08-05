@@ -396,6 +396,24 @@ button:focus-visible {
   top: 0;
 }
 
+/* Employer hero stat rows — staggered fade-up.
+   The row's DEFAULT state is visible; the keyframes only animate it in from
+   below. If the animation never runs, the content is still on screen. */
+@keyframes ow-stat-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.ow-stat-row {
+  opacity: 1;
+  animation: ow-stat-in 0.5s ease-out forwards;
+}
+
+/* Never let the entrance animation hide content for reduced-motion users. */
+@media (prefers-reduced-motion: reduce) {
+  .ow-stat-row { animation: none; opacity: 1; transform: none; }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
