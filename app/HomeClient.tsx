@@ -41,6 +41,14 @@ const howSteps = [
   { num: '03', title: 'Share one link', desc: 'Your report lands on your OW Profile. Send one link to an employer, a client, anyone. They see proof backed by real work, and you decide who can open it.' },
 ]
 
+/* Reassurance under the job-seeker CTAs — the three things someone wants to
+   know before installing a desktop app that watches them work. */
+const seekerAssurances = [
+  'Free to use',
+  'You start & stop every session',
+  'Nothing shared until you choose',
+]
+
 /* Market context for the employer hero. Every figure is from a single named,
    published source so each claim is checkable — see marketSource below. */
 const marketStats = [
@@ -271,6 +279,22 @@ export default function HomePage() {
                   {hero.secondary.label}
                 </a>
               </motion.div>
+
+              {/* ── Reassurance pills, before the download ask ── */}
+              {audience === 'personal' && (
+                <ul className="mt-6 flex flex-wrap gap-2.5">
+                  {seekerAssurances.map((a, i) => (
+                    <li
+                      key={a}
+                      className="ow-stat-row inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-foreground/[0.03] pl-3.5 pr-4 py-2"
+                      style={{ animationDelay: `${0.35 + i * 0.08}s` }}
+                    >
+                      <Check className="w-3.5 h-3.5 shrink-0" style={{ color: '#8b5cf6' }} />
+                      <span className="text-[13px] text-foreground/80">{a}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
 
               {audience === 'personal' && (
                 <motion.div
