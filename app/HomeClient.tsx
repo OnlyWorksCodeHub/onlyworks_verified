@@ -486,13 +486,15 @@ export default function HomePage() {
                 const Icon = c.icon
                 return (
                   <div key={c.title}>
-                    <div
-                      className="w-9 h-9 rounded-lg flex items-center justify-center mb-4"
-                      style={{ background: '#ede9fe' }}
-                    >
-                      <Icon className="w-[18px] h-[18px]" style={{ color: '#8b5cf6' }} />
+                    <div className="flex items-center gap-3 mb-3">
+                      <div
+                        className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+                        style={{ background: '#ede9fe' }}
+                      >
+                        <Icon className="w-[18px] h-[18px]" style={{ color: '#8b5cf6' }} />
+                      </div>
+                      <h3 className="text-[17px] font-semibold">{c.title}</h3>
                     </div>
-                    <h3 className="text-[17px] font-semibold mb-2">{c.title}</h3>
                     <p className="text-[14.5px] text-muted-foreground leading-relaxed">{c.body}</p>
                   </div>
                 )
