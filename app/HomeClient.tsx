@@ -492,7 +492,7 @@ export default function HomePage() {
 
       {/* ═══ YOU'RE ALWAYS IN CONTROL — privacy, before the download ask ═══ */}
       {audience === 'personal' && (
-        <section className="relative py-10 lg:py-14 overflow-hidden border-t border-foreground/10" style={{ background: '#f5f5f4' }}>
+        <section id="in-control" className="relative py-10 lg:py-14 overflow-hidden border-t border-foreground/10 scroll-mt-28" style={{ background: '#f5f5f4' }}>
           <DotGrid className="right-0 top-0 w-[220px] h-full" />
           <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
             <div className="mb-10 max-w-2xl">
@@ -529,7 +529,7 @@ export default function HomePage() {
       )}
 
       {/* ═══ THE FILM — the new résumé, in 30s ═══ */}
-      <section className="relative overflow-hidden py-14 lg:py-20" style={{ background: '#1c1b18' }} aria-label="OnlyWorks film">
+      <section id="film" className="relative overflow-hidden py-14 lg:py-20 scroll-mt-28" style={{ background: '#1c1b18' }} aria-label="OnlyWorks film">
         <div className="relative z-10 max-w-[1080px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-7">
             <span className="inline-block font-mono text-xs tracking-[0.24em] uppercase" style={{ color: 'rgba(250,250,249,0.5)' }}>
@@ -550,7 +550,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══ WHAT IT ACTUALLY IS ═══ */}
-      <section className="relative py-10 lg:py-14 overflow-hidden border-t border-foreground/10">
+      <section id="what-it-is" className="relative py-10 lg:py-14 overflow-hidden border-t border-foreground/10 scroll-mt-28">
         <DotGrid className="left-0 top-0 w-[220px] h-full" />
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
           <div className="mb-12 max-w-3xl">
@@ -610,7 +610,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══ CAPABILITIES — numbered 01-04 ═══ */}
-      <section className="relative py-10 lg:py-14 overflow-hidden border-t border-foreground/10">
+      <section id="why-it-works" className="relative py-10 lg:py-14 overflow-hidden border-t border-foreground/10 scroll-mt-28">
         <DotGrid className="right-0 top-0 w-[300px] h-full" />
         <WatermarkText text="PROOF" />
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
@@ -656,7 +656,7 @@ export default function HomePage() {
 
       {/* ═══ WHO IT'S FOR — proof isn't only for people with a job title ═══ */}
       {audience === 'personal' && (
-        <section className="relative py-10 lg:py-14 overflow-hidden border-t border-foreground/10">
+        <section id="who-its-for" className="relative py-10 lg:py-14 overflow-hidden border-t border-foreground/10 scroll-mt-28">
           <DotGrid className="left-0 top-0 w-[240px] h-full" />
           <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
             <div className="mb-10 max-w-2xl">
@@ -731,7 +731,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══ WHAT'S IN A REPORT — replaces fabricated testimonials ═══ */}
-      <section className="relative overflow-hidden py-10 lg:py-14 border-t border-foreground/10">
+      <section id="report" className="relative overflow-hidden py-10 lg:py-14 border-t border-foreground/10 scroll-mt-28">
         <DotGrid className="left-0 top-0 w-[200px] h-full" />
         <ConnectionLines className="opacity-50" />
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
@@ -770,7 +770,7 @@ export default function HomePage() {
       </section>
 
       {/* ═══ FAQ ═══ */}
-      <div className="relative">
+      <div id="faq" className="relative scroll-mt-28">
         <DotGrid className="right-0 top-0 w-[250px] h-full" />
         <FAQ />
       </div>
