@@ -10,6 +10,7 @@ import { motion } from 'framer-motion'
 import { GridBackground, GeometricPattern, PulsingRings } from '@/components/ui/grid-background'
 import { ShimmerButton } from '@/components/ui/shimmer-button'
 import { BinaryRain, WatermarkText, ConnectionLines, CodeDecoration } from '@/components/ui/decorative-fills'
+import { HIRING_TOOLKIT_ENABLED } from '@/lib/config'
 
 export default function HiringPage() {
   const [formData, setFormData] = useState({ name: '', email: '', company: '', job_title: '', team_size: '' })
@@ -66,6 +67,37 @@ export default function HiringPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
+
+      {HIRING_TOOLKIT_ENABLED && (
+        <div className="relative z-20 border-b pt-20" style={{ borderColor: 'var(--border)', background: 'var(--bg-alt)' }}>
+          <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+              Hiring toolkit is enabled — open your dashboard, publish jobs, and review matches.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href="/hiring/dashboard"
+                className="inline-flex items-center justify-center h-9 px-4 text-xs rounded-full font-medium text-white hover:opacity-90"
+                style={{ background: '#8b5cf6' }}
+              >
+                Dashboard
+              </Link>
+              <Link
+                href="/hiring/jobs/new"
+                className="inline-flex items-center justify-center h-9 px-4 text-xs rounded-full font-medium border border-foreground/20 hover:bg-foreground/5"
+              >
+                New job
+              </Link>
+              <Link
+                href="/search"
+                className="inline-flex items-center justify-center h-9 px-4 text-xs rounded-full font-medium border border-foreground/20 hover:bg-foreground/5"
+              >
+                Search
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ═══ HERO — employer POV ═══ */}
       <section className="relative pt-24 lg:pt-28 pb-12 lg:pb-16 overflow-hidden">
