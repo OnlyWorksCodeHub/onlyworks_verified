@@ -9,6 +9,10 @@ export interface ProfileData {
   member_since?: string
   is_profile_public: boolean
   badge: 'verified' | 'trial' | 'previously_verified' | 'none'
+  /** Optional public fields from GET /api/profiles/:owId */
+  open_to_contact?: boolean
+  target_roles?: string[]
+  target_locations?: string[]
 }
 
 export interface StatsData {

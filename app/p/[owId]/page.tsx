@@ -5,10 +5,13 @@ import { Suspense } from 'react'
 import ProfileCard from '@/components/profile/ProfileCard'
 import PublicReportsList from '@/components/profile/PublicReportsList'
 import ProfileViewToggle from '@/components/profile/ProfileViewToggle'
+import PublicProfileCta from '@/components/profile/PublicProfileCta'
+import PublicProfileEmptyState from '@/components/profile/PublicProfileEmptyState'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 import { Lock } from 'lucide-react'
-import { BACKEND_URL } from '@/lib/config'
+import { APP_URL, BACKEND_URL } from '@/lib/config'
+import { buildProfileMetadata, isUsableOwId } from '@/lib/profile-seo'
 import type { ProfileData, ReportData, UnifiedProfileData } from '@/lib/types/profile'
 
 async function getProfile(owId: string): Promise<ProfileData | null> {
@@ -52,15 +55,29 @@ export async function generateMetadata({ params }: { params: { owId: string } })
   if (!profile) {
     return { title: 'Profile Not Found | OnlyWorks', robots: { index: false, follow: true } }
   }
+
+  const meta = buildProfileMetadata({
+    owId: profile.ow_id,
+    isPublic: Boolean(profile.is_profile_public),
+    fullName: profile.full_name,
+    name: profile.name,
+    jobTitle: profile.job_title,
+    bio: profile.bio,
+    appUrl: APP_URL,
+    pathPrefix: '/p',
+    pathId: params.owId,
+  })
+
   return {
-    title: `${profile.full_name || profile.name} | ${profile.ow_id} | OnlyWorks`,
-    description: `Verified ${profile.job_title || 'professional'} profile on OnlyWorks`,
+    title: meta.title,
+    description: meta.description,
+    robots: meta.robots,
     openGraph: {
-      title: `${profile.full_name || profile.name} | ${profile.ow_id} | OnlyWorks`,
-      description: `Verified ${profile.job_title || 'professional'} profile on OnlyWorks`,
+      title: meta.title,
+      description: meta.description,
       type: 'profile',
+      url: meta.openGraphUrl,
     },
-    robots: { index: false, follow: true },
   }
 }
 
@@ -68,7 +85,7 @@ export default async function ProfilePage({ params }: { params: { owId: string }
   const profile = await getProfile(params.owId)
   if (!profile) notFound()
 
-  // Private profile
+  // Private profile — render a lock state only; do not fetch skills/reports.
   if (!profile.is_profile_public) {
     return (
       <div className="min-h-screen bg-background flex flex-col">
@@ -105,36 +122,47 @@ export default async function ProfilePage({ params }: { params: { owId: string }
 
   const badgeStatus = profile.badge || (profile as any).verification_status || 'none'
   const hasProfileData = unifiedProfile?.ow_profile && unifiedProfile.ow_profile.summary.total_reports > 0
+  const displayName = profile.full_name || profile.name || 'this candidate'
+  const shareUrl = `${APP_URL}/p/${params.owId}`
+  const canExpressInterest = isUsableOwId(profile.ow_id)
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
       <main className="profile-page">
-        <ProfileCard profile={profile} badgeStatus={badgeStatus} />
+        <ProfileCard
+          profile={profile}
+          badgeStatus={badgeStatus}
+          shareUrl={shareUrl}
+          showExpressInterest={canExpressInterest}
+        />
 
-        {/* Profile Toggle + Views */}
-        {hasProfileData && unifiedProfile && (
+        {hasProfileData && unifiedProfile ? (
           <Suspense fallback={null}>
             <ProfileViewToggle
               owProfile={unifiedProfile.ow_profile}
               resume={unifiedProfile.resume}
             />
           </Suspense>
+        ) : (
+          <PublicProfileEmptyState />
         )}
 
-        {/* Public Reports */}
         {reports && reports.length > 0 && (
           <div style={{ marginBottom: '1.5rem' }}>
             <PublicReportsList reports={reports} />
           </div>
         )}
 
-        {/* Attribution + next steps for both audiences */}
+        <PublicProfileCta displayName={displayName} />
+
+        <div className="pp-footer-meta">
+          <span>{profile.ow_id} · verified by OnlyWorks</span>
+          <span>Captured via OnlyWorks Desktop</span>
+        </div>
+
         <div className="text-center py-8">
-          <p className="text-sm text-muted-foreground mb-4">
-            Profile powered by OnlyWorks
-          </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/downloads"
@@ -142,14 +170,11 @@ export default async function ProfilePage({ params }: { params: { owId: string }
             >
               Get OnlyWorks
             </Link>
-            {/* Hiring managers can search + read profiles for free today; proof-based
-                reach-out is on the waitlist, so point them there instead of a dead end. */}
             <Link
-              href="/hiring#register"
-              className="inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium text-white hover:opacity-90 transition-all"
-              style={{ background: '#8b5cf6' }}
+              href="/search"
+              className="inline-flex items-center justify-center gap-2 h-12 px-6 text-sm rounded-full font-medium border border-foreground/20 hover:bg-foreground/5 transition-all"
             >
-              Hiring? Get notified when reach-out opens
+              Search candidates
             </Link>
           </div>
         </div>

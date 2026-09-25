@@ -2,14 +2,25 @@
 
 import { Calendar } from 'lucide-react'
 import VerificationBadge from './VerificationBadge'
+import CopyProfileLink from './CopyProfileLink'
+import ExpressInterestButton from './ExpressInterestButton'
 import type { ProfileData, BadgeStatus } from '@/lib/types/profile'
 
 interface ProfileCardProps {
   profile: ProfileData
   badgeStatus: BadgeStatus
+  /** Absolute or path URL used for the copy-link control. */
+  shareUrl?: string
+  /** When set, show Express Interest (HM outreach). */
+  showExpressInterest?: boolean
 }
 
-export default function ProfileCard({ profile, badgeStatus }: ProfileCardProps) {
+export default function ProfileCard({
+  profile,
+  badgeStatus,
+  shareUrl,
+  showExpressInterest = false,
+}: ProfileCardProps) {
   const displayName = profile.full_name || profile.name || 'Anonymous'
   const initials = displayName
     .split(' ')
@@ -18,110 +29,75 @@ export default function ProfileCard({ profile, badgeStatus }: ProfileCardProps) 
     .toUpperCase()
     .slice(0, 2)
 
+  const titleLine = [profile.job_title, profile.company].filter(Boolean).join(' · ')
+
   return (
-    <div className="profile-card">
-      <div className="profile-card-header">
-        <div style={{
-          display: 'flex',
-          alignItems: 'flex-end',
-          gap: '1.25rem',
-          position: 'relative',
-          paddingTop: '0.5rem',
-        }}>
-          {/* Avatar */}
+    <div className="profile-card pp-header-card">
+      <div className="profile-card-header pp-header">
+        <div className="pp-header-main">
           {profile.avatar_url ? (
             <img
               src={profile.avatar_url}
               alt={displayName}
-              style={{
-                width: '80px',
-                height: '80px',
-                borderRadius: '50%',
-                border: '1px solid var(--border)',
-                objectFit: 'cover',
-              }}
+              className="pp-avatar"
             />
           ) : (
-            <div style={{
-              width: '80px',
-              height: '80px',
-              borderRadius: '50%',
-              border: '1px solid var(--border)',
-              background: 'var(--bg)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '1.5rem',
-              fontWeight: 700,
-              color: 'var(--text)',
-              flexShrink: 0,
-            }}>
+            <div className="pp-avatar pp-avatar-fallback" aria-hidden>
               {initials}
             </div>
           )}
-          <div style={{ paddingBottom: '4px' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.625rem',
-              flexWrap: 'wrap',
-            }}>
-              <h1
-                className="font-display tracking-tight"
-                style={{
-                  fontSize: '1.875rem',
-                  fontWeight: 400,
-                  lineHeight: 1.1,
-                  margin: 0,
-                  color: 'var(--text)',
-                }}
-              >
-                {displayName}
-              </h1>
+
+          <div className="pp-info min-w-0">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <h1 className="font-display tracking-tight pp-name">{displayName}</h1>
               <VerificationBadge status={badgeStatus} />
             </div>
-            <div className="ow-id-display" style={{ color: 'var(--text-muted)', marginTop: '4px' }}>
-              {profile.ow_id}
+
+            {titleLine && (
+              <p className="pp-title">{titleLine}</p>
+            )}
+
+            <div className="pp-pills">
+              {badgeStatus === 'verified' && (
+                <span className="pp-pill pp-pill-verified">◆ Verified by OnlyWorks</span>
+              )}
+              {badgeStatus === 'trial' && (
+                <span className="pp-pill pp-pill-trial">Trial verification</span>
+              )}
+              {profile.open_to_contact && (
+                <span className="pp-pill">● Open to opportunities</span>
+              )}
+              {Array.isArray(profile.target_locations) && profile.target_locations.length > 0 && (
+                <span className="pp-pill">{profile.target_locations.slice(0, 3).join(' · ')}</span>
+              )}
+              <span className="pp-pill pp-pill-id">{profile.ow_id}</span>
             </div>
           </div>
         </div>
+
+        <div className="pp-actions">
+          <div className="pp-ow-id">
+            <span className="pp-ow-id-label">OnlyWorks ID</span>
+            <strong className="ow-id-display">{profile.ow_id}</strong>
+            {shareUrl && <CopyProfileLink url={shareUrl} />}
+          </div>
+          {showExpressInterest && (
+            <div className="mt-3">
+              <ExpressInterestButton owId={profile.ow_id} displayName={displayName} />
+            </div>
+          )}
+        </div>
       </div>
 
-      <div style={{ padding: '1.25rem 2rem 1.5rem' }}>
-        {(profile.job_title || profile.company) && (
-          <p style={{
-            color: 'var(--text-secondary)',
-            fontSize: '1rem',
-            margin: '0 0 0.75rem 0',
-          }}>
-            {profile.job_title}{profile.job_title && profile.company && ' @ '}{profile.company}
-          </p>
-        )}
-
+      <div className="pp-body">
         {profile.bio && (
-          <p style={{
-            color: 'var(--text-secondary)',
-            fontSize: '0.9375rem',
-            lineHeight: 1.6,
-            margin: '0 0 1rem 0',
-          }}>
-            {profile.bio}
-          </p>
+          <p className="pp-summary">{profile.bio}</p>
         )}
 
         {profile.member_since && (
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            fontSize: '0.8125rem',
-            color: 'var(--text-muted)',
-          }}>
+          <div className="pp-meta">
             <Calendar style={{ width: '14px', height: '14px' }} />
-            Member since {new Date(profile.member_since).toLocaleDateString('en-US', {
-              month: 'long',
-              year: 'numeric',
-            })}
+            <span>Member since {profile.member_since}</span>
           </div>
         )}
       </div>

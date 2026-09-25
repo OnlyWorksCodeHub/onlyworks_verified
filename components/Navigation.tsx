@@ -3,8 +3,9 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
-import { Menu, X, User, LogOut, ChevronDown, CreditCard } from 'lucide-react'
+import { Menu, X, User, LogOut, ChevronDown, CreditCard, Briefcase, LayoutDashboard } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
+import { HIRING_TOOLKIT_ENABLED } from '@/lib/config'
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -173,6 +174,46 @@ export function Navigation() {
                       <User style={{ width: '16px', height: '16px', color: 'var(--text-muted)' }} />
                       Edit Profile
                     </Link>
+                    {HIRING_TOOLKIT_ENABLED && (
+                      <>
+                        <Link
+                          href="/hiring/dashboard"
+                          onClick={() => setIsDropdownOpen(false)}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '10px 16px',
+                            fontSize: '0.875rem',
+                            color: 'var(--text)',
+                            transition: 'background 0.1s',
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-alt)')}
+                          onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                        >
+                          <LayoutDashboard style={{ width: '16px', height: '16px', color: 'var(--text-muted)' }} />
+                          Hiring dashboard
+                        </Link>
+                        <Link
+                          href="/hiring/jobs"
+                          onClick={() => setIsDropdownOpen(false)}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '10px 16px',
+                            fontSize: '0.875rem',
+                            color: 'var(--text)',
+                            transition: 'background 0.1s',
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--bg-alt)')}
+                          onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                        >
+                          <Briefcase style={{ width: '16px', height: '16px', color: 'var(--text-muted)' }} />
+                          Job posts
+                        </Link>
+                      </>
+                    )}
                     <Link
                       href="/account"
                       onClick={() => setIsDropdownOpen(false)}
@@ -346,6 +387,26 @@ export function Navigation() {
                     >
                       Edit Profile
                     </Link>
+                    {HIRING_TOOLKIT_ENABLED && (
+                      <>
+                        <Link
+                          href="/hiring/dashboard"
+                          className="btn btn-secondary w-full justify-center"
+                          style={{ marginBottom: '8px' }}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Hiring dashboard
+                        </Link>
+                        <Link
+                          href="/hiring/jobs"
+                          className="btn btn-secondary w-full justify-center"
+                          style={{ marginBottom: '8px' }}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          Job posts
+                        </Link>
+                      </>
+                    )}
                     <Link
                       href="/account"
                       className="btn btn-secondary w-full justify-center"
